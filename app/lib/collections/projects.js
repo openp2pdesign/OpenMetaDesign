@@ -18,6 +18,7 @@ if (Meteor.isServer) {
 }
 
 // Schemas
+// Elaborated from https://gist.github.com/openp2pdesign/dba8cdfa0c4293b2d5e93f6a0835a755
 
 // A schema for a meta-design project
 Projects.attachSchema(new SimpleSchema({
