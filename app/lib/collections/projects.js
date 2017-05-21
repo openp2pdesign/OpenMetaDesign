@@ -122,7 +122,7 @@ UserSchema = new SimpleSchema({
     },
 });
 // Attach the UserSchema to Meteor users
-Meteor.users.attachSchema(UserSchema);
+//Meteor.users.attachSchema(UserSchema);
 
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
