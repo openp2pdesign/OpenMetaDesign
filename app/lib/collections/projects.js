@@ -20,78 +20,160 @@ if (Meteor.isServer) {
 // Schemas
 // Elaborated from https://gist.github.com/openp2pdesign/dba8cdfa0c4293b2d5e93f6a0835a755
 
-// A schema for a meta-design project
-Projects.attachSchema(new SimpleSchema({
-    title: {
+// A schema for a GEOjson point
+// See more here:
+// https://forums.meteor.com/t/howto-use-simpleschema-to-fill-geodata-in-database/9855/2
+// http://joshowens.me/using-mongodb-geospatial-index-with-meteor-js/
+PointSchema = new SimpleSchema({
+    location: {
+        type: Object,
+        index: "2dsphere"
+    },
+    type: {
         type: String,
-        label: "Title",
-        max: 200
+        allowedValues: ["Point"]
     },
-    description: {
-        type: String,
-        label: "Description",
-        max: 1024
+    lat: {
+        type: Number,
+        decimal: true,
+        label: "Latitude"
     },
-    version: {
-        type: String,
-        label: "Version",
-        max: 15
+    lng: {
+        type: Number,
+        decimal: true,
+        label: "Longitude"
     },
-    founders: {
-        type: [String],
-        label: "Founders"
-    },
-    processes: {
-        type: [ProcessSchema],
-        label: "Processes"
-    },
-    createdBy: {
-        type: String,
-        autoValue: function() {
-            return this.userId
-        }
-    }
-}));
-
-// A schema for a process
-ProcessSchema = new SimpleSchema({
-    title: {
-        type: String,
-        max: 100
-    },
-    activities: {
-        type: [ActivitySchema]
-    },
-    participants: {
-        type: [UserSchema]
-    },
-    where: {
-        type: LocationSchema
-    },
-    flows: {
-        type: [FlowSchema]
-    },
-    contradictions: {
-        type: [ContradictionSchema]
-    },
-    discussion: {
-        type: DiscussionSchema
-    }
 });
 
-// A schema for a license
-LicenseSchema = new SimpleSchema({
-    title: {
+// A schema for a location
+LocationSchema = new SimpleSchema({
+    street: {
         type: String,
+        label: "Street",
         max: 100
+    },
+    number: {
+        type: Number,
+        label: "Number"
+    },
+    city: {
+        type: String,
+        label: "City",
+        max: 50
+    },
+    postalcode: {
+        type: String,
+        label: "Postal Code",
+        max: 50
+    },
+    country: {
+        type: String,
+        label: "Country",
+        max: 50
     },
     url: {
         type: [String],
+        label: "URL",
         regEx: SimpleSchema.RegEx.Url,
+        max: 5
+    }
+
+});
+
+// A schema for a user
+UserSchema = new SimpleSchema({
+    username: {
+        type: String,
+        label: "Username",
+        optional: true
+    },
+    firstName: {
+        type: String,
+        label: "First Name",
+        optional: true
+    },
+    lastName: {
+        type: String,
+        label: "Last Name",
+        optional: true
+    },
+    birthday: {
+        type: Date,
+        label: "Birthday",
+        optional: true
+    },
+    email: {
+        type: String,
+        label: "E-mail",
+        regEx: SimpleSchema.RegEx.Email
+    },
+    bio: {
+        type: String,
+        label: "Bio",
+        optional: true
+    },
+    location: {
+        type: LocationSchema,
+        label: "Address",
+        optional: true
+    },
+    createdAt: {
+        type: Date
+    },
+});
+// Attach the UserSchema to Meteor users
+Meteor.users.attachSchema(UserSchema);
+
+// A schema for a time interval
+TimeIntervalSchema = new SimpleSchema({
+    start: {
+        type: Date
+    },
+    end: {
+        type: Date
+    },
+    startWhere: {
+        type: LocationSchema,
+        optional: true
+    },
+    endWhere: {
+        type: LocationSchema,
+        optional: true
+    }
+});
+
+
+// A schema for a discussion
+DiscussionSchema = new SimpleSchema({
+    title: {
+        type: String,
+        max: 100
+    },
+    labels: {
+        type: [String],
         max: 50
     },
-    discussion: {
-        type: DiscussionSchema
+    start: {
+        type: Date
+    },
+    status: {
+        type: String
+    }
+});
+
+// A schema for a message in the discussion
+// See https://github.com/cesarve77/simple-chat
+MessageSchema = new SimpleSchema({
+});
+
+// A schema for an activity element
+ActivityElementSchema = new SimpleSchema({
+    description: {
+        type: String
+    },
+    where: {
+        type: LocationSchema,
+        optional: true
     }
 });
 
@@ -210,161 +292,80 @@ ActivitySchema = new SimpleSchema({
     }
 });
 
-// A schema for an activity element
-ActivityElementSchema = new SimpleSchema({
-    description: {
-        type: String
-    },
-    where: {
-        type: LocationSchema,
-        optional: true
-    }
-});
-
-// A schema for a discussion
-DiscussionSchema = new SimpleSchema({
+// A schema for a process
+ProcessSchema = new SimpleSchema({
     title: {
         type: String,
         max: 100
     },
-    labels: {
-        type: [String],
-        max: 50
+    activities: {
+        type: [ActivitySchema]
     },
-    start: {
-        type: Date
+    participants: {
+        type: [UserSchema]
     },
-    status: {
-        type: String
+    where: {
+        type: LocationSchema
     },
-    contradiction: {
-        type: ContradictionSchema
+    flows: {
+        type: [FlowSchema]
+    },
+    contradictions: {
+        type: [ContradictionSchema]
+    },
+    discussion: {
+        type: DiscussionSchema
     }
 });
 
-// A schema for a message in the discussion
-// See https://github.com/cesarve77/simple-chat
-MessageSchema = new SimpleSchema({
-});
-
-// A schema for a time interval
-TimeIntervalSchema = new SimpleSchema({
-    start: {
-        type: Date
-    },
-    end: {
-        type: Date
-    },
-    startWhere: {
-        type: LocationSchema,
-        optional: true
-    },
-    endWhere: {
-        type: LocationSchema,
-        optional: true
-    }
-});
-
-// A schema for a location
-LocationSchema = new SimpleSchema({
-    street: {
+// A schema for a license
+LicenseSchema = new SimpleSchema({
+    title: {
         type: String,
-        label: "Street",
         max: 100
-    },
-    number: {
-        type: Number,
-        label: "Number"
-    },
-    city: {
-        type: String,
-        label: "City",
-        max: 50
-    },
-    postalcode: {
-        type: String,
-        label: "Postal Code",
-        max: 50
-    },
-    country: {
-        type: String,
-        label: "Country",
-        max: 50
     },
     url: {
         type: [String],
-        label: "URL",
         regEx: SimpleSchema.RegEx.Url,
-        max: 5
+        max: 50
+    },
+    discussion: {
+        type: DiscussionSchema
     }
-
 });
 
-// A schema for a GEOjson point
-// See more here:
-// https://forums.meteor.com/t/howto-use-simpleschema-to-fill-geodata-in-database/9855/2
-// http://joshowens.me/using-mongodb-geospatial-index-with-meteor-js/
-PointSchema = new SimpleSchema({
-    location: {
-        type: Object,
-        index: "2dsphere"
-    },
-    type: {
+// A schema for a meta-design project
+ProjectSchema = new SimpleSchema({
+    title: {
         type: String,
-        allowedValues: ["Point"]
+        label: "Title",
+        max: 200
     },
-    lat: {
-        type: Number,
-        decimal: true,
-        label: "Latitude"
+    description: {
+        type: String,
+        label: "Description",
+        max: 1024
     },
-    lng: {
-        type: Number,
-        decimal: true,
-        label: "Longitude"
+    version: {
+        type: String,
+        label: "Version",
+        max: 15
     },
+    founders: {
+        type: [String],
+        label: "Founders"
+    },
+    processes: {
+        type: [ProcessSchema],
+        label: "Processes"
+    },
+    createdBy: {
+        type: String,
+        autoValue: function() {
+            return this.userId
+        }
+    }
 });
 
-// A schema for a user
-UserSchema = new SimpleSchema({
-    username: {
-        type: String,
-        label: "Username",
-        optional: true
-    },
-    firstName: {
-        type: String,
-        label: "First Name",
-        optional: true
-    },
-    lastName: {
-        type: String,
-        label: "Last Name",
-        optional: true
-    },
-    birthday: {
-        type: Date,
-        label: "Birthday",
-        optional: true
-    },
-    email: {
-        type: String,
-        label: "E-mail",
-        regEx: SimpleSchema.RegEx.Email
-    },
-    bio: {
-        type: String,
-        label: "Bio",
-        optional: true
-    },
-    location: {
-        type: LocationSchema,
-        label: "Address",
-        optional: true
-    },
-    createdAt: {
-        type: Date
-    },
-});
-// Attach the UserSchema to Meteor users
-Meteor.users.attachSchema(UserSchema);
+// Attach the ProjectSchema to the projects collection
+Projects.attachSchema(ProjectSchema);
