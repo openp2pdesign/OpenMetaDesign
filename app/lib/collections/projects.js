@@ -85,7 +85,7 @@ UserSchema = new SimpleSchema({
     username: {
         type: String,
         label: "Username",
-        optional: true
+        regEx: /^[a-z0-9A-Z_]{3,15}$/
     },
     firstName: {
         type: String,
@@ -120,9 +120,15 @@ UserSchema = new SimpleSchema({
     createdAt: {
         type: Date
     },
+    // Make sure this services field is in your schema if you're using any of the accounts packages
+    services: {
+        type: Object,
+        optional: true,
+        blackbox: true
+    }
 });
 // Attach the UserSchema to Meteor users
-//Meteor.users.attachSchema(UserSchema);
+Meteor.users.attachSchema(UserSchema);
 
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
