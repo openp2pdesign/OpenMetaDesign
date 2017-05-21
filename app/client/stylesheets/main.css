@@ -2,4 +2,18 @@
 /* main: Style */
 /*****************************************************************************/
 .main {
+    margin-top: 50px;
+}
+
+.navbar {
+}
+
+.navbar-fixed-top {
+    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+    -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+}
+.navbar-fixed-bottom {
+    border-top: 1px solid #d5d5d5;
+    background-color: #f1f1f1;
 }
