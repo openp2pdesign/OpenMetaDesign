@@ -19,8 +19,9 @@
           {{/if}}
           {{#if currentUser}}
             <li>{{#linkTo route="Login"}}<i class="fa fa-user"></i> Your profile{{/linkTo}}</li>
+            <li>{{#linkTo route="Login"}}<i class="fa fa-sign-out"></i> Sign out{{/linkTo}}</li>
           {{else}}
-          <li>{{#linkTo route="Login"}}<i class="fa fa-sign-in"></i> Login/Register{{/linkTo}}</li>
+          <li>{{#linkTo route="Login"}}<i class="fa fa-sign-in"></i> Sign In/Sign Up{{/linkTo}}</li>
           {{/if}}
         </ul>
       </div>

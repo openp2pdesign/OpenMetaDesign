@@ -62,3 +62,12 @@ AccountsTemplates.configure({
       },
     },
 });
+
+AccountsTemplates.configure({
+    texts: {
+      title: {
+        signIn: "",
+        signUp: ""
+      }
+    }
+});
