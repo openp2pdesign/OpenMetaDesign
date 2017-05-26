@@ -41,7 +41,7 @@ Accounts.ui.config({
         fieldLabel: 'I accept the terms and conditions <span class="compulsory">*</span>',
         inputType: 'checkbox',
         visible: true,
-        saveToProfile: false,
+        saveToProfile: true,
         validate: function(value, errorFunction) {
             if (value) {
                 return true;
