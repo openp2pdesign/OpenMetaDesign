@@ -17,11 +17,14 @@
             <li>{{#linkTo route="projectsList"}}<i class="fa fa-align-justify"></i> Projects{{/linkTo}}</li>
             <li>{{#linkTo route="projectsDesign"}}<i class="fa fa-plus"></i> New Project{{/linkTo}}</li>
           {{/if}}
-          <li><div class="nav navbar-nav navbar-right"> {{> loginButtons}}</div></li>
+          <li><div class="nav navbar-nav navbar-right"> Login</div></li>
         </ul>
       </div>
     </div>
   </nav>
+  <div class="container">
+      {{> atForm}}
+  </div>
   <div class="main container">
     {{> yield}}
   </div>

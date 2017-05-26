@@ -23,6 +23,7 @@ aldeed:autoform
 aldeed:delete-button
 momentjs:moment
 accounts-password
-ian:accounts-ui-bootstrap-3
 natestrauser:font-awesome
 peppelg:bootstrap-3-modal
+useraccounts:bootstrap
+accounts-ui
