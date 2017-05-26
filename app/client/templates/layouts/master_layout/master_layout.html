@@ -18,9 +18,9 @@
             <li>{{#linkTo route="projectsDesign"}}<i class="fa fa-plus"></i> New Project{{/linkTo}}</li>
           {{/if}}
           {{#if currentUser}}
-            <li>{{#linkTo route="Login"}}<i class="fa fa-align-justify"></i> Your profile{{/linkTo}}</li>
+            <li>{{#linkTo route="Login"}}<i class="fa fa-user"></i> Your profile{{/linkTo}}</li>
           {{else}}
-          <li>{{#linkTo route="Login"}}<i class="fa fa-align-justify"></i> Login/Register{{/linkTo}}</li>
+          <li>{{#linkTo route="Login"}}<i class="fa fa-sign-in"></i> Login/Register{{/linkTo}}</li>
           {{/if}}
         </ul>
       </div>
@@ -31,11 +31,17 @@
   </div>
   <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-      <ul class="nav navbar-nav navbar-right">
-        <li>Credits</li>
-        <li>Social</li>
-        <li>Source</li>
-      </ul>
+    <div class="row">
+        <div class="col-sm-4">
+            Credits
+        </div>
+        <div class="col-sm-4">
+            Social
+        </div>
+        <div class="col-sm-4">
+            Source
+        </div>
+    </div>
     </div>
   </nav>
 </template>
