@@ -80,56 +80,6 @@ LocationSchema = new SimpleSchema({
 
 });
 
-// A schema for a user
-UserSchema = new SimpleSchema({
-    username: {
-        type: String,
-        label: "Username",
-        regEx: /^[a-z0-9A-Z_]{3,15}$/
-    },
-    firstName: {
-        type: String,
-        label: "First Name",
-        optional: true
-    },
-    lastName: {
-        type: String,
-        label: "Last Name",
-        optional: true
-    },
-    birthday: {
-        type: Date,
-        label: "Birthday",
-        optional: true
-    },
-    email: {
-        type: String,
-        label: "E-mail",
-        regEx: SimpleSchema.RegEx.Email
-    },
-    bio: {
-        type: String,
-        label: "Bio",
-        optional: true
-    },
-    location: {
-        type: LocationSchema,
-        label: "Address",
-        optional: true
-    },
-    createdAt: {
-        type: Date
-    },
-    // Make sure this services field is in your schema if you're using any of the accounts packages
-    services: {
-        type: Object,
-        optional: true,
-        blackbox: true
-    }
-});
-// Attach the UserSchema to Meteor users
-Meteor.users.attachSchema(UserSchema);
-
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
     start: {
@@ -308,7 +258,7 @@ ProcessSchema = new SimpleSchema({
         type: [ActivitySchema]
     },
     participants: {
-        type: [UserSchema]
+        type: [String]
     },
     where: {
         type: LocationSchema
