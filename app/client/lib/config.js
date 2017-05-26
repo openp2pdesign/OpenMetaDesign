@@ -2,6 +2,8 @@
 import { Accounts } from 'meteor/accounts-base';
 
 Accounts.ui.config({
+    forceEmailLowercase: true,
+    forceUsernameLowercase: true,
     requestPermissions: {},
     extraSignupFields: [{
         fieldName: 'username',
