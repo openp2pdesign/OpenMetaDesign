@@ -8,7 +8,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">OpenMetaDesign</a>
+        {{#linkTo route="home"}}<span class="navbar-brand"> OpenMetaDesign</span>{{/linkTo}}
       </div>
       <div class="collapse navbar-collapse" id="navigationbar">
         <ul class="nav navbar-nav navbar-right">
@@ -17,14 +17,15 @@
             <li>{{#linkTo route="projectsList"}}<i class="fa fa-align-justify"></i> Projects{{/linkTo}}</li>
             <li>{{#linkTo route="projectsDesign"}}<i class="fa fa-plus"></i> New Project{{/linkTo}}</li>
           {{/if}}
-          <li><div class="nav navbar-nav navbar-right"> Login</div></li>
+          {{#if currentUser}}
+            <li>{{#linkTo route="Login"}}<i class="fa fa-align-justify"></i> Your profile{{/linkTo}}</li>
+          {{else}}
+          <li>{{#linkTo route="Login"}}<i class="fa fa-align-justify"></i> Login/Register{{/linkTo}}</li>
+          {{/if}}
         </ul>
       </div>
     </div>
   </nav>
-  <div class="container">
-      {{> atForm}}
-  </div>
   <div class="main container">
     {{> yield}}
   </div>

@@ -24,3 +24,10 @@ Router.route('home', {
   controller: 'HomeController',
   where: 'client'
 });
+
+
+Router.route('login', {
+  name: 'Login',
+  controller: 'LoginController',
+  where: 'client'
+});
