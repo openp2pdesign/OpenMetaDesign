@@ -1,4 +1,4 @@
-ListController = RouteController.extend({
+UsersController = RouteController.extend({
   
   // A place to put your subscriptions
   // this.subscribe('items');

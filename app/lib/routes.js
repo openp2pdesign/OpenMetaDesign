@@ -26,8 +26,26 @@ Router.route('home', {
 });
 
 
-Router.route('login', {
-  name: 'Login',
-  controller: 'LoginController',
+Router.route('users', {
+  name: 'users',
+  controller: 'UsersController',
   where: 'client'
+});
+
+AccountsTemplates.configureRoute('signIn', {
+    name: 'Login',
+    path: '/login',
+    template: 'Login',
+    layoutTemplate: 'MasterLayout',
+    redirect: function(){
+        var user = Meteor.user();
+        if (user)
+          Router.go('/user/' + user._id);
+    }
+});
+
+Router.route('signOut', {
+    name: 'Logout',
+    path: '/logout',
+    onBeforeAction: Meteor.logout
 });
