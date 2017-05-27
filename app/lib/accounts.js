@@ -5,7 +5,6 @@ AccountsTemplates.addFields([{
     required: true,
     func: function(value) {
         if (Meteor.isClient) {
-            console.log("Validating username...");
             var self = this;
             Meteor.call("userExists", value, function(err, userExists) {
                 if (!userExists)
@@ -17,15 +16,17 @@ AccountsTemplates.addFields([{
             return;
         }
         // Server
-        return Meteor.call("userExists", value);
-    },
+        if (Meteor.isServer) {
+            return Meteor.call("userExists", value);
+        }
+    }
 },{
-    _id: 'name',
+    _id: 'firstName',
     type: 'text',
     displayName: "Name",
     required: true
 }, {
-    _id: 'surname',
+    _id: 'lastName',
     type: 'text',
     displayName: "Surname",
     required: true

@@ -15,7 +15,9 @@ Template.Users.helpers({
 /*****************************************************************************/
 /* Users: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Users.onCreated(function() {});
+Template.Users.onCreated(function() {
+    Meteor.subscribe('usersList');
+});
 
 Template.Users.onRendered(function() {});
 

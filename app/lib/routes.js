@@ -1,7 +1,7 @@
 Router.configure({
-  layoutTemplate: 'MasterLayout',
-  loadingTemplate: 'Loading',
-  notFoundTemplate: 'NotFound'
+    layoutTemplate: 'MasterLayout',
+    loadingTemplate: 'Loading',
+    notFoundTemplate: 'NotFound'
 });
 
 // Router.route('projects/list', {
@@ -20,16 +20,16 @@ Router.configure({
 
 
 Router.route('home', {
-  name: 'home',
-  controller: 'HomeController',
-  where: 'client'
+    name: 'home',
+    controller: 'HomeController',
+    where: 'client'
 });
 
 
 Router.route('users', {
-  name: 'users',
-  controller: 'UsersController',
-  where: 'client'
+    name: 'users',
+    controller: 'UsersController',
+    where: 'client'
 });
 
 AccountsTemplates.configureRoute('signIn', {
@@ -37,10 +37,10 @@ AccountsTemplates.configureRoute('signIn', {
     path: '/login',
     template: 'Login',
     layoutTemplate: 'MasterLayout',
-    redirect: function(){
+    redirect: function() {
         var user = Meteor.user();
         if (user)
-          Router.go('/user/' + user._id);
+            Router.go('/user/' + user._id);
     }
 });
 
