@@ -1,23 +1,22 @@
 /*****************************************************************************/
 /* Users: Event Handlers */
 /*****************************************************************************/
-Template.Users.events({
-});
+Template.Users.events({});
 
 /*****************************************************************************/
 /* Users: Helpers */
 /*****************************************************************************/
 Template.Users.helpers({
+    users: function() {
+        return Meteor.users.find();
+    }
 });
 
 /*****************************************************************************/
 /* Users: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Users.onCreated(function () {
-});
+Template.Users.onCreated(function() {});
 
-Template.Users.onRendered(function () {
-});
+Template.Users.onRendered(function() {});
 
-Template.Users.onDestroyed(function () {
-});
+Template.Users.onDestroyed(function() {});

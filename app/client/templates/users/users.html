@@ -1,8 +1,39 @@
 <template name="Users">
   <div class="users">
     <h1>Users</h1>
-    <p>
-        Find me in app/client/templates/users/users
-    </p>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Username</th>
+        <th>E-mail</th>
+        <th>Bio</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each users}}
+      <tr>
+        <td>{{profile.name}}</td>
+        <td>{{profile.surname}}</td>
+        <td>{{username}}</td>
+        <td>{{emails.[0].address}}</td>
+        <td>{{profile.bio}}</td>
+        <td>
+          {{#linkTo route='editUser'}}
+            <i class="fa fa-pencil-square-o"></i>
+          {{/linkTo}}
+        </td>
+        <td>
+          {{#linkTo route='deleteUser'}}
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          {{/linkTo}}
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
   </div>
 </template>
