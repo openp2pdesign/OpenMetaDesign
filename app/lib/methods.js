@@ -3,13 +3,8 @@
 /*****************************************************************************/
 
 Meteor.methods({
-  'lib/method_name': function () {
-    
-    if (this.isSimulation) {
-    //   // do some client stuff while waiting for
-    //   // result from server.
-    //   return;
-    }
-    // server method logic
-  }
+    "userExists": function(username){
+              return !!Meteor.users.findOne({username: username});
+          },
+
 });
