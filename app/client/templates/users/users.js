@@ -22,24 +22,3 @@ Template.Users.onCreated(function() {
 Template.Users.onRendered(function() {});
 
 Template.Users.onDestroyed(function() {});
-
-
-import Tabular from 'meteor/aldeed:tabular';
-import {
-    Template
-} from 'meteor/templating';
-//import moment from 'moment';
-import {
-    Meteor
-} from 'meteor/meteor';
-//import { Books } from './collections/Books';
-new Tabular.Table({
-    name: "Users",
-    collection: Meteor.users,
-    columns: [{
-        data: "username",
-        title: "Username"
-    }],
-    responsive: true,
-    autoWidth: false
-});

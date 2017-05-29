@@ -29,3 +29,6 @@ useraccounts:bootstrap
 accounts-ui
 useraccounts:iron-routing
 aldeed:tabular
+check
+meteorhacks:unblock
+reywood:publish-composite
