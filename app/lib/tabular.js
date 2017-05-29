@@ -22,6 +22,24 @@ TabularTables.Users = new Tabular.Table({
     columns: [{
         data: "username",
         title: "Username"
+    }, {
+        data: "emails.[0].address",
+        title: "E-mail"
+    }, {
+        data: "profile.firstName",
+        title: "Name"
+    }, {
+        data: "profile.lastName",
+        title: "Surname"
+    }, {
+        data: "profile.bio",
+        title: "Bio"
+    }, {
+        data: "username",
+        title: "Edit"
+    }, {
+        data: "username",
+        title: "Delete"
     }],
     responsive: true,
     autoWidth: false
