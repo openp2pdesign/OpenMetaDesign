@@ -35,11 +35,8 @@ TabularTables.Users = new Tabular.Table({
         data: "profile.bio",
         title: "Bio"
     }, {
-        data: "username",
-        title: "Edit"
-    }, {
-        data: "username",
-        title: "Delete"
+        title: "Actions",
+        tmpl: Meteor.isClient && Template.editUser
     }],
     responsive: true,
     autoWidth: false
