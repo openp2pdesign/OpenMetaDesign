@@ -22,13 +22,13 @@ aldeed:collection2
 aldeed:autoform
 aldeed:delete-button
 momentjs:moment
-accounts-password
+accounts-password@1.3.6
 natestrauser:font-awesome
 peppelg:bootstrap-3-modal
 useraccounts:bootstrap
-accounts-ui
+accounts-ui@1.1.9
 useraccounts:iron-routing
 aldeed:tabular
-check
+check@1.2.5
 meteorhacks:unblock
 reywood:publish-composite
