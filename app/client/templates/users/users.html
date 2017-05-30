@@ -1,41 +1,6 @@
 <template name="Users">
   <div class="users">
-      <h1>Tabular</h1>
+      <h1>Users</h1>
       {{> tabular table=TabularTables.Users class="table table-striped table-bordered table-condensed"}}
-    <h1>Users</h1>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Username</th>
-        <th>E-mail</th>
-        <th>Bio</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{#each users}}
-      <tr>
-        <td>{{profile.firstName}}</td>
-        <td>{{profile.lastName}}</td>
-        <td>{{username}}</td>
-        <td>{{emails.[0].address}}</td>
-        <td>{{profile.bio}}</td>
-        <td>
-          {{#linkTo route='editUser'}}
-            <i class="fa fa-pencil-square-o"></i>
-          {{/linkTo}}
-        </td>
-        <td>
-          {{#linkTo route='deleteUser'}}
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          {{/linkTo}}
-        </td>
-      </tr>
-    {{/each}}
-    </tbody>
-  </table>
   </div>
 </template>

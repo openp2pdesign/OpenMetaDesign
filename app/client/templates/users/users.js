@@ -6,18 +6,12 @@ Template.Users.events({});
 /*****************************************************************************/
 /* Users: Helpers */
 /*****************************************************************************/
-Template.Users.helpers({
-    users: function() {
-        return Meteor.users.find();
-    }
-});
+Template.Users.helpers({});
 
 /*****************************************************************************/
 /* Users: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Users.onCreated(function() {
-    Meteor.subscribe('usersList');
-});
+Template.Users.onCreated(function() {});
 
 Template.Users.onRendered(function() {});
 
