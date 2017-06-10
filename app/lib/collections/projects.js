@@ -42,7 +42,7 @@ PointSchema = new SimpleSchema({
         type: Number,
         decimal: true,
         label: "Longitude"
-    },
+    }
 });
 
 // A schema for a location
@@ -119,8 +119,7 @@ DiscussionSchema = new SimpleSchema({
 
 // A schema for a message in the discussion
 // See https://github.com/cesarve77/simple-chat
-MessageSchema = new SimpleSchema({
-});
+MessageSchema = new SimpleSchema({});
 
 // A schema for an activity element
 ActivityElementSchema = new SimpleSchema({
@@ -244,7 +243,8 @@ ActivitySchema = new SimpleSchema({
             "Indirect participation",
             "Consultative participation",
             "Shared control",
-            "Full control"]
+            "Full control"
+        ]
     }
 });
 

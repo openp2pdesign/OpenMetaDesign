@@ -2,7 +2,30 @@
     <div class="user">
         <h1>User profile</h1>
         {{#with userData}}
-            Name: {{username}}
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Username</td>
+                        <td>{{username}}</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>{{emails.[0].address}}</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{profile.firstName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Surname</td>
+                        <td>{{profile.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Bio</td>
+                        <td>{{profile.bio}}</td>
+                    </tr>
+                </tbody>
+            </table>
         {{/with}}
     </div>
 </template>

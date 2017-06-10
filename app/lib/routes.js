@@ -35,7 +35,7 @@ Router.route('users', {
 Router.route('user/:username', {
     name: 'user',
     waitOn: function() {
-        return Meteor.subscribe("allUserData");
+        return Meteor.subscribe("userData");
     },
     data: function() { return Meteor.users.findOne(); },
     controller: 'UserController',

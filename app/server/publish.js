@@ -40,7 +40,7 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
 });
 
 
-Meteor.publish("allUserData", function() {
+Meteor.publish("userData", function() {
   if (this.userId) {
     return Meteor.users.find(this.userId)
   } else {
