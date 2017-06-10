@@ -17,21 +17,32 @@ Router.configure({
 // });
 
 
-
-
+// Home page
 Router.route('home', {
     name: 'home',
     controller: 'HomeController',
     where: 'client'
 });
 
-
+// List of users, for admin
 Router.route('users', {
     name: 'users',
     controller: 'UsersController',
     where: 'client'
 });
 
+// User profile
+Router.route('user/:username', {
+    name: 'user',
+    waitOn: function() {
+        return Meteor.subscribe("allUserData");
+    },
+    data: function() { return Meteor.users.findOne(); },
+    controller: 'UserController',
+    where: 'client'
+});
+
+// SignIn
 AccountsTemplates.configureRoute('signIn', {
     name: 'Login',
     path: '/login',
@@ -44,6 +55,7 @@ AccountsTemplates.configureRoute('signIn', {
     }
 });
 
+// SignOut
 Router.route('signOut', {
     name: 'Logout',
     path: '/logout',
