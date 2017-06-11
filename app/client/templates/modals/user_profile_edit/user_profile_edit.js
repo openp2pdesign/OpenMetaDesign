@@ -23,7 +23,24 @@ Template.UserProfileEdit.events({
                     "profile.firstName": newFirstName
                 }
             });
-
+        }
+        if (newLastName) {
+            Meteor.users.update({
+                _id: Meteor.userId()
+            }, {
+                $set: {
+                    "profile.lastName": newLastName
+                }
+            });
+        }
+        if (newBio) {
+            Meteor.users.update({
+                _id: Meteor.userId()
+            }, {
+                $set: {
+                    "profile.bio": newBio
+                }
+            });
         }
 
     }
