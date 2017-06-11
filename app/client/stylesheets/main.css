@@ -6,6 +6,8 @@
 }
 
 .navbar {
+    z-index: 10;
+    background-color: #fff;
 }
 
 .navbar-fixed-top {
