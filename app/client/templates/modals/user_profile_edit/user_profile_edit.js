@@ -6,13 +6,11 @@ Template.UserProfileEdit.events({
         event.preventDefault();
         var newUsername = $('#new-username').val();
         var newFirstName = $('#new-firstname').val();
-        var newLastname = $('#new-lastname').val();
+        var newLastName = $('#new-lastname').val();
         var newEmail = $('#new-email').val();
         var newBio = $('#new-bio').val();
 
-        // Validate username, e-mail and password
-
-        // Save new data
+        // Validate and save new data
 
         if (newFirstName) {
             Meteor.users.update({
@@ -38,6 +36,15 @@ Template.UserProfileEdit.events({
             }, {
                 $set: {
                     "profile.bio": newBio
+                }
+            });
+        }
+        if ((newEmail) && (validateEmail(newEmail))) {
+            Meteor.users.update({
+                _id: Meteor.userId()
+            }, {
+                $set: {
+                    "emails.0.address": newEmail
                 }
             });
         }
