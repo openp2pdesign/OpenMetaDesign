@@ -54,6 +54,9 @@ TabularTables.Projects = new Tabular.Table({
         data: "created_at",
         title: "Created at"
     }, {
+        data: "created_at",
+        title: "Url"
+    }, {
         title: "Actions",
         tmpl: Meteor.isClient && Template.editUser
     }],
