@@ -67,7 +67,7 @@ AccountsTemplates.configure({
     termsUrl: 'http://www.google.com',
 
     // Redirects
-    homeRoutePath: '/home',
+    homeRoutePath: '/',
     redirectTimeout: 4000,
 
     // Texts
