@@ -1,23 +1,23 @@
 /*****************************************************************************/
-/* ProjectsDesign: Event Handlers */
+/* ProjectsList: Event Handlers */
 /*****************************************************************************/
-Template.ProjectsDesign.events({
+Template.ProjectsList.events({
 });
 
 /*****************************************************************************/
-/* ProjectsDesign: Helpers */
+/* ProjectsList: Helpers */
 /*****************************************************************************/
-Template.ProjectsDesign.helpers({
+Template.ProjectsList.helpers({
 });
 
 /*****************************************************************************/
-/* ProjectsDesign: Lifecycle Hooks */
+/* ProjectsList: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ProjectsDesign.onCreated(function () {
+Template.ProjectsList.onCreated(function () {
 });
 
-Template.ProjectsDesign.onRendered(function () {
+Template.ProjectsList.onRendered(function () {
 });
 
-Template.ProjectsDesign.onDestroyed(function () {
+Template.ProjectsList.onDestroyed(function () {
 });
