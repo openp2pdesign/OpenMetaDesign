@@ -4,7 +4,6 @@
 
 Template.editUser.events({
     'click .edit-user': function() {
-        console.log("edit", this._id);
         Modal.show('UserProfileEdit', this);
     },
     'click .delete-user': function() {
