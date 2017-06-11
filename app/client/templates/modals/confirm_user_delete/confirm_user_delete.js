@@ -11,7 +11,7 @@ Template.ConfirmUserDelete.events({
             } else {
                 console.log("Number of users removed: " + result);
             }
-        })
+        });
     }
 });
 
