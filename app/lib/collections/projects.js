@@ -85,10 +85,26 @@ LocationSchema = new SimpleSchema({
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
     start: {
-        type: Date
+        type: Date,
+        autoform: {
+            type: "bootstrap-datepicker",
+            datePickerOptions: {
+                autoclose: true,
+                todayBtn: true,
+                format: "dd/mm/yyyy"
+            }
+        }
     },
     end: {
-        type: Date
+        type: Date,
+        autoform: {
+            type: "bootstrap-datepicker",
+            datePickerOptions: {
+                autoclose: true,
+                todayBtn: true,
+                format: "dd/mm/yyyy"
+            }
+        }
     },
     startWhere: {
         type: LocationSchema,
@@ -112,7 +128,15 @@ DiscussionSchema = new SimpleSchema({
         max: 50
     },
     start: {
-        type: Date
+        type: Date,
+        autoform: {
+            type: "bootstrap-datepicker",
+            datePickerOptions: {
+                autoclose: true,
+                todayBtn: true,
+                format: "dd/mm/yyyy"
+            }
+        }
     },
     status: {
         type: String
