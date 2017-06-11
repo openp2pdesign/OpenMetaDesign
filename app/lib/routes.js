@@ -18,7 +18,7 @@ Router.configure({
 
 
 // Home page
-Router.route('home', {
+Router.route('', {
     name: 'home',
     controller: 'HomeController',
     where: 'client'
@@ -53,11 +53,4 @@ AccountsTemplates.configureRoute('signIn', {
         if (user)
             Router.go('user');
     }
-});
-
-// SignOut
-Router.route('signOut', {
-    name: 'Logout',
-    path: '/logout',
-    onBeforeAction: Meteor.logout
 });
