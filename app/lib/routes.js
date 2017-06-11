@@ -33,7 +33,7 @@ Router.route('admin', {
 
 // User profile
 Router.route('user/:username', {
-    name: 'user',
+    name: 'welcome',
     waitOn: function() {
         return Meteor.subscribe("userData");
     },

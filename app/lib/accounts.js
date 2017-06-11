@@ -80,16 +80,9 @@ AccountsTemplates.configure({
           "meteor-developer": "fa fa-rocket"
       },
       title: {
-          forgotPwd: "Recover Your Password"
+          forgotPwd: "Recover Your Password",
+          signIn: "",
+          signUp: ""
       },
     },
-});
-
-AccountsTemplates.configure({
-    texts: {
-      title: {
-        signIn: "",
-        signUp: ""
-      }
-    }
 });
