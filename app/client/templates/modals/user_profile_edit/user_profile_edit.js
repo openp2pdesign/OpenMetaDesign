@@ -9,7 +9,6 @@ Template.UserProfileEdit.events({
         var newLastname = $('#new-lastname').val();
         var newEmail = $('#new-email').val();
         var newBio = $('#new-bio').val();
-        var newPassword = $('#new-password').val();
 
         // Validate username, e-mail and password
 
