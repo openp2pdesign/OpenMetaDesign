@@ -7,39 +7,50 @@
                         <h2 class="modal-title">Edit the profile details</h2>
                     </div>
                     <div class="modal-body">
-                        <p>
-                            Here you can edit the profile details, except the <em>username</em>.
-                        </p>
                         {{#with data}}
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>{{username}}</td>
-                                </tr>
-                                <tr>
-                                    <td>E-mail</td>
-                                    <td>{{emails.[0].address}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>{{profile.firstName}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Surname</td>
-                                    <td>{{profile.lastName}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Bio</td>
-                                    <td>{{profile.bio}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Username:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" value={{username}}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">First name:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" value={{profile.firstName}}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Last name:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" value={{profile.lastName}}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Email:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" value={{emails.[0].address}}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Password:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="password" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Confirm password:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="password" value="">
+                                    </div>
+                                </div>
+                            </form>
                         {{/with}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">Cancel</button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">Update</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">Save changes</button>
                     </div>
                 </div>
             </div>
