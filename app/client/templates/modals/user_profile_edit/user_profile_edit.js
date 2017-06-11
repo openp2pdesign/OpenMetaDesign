@@ -15,12 +15,16 @@ Template.UserProfileEdit.events({
 
         // Save new data
 
+        if (newFirstName) {
+            Meteor.users.update({
+                _id: Meteor.userId()
+            }, {
+                $set: {
+                    "profile.firstName": newFirstName
+                }
+            });
 
-        // Meteor.users.update(Meteor.userId(), {
-        //     $set: {
-        //         profile: data
-        //     }
-        // });
+        }
 
     }
 });
