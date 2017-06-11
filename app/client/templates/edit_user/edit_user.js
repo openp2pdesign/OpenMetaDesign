@@ -6,6 +6,9 @@ Template.editUser.events({
     'click .edit-user': function() {
         Modal.show('UserProfileEdit', this);
     },
+    'click .edit-role': function() {
+        Modal.show('EditRole', this);
+    },
     'click .change-password': function() {
         Modal.show('ChangePassword', this);
     },

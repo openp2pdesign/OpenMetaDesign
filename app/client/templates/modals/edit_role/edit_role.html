@@ -1,0 +1,23 @@
+<template name="EditRole">
+  <div class="edit-role">
+      <div class="modal fade">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                      <h2 class="modal-title">Edit User Role</h2>
+                  </div>
+                  <div class="modal-body">
+                      {{#with data}}
+                      <p>
+                          User <em>{{username}}</em> has currently the <strong>{{roles}}</strong> role.
+                      </p>
+                      {{/with}}
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
