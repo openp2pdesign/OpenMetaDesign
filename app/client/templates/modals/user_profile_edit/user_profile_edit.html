@@ -1,0 +1,48 @@
+<template name="UserProfileEdit">
+    <div class="user-profile-edit">
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Edit the profile details</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Here you can edit the profile details, except the <em>username</em>.
+                        </p>
+                        {{#with data}}
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Username</td>
+                                    <td>{{username}}</td>
+                                </tr>
+                                <tr>
+                                    <td>E-mail</td>
+                                    <td>{{emails.[0].address}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{profile.firstName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Surname</td>
+                                    <td>{{profile.lastName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Bio</td>
+                                    <td>{{profile.bio}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{/with}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">Cancel</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
