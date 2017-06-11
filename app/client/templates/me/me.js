@@ -7,9 +7,9 @@ Template.Me.events({});
 /* Me: Helpers */
 /*****************************************************************************/
 Template.Me.helpers({
-    MeData: function() {
-        return Meteor.Me();
-    }
+    currentUserData: function() {
+    return Meteor.user();
+  }
 });
 
 /*****************************************************************************/

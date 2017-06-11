@@ -34,10 +34,6 @@ Router.route('admin', {
 // User profile
 Router.route('me', {
     name: 'me',
-    waitOn: function() {
-        return Meteor.subscribe("userData");
-    },
-    data: function() { return Meteor.users.findOne(); },
     controller: 'MeController',
     where: 'client'
 });
