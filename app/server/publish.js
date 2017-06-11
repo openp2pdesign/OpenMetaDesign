@@ -30,6 +30,7 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
             fields: {
                 'emails': 1,
                 'username': 1,
+                'roles': 1,
                 'profile.firstName': 1,
                 'profile.lastName': 1,
                 'profile.bio': 1

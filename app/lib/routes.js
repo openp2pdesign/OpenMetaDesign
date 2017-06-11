@@ -18,7 +18,7 @@ Router.route('projects/design', {
 
 
 // Home page
-Router.route('', {
+Router.route('/', {
     name: 'home',
     controller: 'HomeController',
     where: 'client'

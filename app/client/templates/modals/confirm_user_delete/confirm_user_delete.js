@@ -19,6 +19,9 @@ Template.ConfirmUserDelete.events({
 /* ConfirmUserDelete: Helpers */
 /*****************************************************************************/
 Template.ConfirmUserDelete.helpers({
+    data: function() {
+        return this;
+    }
 });
 
 /*****************************************************************************/

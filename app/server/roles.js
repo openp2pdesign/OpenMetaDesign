@@ -2,7 +2,6 @@
 
 // Choose roles for new users
 newUserRole = function(userId, info) {
-    console.log(userId);
     if (Meteor.users.find().count() === 1) {
         // First user is admin
         Roles.addUsersToRoles(userId, 'admin');
@@ -12,8 +11,8 @@ newUserRole = function(userId, info) {
     }
 };
 
-// Config the hook for new users
+// Configure the hook for new users
 AccountsTemplates.configure({
     // Hooks
-    postSignUpHook: newUserRole
+    postSignUpHook: newUserRole,
 });

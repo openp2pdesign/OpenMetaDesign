@@ -4,10 +4,14 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h2 class="modal-title">Warning</h2>
+                      <h2 class="modal-title">Confirmation request</h2>
                   </div>
                   <div class="modal-body">
-                      <p><span class="label label-danger">Danger</span> Are you sure you want to delete the user? This action cannot be undone, data will be lost.</p>
+                      {{#with data}}
+                          <p>
+                              <span class="label label-danger">Danger</span> Are you sure you want to delete the user <em>{{username}}</em>? This action cannot be undone, data will be lost.
+                          </p>
+                      {{/with}}
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">Cancel</button>

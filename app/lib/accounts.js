@@ -91,10 +91,10 @@ AccountsTemplates.configure({
 Meteor.users.allow({
     // Users can update only their profile, unless they are admin
     update: function(userId, doc, fieldNames, modifier) {
-        return userId === Meteor.user()._id && Roles.userIsInRole(Meteor.user(), ['admin']);
+        return userId === Meteor.user()._id || Roles.userIsInRole(Meteor.user(), ['admin']);
     },
     // Users can delete only their profile, unless they are admin
     remove: function(userId, doc) {
-        return userId === Meteor.user()._id && Roles.userIsInRole(Meteor.user(), ['admin']);
+        return userId === Meteor.user()._id || Roles.userIsInRole(Meteor.user(), ['admin']);
     }
 });
