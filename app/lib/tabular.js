@@ -39,3 +39,24 @@ TabularTables.Users = new Tabular.Table({
     responsive: true,
     autoWidth: false
 });
+
+TabularTables.Projects = new Tabular.Table({
+    name: "Projects",
+    collection: Projects,
+    pub: "projects",
+    columns: [{
+        data: "title",
+        title: "Title"
+    }, {
+        data: "createdBy",
+        title: "Created by"
+    }, {
+        data: "created_at",
+        title: "Created at"
+    }, {
+        title: "Actions",
+        tmpl: Meteor.isClient && Template.editUser
+    }],
+    responsive: true,
+    autoWidth: false
+});
