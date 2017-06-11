@@ -26,6 +26,16 @@
                                 <i class="fa fa-user"></i>
                                 Me{{/linkTo}}
                         </li>
+                        <li>
+                            {{#linkTo route="projectsList"}}
+                                <i class="fa fa-cubes"></i>
+                                My Projects{{/linkTo}}
+                        </li>
+                        <li>
+                            {{#linkTo route="projectsDesign"}}
+                                <i class="fa fa-plus"></i> <i class="fa fa-cube"></i>
+                                New Project{{/linkTo}}
+                        </li>
                         {{#if isInRole 'admin'}}
                             <li>
                                 {{#linkTo route="admin"}}
@@ -34,16 +44,6 @@
                                 {{/linkTo}}
                             </li>
                         {{/if}}
-                        <li>
-                            {{#linkTo route="projectsList"}}
-                                <i class="fa fa-cubes"></i>
-                                Projects{{/linkTo}}
-                        </li>
-                        <li>
-                            {{#linkTo route="projectsDesign"}}
-                                <i class="fa fa-plus"></i> <i class="fa fa-cube"></i>
-                                New Project{{/linkTo}}
-                        </li>
                         <li>
                             {{#linkTo route="Logout"}}
                                 <i class="fa fa-sign-out"></i>
