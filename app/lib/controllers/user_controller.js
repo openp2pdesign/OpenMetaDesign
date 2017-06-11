@@ -34,7 +34,7 @@ UserController = RouteController.extend({
     onBeforeAction: function() {
         var loggedInUser = Meteor.userId();
             if (!!loggedInUser) {
-                Router.go('welcome');
+                Router.go('user');
                 this.stop();
             } else {
                 Router.go('home');

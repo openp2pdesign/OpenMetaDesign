@@ -32,8 +32,8 @@ Router.route('admin', {
 });
 
 // User profile
-Router.route('user/:username', {
-    name: 'welcome',
+Router.route('me', {
+    name: 'user',
     waitOn: function() {
         return Meteor.subscribe("userData");
     },
