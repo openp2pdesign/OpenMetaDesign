@@ -47,6 +47,19 @@ Template.UserProfileEdit.events({
                     "emails.0.address": newEmail
                 }
             });
+        } else {
+            // show error
+        }
+        if ((newUsername) && (validateUsername(newUsername))) {
+            Meteor.users.update({
+                _id: Meteor.userId()
+            }, {
+                $set: {
+                    "profile.username": newUsername
+                }
+            });
+        } else {
+            // show error
         }
 
     }
