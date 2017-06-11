@@ -6,7 +6,15 @@ Template.editUser.events({
         console.log("edit", this._id);
     },
     'click .delete-user': function() {
-        console.log("delete", this._id);
+        Meteor.users.remove({
+            _id: this._id
+        }, function(error, result) {
+            if (error) {
+                console.log("Error removing user: ", error);
+            } else {
+                console.log("Number of users removed: " + result);
+            }
+        })
     }
 });
 

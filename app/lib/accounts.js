@@ -20,7 +20,7 @@ AccountsTemplates.addFields([{
             return Meteor.call("userExists", value);
         }
     }
-},{
+}, {
     _id: 'firstName',
     type: 'text',
     displayName: "Name",
@@ -72,17 +72,29 @@ AccountsTemplates.configure({
 
     // Texts
     texts: {
-      button: {
-          signUp: "Register Now!"
-      },
-      socialSignUp: "Register",
-      socialIcons: {
-          "meteor-developer": "fa fa-rocket"
-      },
-      title: {
-          forgotPwd: "Recover Your Password",
-          signIn: "",
-          signUp: ""
-      },
+        button: {
+            signUp: "Register Now!"
+        },
+        socialSignUp: "Register",
+        socialIcons: {
+            "meteor-developer": "fa fa-rocket"
+        },
+        title: {
+            forgotPwd: "Recover Your Password",
+            signIn: "",
+            signUp: ""
+        },
     },
+});
+
+// Enable user editing
+Meteor.users.allow({
+    // Users can update only their profile, unless they are admin
+    update: function(userId, doc, fieldNames, modifier) {
+        return userId === Meteor.user()._id && Roles.userIsInRole(Meteor.user(), ['admin']);
+    },
+    // Users can delete only their profile, unless they are admin
+    remove: function(userId, doc) {
+        return userId === Meteor.user()._id && Roles.userIsInRole(Meteor.user(), ['admin']);
+    }
 });
