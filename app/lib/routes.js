@@ -33,12 +33,12 @@ Router.route('admin', {
 
 // User profile
 Router.route('me', {
-    name: 'user',
+    name: 'me',
     waitOn: function() {
         return Meteor.subscribe("userData");
     },
     data: function() { return Meteor.users.findOne(); },
-    controller: 'UserController',
+    controller: 'MeController',
     where: 'client'
 });
 

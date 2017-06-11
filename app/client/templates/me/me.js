@@ -1,22 +1,22 @@
 /*****************************************************************************/
-/* User: Event Handlers */
+/* Me: Event Handlers */
 /*****************************************************************************/
-Template.User.events({});
+Template.Me.events({});
 
 /*****************************************************************************/
-/* User: Helpers */
+/* Me: Helpers */
 /*****************************************************************************/
-Template.User.helpers({
-    userData: function() {
-        return Meteor.user();
+Template.Me.helpers({
+    MeData: function() {
+        return Meteor.Me();
     }
 });
 
 /*****************************************************************************/
-/* User: Lifecycle Hooks */
+/* Me: Lifecycle Hooks */
 /*****************************************************************************/
-Template.User.onCreated(function() {});
+Template.Me.onCreated(function() {});
 
-Template.User.onRendered(function() {});
+Template.Me.onRendered(function() {});
 
-Template.User.onDestroyed(function() {});
+Template.Me.onDestroyed(function() {});

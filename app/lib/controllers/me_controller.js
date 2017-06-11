@@ -1,4 +1,4 @@
-UserController = RouteController.extend({
+MeController = RouteController.extend({
 
     // A place to put your subscriptions
     // this.subscribe('items');
@@ -34,7 +34,7 @@ UserController = RouteController.extend({
     onBeforeAction: function() {
         var loggedInUser = Meteor.userId();
             if (!!loggedInUser) {
-                Router.go('user');
+                Router.go('me');
                 this.stop();
             } else {
                 Router.go('home');
