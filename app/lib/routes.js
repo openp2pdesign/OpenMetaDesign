@@ -24,10 +24,10 @@ Router.route('home', {
     where: 'client'
 });
 
-// List of users, for admin
-Router.route('users', {
-    name: 'users',
-    controller: 'UsersController',
+// Admin section
+Router.route('admin', {
+    name: 'admin',
+    controller: 'AdminController',
     where: 'client'
 });
 

@@ -1,21 +1,21 @@
-s/*****************************************************************************/
-/* Users: Event Handlers */
 /*****************************************************************************/
-Template.Users.events({});
+/* Admin: Event Handlers */
+/*****************************************************************************/
+Template.Admin.events({});
 
 /*****************************************************************************/
-/* Users: Helpers */
+/* Admin: Helpers */
 /*****************************************************************************/
-Template.Users.helpers({});
+Template.Admin.helpers({});
 
 /*****************************************************************************/
-/* Users: Lifecycle Hooks */
+/* Admin: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Users.onCreated(function() {});
+Template.Admin.onCreated(function() {});
 
-Template.Users.onRendered(function() {});
+Template.Admin.onRendered(function() {});
 
-Template.Users.onDestroyed(function() {});
+Template.Admin.onDestroyed(function() {});
 
 // Setup of tabular for this template
 import { $ } from 'meteor/jquery';
