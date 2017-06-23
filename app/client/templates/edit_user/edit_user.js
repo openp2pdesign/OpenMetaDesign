@@ -6,8 +6,12 @@ Template.editUser.events({
     'click .edit-user': function() {
         Modal.show('UserProfileEdit', this);
     },
-    'click .edit-role': function() {
-        Modal.show('EditRole', this);
+    'click .edit-admin': function() {
+        if (Roles.userIsInRole(this, 'admin')) {
+            Meteor.call('removeAdmin', this._id);
+        } else {
+            Meteor.call('addAdmin', this._id);
+        }
     },
     'click .change-password': function() {
         Modal.show('ChangePassword', this);
