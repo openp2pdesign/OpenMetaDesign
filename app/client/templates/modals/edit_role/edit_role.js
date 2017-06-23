@@ -14,7 +14,7 @@ Template.EditRole.events({
         var newRole = $('#roleEdit input:radio:checked').val();
 
         if (newRole !== undefined) {
-            Roles.addUsersToRoles(Meteor.userId(), [newRole]);
+            Roles.addUsersToRoles(this._id, newRole);
         }
 
 
