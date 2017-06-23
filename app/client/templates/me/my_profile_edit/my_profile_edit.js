@@ -50,17 +50,6 @@ Template.MyProfileEdit.events({
         } else {
             // show error
         }
-        if ((newUsername) && (validateUsername(newUsername))) {
-            Meteor.users.update({
-                _id: Meteor.userId()
-            }, {
-                $set: {
-                    "profile.username": newUsername
-                }
-            });
-        } else {
-            // show error
-        }
 
     }
 });
