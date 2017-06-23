@@ -9,8 +9,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <h2>My profile</h2>
+            <h2>My profile</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-10">
                 {{#with currentUserData}}
                     <table class="table">
                         <tbody>
@@ -38,14 +40,22 @@
                     </table>
                 {{/with}}
             </div>
+            <div class="col-lg-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-sm btn-primary edit-user"><i class="fa fa-pencil-square-o"></i> Edit my profile</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-sm btn-warning change-password"><i class="fa fa-trash" aria-hidden="true"></i> Change my password</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="row">
-            <div class="col-lg-2">
-                <button type="button" class="btn btn-sm btn-primary edit-user"><i class="fa fa-pencil-square-o"></i> Edit my profile</button>
-            </div>
-            <div class="col-lg-2">
-                <button type="button" class="btn btn-sm btn-warning change-password"><i class="fa fa-trash" aria-hidden="true"></i> Change my password</button>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-lg-12">
