@@ -1,6 +1,7 @@
 /*****************************************************************************/
 /* main: Style */
 /*****************************************************************************/
+
 .main {
     margin-top: 80px;
     margin-bottom: 80px;
@@ -27,5 +28,9 @@
 }
 
 body {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+.pnotify {
     font-family: 'Fira Sans', sans-serif;
 }

@@ -9,6 +9,7 @@
     "bcrypt": "^1.0.2",
     "datatables.net-bs": "^1.10.15",
     "jquery": "^1.11.2",
-    "meteor-node-stubs": "~0.2.4"
+    "meteor-node-stubs": "~0.2.4",
+    "pnotify": "^3.2.0"
   }
 }
