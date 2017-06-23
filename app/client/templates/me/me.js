@@ -3,7 +3,7 @@
 /*****************************************************************************/
 Template.Me.events({
     'click .edit-user': function() {
-        Modal.show('UserProfileEdit', this);
+        Modal.show('MyProfileEdit', this);
     },
     'click .change-password': function() {
         Modal.show('ChangePassword', this);
@@ -15,8 +15,8 @@ Template.Me.events({
 /*****************************************************************************/
 Template.Me.helpers({
     currentUserData: function() {
-    return Meteor.user();
-  }
+        return Meteor.user();
+    }
 });
 
 /*****************************************************************************/
