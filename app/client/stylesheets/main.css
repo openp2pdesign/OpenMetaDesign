@@ -34,3 +34,7 @@ body {
 .pnotify {
     font-family: 'Fira Sans', sans-serif;
 }
+
+.row {
+    margin-bottom: 20px;
+}

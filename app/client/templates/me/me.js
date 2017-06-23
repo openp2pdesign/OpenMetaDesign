@@ -1,7 +1,14 @@
 /*****************************************************************************/
 /* Me: Event Handlers */
 /*****************************************************************************/
-Template.Me.events({});
+Template.Me.events({
+    'click .edit-user': function() {
+        Modal.show('UserProfileEdit', this);
+    },
+    'click .change-password': function() {
+        Modal.show('ChangePassword', this);
+    }
+});
 
 /*****************************************************************************/
 /* Me: Helpers */
