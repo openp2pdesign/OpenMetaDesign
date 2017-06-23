@@ -11,5 +11,10 @@ Meteor.methods({
     },
     'addAdmin': function(userId) {
         Roles.addUsersToRoles(userId, 'admin');
+    },
+    'removeUser': function(userId) {
+        Meteor.users.remove({
+            _id: userId
+        });
     }
 });
