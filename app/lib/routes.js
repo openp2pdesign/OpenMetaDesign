@@ -16,6 +16,12 @@ Router.route('projects/design', {
   where: 'client'
 });
 
+Router.route('projects/viz', {
+  name: 'projectsViz',
+  controller: 'VizController',
+  where: 'client'
+});
+
 
 // Home page
 Router.route('/', {
