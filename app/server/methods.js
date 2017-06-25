@@ -14,6 +14,42 @@ Meteor.methods({
             _id: userId
         });
     },
+    'updateUserFirstName': function(userId, newFirstName) {
+        Meteor.users.update({
+            _id: userId
+        }, {
+            $set: {
+                "profile.firstName": newFirstName
+            }
+        });
+    },
+    'updateUserLastName': function(userId, newLasttName) {
+        Meteor.users.update({
+            _id: userId
+        }, {
+            $set: {
+                "profile.lastName": newLastName
+            }
+        });
+    },
+    'updateUserBio': function(userId, newBio) {
+        Meteor.users.update({
+            _id: userId
+        }, {
+            $set: {
+                "profile.bio": newBio
+            }
+        });
+    },
+    'updateUserEmail': function(userId, newEmail) {
+        Meteor.users.update({
+            _id: userId
+        }, {
+            $set: {
+                "emails.0.address": newEmail
+            }
+        });
+    },
     'updateGoogleMapsSettings': function(object, newkey) {
         Settings.update(object, {
             $set: {

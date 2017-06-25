@@ -21,13 +21,8 @@ Template.UserProfileEdit.events({
         // Validate and save new data
 
         if ((newFirstName) && (newFirstName != Meteor.user().profile.firstName)) {
-            Meteor.users.update({
-                _id: Meteor.userId()
-            }, {
-                $set: {
-                    "profile.firstName": newFirstName
-                }
-            });
+            Meteor.call('updateUserFirstName', this._id, newFirstName);
+
             var successNotice = new PNotify({
                 type: 'success',
                 title: 'Success',
@@ -50,13 +45,8 @@ Template.UserProfileEdit.events({
         }
 
         if ((newLastName) && (newLastName != Meteor.user().profile.lastName)) {
-            Meteor.users.update({
-                _id: Meteor.userId()
-            }, {
-                $set: {
-                    "profile.lastName": newLastName
-                }
-            });
+            Meteor.call('updateUserFirstName', this._id, newLastName);
+
             var successNotice = new PNotify({
                 type: 'success',
                 title: 'Success',
@@ -79,13 +69,8 @@ Template.UserProfileEdit.events({
         }
 
         if ((newBio) && (newBio != Meteor.user().profile.bio)) {
-            Meteor.users.update({
-                _id: Meteor.userId()
-            }, {
-                $set: {
-                    "profile.bio": newBio
-                }
-            });
+            Meteor.call('updateUserBio', this._id, newBio);
+
             var successNotice = new PNotify({
                 type: 'success',
                 title: 'Success',
@@ -109,13 +94,7 @@ Template.UserProfileEdit.events({
 
         if ((newEmail) && (newEmail != Meteor.user().emails[0].address)) {
             if (validateEmail(newEmail)) {
-                Meteor.users.update({
-                    _id: Meteor.userId()
-                }, {
-                    $set: {
-                        "emails.0.address": newEmail
-                    }
-                });
+                Meteor.call('updateUserEmail', this._id, newEmail);
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
