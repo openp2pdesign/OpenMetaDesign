@@ -18,8 +18,6 @@ ecmascript@0.8.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.3            # Server-side component of the `meteor shell` command
 iron:router
 twbs:bootstrap
-aldeed:collection2
-aldeed:autoform
 aldeed:delete-button
 momentjs:moment
 accounts-password@1.3.6
@@ -35,5 +33,8 @@ reywood:publish-composite
 dynamic-import
 alanning:roles
 rajit:bootstrap3-datepicker
-aldeed:autoform-bs-datepicker
 aldeed:template-extension
+bruceborrett:autoform-map
+aldeed:autoform
+aldeed:autoform-bs-datepicker
+aldeed:collection2

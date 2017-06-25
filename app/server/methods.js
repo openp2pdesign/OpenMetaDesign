@@ -3,9 +3,6 @@
 /*****************************************************************************/
 
 Meteor.methods({
-    'server/method_name': function() {
-        // server method logic
-    },
     'removeAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
     },
@@ -15,6 +12,13 @@ Meteor.methods({
     'removeUser': function(userId) {
         Meteor.users.remove({
             _id: userId
+        });
+    },
+    'updateGoogleMapsSettings': function(object, newkey) {
+        Settings.update(object, {
+            $set: {
+                GoogleMapsAPIkey: newkey
+            }
         });
     }
 });

@@ -78,6 +78,17 @@ LocationSchema = new SimpleSchema({
         label: "URL",
         regEx: SimpleSchema.RegEx.Url,
         max: 5
+    },
+    location: {
+        type: String,
+        autoform: {
+            type: 'map',
+            afFieldInput: {
+                geolocation: true,
+                searchBox: true,
+                autolocate: true
+            }
+        }
     }
 
 });

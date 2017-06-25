@@ -2,7 +2,6 @@ Meteor.publish('projects', function() {
     return Projects.find();
 });
 
-
 Meteor.publish('usersList', function() {
     return Meteor.users.find({}, {
         fields: {
@@ -38,4 +37,9 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
         });
     },
   };
+});
+
+
+Meteor.publish('settings', function () {
+  return Settings.find();
 });
