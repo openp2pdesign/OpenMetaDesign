@@ -16,12 +16,7 @@ Template.Admin.events({
         event.preventDefault();
 
         var newGoogleMapsAPIKey = $('#new-google-maps-api-key').val();
-
-
-
-
         Meteor.call('updateGoogleMapsSettings', this._id, newGoogleMapsAPIKey);
-
 
         var successNotice = new PNotify({
             type: 'success',
