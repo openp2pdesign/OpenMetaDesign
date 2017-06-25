@@ -20,7 +20,11 @@ Template.ProjectsViz.onCreated(function() {
 
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
-        d3.select('#d3-container').append('<p>hello</p>');
+        d3.select('#d3-container')
+            .append("p")
+            .attr("id", "myNewParagrap")
+            .append("text")
+            .text("This is my new text");
     });
 
 });
