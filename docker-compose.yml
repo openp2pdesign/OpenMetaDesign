@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  meteor:
+    build:
+      context: ./app/
+      dockerfile: Dockerfile-meteor
+    volumes:
+      - .:/app/
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/meteor
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo:/data
+    ports:
+      - '27017:27017'
+    command:
+      - --storageEngine=wiredTiger
+
+volumes:
+  mongo:
