@@ -162,10 +162,6 @@ MessageSchema = new SimpleSchema({});
 ActivityElementSchema = new SimpleSchema({
     description: {
         type: String
-    },
-    where: {
-        type: LocationSchema,
-        optional: true
     }
 });
 
