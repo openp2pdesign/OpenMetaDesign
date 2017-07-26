@@ -1,7 +1,9 @@
 version: '2'
 
 services:
+  # Meteor
   meteor:
+    container_name: "openmetadesign-meteor"
     build:
       context: ./app/
       dockerfile: Dockerfile-meteor
@@ -14,7 +16,9 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017/meteor
 
+  # Mongo DB
   mongo:
+    container_name: "openmetadesign-mongo"
     image: mongo:latest
     volumes:
       - mongo:/data
@@ -22,6 +26,24 @@ services:
       - '27017:27017'
     command:
       - --storageEngine=wiredTiger
+      
+  # Mongo UI admin 
+  mongoui:
+    container_name: "openmetadesign-mongo-ui"
+    image: mongoclient/mongoclient:latest
+    hostname: mongoclient
+    depends_on:
+      - mongo
+    volumes:
+      - mongo:/data
+    ports:
+        - 3300:3000
+    environment:
+      - "MONGO_URL=mongodb://mongo:27017"
+      - "MONGOCLIENT_AUTH=true"
+      - "MONGOCLIENT_USERNAME=admin"
+      - "MONGOCLIENT_PASSWORD=password"
+      - "MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://mongo:27017"
 
 volumes:
   mongo:
