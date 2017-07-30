@@ -1,0 +1,18 @@
+<template name="I18nDropdown">
+    {{#if i18n_enabled}}
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-language" aria-hidden="true"></i>
+            {{i18n_currentLanguage.name}}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {{#each i18n_sortedLanguages}}
+                <li>
+                    <a href="#" data-language="{{tag}}">{{name}}</a>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <span class="i18n-not-found">No i18n files found</span>
+    {{/if}}
+</template>

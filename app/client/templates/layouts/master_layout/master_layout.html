@@ -9,8 +9,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 {{#linkTo route="home"}}
-                    <span class="navbar-brand">
-                        OpenMetaDesign</span>
+                    <span class="navbar-brand">OpenMetaDesign</span>
                 {{/linkTo}}
             </div>
             <div class="collapse navbar-collapse" id="navigationbar">
@@ -18,23 +17,28 @@
                     <li id="home">
                         {{#linkTo route="home"}}
                             <i class="fa fa-home"></i>
-                            Home{{/linkTo}}
+                            Home
+                        {{/linkTo}}
                     </li>
                     {{#if currentUser}}
                         <li>
                             {{#linkTo route="Login"}}
                                 <i class="fa fa-user"></i>
-                                Me{{/linkTo}}
+                                Me
+                            {{/linkTo}}
                         </li>
                         <li>
                             {{#linkTo route="projectsList"}}
                                 <i class="fa fa-cubes"></i>
-                                My Projects{{/linkTo}}
+                                My Projects
+                            {{/linkTo}}
                         </li>
                         <li>
                             {{#linkTo route="projectsDesign"}}
-                                <i class="fa fa-plus"></i> <i class="fa fa-cube"></i>
-                                New Project{{/linkTo}}
+                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-cube"></i>
+                                New Project
+                            {{/linkTo}}
                         </li>
                         {{#if isInRole 'admin'}}
                             <li>
@@ -45,17 +49,20 @@
                             </li>
                         {{/if}}
                         <li>
-                            {{> i18n_dropdown}}
+                            {{> I18nDropdown}}
                         </li>
                         <li id="signout">
-                                <a href="#"><i class="fa fa-sign-out"></i>
-                                Sign out</a>
+                            <a href="#">
+                                <i class="fa fa-sign-out"></i>
+                                Sign out
+                            </a>
                         </li>
                     {{else}}
                         <li>
                             {{#linkTo route="Login"}}
                                 <i class="fa fa-sign-in"></i>
-                                Sign In/Sign Up{{/linkTo}}
+                                Sign In/Sign Up
+                            {{/linkTo}}
                         </li>
                     {{/if}}
                 </ul>
