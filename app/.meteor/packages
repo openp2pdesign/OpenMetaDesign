@@ -39,3 +39,5 @@ aldeed:autoform
 aldeed:autoform-bs-datepicker
 aldeed:collection2
 npm-bcrypt
+tap:i18n
+tap:i18n-ui
