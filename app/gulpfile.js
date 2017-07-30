@@ -9,8 +9,7 @@ gulp.task('translate', function() {
             functions: ['_'],
             extension: ".json",
             namespace: 'i18n',
-            prefix: '$LOCALE.',
-            writeOld: false
+            prefix: '$LOCALE.'
         }))
         .pipe(gulp.dest('i18n'));
 });

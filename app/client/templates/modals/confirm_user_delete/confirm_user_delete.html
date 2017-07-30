@@ -5,18 +5,19 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                      <h2 class="modal-title">Confirmation request</h2>
+                      <h2 class="modal-title">{{_ "confirmation_request"}}</h2>
                   </div>
                   <div class="modal-body">
                       {{#with data}}
                           <p>
-                              <span class="label label-danger">Danger</span> Are you sure you want to delete the user <em>{{username}}</em>? This action cannot be undone, data will be lost.
+                              <span class="label label-danger">{{_ "danger"}}</span>
+                              {{{_ "delete_user" user_name=username }}}
                           </p>
                       {{/with}}
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">Cancel</button>
-                      <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirm">Confirm</button>
+                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirm">{{_ "confirm"}}</button>
                   </div>
               </div>
           </div>
