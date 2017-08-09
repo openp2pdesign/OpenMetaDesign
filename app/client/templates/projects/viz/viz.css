@@ -17,10 +17,8 @@ svg
     fill: orange;
 }
 
-.svg-modal-button:hover
+/* Glow filter */
+.glow
 {
-    -webkit-transition: all .5s ease;
-            transition: all .5s ease;
-
     filter: url(#glow);
 }

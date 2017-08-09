@@ -31,6 +31,14 @@ Template.ProjectsViz.onRendered(function() {
             .attr("width", 50)
             .attr("height", 100)
             .attr("class", "svg-modal-button")
+            .on("mouseover", function() {
+                d3.select(this)
+                    .classed("glow", true);
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .classed("glow", false);
+            })
             .attr("data-toggle", "modal");
 
         svg.append("rect")
