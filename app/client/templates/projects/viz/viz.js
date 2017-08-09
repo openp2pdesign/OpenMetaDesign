@@ -4,7 +4,11 @@
 
 import d3 from 'd3';
 
-Template.ProjectsViz.events({});
+Template.ProjectsViz.events({
+    'click .svg-modal-button': function() {
+        Modal.show('GenericModal');
+    },
+});
 
 /*****************************************************************************/
 /* ProjectsViz: Helpers */
@@ -20,11 +24,34 @@ Template.ProjectsViz.onCreated(function() {
 
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
-        d3.select('#d3-container')
-            .append("p")
-            .attr("id", "myNewParagrap")
-            .append("text")
-            .text("This is my new text");
+        var svg = d3.select('#d3-container').append("svg");
+        svg.append("rect")
+            .attr("x", 10)
+            .attr("y", 10)
+            .attr("width", 50)
+            .attr("height", 100)
+            .attr("class", "svg-modal-button")
+            .attr("data-toggle", "modal");
+
+        svg.append("rect")
+            .attr("x", 40)
+            .attr("y", 50)
+            .attr("width", 50)
+            .attr("height", 100);
+
+        // Filters
+        var defs = svg.append("defs");
+        var glow = defs.append("filter")
+            .attr("id", "glow");
+        glow.append("feGaussianBlur")
+            .attr("stdDeviation", "3.5")
+            .attr("result", "coloredBlur");
+        var feMerge = glow.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in", "coloredBlur");
+        feMerge.append("feMergeNode")
+            .attr("in", "SourceGraphic");
+
     });
 
 });
