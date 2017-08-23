@@ -4,7 +4,7 @@
 
 .main {
     margin-top: 80px;
-    margin-bottom: 80px;
+    margin-bottom: 120px;
 }
 
 .navbar {
@@ -20,6 +20,7 @@
 .navbar-fixed-bottom {
     border-top: 1px solid #d5d5d5;
     background-color: #f1f1f1;
+    height: 80px;
 }
 
 .compulsory {
