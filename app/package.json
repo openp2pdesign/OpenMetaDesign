@@ -7,12 +7,13 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "bcrypt": "^0.8.7",
+    "buffer": "^5.0.7",
     "d3": "^4.9.1",
     "datatables.net-bs": "^1.10.15",
     "gulp": "^3.9.1",
     "i18next-parser": "^0.12.0",
     "jquery": "^1.11.2",
-    "meteor-node-stubs": "~0.2.4",
+    "meteor-node-stubs": "^0.2.11",
     "node-gyp": "^3.6.2",
     "node-pre-gyp": "^0.6.36",
     "pnotify": "^3.2.0"
