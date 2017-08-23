@@ -2,7 +2,7 @@
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 
-import d3 from 'd3';
+import openmetadesign_viz from './openmetadesign.js';
 
 Template.ProjectsViz.events({
     'click .svg-modal-button': function() {
@@ -24,42 +24,7 @@ Template.ProjectsViz.onCreated(function() {
 
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
-        var svg = d3.select('#d3-container').append("svg");
-        svg.append("rect")
-            .attr("x", 10)
-            .attr("y", 10)
-            .attr("width", 50)
-            .attr("height", 100)
-            .attr("class", "svg-modal-button")
-            .on("mouseover", function() {
-                d3.select(this)
-                    .classed("glow", true);
-            })
-            .on("mouseout", function() {
-                d3.select(this)
-                    .classed("glow", false);
-            })
-            .attr("data-toggle", "modal");
-
-        svg.append("rect")
-            .attr("x", 40)
-            .attr("y", 50)
-            .attr("width", 50)
-            .attr("height", 100);
-
-        // Filters
-        var defs = svg.append("defs");
-        var glow = defs.append("filter")
-            .attr("id", "glow");
-        glow.append("feGaussianBlur")
-            .attr("stdDeviation", "3.5")
-            .attr("result", "coloredBlur");
-        var feMerge = glow.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "coloredBlur");
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-
+        openmetadesign_viz();
     });
 
 });
