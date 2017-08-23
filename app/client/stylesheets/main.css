@@ -12,11 +12,23 @@
     background-color: #fff;
 }
 
+.navbar-toggle, .icon-bar {
+    border:1px solid #000;
+}
+
+.navbar-header button:hover {
+    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+    -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
+    transition: 0.4s;
+}
+
 .navbar-fixed-top {
     -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
     -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, .175);
 }
+
 .navbar-fixed-bottom {
     border-top: 1px solid #d5d5d5;
     background-color: #f1f1f1;
