@@ -8,7 +8,7 @@ svg
     border: 1px solid blue;
 }
 
-.svg-modal-button
+.svg-button
 {
     cursor: pointer;
     -webkit-transition: all .5s ease;
@@ -16,6 +16,13 @@ svg
 
     fill: orange;
 }
+
+.svg-button text
+{
+
+    fill: #fff;
+}
+
 
 /* Glow filter */
 .glow

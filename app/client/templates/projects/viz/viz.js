@@ -5,7 +5,7 @@
 import openmetadesign_viz from './openmetadesign.js';
 
 Template.ProjectsViz.events({
-    'click .svg-modal-button': function() {
+    'click .svg-button': function() {
         Modal.show('GenericModal');
     },
 });

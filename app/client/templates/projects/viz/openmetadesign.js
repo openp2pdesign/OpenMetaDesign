@@ -14,27 +14,55 @@ export default function openmetadesign_viz(data) {
 
     // Add the SVG to the container
     var svg = d3.select('#d3-container').append("svg");
-    svg.append("rect")
-        .attr("x", 10)
-        .attr("y", 10)
-        .attr("width", 50)
-        .attr("height", 100)
-        .attr("class", "svg-modal-button")
-        .on("mouseover", function() {
-            d3.select(this)
-                .classed("glow", true);
-        })
-        .on("mouseout", function() {
-            d3.select(this)
-                .classed("glow", false);
-        })
-        .attr("data-toggle", "modal");
+    svg.attr("width", "100%").attr("height", "100%");
 
-    svg.append("rect")
-        .attr("x", 40)
-        .attr("y", 50)
-        .attr("width", 50)
-        .attr("height", 100);
+
+    // Create a button with a FontAwesome icon
+    var addButton = function(x, y, radius, parent, iconCode) {
+
+        var button = parent.append("g");
+
+        // Add the circle
+        button.append("circle")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", radius);
+
+        // Add the icon
+        button.append('text')
+            .attr("x", x)
+            .attr("y", y)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-family", "FontAwesome")
+            .style("font-size", radius.toString() + "px")
+            .text(iconCode);
+
+        // Add classes
+        button.attr("class", "svg-button")
+            .on("mouseover", function() {
+                d3.select(this)
+                    .classed("glow", true);
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .classed("glow", false);
+            })
+
+        return button;
+
+    }
+
+    // Create a sample button
+    var button2 = addButton(210, 125, 30, svg, '\uf06e');
+    // Make it open a modal
+    button2.attr("data-toggle", "modal");
+    // Add its functioning on click
+    button2.on("click", function() {
+        test.attr("transform", "scale(0.2,1)");
+    });
+
+
 
     // Filters
     var defs = svg.append("defs");
