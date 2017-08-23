@@ -16,7 +16,7 @@ export default function openmetadesign_viz(data) {
     var svg = d3.select('#d3-container').append("svg");
     svg.attr("width", "100%").attr("height", "100%");
 
-
+    // Functions
     // Create a button with a FontAwesome icon
     var addButton = function(x, y, radius, parent, iconCode) {
 
@@ -42,30 +42,20 @@ export default function openmetadesign_viz(data) {
         button.attr("class", "svg-button")
             .on("mouseover", function() {
                 d3.select(this)
-                    .classed("glow", true);
+                    .attr("filter", "url(#glow)");
             })
             .on("mouseout", function() {
                 d3.select(this)
-                    .classed("glow", false);
+                    .attr("filter", null);
             })
 
         return button;
 
     }
 
-    // Create a sample button
-    var button2 = addButton(210, 125, 30, svg, '\uf06e');
-    // Make it open a modal
-    button2.attr("data-toggle", "modal");
-    // Add its functioning on click
-    button2.on("click", function() {
-        test.attr("transform", "scale(0.2,1)");
-    });
-
-
-
     // Filters
     var defs = svg.append("defs");
+    // Glow filter
     var glow = defs.append("filter")
         .attr("id", "glow");
     glow.append("feGaussianBlur")
@@ -76,6 +66,16 @@ export default function openmetadesign_viz(data) {
         .attr("in", "coloredBlur");
     feMerge.append("feMergeNode")
         .attr("in", "SourceGraphic");
+
+    // Draw everything
+    // Create a sample button
+    var button2 = addButton(210, 125, 30, svg, '\uf06e');
+    // Make it open a modal
+    button2.attr("data-toggle", "modal");
+    // Add its functioning on click
+    button2.on("click", function() {
+        test.attr("transform", "scale(0.2,1)");
+    });
 
 
 }

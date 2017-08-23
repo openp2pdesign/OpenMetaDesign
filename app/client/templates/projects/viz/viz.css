@@ -11,21 +11,21 @@ svg
 .svg-button
 {
     cursor: pointer;
-    -webkit-transition: all .5s ease;
-            transition: all .5s ease;
+    -webkit-transition: all .5s ease-in-out;
+       -moz-transition: all .5s ease-in-out;
+        -ms-transition: all .5s ease-in-out;
+         -o-transition: all .5s ease-in-out;
 
-    fill: orange;
+    fill: #f57f2a;
 }
+
+.svg-button:hover
+{
+    fill: #ee471a;
+}
+
 
 .svg-button text
 {
-
     fill: #fff;
-}
-
-
-/* Glow filter */
-.glow
-{
-    filter: url(#glow);
 }
