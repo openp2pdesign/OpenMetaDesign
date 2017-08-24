@@ -6,7 +6,13 @@ export default function openmetadesign_viz(data) {
     var d3Container = document.getElementById("d3-container");
 
     // Margins
-    var margin = {top: 20, right: 0, bottom: 20, left: 10};
+    // https://bl.ocks.org/mbostock/3019563
+    var margin = {
+        top: 15,
+        right: 10,
+        bottom: 10,
+        left: 10
+    };
     var gutter = 10;
 
     // Get dimensions of the container on window resize
@@ -89,7 +95,7 @@ export default function openmetadesign_viz(data) {
 
     // Draw the Time section
     var yScale = d3.scaleTime()
-        .domain([new Date(2000,0,1),new Date(2001,0,11)])
+        .domain([new Date(2000, 0, 1), new Date(2001, 0, 11)])
         .range([0, 800]);
     yAxis = d3.axisLeft().scale(yScale)
         .ticks(16)
@@ -106,7 +112,7 @@ export default function openmetadesign_viz(data) {
         .attr("fill", "orange");
 
     // Create a sample button
-    var button2 = addButton(210, 125, 30, journeyG, '\uf06e');
+    var button2 = addButton(20, 20, 20, journeyG, '\uf06e');
     // Make it open a modal
     button2.attr("data-toggle", "modal");
     // Add its functioning on click
@@ -127,7 +133,7 @@ export default function openmetadesign_viz(data) {
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
     // Translate timeG according to the label width
-    timeGX = timeG.node().getBBox().width;
+    var timeGX = timeG.node().getBBox().width;
     timeG.attr("transform", "translate(" + timeGX + "," + 0 + ")");
     // Translate journeyG it after the timeG section
     var journeyGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
