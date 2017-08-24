@@ -2,6 +2,8 @@
 /* Viz: Style */
 /*****************************************************************************/
 
+$font-viz: "Fira Sans", sans-serif;
+
 #d3-container {
     height: 1200px;
     border: 1px solid red;
@@ -32,16 +34,18 @@
 
 /* Time axis */
 
+$axis-color: red;
+
 #yAxisG text {
   font: 10px;
-  fill: red;
-  font-family: "Fira Sans", sans-serif;
+  fill: $axis-color;
+  font-family: $font-viz;
 }
 
 #yAxisG path,
 #yAxisG line {
   fill: none;
-  stroke: red;
+  stroke: $axis-color;
   shape-rendering: crispEdges;
   width: 20px;
 }
