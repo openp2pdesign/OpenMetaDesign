@@ -66,6 +66,49 @@ export default function openmetadesign_viz(data) {
 
     }
 
+    // Create an activity
+    var addActivity = function (x, y, parent) {
+
+        // dimensions
+        var participationContainerWidth = 30;
+
+        var activity = parent.append("g");
+
+        // Add the participation container
+        var participationContainer = activity.append("g")
+
+        participationContainer.append("rect")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("width", participationContainerWidth)
+            .attr("height", 600);
+
+        // Add the main container
+        var mainContainer = activity.append("g");
+
+        mainContainer.append("rect")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("width", 300)
+            .attr("height", 600);
+
+        var mainContainerX = participationContainerWidth + 5;
+        mainContainer.attr("transform", "translate(" + mainContainerX + ",0)");
+
+        // Add the title
+        mainContainer.append('text')
+            .attr("x", x + 10)
+            .attr("y", y + 20)
+            .text("Title");
+
+        // Add classes
+        activity.attr("class", "svg-activity");
+        participationContainer.attr("class", "svg-activity-participation");
+
+        return activity;
+
+    }
+
     // Filters
     var defs = svg.append("defs");
     // Glow filter
@@ -107,12 +150,12 @@ export default function openmetadesign_viz(data) {
     journeyG.append("rect")
         .attr("x", 0)
         .attr("y", 0)
-        .attr("width", 200)
+        .attr("width", 100)
         .attr("height", 20)
         .attr("fill", "orange");
 
     // Create a sample button
-    var button2 = addButton(20, 20, 20, journeyG, '\uf06e');
+    var button2 = addButton(20, 120, 20, journeyG, '\uf06e');
     // Make it open a modal
     button2.attr("data-toggle", "modal");
     // Add its functioning on click
@@ -129,6 +172,9 @@ export default function openmetadesign_viz(data) {
         .attr("width", 340)
         .attr("height", 50)
         .attr("fill", "red");
+
+    // Create a sample activity
+    var activity2 = addActivity(20, 120, blueprintG);
 
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113

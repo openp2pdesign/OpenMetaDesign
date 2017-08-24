@@ -4,6 +4,10 @@
 
 $font-viz: "Fira Sans", sans-serif;
 
+svg {
+    font-family: $font-viz;
+}
+
 #d3-container {
     height: 1200px;
     border: 1px solid red;
@@ -48,4 +52,22 @@ $axis-color: red;
   stroke: $axis-color;
   shape-rendering: crispEdges;
   width: 20px;
+}
+
+/* Activity */
+
+.svg-activity {
+    fill: rgb(222, 227, 238);
+}
+
+.svg-activity text {
+    fill: #000;
+}
+
+.svg-activity-participation {
+    fill: rgb(136, 139, 144);
+}
+
+.svg-activity-participation text {
+    fill: #000;
 }
