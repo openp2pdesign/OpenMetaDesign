@@ -5,6 +5,8 @@ export default function openmetadesign_viz(data) {
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
 
+    var gutter = 10;
+
     // Get dimensions of the container on window resize
     window.addEventListener("resize", function(d) {
         width = d3Container.clientWidth;
@@ -69,24 +71,44 @@ export default function openmetadesign_viz(data) {
 
     // Draw everything
 
-    // Layout
+    // Layout initialization
     var timeG = svg.append("g");
     var journeyG = svg.append("g");
     var blueprintG = svg.append("g");
 
-    // Time section
+    // Debug: see the border of each group
+    timeG.attr("style", "outline: thin solid green;");
+    journeyG.attr("style", "outline: thin solid red;");
+    blueprintG.attr("style", "outline: thin solid blue;");
+
+    // Draw the Time section
     var yScale = d3.scaleLinear()
         .domain([0, 27])
         .range([0, 800]);
     yAxis = d3.axisRight().scale(yScale)
         .ticks(16)
-        .tickSize(500);
+        .tickSize(100);
     timeG.attr("id", "yAxisG")
         .call(yAxis);
 
+    // Draw the Journey section
+    journeyG.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 200)
+        .attr("height", 20)
+        .attr("fill", "orange");
+
+    // Draw the Blueprint section
+    blueprintG.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 340)
+        .attr("height", 50)
+        .attr("fill", "red");
 
     // Create a sample button
-    var button2 = addButton(210, 125, 30, svg, '\uf06e');
+    var button2 = addButton(210, 125, 30, blueprintG, '\uf06e');
     // Make it open a modal
     button2.attr("data-toggle", "modal");
     // Add its functioning on click
@@ -94,5 +116,12 @@ export default function openmetadesign_viz(data) {
         test.attr("transform", "scale(0.2,1)");
     });
 
+    // Layout: organize sections
+    // Translate journeyG it after the timeG section
+    var journeyGX = timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
+    journeyG.attr("transform", "translate(" + journeyGX + "," + 0 + ")");
+    // Translate blueprintG after the journeyG section
+    var blueprintGX = journeyGX + journeyG.node().getBBox().width + gutter;
+    blueprintG.attr("transform", "translate(" + blueprintGX + "," + 0 + ")");
 
 }
