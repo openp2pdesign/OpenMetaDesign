@@ -5,6 +5,8 @@ export default function openmetadesign_viz(data) {
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
 
+    // Margins
+    var margin = {top: 20, right: 0, bottom: 20, left: 0};
     var gutter = 10;
 
     // Get dimensions of the container on window resize
@@ -15,10 +17,13 @@ export default function openmetadesign_viz(data) {
     });
 
     // Add the SVG to the container
-    var svg = d3.select('#d3-container').append("svg");
-    svg.attr("width", "100%").attr("height", "100%");
+    var svg = d3.select('#d3-container').append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Functions
+    // Functions for reusable elements
     // Create a button with a FontAwesome icon
     var addButton = function(x, y, radius, parent, iconCode) {
 
@@ -99,6 +104,17 @@ export default function openmetadesign_viz(data) {
         .attr("height", 20)
         .attr("fill", "orange");
 
+    // Create a sample button
+    var button2 = addButton(210, 125, 30, journeyG, '\uf06e');
+    // Make it open a modal
+    button2.attr("data-toggle", "modal");
+    // Add its functioning on click
+    button2.on("click", function() {
+        blueprintG.transition()
+            .duration(500)
+            .attr("transform", "scale(0.2,1)");
+    });
+
     // Draw the Blueprint section
     blueprintG.append("rect")
         .attr("x", 0)
@@ -107,16 +123,8 @@ export default function openmetadesign_viz(data) {
         .attr("height", 50)
         .attr("fill", "red");
 
-    // Create a sample button
-    var button2 = addButton(210, 125, 30, blueprintG, '\uf06e');
-    // Make it open a modal
-    button2.attr("data-toggle", "modal");
-    // Add its functioning on click
-    button2.on("click", function() {
-        test.attr("transform", "scale(0.2,1)");
-    });
-
     // Layout: organize sections
+    // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
     // Translate journeyG it after the timeG section
     var journeyGX = timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
     journeyG.attr("transform", "translate(" + journeyGX + "," + 0 + ")");
