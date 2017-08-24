@@ -2,6 +2,10 @@
 /* Viz: Style */
 /*****************************************************************************/
 
+#d3-container {
+    height: 1200px;
+    border: 1px solid red;
+}
 
 svg
 {
@@ -28,4 +32,19 @@ svg
 .svg-button text
 {
     fill: #fff;
+}
+
+/* Time axis */
+
+#yAxisG text {
+  font: 10px;
+  fill: red;
+  font-family: "Fira Sans", sans-serif;
+}
+
+#yAxisG path,
+#yAxisG line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }

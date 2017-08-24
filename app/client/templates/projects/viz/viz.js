@@ -26,7 +26,6 @@ Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
         openmetadesign_viz();
     });
-
 });
 
 Template.ProjectsViz.onDestroyed(function() {});

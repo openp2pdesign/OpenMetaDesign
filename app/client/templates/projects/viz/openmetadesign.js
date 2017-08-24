@@ -68,6 +68,23 @@ export default function openmetadesign_viz(data) {
         .attr("in", "SourceGraphic");
 
     // Draw everything
+
+    // Layout
+    var timeG = svg.append("g");
+    var journeyG = svg.append("g");
+    var blueprintG = svg.append("g");
+
+    // Time section
+    var yScale = d3.scaleLinear()
+        .domain([0, 27])
+        .range([0, 800]);
+    yAxis = d3.axisRight().scale(yScale)
+        .ticks(16)
+        .tickSize(500);
+    timeG.attr("id", "yAxisG")
+        .call(yAxis);
+
+
     // Create a sample button
     var button2 = addButton(210, 125, 30, svg, '\uf06e');
     // Make it open a modal
