@@ -41,7 +41,7 @@
 #yAxisG path,
 #yAxisG line {
   fill: none;
-  stroke: #000;
+  stroke: red;
   shape-rendering: crispEdges;
   width: 20px;
 }

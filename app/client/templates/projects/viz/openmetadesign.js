@@ -6,7 +6,7 @@ export default function openmetadesign_viz(data) {
     var d3Container = document.getElementById("d3-container");
 
     // Margins
-    var margin = {top: 20, right: 0, bottom: 20, left: 0};
+    var margin = {top: 20, right: 0, bottom: 20, left: 10};
     var gutter = 10;
 
     // Get dimensions of the container on window resize
@@ -82,17 +82,18 @@ export default function openmetadesign_viz(data) {
     var blueprintG = svg.append("g");
 
     // Debug: see the border of each group
+    svg.attr("style", "outline: thin solid black;");
     timeG.attr("style", "outline: thin solid green;");
     journeyG.attr("style", "outline: thin solid red;");
     blueprintG.attr("style", "outline: thin solid blue;");
 
     // Draw the Time section
-    var yScale = d3.scaleLinear()
-        .domain([0, 27])
+    var yScale = d3.scaleTime()
+        .domain([new Date(2000,0,1),new Date(2001,0,11)])
         .range([0, 800]);
-    yAxis = d3.axisRight().scale(yScale)
+    yAxis = d3.axisLeft().scale(yScale)
         .ticks(16)
-        .tickSize(100);
+        .tickSize(10);
     timeG.attr("id", "yAxisG")
         .call(yAxis);
 
@@ -125,8 +126,11 @@ export default function openmetadesign_viz(data) {
 
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
+    // Translate timeG according to the label width
+    timeGX = timeG.node().getBBox().width;
+    timeG.attr("transform", "translate(" + timeGX + "," + 0 + ")");
     // Translate journeyG it after the timeG section
-    var journeyGX = timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
+    var journeyGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
     journeyG.attr("transform", "translate(" + journeyGX + "," + 0 + ")");
     // Translate blueprintG after the journeyG section
     var blueprintGX = journeyGX + journeyG.node().getBBox().width + gutter;
