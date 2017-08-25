@@ -1,5 +1,7 @@
 import d3 from 'd3';
-import { TextBox } from 'd3plus-text';
+import {
+    TextBox
+} from 'd3plus-text';
 
 export default function openmetadesign_viz(data) {
 
@@ -30,7 +32,74 @@ export default function openmetadesign_viz(data) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // Emojis for reactions
+    // Source: https://github.com/twitter/twemoji
+    // License: CC-BY
+
+    var emojis = {
+        simple_smile: "",
+        heart_eyes: '',
+        worried: "",
+        angry: "",
+        up: "",
+        down: ""
+    }
+
+    emojis.worried = "";
+    emojis.angry = "";
+    emojis.up = "";
+    emojis.down = "";
+
     // Functions for reusable elements
+
+    // Load a svg file and append it to a parent element
+    var loadSVG = function(url, parent, x, y, scale) {
+
+        var loadedSVG = parent.append("g");
+
+        d3.xml(url, function(xml) {
+            var svgFile = document.importNode(xml.documentElement, true);
+            loadedSVG.each(function(d, i) {
+                this.appendChild(svgFile.cloneNode(true));
+            });
+        });
+
+        loadedSVG.attr("transform", "translate(" + x + "," + y + ")");
+        loadedSVG.attr("transform", "scale(" + scale + ")");
+
+        return loadedSVG;
+    }
+
+    // Create an emoji button
+    var addEmoji = function(x, y, radius, parent, type) {
+
+        var emoji = parent.append("g");
+
+        // Add the circle
+        emoji.append("circle")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", radius)
+            .attr("class", "svg-button");
+
+        // Load SVG
+        loadSVG("/emojis/1f603.svg", emoji, x + 10, y, 0.03);
+
+        // Add classes
+        emoji.attr("class", "svg-emoji")
+            .on("mouseover", function() {
+                d3.select(this)
+                    .attr("filter", "url(#glow)");
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .attr("filter", null);
+            });
+
+        return emoji;
+
+    }
+
     // Create a button with a FontAwesome icon
     var addButton = function(x, y, radius, parent, iconCode) {
 
@@ -61,7 +130,7 @@ export default function openmetadesign_viz(data) {
             .on("mouseout", function() {
                 d3.select(this)
                     .attr("filter", null);
-            })
+            });
 
         return button;
 
@@ -93,7 +162,7 @@ export default function openmetadesign_viz(data) {
             .text("Participation Level %")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("class","participation-level")
+            .attr("class", "participation-level")
             .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
         // Add the main container
@@ -169,12 +238,14 @@ export default function openmetadesign_viz(data) {
 
         // Add emojis
         var activityEmojis = mainContainer.append("g");
-
+        addEmoji(x, y, 10, activityEmojis, "smile");
 
         // Return the whole activity
         return activity;
 
     }
+
+
 
     // Filters
     var defs = svg.append("defs");
@@ -189,6 +260,7 @@ export default function openmetadesign_viz(data) {
         .attr("in", "coloredBlur");
     feMerge.append("feMergeNode")
         .attr("in", "SourceGraphic");
+
 
     // Draw everything
 
@@ -233,12 +305,6 @@ export default function openmetadesign_viz(data) {
     });
 
     // Draw the Blueprint section
-    blueprintG.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 340)
-        .attr("height", 50)
-        .attr("fill", "red");
 
     // Create a sample activity
     var activity2 = addActivity(20, 120, blueprintG);
