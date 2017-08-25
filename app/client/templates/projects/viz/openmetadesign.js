@@ -17,6 +17,7 @@ export default function openmetadesign_viz(data) {
         left: 10
     };
     var gutter = 10;
+    var labelHeight = 20;
 
     // Get dimensions of the container on window resize
     window.addEventListener("resize", function(d) {
@@ -83,7 +84,7 @@ export default function openmetadesign_viz(data) {
             .attr("class", "svg-button");
 
         // Load SVG
-        loadSVG("/emojis/1f603.svg", emoji, x + 10, y, 0.03);
+        loadSVG("/emojis/1f603.svg", emoji, x + 10, 0, 0.03);
 
         // Add classes
         emoji.attr("class", "svg-emoji")
@@ -237,8 +238,8 @@ export default function openmetadesign_viz(data) {
             .render();
 
         // Add emojis
-        var activityEmojis = mainContainer.append("g");
-        addEmoji(x, y, 10, activityEmojis, "smile");
+        // var activityEmojis = mainContainer.append("g");
+        // addEmoji(x, y, 10, activityEmojis, "smile");
 
         // Return the whole activity
         return activity;
@@ -276,6 +277,8 @@ export default function openmetadesign_viz(data) {
     blueprintG.attr("style", "outline: thin solid blue;");
 
     // Draw the Time section
+
+    // Time scale and axis
     var yScale = d3.scaleTime()
         .domain([new Date(2000, 0, 1), new Date(2001, 0, 11)])
         .range([0, 800]);
@@ -285,40 +288,52 @@ export default function openmetadesign_viz(data) {
     timeG.attr("id", "yAxisG")
         .call(yAxis);
 
+    // Time label
+    var timeLabel = timeG.append("text")
+        .text("Time")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "svg-label")
+        .attr("transform", "translate(0,-" + labelHeight + ")");
+
     // Draw the Journey section
+    // Journey label
+    var journeyLabel = journeyG.append("text")
+        .text("Journey")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "svg-label")
+        .attr("transform", "translate(0,-" + labelHeight + ")");
+
     journeyG.append("rect")
         .attr("x", 0)
         .attr("y", 0)
-        .attr("width", 100)
+        .attr("width", 50)
         .attr("height", 20)
         .attr("fill", "orange");
 
-    // Create a sample button
-    var button2 = addButton(20, 120, 20, journeyG, '\uf06e');
-    // Make it open a modal
-    button2.attr("data-toggle", "modal");
-    // Add its functioning on click
-    button2.on("click", function() {
-        blueprintG.transition()
-            .duration(500)
-            .attr("transform", "scale(0.2,1)");
-    });
-
     // Draw the Blueprint section
+    // Bluepring label
+    var blueprintLabel = blueprintG.append("text")
+        .text("Blueprint")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("class", "svg-label")
+        .attr("transform", "translate(0,-" + labelHeight + ")");
 
     // Create a sample activity
-    var activity2 = addActivity(20, 120, blueprintG);
+    var activity2 = addActivity(0, 0, blueprintG);
 
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
     // Translate timeG according to the label width
     var timeGX = timeG.node().getBBox().width;
-    timeG.attr("transform", "translate(" + timeGX + "," + 0 + ")");
+    timeG.attr("transform", "translate(" + timeGX + "," + labelHeight + ")");
     // Translate journeyG it after the timeG section
     var journeyGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
-    journeyG.attr("transform", "translate(" + journeyGX + "," + 0 + ")");
+    journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
     // Translate blueprintG after the journeyG section
     var blueprintGX = journeyGX + journeyG.node().getBBox().width + gutter;
-    blueprintG.attr("transform", "translate(" + blueprintGX + "," + 0 + ")");
+    blueprintG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
 
 }

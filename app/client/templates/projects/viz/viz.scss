@@ -2,6 +2,7 @@
 /* Viz: Style */
 /*****************************************************************************/
 $font-viz: "Fira Sans", sans-serif;
+$font-color-viz: #545151;
 
 svg {
     font-family: $font-viz;
@@ -14,18 +15,17 @@ svg {
 }
 
 /* Time axis */
-$axis-color: red;
 
 #yAxisG text {
     font: 10px;
-    fill: $axis-color;
+    fill: $font-color-viz;
     font-family: $font-viz;
 }
 
 #yAxisG line,
 #yAxisG path {
     fill: none;
-    stroke: $axis-color;
+    stroke: $font-color-viz;
     shape-rendering: crispEdges;
     width: 20px;
 }
@@ -36,7 +36,7 @@ $axis-color: red;
 }
 
 .svg-activity text {
-    fill: #000;
+    fill: $font-color-viz;
 }
 
 .svg-activity-participation rect {
@@ -80,4 +80,10 @@ $axis-color: red;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
+}
+
+.svg-label {
+    fill: $font-color-viz;
+    font-weight: 500;
+    font-size: 120%;
 }
