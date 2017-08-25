@@ -67,10 +67,11 @@ export default function openmetadesign_viz(data) {
     }
 
     // Create an activity
-    var addActivity = function (x, y, parent) {
+    var addActivity = function(x, y, parent) {
 
-        // dimensions
+        // Dimensions
         var participationContainerWidth = 30;
+        var mainContainerWidth = 170;
 
         var activity = parent.append("g");
 
@@ -89,20 +90,52 @@ export default function openmetadesign_viz(data) {
         mainContainer.append("rect")
             .attr("x", x)
             .attr("y", y)
-            .attr("width", 300)
+            .attr("width", mainContainerWidth)
             .attr("height", 600);
 
+        // Move the main container beside the participation container
         var mainContainerX = participationContainerWidth + 5;
         mainContainer.attr("transform", "translate(" + mainContainerX + ",0)");
 
         // Add the title
-        mainContainer.append('text')
-            .attr("x", x + 10)
-            .attr("y", y + 20)
-            .text("Title");
+        var activityTitle = mainContainer.append('foreignObject')
+            .attr("x", x)
+            .attr("y", y)
+            .attr("width", mainContainerWidth)
+            .append('xhtml:div')
+            .html("<h4>prova asd asd ad as da  </h4>")
+            .attr("class", "svg-activity-title");
+
+        // Add the control buttons
+        var activityButtons = mainContainer.append("g");
+        // Discuss Button
+        var discussButton = addButton(x + 5, y, 10, activityButtons, '\uf086');
+        discussButton.attr("data-toggle", "modal")
+            .classed("discuss-button", true);
+        // Edit Button
+        var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
+        editButton.attr("data-toggle", "modal")
+            .classed("edit-button", true);
+        // Flows Button
+        var flowsButton = addButton(x + 55, y, 10, activityButtons, '\uf074');
+        flowsButton.attr("data-toggle", "modal")
+            .classed("flows-button", true);
+        // Issues Button
+        var issuesButton = addButton(x + 80, y, 10, activityButtons, '\uf071');
+        issuesButton.attr("data-toggle", "modal")
+            .classed("issues-button", true);
+        // Delete Button
+        var deleteButton = addButton(x + 105, y, 10, activityButtons, '\uf068');
+        deleteButton.attr("data-toggle", "modal")
+            .classed("delete-button", true);
+        // Move the buttons below the title
+        activityButtonY = 10 + // padding
+            20 + // button size
+            parseInt(activityTitle.style("height")); // title size
+        activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
         // Add classes
-        activity.attr("class", "svg-activity");
+        mainContainer.attr("class", "svg-activity");
         participationContainer.attr("class", "svg-activity-participation");
 
         return activity;

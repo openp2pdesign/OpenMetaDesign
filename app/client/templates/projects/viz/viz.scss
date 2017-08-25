@@ -1,7 +1,6 @@
 /*****************************************************************************/
 /* Viz: Style */
 /*****************************************************************************/
-
 $font-viz: "Fira Sans", sans-serif;
 
 svg {
@@ -11,52 +10,28 @@ svg {
 #d3-container {
     height: 1200px;
     border: 1px solid red;
-    padding: 0px;
-}
-
-.svg-button
-{
-    cursor: pointer;
-    -webkit-transition: all .5s ease-in-out;
-       -moz-transition: all .5s ease-in-out;
-        -ms-transition: all .5s ease-in-out;
-         -o-transition: all .5s ease-in-out;
-
-    fill: #f57f2a;
-}
-
-.svg-button:hover
-{
-    fill: #ee471a;
-}
-
-
-.svg-button text
-{
-    fill: #fff;
+    padding: 0;
 }
 
 /* Time axis */
-
 $axis-color: red;
 
 #yAxisG text {
-  font: 10px;
-  fill: $axis-color;
-  font-family: $font-viz;
+    font: 10px;
+    fill: $axis-color;
+    font-family: $font-viz;
 }
 
-#yAxisG path,
-#yAxisG line {
-  fill: none;
-  stroke: $axis-color;
-  shape-rendering: crispEdges;
-  width: 20px;
+#yAxisG line,
+#yAxisG path {
+    fill: none;
+    stroke: $axis-color;
+    shape-rendering: crispEdges;
+    width: 20px;
 }
 
 /* Activity */
-
-.svg-activity {
+.svg-activity rect {
     fill: rgb(222, 227, 238);
 }
 
@@ -64,10 +39,34 @@ $axis-color: red;
     fill: #000;
 }
 
-.svg-activity-participation {
+.svg-activity-participation rect {
     fill: rgb(136, 139, 144);
 }
 
 .svg-activity-participation text {
     fill: #000;
+}
+
+.svg-activity-title {
+    background: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* UI Button */
+.svg-button {
+    cursor: pointer;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    fill: #f57f2a;
+}
+
+.svg-button:hover {
+    fill: #ee471a;
+}
+
+.svg-button text {
+    fill: #fff;
 }
