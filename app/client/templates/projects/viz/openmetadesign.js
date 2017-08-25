@@ -148,7 +148,7 @@ export default function openmetadesign_viz(data) {
     var glow = defs.append("filter")
         .attr("id", "glow");
     glow.append("feGaussianBlur")
-        .attr("stdDeviation", "3.5")
+        .attr("stdDeviation", "1.5")
         .attr("result", "coloredBlur");
     var feMerge = glow.append("feMerge");
     feMerge.append("feMergeNode")
