@@ -1,8 +1,5 @@
 import d3 from 'd3';
-
-import {
-    TextBox
-} from 'd3plus-text';
+import { TextBox } from 'd3plus-text';
 
 export default function openmetadesign_viz(data) {
 
@@ -76,6 +73,7 @@ export default function openmetadesign_viz(data) {
         // Dimensions
         var participationContainerWidth = 30;
         var mainContainerWidth = 170;
+        var containerHeight = 500;
 
         var activity = parent.append("g");
 
@@ -86,7 +84,17 @@ export default function openmetadesign_viz(data) {
             .attr("x", x)
             .attr("y", y)
             .attr("width", participationContainerWidth)
-            .attr("height", 600);
+            .attr("height", containerHeight);
+
+        var participationLevelX = x + participationContainerWidth / 2;
+        var participationLevelY = y + 20;
+
+        var participationLevel = participationContainer.append("text")
+            .text("Participation Level %")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("class","participation-level")
+            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
         // Add the main container
         var mainContainer = activity.append("g").attr("class", "svg-activity");
@@ -95,7 +103,7 @@ export default function openmetadesign_viz(data) {
             .attr("x", x)
             .attr("y", y)
             .attr("width", mainContainerWidth)
-            .attr("height", 600);
+            .attr("height", containerHeight);
 
         // Move the main container beside the participation container
         var mainContainerX = participationContainerWidth + 5;
@@ -161,18 +169,7 @@ export default function openmetadesign_viz(data) {
 
         // Add emojis
         var activityEmojis = mainContainer.append("g");
-        var activityDescription = activityEmojis.append('foreignObject')
-            .attr("x", x)
-            .attr("y", y + activityButtonY + 30)
-            .attr("width", mainContainerWidth)
-            .append('xhtml:p')
-            .html("emojis")
-            .attr("class", "svg-activity-emojis");
-        activityEmojisY = activityButtonY + // previous space
-            20 + // button size
-            parseInt(activityDescription.style("height")); // description height
-        console.log(activityEmojisY);
-        activityEmojis.attr("transform", "translate(0," + activityEmojisY + ")")
+
 
         // Return the whole activity
         return activity;
