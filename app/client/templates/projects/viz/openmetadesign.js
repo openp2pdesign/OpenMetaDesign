@@ -76,7 +76,7 @@ export default function openmetadesign_viz(data) {
         var activity = parent.append("g");
 
         // Add the participation container
-        var participationContainer = activity.append("g")
+        var participationContainer = activity.append("g").attr("class", "svg-activity-participation");
 
         participationContainer.append("rect")
             .attr("x", x)
@@ -85,7 +85,7 @@ export default function openmetadesign_viz(data) {
             .attr("height", 600);
 
         // Add the main container
-        var mainContainer = activity.append("g");
+        var mainContainer = activity.append("g").attr("class", "svg-activity");
 
         mainContainer.append("rect")
             .attr("x", x)
@@ -103,7 +103,7 @@ export default function openmetadesign_viz(data) {
             .attr("y", y)
             .attr("width", mainContainerWidth)
             .append('xhtml:div')
-            .html("<h4>prova asd asd ad as da  </h4>")
+            .html("<h4>Title</h4>")
             .attr("class", "svg-activity-title");
 
         // Add the control buttons
@@ -134,10 +134,16 @@ export default function openmetadesign_viz(data) {
             parseInt(activityTitle.style("height")); // title size
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
-        // Add classes
-        mainContainer.attr("class", "svg-activity");
-        participationContainer.attr("class", "svg-activity-participation");
+        // Add the activity description
+        var activityDescription = mainContainer.append('foreignObject')
+            .attr("x", x)
+            .attr("y", y + activityButtonY + 30)
+            .attr("width", mainContainerWidth)
+            .append('xhtml:p')
+            .html("this is an activity description, a long text")
+            .attr("class", "svg-activity-description");
 
+        // Return the whole activity
         return activity;
 
     }
