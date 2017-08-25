@@ -275,7 +275,6 @@ export default function openmetadesign_viz(data) {
 
     // Debug: see the border of each group
     svg.attr("style", "outline: thin solid black;");
-    timeG.attr("style", "outline: thin solid green;");
     journeyG.attr("style", "outline: thin solid red;");
 
     // Draw the Time section
@@ -304,8 +303,9 @@ export default function openmetadesign_viz(data) {
         .text("Customer")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("text-anchor", "middle")
         .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+        .attr("transform", "translate(100,-" + labelHeight + ")");
 
     // Create a sample activity
     var activity2 = addActivity(0, 0, blueprintCustomerG);
@@ -315,8 +315,9 @@ export default function openmetadesign_viz(data) {
         .text("Front-Office")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("text-anchor", "middle")
         .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+        .attr("transform", "translate(100,-" + labelHeight + ")");
 
     // Create a sample activity
     var activity3 = addActivity(0, 0, blueprintFrontG);
@@ -326,8 +327,9 @@ export default function openmetadesign_viz(data) {
         .text("Back-Office")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("text-anchor", "middle")
         .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+        .attr("transform", "translate(100,-" + labelHeight + ")");
 
     // Create a sample activity
     var activity4 = addActivity(0, 0, blueprintBackG);
@@ -337,8 +339,9 @@ export default function openmetadesign_viz(data) {
         .text("Support Processes")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("text-anchor", "middle")
         .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+        .attr("transform", "translate(100,-" + labelHeight + ")");
 
     // Create a sample activity
     var activity5 = addActivity(0, 0, blueprintSupportG);
@@ -349,8 +352,9 @@ export default function openmetadesign_viz(data) {
         .text("Journey")
         .attr("x", 0)
         .attr("y", 0)
+        .attr("text-anchor", "middle")
         .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+        .attr("transform", "translate(100,-" + labelHeight + ")");
 
     journeyG.append("rect")
         .attr("x", 0)
