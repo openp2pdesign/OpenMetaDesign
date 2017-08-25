@@ -1,5 +1,9 @@
 import d3 from 'd3';
 
+import {
+    TextBox
+} from 'd3plus-text';
+
 export default function openmetadesign_viz(data) {
 
     // The container for the viz
@@ -97,14 +101,20 @@ export default function openmetadesign_viz(data) {
         var mainContainerX = participationContainerWidth + 5;
         mainContainer.attr("transform", "translate(" + mainContainerX + ",0)");
 
-        // Add the title
-        var activityTitle = mainContainer.append('foreignObject')
-            .attr("x", x)
-            .attr("y", y)
-            .attr("width", mainContainerWidth)
-            .append('xhtml:div')
-            .html("<h4>Title</h4>")
-            .attr("class", "svg-activity-title");
+        // Add the title with a D3Plus TextBox
+        var activityTitle = mainContainer.append('g')
+            .attr("id", "textbox-1");
+
+        title = new TextBox()
+            .data([{}])
+            .select("#textbox-1")
+            .text("Activity Title")
+            .width(mainContainerWidth - 70)
+            .x(x + 10)
+            .y(y + 20)
+            .fontSize(16)
+            .fontWeight(500)
+            .render();
 
         // Add the control buttons
         var activityButtons = mainContainer.append("g");
@@ -129,19 +139,40 @@ export default function openmetadesign_viz(data) {
         deleteButton.attr("data-toggle", "modal")
             .classed("delete-button", true);
         // Move the buttons below the title
-        activityButtonY = 10 + // padding
+        activityButtonY = 15 + // padding
             20 + // button size
-            parseInt(activityTitle.style("height")); // title size
+            parseInt(activityTitle.node().getBBox().height); // title height
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
-        // Add the activity description
-        var activityDescription = mainContainer.append('foreignObject')
+        // Add the description with a D3Plus TextBox
+        var activityDescription = mainContainer.append('g')
+            .attr("id", "textbox-2");
+
+        description = new TextBox()
+            .data([{}])
+            .text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed turpis at dolor porta malesuada. Mauris sollicitudin mi lorem, eu imperdiet risus fermentum vitae. Suspendisse in velit in felis semper vestibulum non eget nunc. Aliquam ultricies, mauris a rutrum aliquet, justo ante varius odio, at consequat tortor sapien porttitor nisl.")
+            .width(mainContainerWidth - 30)
+            .select("#textbox-2")
+            .x(x + 10)
+            .y(y + activityButtonY + 20)
+            .fontSize(14)
+            .fontWeight(400)
+            .render();
+
+        // Add emojis
+        var activityEmojis = mainContainer.append("g");
+        var activityDescription = activityEmojis.append('foreignObject')
             .attr("x", x)
             .attr("y", y + activityButtonY + 30)
             .attr("width", mainContainerWidth)
             .append('xhtml:p')
-            .html("this is an activity description, a long text")
-            .attr("class", "svg-activity-description");
+            .html("emojis")
+            .attr("class", "svg-activity-emojis");
+        activityEmojisY = activityButtonY + // previous space
+            20 + // button size
+            parseInt(activityDescription.style("height")); // description height
+        console.log(activityEmojisY);
+        activityEmojis.attr("transform", "translate(0," + activityEmojisY + ")")
 
         // Return the whole activity
         return activity;

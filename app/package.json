@@ -9,6 +9,7 @@
     "bcrypt": "^0.8.7",
     "buffer": "^5.0.7",
     "d3": "^4.9.1",
+    "d3plus-text": "^0.9.21",
     "datatables.net-bs": "^1.10.15",
     "gulp": "^3.9.1",
     "i18next-parser": "^0.12.0",

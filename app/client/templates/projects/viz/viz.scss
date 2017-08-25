@@ -47,11 +47,14 @@ $axis-color: red;
     fill: #000;
 }
 
-.svg-activity-title,
-.svg-activity-description {
-    background: none;
-    padding-left: 10px;
-    padding-right: 10px;
+.svg-activity-emojis {
+    color: red;
+    fill: red;
+    stroke: red;
+}
+
+.d3plus-textBox text {
+    font-family: $font-viz !important;
 }
 
 /* UI Button */
