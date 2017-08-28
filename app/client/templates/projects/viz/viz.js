@@ -5,8 +5,20 @@
 import openmetadesign_viz from './openmetadesign.js';
 
 Template.ProjectsViz.events({
-    'click .svg-button': function() {
-        Modal.show('GenericModal');
+    'click .edit-button': function() {
+        Modal.show('ActivityEdit');
+    },
+    'click .discuss-button': function() {
+        Modal.show('ActivityDiscuss');
+    },
+    'click .flows-button': function() {
+        Modal.show('ActivityFlows');
+    },
+    'click .issues-button': function() {
+        Modal.show('ActivityIssues');
+    },
+    'click .delete-button': function() {
+        Modal.show('ActivityDelete');
     },
 });
 

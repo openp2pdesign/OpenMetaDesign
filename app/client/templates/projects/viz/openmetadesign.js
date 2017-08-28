@@ -385,7 +385,6 @@ export default function openmetadesign_viz(data) {
         .attr("fill", "orange");
 
 
-
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
     // Translate timeG according to the label width
