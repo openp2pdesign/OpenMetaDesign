@@ -55,19 +55,14 @@ export default function openmetadesign_viz(data) {
     // Functions for reusable elements
 
     // Load a svg file and append it to a parent element
-    var loadSVG = function(url, parent, x, y, scale) {
+    var loadSVG = function(url, parent) {
 
         var loadedSVG = parent.append("g");
 
-        d3.xml(url, function(xml) {
+        d3.xml(url).mimeType("image/svg+xml").get(function(xml) {
             var svgFile = document.importNode(xml.documentElement, true);
-            loadedSVG.each(function(d, i) {
-                this.appendChild(svgFile.cloneNode(true));
-            });
+            loadedSVG.node().appendChild(svgFile);
         });
-
-        loadedSVG.attr("transform", "translate(" + x + "," + y + ")");
-        loadedSVG.attr("transform", "scale(" + scale + ")");
 
         return loadedSVG;
     }
@@ -77,25 +72,24 @@ export default function openmetadesign_viz(data) {
 
         var emoji = parent.append("g");
 
-        // Add the circle
-        emoji.append("circle")
-            .attr("cx", x)
-            .attr("cy", y)
+        // Add the button circle
+        var emojiCircle = emoji.append("circle")
+            .attr("cx", x + radius)
+            .attr("cy", y + radius)
             .attr("r", radius)
             .attr("class", "svg-button");
 
         // Load SVG
-        loadSVG("/emojis/1f603.svg", emoji, x + 10, 0, 0.03);
+        var svgIcon = loadSVG("/emojis/1f603.svg", emoji);
+        svgIcon.attr("transform", "scale(0.035) translate(-20,-320)");
 
         // Add classes
         emoji.attr("class", "svg-emoji")
             .on("mouseover", function() {
-                d3.select(this)
-                    .attr("filter", "url(#glow)");
+                emojiCircle.attr("filter", "url(#glow)");
             })
             .on("mouseout", function() {
-                d3.select(this)
-                    .attr("filter", null);
+                emojiCircle.attr("filter", null);
             });
 
         return emoji;
@@ -282,8 +276,10 @@ export default function openmetadesign_viz(data) {
             .render();
 
         // Add emojis
-        // var activityEmojis = mainContainer.append("g");
-        // addEmoji(x, y, 10, activityEmojis, "smile");
+        var activityEmojis = mainContainer.append("g");
+        addEmoji(x, y, 10, activityEmojis, "smile");
+        addEmoji(x + 25, y, 10, activityEmojis, "smile");
+        addEmoji(x + 50, y, 10, activityEmojis, "smile");
 
         // Return the whole activity
         return activity;
