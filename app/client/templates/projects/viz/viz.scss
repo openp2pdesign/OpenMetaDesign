@@ -3,6 +3,7 @@
 /*****************************************************************************/
 $font-viz: "Fira Sans", sans-serif;
 $font-color-viz: #545151;
+$line-color-viz: #999999;
 
 svg {
     font-family: $font-viz;
@@ -86,4 +87,19 @@ svg {
     fill: $font-color-viz;
     font-weight: 500;
     font-size: 120%;
+}
+
+.svg-lines-text {
+    fill: $font-color-viz;
+    font-weight: 400;
+    font-size: 80%;
+    writing-mode: tb;
+}
+
+.svg-lines-line {
+    stroke: $line-color-viz;
+}
+
+.svg-lines-rect {
+    fill: #fff;
 }

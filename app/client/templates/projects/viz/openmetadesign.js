@@ -12,11 +12,12 @@ export default function openmetadesign_viz(data) {
     // https://bl.ocks.org/mbostock/3019563
     var margin = {
         top: 15,
-        right: 10,
-        bottom: 10,
-        left: 10
+        right: 0,
+        bottom: 0,
+        left: 0
     };
-    var gutter = 10;
+    var gutter = 10 + 10 + 10;
+    var simpleGutter = 10;
     var labelHeight = 20;
 
     // Get dimensions of the container on window resize
@@ -134,7 +135,50 @@ export default function openmetadesign_viz(data) {
             });
 
         return button;
+    }
 
+    // Create a section label
+    var addSectionLabel = function(text, parent) {
+
+        var sectionLabel = parent.append("g");
+
+        sectionLabel.append("text")
+            .text(text)
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("class", "svg-label")
+            .attr("transform", "translate(0,-" + labelHeight + ")");
+
+        return sectionLabel;
+    }
+
+    // Create a line between sections
+    var addSectionLine = function(text, parent) {
+
+        var sectionLine = parent.append("g");
+
+        // Add the line
+        sectionLine.append("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x1", 0)
+            .attr("y1", 300)
+            .attr("class", "svg-lines-line");
+        // Add the background behind the text
+        sectionLine.append("rect")
+            .attr("x", -10)
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 100)
+            .attr("class", "svg-lines-rect");
+        // Add the text
+        sectionLine.append("text")
+            .text(text)
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("class", "svg-lines-text");
+
+        return sectionLine;
     }
 
     // Create an activity
@@ -268,8 +312,11 @@ export default function openmetadesign_viz(data) {
     // Layout initialization
     var timeG = svg.append("g");
     var blueprintCustomerG = svg.append("g");
+    var line01G = svg.append("g")
     var blueprintFrontG = svg.append("g");
+    var line02G = svg.append("g")
     var blueprintBackG = svg.append("g");
+    var line03G = svg.append("g")
     var blueprintSupportG = svg.append("g");
     var journeyG = svg.append("g");
 
@@ -290,71 +337,45 @@ export default function openmetadesign_viz(data) {
         .call(yAxis);
 
     // Time label
-    var timeLabel = timeG.append("text")
-        .text("Time")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("class", "svg-label")
-        .attr("transform", "translate(0,-" + labelHeight + ")");
+    var timeLabel = addSectionLabel("Time", timeG);
 
     // Draw the Blueprint section
     // Customer section
-    var blueprintCustomerLabel = blueprintCustomerG.append("text")
-        .text("Customer")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .attr("class", "svg-label")
-        .attr("transform", "translate(100,-" + labelHeight + ")");
+    var blueprintCustomerLabel = addSectionLabel("Customer", blueprintCustomerG);
 
     // Create a sample activity
     var activity2 = addActivity(0, 0, blueprintCustomerG);
 
+    // Line01
+    addSectionLine("Line 01...", line01G);
+
     // Front-Office section
-    var blueprintFrontLabel = blueprintFrontG.append("text")
-        .text("Front-Office")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .attr("class", "svg-label")
-        .attr("transform", "translate(100,-" + labelHeight + ")");
+    var blueprintFrontLabel = addSectionLabel("Front-Office", blueprintFrontG);
 
     // Create a sample activity
     var activity3 = addActivity(0, 0, blueprintFrontG);
 
+    // Line02
+    addSectionLine("Line 02...", line02G);
+
     // Back-Office section
-    var blueprintBackLabel = blueprintBackG.append("text")
-        .text("Back-Office")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .attr("class", "svg-label")
-        .attr("transform", "translate(100,-" + labelHeight + ")");
+    var blueprintBackLabel = addSectionLabel("Back-Office", blueprintBackG);
 
     // Create a sample activity
     var activity4 = addActivity(0, 0, blueprintBackG);
 
+    // Line03
+    addSectionLine("Line 03...", line03G);
+
     // Support section
-    var blueprintSupportLabel = blueprintSupportG.append("text")
-        .text("Support Processes")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .attr("class", "svg-label")
-        .attr("transform", "translate(100,-" + labelHeight + ")");
+    var blueprintSupportLabel = addSectionLabel("Support Processes", blueprintSupportG);
 
     // Create a sample activity
     var activity5 = addActivity(0, 0, blueprintSupportG);
 
     // Draw the Journey section
     // Journey label
-    var journeyLabel = journeyG.append("text")
-        .text("Journey")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("text-anchor", "middle")
-        .attr("class", "svg-label")
-        .attr("transform", "translate(100,-" + labelHeight + ")");
+    var journeyLabel = addSectionLabel("Journey", journeyG);
 
     journeyG.append("rect")
         .attr("x", 0)
@@ -371,19 +392,28 @@ export default function openmetadesign_viz(data) {
     var timeGX = timeG.node().getBBox().width;
     timeG.attr("transform", "translate(" + timeGX + "," + labelHeight + ")");
     // Translate blueprintCustomerG after the journeyG section
-    var blueprintGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + gutter;
+    var blueprintGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + simpleGutter;
     blueprintCustomerG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
+    // Translate Line01G
+    var lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
+    line01G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
     // Translate blueprintFrontG after the journeyG section
     blueprintGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter;
     blueprintFrontG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
+    // Translate Line02G
+    lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
+    line02G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
     // Translate blueprintBackG after the journeyG section
     blueprintGX = blueprintGX + blueprintFrontG.node().getBBox().width + gutter;
     blueprintBackG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
+    // Translate Line03G
+    lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
+    line03G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
     // Translate blueprintSupportG after the journeyG section
     blueprintGX = blueprintGX + blueprintBackG.node().getBBox().width + gutter;
     blueprintSupportG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
     // Translate journeyG it after the timeG section
-    var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + gutter;
+    var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
     journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
 
 }
