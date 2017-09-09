@@ -20,6 +20,9 @@ Template.ProjectsViz.events({
     'click .delete-button': function() {
         Modal.show('ActivityDelete');
     },
+    'click .activity-add-button': function() {
+        Modal.show('ActivityAdd');
+    },
 });
 
 /*****************************************************************************/

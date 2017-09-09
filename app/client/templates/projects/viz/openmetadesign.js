@@ -337,7 +337,11 @@ export default function openmetadesign_viz(data) {
 
     // Draw the Blueprint section
     // Customer section
-    var blueprintCustomerLabel = addSectionLabel("Customer", blueprintCustomerG);
+    var blueprintCustomerLabel = addSectionLabel("Customer processes", blueprintCustomerG);
+    // Add Activity button
+    var addActivityCustomerButton = addButton(blueprintCustomerLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintCustomerLabel, '\uf067');
+    addActivityCustomerButton.attr("data-toggle", "modal")
+        .classed("activity-add-button", true);
 
     // Create a sample activity
     var activity2 = addActivity(0, 0, blueprintCustomerG);
@@ -346,7 +350,11 @@ export default function openmetadesign_viz(data) {
     addSectionLine("Line 01...", line01G);
 
     // Front-Office section
-    var blueprintFrontLabel = addSectionLabel("Front-Office", blueprintFrontG);
+    var blueprintFrontLabel = addSectionLabel("Front-Office processes", blueprintFrontG);
+    // Add Activity button
+    var addActivityFrontButton = addButton(blueprintFrontLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintFrontLabel, '\uf067');
+    addActivityFrontButton.attr("data-toggle", "modal")
+        .classed("activity-add-button", true);
 
     // Create a sample activity
     var activity3 = addActivity(0, 0, blueprintFrontG);
@@ -355,7 +363,11 @@ export default function openmetadesign_viz(data) {
     addSectionLine("Line 02...", line02G);
 
     // Back-Office section
-    var blueprintBackLabel = addSectionLabel("Back-Office", blueprintBackG);
+    var blueprintBackLabel = addSectionLabel("Back-Office processes", blueprintBackG);
+    // Add Activity button
+    var addActivityBackButton = addButton(blueprintBackLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintBackLabel, '\uf067');
+    addActivityBackButton.attr("data-toggle", "modal")
+        .classed("activity-add-button", true);
 
     // Create a sample activity
     var activity4 = addActivity(0, 0, blueprintBackG);
@@ -364,7 +376,11 @@ export default function openmetadesign_viz(data) {
     addSectionLine("Line 03...", line03G);
 
     // Support section
-    var blueprintSupportLabel = addSectionLabel("Support Processes", blueprintSupportG);
+    var blueprintSupportLabel = addSectionLabel("Support processes", blueprintSupportG);
+    // Add Activity button
+    var addActivitySupportButton = addButton(blueprintSupportLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintSupportLabel, '\uf067');
+    addActivitySupportButton.attr("data-toggle", "modal")
+        .classed("activity-add-button", true);
 
     // Create a sample activity
     var activity5 = addActivity(0, 0, blueprintSupportG);
