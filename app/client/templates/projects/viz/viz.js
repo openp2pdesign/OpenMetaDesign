@@ -40,6 +40,11 @@ Template.ProjectsViz.onCreated(function() {
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
         openmetadesign_viz();
+        this.$('svg .button-tooltip').tooltip({
+            container: 'body',
+            trigger: "hover",
+            placement: 'top'
+        });
     });
 });
 

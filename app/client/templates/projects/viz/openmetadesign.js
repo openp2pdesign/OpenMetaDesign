@@ -237,23 +237,38 @@ export default function openmetadesign_viz(data) {
         // Discuss Button
         var discussButton = addButton(x + 5, y, 10, activityButtons, '\uf086');
         discussButton.attr("data-toggle", "modal")
-            .classed("discuss-button", true);
+            .classed("discuss-button", true)
+            .attr("title", "Discuss the activity")
+            .attr("class", "button-tooltip")
+            .attr("data-toggle","tooltip");
         // Edit Button
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")
-            .classed("edit-button", true);
+            .classed("edit-button", true)
+            .attr("title", "Edit the activity")
+            .attr("class", "button-tooltip")
+            .attr("data-toggle","tooltip");
         // Flows Button
         var flowsButton = addButton(x + 55, y, 10, activityButtons, '\uf074');
         flowsButton.attr("data-toggle", "modal")
-            .classed("flows-button", true);
+            .classed("flows-button", true)
+            .attr("title", "Edit the flows")
+            .attr("class", "button-tooltip")
+            .attr("data-toggle","tooltip");
         // Issues Button
         var issuesButton = addButton(x + 80, y, 10, activityButtons, '\uf071');
         issuesButton.attr("data-toggle", "modal")
-            .classed("issues-button", true);
+            .classed("issues-button", true)
+            .attr("title", "Document contradictions")
+            .attr("class", "button-tooltip")
+            .attr("data-toggle","tooltip");
         // Delete Button
         var deleteButton = addButton(x + 105, y, 10, activityButtons, '\uf068');
         deleteButton.attr("data-toggle", "modal")
-            .classed("delete-button", true);
+            .classed("delete-button", true)
+            .attr("title", "Delete the activity")
+            .attr("class", "button-tooltip")
+            .attr("data-toggle","tooltip");
         // Move the buttons below the title
         activityButtonY = 15 + // padding
             20 + // button size
@@ -341,7 +356,10 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityCustomerButton = addButton(blueprintCustomerLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintCustomerLabel, '\uf067');
     addActivityCustomerButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true);
+        .classed("activity-add-button", true)
+        .attr("title", "Add an activity here")
+        .attr("class", "button-tooltip")
+        .attr("data-toggle","tooltip");
 
     // Create a sample activity
     var activity2 = addActivity(0, 0, blueprintCustomerG);
@@ -354,7 +372,10 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityFrontButton = addButton(blueprintFrontLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintFrontLabel, '\uf067');
     addActivityFrontButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true);
+        .classed("activity-add-button", true)
+        .attr("title", "Add an activity here")
+        .attr("class", "button-tooltip")
+        .attr("data-toggle","tooltip");
 
     // Create a sample activity
     var activity3 = addActivity(0, 0, blueprintFrontG);
@@ -367,7 +388,10 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityBackButton = addButton(blueprintBackLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintBackLabel, '\uf067');
     addActivityBackButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true);
+        .classed("activity-add-button", true)
+        .attr("title", "Add an activity here")
+        .attr("class", "button-tooltip")
+        .attr("data-toggle","tooltip");
 
     // Create a sample activity
     var activity4 = addActivity(0, 0, blueprintBackG);
@@ -380,7 +404,10 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivitySupportButton = addButton(blueprintSupportLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintSupportLabel, '\uf067');
     addActivitySupportButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true);
+        .classed("activity-add-button", true)
+        .attr("title", "Add an activity here")
+        .attr("class", "button-tooltip")
+        .attr("data-toggle","tooltip");
 
     // Create a sample activity
     var activity5 = addActivity(0, 0, blueprintSupportG);

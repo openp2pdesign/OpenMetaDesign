@@ -58,7 +58,7 @@ svg {
 }
 
 /* UI Button */
-.svg-button {
+.svg-button, .button-tooltip {
     cursor: pointer;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
@@ -71,8 +71,12 @@ svg {
     fill: #ee471a;
 }
 
-.svg-button text {
+.svg-button text, .button-tooltip text {
     fill: #fff;
+}
+
+.tooltip {
+    font-family: $font-viz;
 }
 
 .svg-emoji {
