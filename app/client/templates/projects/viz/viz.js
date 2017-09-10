@@ -23,6 +23,9 @@ Template.ProjectsViz.events({
     'click .activity-add-button': function() {
         Modal.show('ActivityAdd');
     },
+    'click .svg-emoji': function() {
+        Modal.show('ActivityAdd');
+    },
 });
 
 /*****************************************************************************/

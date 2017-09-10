@@ -239,35 +239,35 @@ export default function openmetadesign_viz(data) {
         discussButton.attr("data-toggle", "modal")
             .classed("discuss-button", true)
             .attr("title", "Discuss the activity")
-            .attr("class", "button-tooltip")
+            .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Edit Button
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")
             .classed("edit-button", true)
             .attr("title", "Edit the activity")
-            .attr("class", "button-tooltip")
+            .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Flows Button
         var flowsButton = addButton(x + 55, y, 10, activityButtons, '\uf074');
         flowsButton.attr("data-toggle", "modal")
             .classed("flows-button", true)
             .attr("title", "Edit the flows")
-            .attr("class", "button-tooltip")
+            .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Issues Button
         var issuesButton = addButton(x + 80, y, 10, activityButtons, '\uf071');
         issuesButton.attr("data-toggle", "modal")
             .classed("issues-button", true)
             .attr("title", "Document contradictions")
-            .attr("class", "button-tooltip")
+            .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Delete Button
         var deleteButton = addButton(x + 105, y, 10, activityButtons, '\uf068');
         deleteButton.attr("data-toggle", "modal")
             .classed("delete-button", true)
             .attr("title", "Delete the activity")
-            .attr("class", "button-tooltip")
+            .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Move the buttons below the title
         activityButtonY = 15 + // padding
@@ -292,9 +292,18 @@ export default function openmetadesign_viz(data) {
 
         // Add emojis
         var activityEmojis = mainContainer.append("g");
-        addEmoji(x, y, 10, activityEmojis, "smile");
-        addEmoji(x + 25, y, 10, activityEmojis, "smile");
-        addEmoji(x + 50, y, 10, activityEmojis, "smile");
+        var emoji01 = addEmoji(x, y, 10, activityEmojis, "smile");
+        emoji01.attr("title", "I like it!")
+            .classed("button-tooltip", true)
+            .attr("data-toggle","tooltip");
+        var emoji02 = addEmoji(x + 25, y, 10, activityEmojis, "smile");
+        emoji02.attr("title", "I like it!")
+            .classed("button-tooltip", "true")
+            .attr("data-toggle","tooltip");
+        var emoji03 = addEmoji(x + 50, y, 10, activityEmojis, "smile");
+        emoji03.attr("title", "I like it!")
+            .classed("button-tooltip", true)
+            .attr("data-toggle","tooltip");
 
         // Return the whole activity
         return activity;
@@ -358,7 +367,7 @@ export default function openmetadesign_viz(data) {
     addActivityCustomerButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
-        .attr("class", "button-tooltip")
+        .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
     // Create a sample activity
@@ -374,7 +383,7 @@ export default function openmetadesign_viz(data) {
     addActivityFrontButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
-        .attr("class", "button-tooltip")
+        .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
     // Create a sample activity
@@ -390,7 +399,7 @@ export default function openmetadesign_viz(data) {
     addActivityBackButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
-        .attr("class", "button-tooltip")
+        .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
     // Create a sample activity
@@ -406,7 +415,7 @@ export default function openmetadesign_viz(data) {
     addActivitySupportButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
-        .attr("class", "button-tooltip")
+        .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
     // Create a sample activity
