@@ -5,21 +5,30 @@ Router.configure({
 });
 
 Router.route('projects/list', {
-  name: 'projectsList',
-  controller: 'ListController',
-  where: 'client'
+    name: 'projectsList',
+    controller: 'ListController',
+    where: 'client'
 });
 
 Router.route('projects/design', {
-  name: 'projectsDesign',
-  controller: 'DesignController',
-  where: 'client'
+    name: 'projectsDesign',
+    controller: 'DesignController',
+    where: 'client'
 });
 
-Router.route('projects/viz', {
-  name: 'projectsViz',
-  controller: 'VizController',
-  where: 'client'
+Router.route('projects/edit', {
+    name: 'projectsVizEdit',
+    controller: 'VizController',
+    where: 'client'
+});
+
+Router.route('projects/:_id', {
+    name: 'projectsViz',
+    controller: 'VizController',
+    data: function(){
+        return Projects.findOne({ _id: this.params._id });
+    },
+    where: 'client'
 });
 
 

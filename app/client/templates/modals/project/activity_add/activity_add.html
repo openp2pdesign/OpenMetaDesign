@@ -10,40 +10,22 @@
                         <h2 class="modal-title">{{_ "activity_add"}}</h2>
                     </div>
                     <div class="modal-body">
-                        {{#with data}}
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "username"}}:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{username}} id="new-username" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "name"}}:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{profile.firstName}} id="new-firstname">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "surname"}}:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{profile.lastName}} id="new-lastname">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "bio"}}:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{profile.bio}} id="new-bio">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "email"}}:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{emails.[0].address}} id="new-email">
-                                    </div>
-                                </div>
-                            </form>
-                        {{/with}}
+                        {{#autoForm collection="Projects" id="insertActivityForm" type="insert"}}
+                            <fieldset>
+                                {{> afQuickField name='title'}}
+                                {{> afQuickField name='description' rows=3}}
+                                {{> afQuickField name='subject'}}
+                                {{> afQuickField name='object'}}
+                                {{> afQuickField name='outcomes'}}
+                                {{> afQuickField name='tools'}}
+                                {{> afQuickField name='rules'}}
+                                {{> afQuickField name='roles'}}
+                                {{> afQuickField name='community'}}
+                                {{> afQuickField name='where'}}
+                                {{> afQuickField name='time'}}
+                                {{> afQuickField name='participation'}}
+                            </fieldset>
+                        {{/autoForm}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>

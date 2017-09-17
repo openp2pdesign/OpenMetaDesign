@@ -56,5 +56,12 @@ Meteor.methods({
                 GoogleMapsAPIkey: newkey
             }
         });
+    },
+    'createProject': function() {
+        return Projects.insert({
+            title: "Title",
+            description: "Description...",
+            version: "0.1"
+        });
     }
 });

@@ -76,6 +76,8 @@ meteor-base@1.1.0
 meteorhacks:meteorx@1.4.1
 meteorhacks:unblock@1.1.0
 meteorspark:util@0.2.0
+meteortoys:toggle@4.0.0
+meteortoys:toykit@4.0.1
 minifier-css@1.2.16
 minifier-js@2.1.1
 minimongo@1.2.1
@@ -86,6 +88,7 @@ modules-runtime@0.8.0
 momentjs:moment@2.18.1
 mongo@1.1.22
 mongo-id@1.0.6
+msavin:mongol@4.0.1
 natestrauser:font-awesome@4.6.3
 npm-bcrypt@0.9.3
 npm-mongo@2.2.30

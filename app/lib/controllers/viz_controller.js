@@ -14,6 +14,8 @@ VizController = RouteController.extend({
   // return Meteor.subscribe('post', this.params._id);
 
   waitOn: function () {
+      // Access projects
+      return Meteor.subscribe('projects', this._id);
   },
 
   // A data function that can be used to automatically set the data context for

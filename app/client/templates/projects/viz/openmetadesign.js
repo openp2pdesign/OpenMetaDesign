@@ -5,6 +5,8 @@ import {
 
 export default function openmetadesign_viz(data) {
 
+    console.log("DATA: ",data);
+
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
 
@@ -80,7 +82,7 @@ export default function openmetadesign_viz(data) {
             .attr("class", "svg-button");
 
         // Load SVG
-        var svgIcon = loadSVG("/emojis/1f603.svg", emoji);
+        var svgIcon = loadSVG("/emojis/1f603_2.svg", emoji);
         svgIcon.attr("transform", "scale(0.035) translate(-20,-320)");
 
         // Add classes

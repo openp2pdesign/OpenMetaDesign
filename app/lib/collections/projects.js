@@ -140,6 +140,7 @@ DiscussionSchema = new SimpleSchema({
     },
     start: {
         type: Date,
+        optional: true,
         autoform: {
             type: "bootstrap-datepicker",
             datePickerOptions: {
@@ -150,7 +151,8 @@ DiscussionSchema = new SimpleSchema({
         }
     },
     status: {
-        type: String
+        type: String,
+        optional: true
     }
 });
 
@@ -186,7 +188,8 @@ ContradictionSchema = new SimpleSchema({
         type: Boolean
     },
     discussion: {
-        type: DiscussionSchema
+        type: DiscussionSchema,
+        optional: true
     }
 });
 
@@ -220,7 +223,8 @@ FlowSchema = new SimpleSchema({
         type: Boolean
     },
     discussion: {
-        type: DiscussionSchema
+        type: DiscussionSchema,
+        optional: true
     }
 });
 
@@ -294,16 +298,20 @@ ProcessSchema = new SimpleSchema({
         type: [String]
     },
     where: {
-        type: LocationSchema
+        type: LocationSchema,
+        optional: true
     },
     flows: {
-        type: [FlowSchema]
+        type: [FlowSchema],
+        optional: true
     },
     contradictions: {
-        type: [ContradictionSchema]
+        type: [ContradictionSchema],
+        optional: true
     },
     discussion: {
-        type: DiscussionSchema
+        type: DiscussionSchema,
+        optional: true
     }
 });
 
@@ -319,7 +327,8 @@ LicenseSchema = new SimpleSchema({
         max: 50
     },
     discussion: {
-        type: DiscussionSchema
+        type: DiscussionSchema,
+        optional: true
     }
 });
 
@@ -338,20 +347,39 @@ ProjectSchema = new SimpleSchema({
     version: {
         type: String,
         label: "Version",
-        max: 15
+        max: 10
     },
-    founders: {
-        type: [String],
-        label: "Founders"
-    },
-    processes: {
-        type: [ProcessSchema],
-        label: "Processes"
-    },
+    // founders: {
+    //     type: [String],
+    //     label: "Founders"
+    // },
+    // processes: {
+    //     type: [ProcessSchema],
+    //     label: "Processes"
+    // },
     createdBy: {
         type: String,
-        autoValue: function() {
-            return this.userId
+        label: "Creator",
+        autoValue: function () {
+            return this.userId;
+        }
+    },
+    createdAt: {
+        type: Date,
+        label: "Created at",
+        autoValue: function () {
+            if (this.isInsert) {
+                return new Date();
+            }
+        }
+    },
+    updatedAt: {
+        type: Date,
+        label: "Updated at",
+        autoValue: function () {
+            if (this.isUpdate) {
+                return new Date();
+            } else { return new Date(); }
         }
     }
 });
