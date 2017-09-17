@@ -54,10 +54,10 @@ TabularTables.Projects = new Tabular.Table({
         data: "createdBy",
         title: "Created by"
     }, {
-        data: "created_at",
+        data: "createdAt",
         title: "Created at"
     }, {
-        data: "created_at",
+        data: "_id",
         title: "Url"
     }, {
         title: "Actions",

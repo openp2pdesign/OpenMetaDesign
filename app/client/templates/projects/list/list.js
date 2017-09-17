@@ -3,6 +3,7 @@
 /*****************************************************************************/
 Template.ProjectsList.events({
     'click .create-project': function(event, template) {
+        event.preventDefault();
         Meteor.call('createProject', function(error, result) {
             Router.go('projectsViz', {
                 _id: result

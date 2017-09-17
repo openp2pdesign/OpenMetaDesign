@@ -1,22 +1,54 @@
 Projects = new Mongo.Collection('projects');
 
 
+// if (Meteor.isServer) {
+//     Projects.allow({
+//         insert: function(userId, doc) {
+//             return true;
+//         },
+//
+//         update: function(userId, doc, fieldNames, modifier) {
+//             // The user must be logged in and the document must be owned by the user.
+//             return userId && doc.owner === userId;
+//         },
+//
+//         remove: function(userId, doc) {
+//             // Can only remove your own documents.
+//             return doc.owner === userId;
+//         }
+//     });
+// }
+
 if (Meteor.isServer) {
-    Projects.allow({
-        insert: function(userId, doc) {
-            return false;
-        },
+  Projects.allow({
+    insert: function (userId, doc) {
+      return false;
+    },
 
-        update: function(userId, doc, fieldNames, modifier) {
-            // The user must be logged in and the document must be owned by the user.
-            return userId && doc.owner === userId;
-        },
+    update: function (userId, doc, fieldNames, modifier) {
+      return false;
+    },
 
-        remove: function(userId, doc) {
-            // Can only remove your own documents.
-            return doc.owner === userId;
-        }
-    });
+    remove: function (userId, doc) {
+      return false;
+    }
+  });
+}
+
+if (Meteor.isClient) {
+  Projects.allow({
+    insert: function (userId, doc) {
+      return true;
+    },
+
+    update: function (userId, doc, fieldNames, modifier) {
+      return true;
+    },
+
+    remove: function (userId, doc) {
+      return true;
+    }
+  });
 }
 
 // Schemas
