@@ -81,7 +81,7 @@ Template.ProjectsViz.onCreated(function() {
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
         // Visualize the project
-        openmetadesign_viz();
+        openmetadesign_viz(this);
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
             container: 'body',

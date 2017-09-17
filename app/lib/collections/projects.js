@@ -4,12 +4,12 @@ Projects = new Mongo.Collection('projects');
 if (Meteor.isServer) {
     Projects.allow({
         insert: function(userId, doc) {
-            // The user must be logged in and the document must be owned by the user.
-            return userId && doc.owner === userId;
+            return false;
         },
 
         update: function(userId, doc, fieldNames, modifier) {
-            return false;
+            // The user must be logged in and the document must be owned by the user.
+            return userId && doc.owner === userId;
         },
 
         remove: function(userId, doc) {
