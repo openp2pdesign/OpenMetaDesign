@@ -10,7 +10,7 @@ PNotify.prototype.options.styling = "fontawesome";
 
 Template.EditProject.events({
     'click .edit-project': function() {
-        Modal.show('ProjectEdit', this);
+        Router.go("projectsViz", this);
     },
     'click .delete-project': function() {
         Modal.show('ConfirmProjectDelete', this);
