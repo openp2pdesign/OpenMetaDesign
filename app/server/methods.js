@@ -63,5 +63,10 @@ Meteor.methods({
             "description": "Description...",
             "version": "0.1"
         });
-    }
+    },
+    'removeProject': function(projectId) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
 });
