@@ -5,7 +5,19 @@ import {
 
 export default function openmetadesign_viz(data) {
 
-    console.log("DATA: ",data);
+    // Filters
+    var defs = svg.append("defs");
+    // Glow filter
+    var glow = defs.append("filter")
+        .attr("id", "glow");
+    glow.append("feGaussianBlur")
+        .attr("stdDeviation", "1.5")
+        .attr("result", "coloredBlur");
+    var feMerge = glow.append("feMerge");
+    feMerge.append("feMergeNode")
+        .attr("in", "coloredBlur");
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
 
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
@@ -314,21 +326,6 @@ export default function openmetadesign_viz(data) {
 
 
 
-    // Filters
-    var defs = svg.append("defs");
-    // Glow filter
-    var glow = defs.append("filter")
-        .attr("id", "glow");
-    glow.append("feGaussianBlur")
-        .attr("stdDeviation", "1.5")
-        .attr("result", "coloredBlur");
-    var feMerge = glow.append("feMerge");
-    feMerge.append("feMergeNode")
-        .attr("in", "coloredBlur");
-    feMerge.append("feMergeNode")
-        .attr("in", "SourceGraphic");
-
-
     // Draw everything
 
     // Layout initialization
@@ -349,6 +346,8 @@ export default function openmetadesign_viz(data) {
     // Draw the Time section
 
     // Time scale and axis
+
+    // TODO: get time domain from earliest start and latest end activities
     var yScale = d3.scaleTime()
         .domain([new Date(2000, 0, 1), new Date(2001, 0, 11)])
         .range([0, 800]);
@@ -372,7 +371,8 @@ export default function openmetadesign_viz(data) {
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
-    // Create a sample activity
+    // Activities in the Customer section
+    // TODO for activities in activities_customer....
     var activity2 = addActivity(0, 0, blueprintCustomerG);
 
     // Line01
@@ -388,7 +388,8 @@ export default function openmetadesign_viz(data) {
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
-    // Create a sample activity
+    // Activities in the Front-Office section
+    // TODO for activities in activities_front....
     var activity3 = addActivity(0, 0, blueprintFrontG);
 
     // Line02
@@ -404,7 +405,8 @@ export default function openmetadesign_viz(data) {
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
-    // Create a sample activity
+    // Activities in the Back-Office section
+    // TODO for activities in activities_back....
     var activity4 = addActivity(0, 0, blueprintBackG);
 
     // Line03
@@ -420,7 +422,8 @@ export default function openmetadesign_viz(data) {
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
-    // Create a sample activity
+    // Activities in the Support section
+    // TODO for activities in activities_support....
     var activity5 = addActivity(0, 0, blueprintSupportG);
 
     // Draw the Journey section
@@ -437,6 +440,9 @@ export default function openmetadesign_viz(data) {
 
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
+
+    // TODO Each section is wide enough to have overlapping activities
+
     // Translate timeG according to the label width
     var timeGX = timeG.node().getBBox().width;
     timeG.attr("transform", "translate(" + timeGX + "," + labelHeight + ")");
