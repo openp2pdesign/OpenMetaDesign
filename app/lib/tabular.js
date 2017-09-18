@@ -37,7 +37,7 @@ TabularTables.Users = new Tabular.Table({
         title: "Role"
     }, {
         title: "Actions",
-        tmpl: Meteor.isClient && Template.editUser
+        tmpl: Meteor.isClient && Template.EditUser
     }],
     responsive: true,
     autoWidth: false
@@ -48,20 +48,36 @@ TabularTables.Projects = new Tabular.Table({
     collection: Projects,
     pub: "projects",
     columns: [{
+        data: "_id",
+        title: "ID"
+    }, {
         data: "title",
         title: "Title"
     }, {
         data: "createdBy",
-        title: "Created by"
+        title: "Created by",
+        render: function(val, type, doc) {
+            var createdByUser = Meteor.users.findOne({
+                _id: val
+            });
+            return createdByUser.username;
+        }
     }, {
         data: "createdAt",
         title: "Created at"
     }, {
-        data: "_id",
-        title: "Url"
+        data: "createdAt",
+        title: "... time ago",
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar();
+            } else {
+                return "Never";
+            }
+        }
     }, {
         title: "Actions",
-        tmpl: Meteor.isClient && Template.editUser
+        tmpl: Meteor.isClient && Template.EditProject
     }],
     responsive: true,
     autoWidth: false

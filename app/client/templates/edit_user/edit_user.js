@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* editUser: Event Handlers */
+/* EditUser: Event Handlers */
 /*****************************************************************************/
 
 // Load Pnotify
@@ -8,7 +8,7 @@ import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 
-Template.editUser.events({
+Template.EditUser.events({
     'click .edit-user': function() {
         Modal.show('UserProfileEdit', this);
     },
@@ -69,15 +69,15 @@ Template.editUser.events({
 });
 
 /*****************************************************************************/
-/* editUser: Helpers */
+/* EditUser: Helpers */
 /*****************************************************************************/
-Template.editUser.helpers({});
+Template.EditUser.helpers({});
 
 /*****************************************************************************/
-/* editUser: Lifecycle Hooks */
+/* EditUser: Lifecycle Hooks */
 /*****************************************************************************/
-Template.editUser.onCreated(function() {});
+Template.EditUser.onCreated(function() {});
 
-Template.editUser.onRendered(function() {});
+Template.EditUser.onRendered(function() {});
 
-Template.editUser.onDestroyed(function() {});
+Template.EditUser.onDestroyed(function() {});
