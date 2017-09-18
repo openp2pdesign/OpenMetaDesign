@@ -45,6 +45,9 @@ Template.ProjectsViz.onCreated(function() {
     // Access projects
     self.subscription = Meteor.subscribe('projects');
 
+    // Access this specific project
+    thisProject = this.data;
+
     // Access settings
     // Subscriptions take time, so check when it's ready
     self.subscription = Meteor.subscribe('settings');
@@ -57,31 +60,12 @@ Template.ProjectsViz.onCreated(function() {
             });
         }
     });
-
-    // Create an empty project
-    defaultEmptyProject = {
-        title: "Title of the project",
-        description: "Description of the project",
-        version: "0.1",
-        founders: ["..."],
-        processes: ["..."],
-    }
-    Session.set("defaultEmptyProject", defaultEmptyProject);
-    // Projects.insert({
-    //     title: "Title of the project",
-    //     description: "Description of the project",
-    //     version: "0.1",
-    //     founders: ["..."],
-    //     processes: ["..."],
-    // }, (error, result) => {
-    //
-    // });
 });
 
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
-        // Visualize the project
-        openmetadesign_viz(this);
+        // Visualize this project
+        openmetadesign_viz(thisProject);
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
             container: 'body',
