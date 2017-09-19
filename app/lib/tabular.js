@@ -55,13 +55,7 @@ TabularTables.Projects = new Tabular.Table({
         title: "Title"
     }, {
         data: "createdBy",
-        title: "Created by",
-        render: function(val, type, doc) {
-            var createdByUser = Meteor.users.findOne({
-                _id: val
-            });
-            return createdByUser.username;
-        }
+        title: "Created by"
     }, {
         data: "createdAt",
         title: "Created at"

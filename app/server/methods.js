@@ -63,14 +63,29 @@ Meteor.methods({
             "description": "Description...",
             "version": "0.1",
             "processes": [{
-                "title": "Customer processes"
+                "title": "Customer processes",
+                "activities": [{
+                    "title": "Activity 01",
+                    "description": "...",
+                    "subject": "...",
+                    "object": "...",
+                    "outcome": "...",
+                    "tools": "...",
+                    "rules": "...",
+                    "roles": "...",
+                    "community": "...",
+                    "time": {
+                        "start": new Date(),
+                        "end": new Date()
+                    }
+                }]
             }, {
                 "title": "Front-Office processes"
-            },{
+            }, {
                 "title": "Back-Office processes"
-            },{
+            }, {
                 "title": "Support processes"
-            },],
+            }]
         });
     },
     'removeProject': function(projectId) {

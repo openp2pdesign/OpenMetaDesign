@@ -270,51 +270,51 @@ ActivitySchema = new SimpleSchema({
         type: String
     },
     subject: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Subject"
     },
     object: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Object"
     },
     outcome: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Outcome"
     },
     tools: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Tools"
     },
     rules: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Rules"
     },
     roles: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Roles"
     },
     community: {
-        type: ActivityElementSchema,
+        type: String,
         label: "Community"
     },
     time: {
         type: TimeIntervalSchema
-    },
-    where: {
-        type: LocationSchema
-    },
-    discussion: {
-        type: DiscussionSchema
-    },
-    participation: {
-        type: [String],
-        allowedValues: ["No participation",
-            "Indirect participation",
-            "Consultative participation",
-            "Shared control",
-            "Full control"
-        ]
     }
+    // where: {
+    //     type: LocationSchema
+    // },
+    // discussion: {
+    //     type: DiscussionSchema
+    // },
+    // participation: {
+    //     type: [String],
+    //     allowedValues: ["No participation",
+    //         "Indirect participation",
+    //         "Consultative participation",
+    //         "Shared control",
+    //         "Full control"
+    //     ]
+    // }
 });
 
 // A schema for a process
@@ -323,9 +323,10 @@ ProcessSchema = new SimpleSchema({
         type: String,
         max: 100
     },
-    // activities: {
-    //     type: [ActivitySchema]
-    // }
+    activities: {
+        type: [ActivitySchema],
+        optional: true
+    }
     // participants: {
     //     type: [String]
     // },
@@ -404,17 +405,24 @@ ProjectSchema = new SimpleSchema({
     createdBy: {
         type: String,
         label: "Creator",
-        autoValue: function() {
+        autoValue: function () {
             var createdByUser = Meteor.users.findOne({
                 _id: this.userId
             });
             return createdByUser.username;
         }
     },
+    createdByID: {
+        type: String,
+        label: "Creator ID",
+        autoValue: function () {
+            return this.userId;
+        }
+    },
     createdAt: {
         type: Date,
         label: "Created at",
-        autoValue: function() {
+        autoValue: function () {
             if (this.isInsert) {
                 return new Date();
             }
@@ -423,7 +431,7 @@ ProjectSchema = new SimpleSchema({
     updatedAt: {
         type: Date,
         label: "Updated at",
-        autoValue: function() {
+        autoValue: function () {
             if (this.isUpdate) {
                 return new Date();
             } else {
