@@ -20,35 +20,35 @@ Projects = new Mongo.Collection('projects');
 // }
 
 if (Meteor.isServer) {
-  Projects.allow({
-    insert: function (userId, doc) {
-      return false;
-    },
+    Projects.allow({
+        insert: function(userId, doc) {
+            return false;
+        },
 
-    update: function (userId, doc, fieldNames, modifier) {
-      return false;
-    },
+        update: function(userId, doc, fieldNames, modifier) {
+            return false;
+        },
 
-    remove: function (userId, doc) {
-      return false;
-    }
-  });
+        remove: function(userId, doc) {
+            return false;
+        }
+    });
 }
 
 if (Meteor.isClient) {
-  Projects.allow({
-    insert: function (userId, doc) {
-      return true;
-    },
+    Projects.allow({
+        insert: function(userId, doc) {
+            return true;
+        },
 
-    update: function (userId, doc, fieldNames, modifier) {
-      return true;
-    },
+        update: function(userId, doc, fieldNames, modifier) {
+            return true;
+        },
 
-    remove: function (userId, doc) {
-      return true;
-    }
-  });
+        remove: function(userId, doc) {
+            return true;
+        }
+    });
 }
 
 // Schemas
@@ -323,28 +323,28 @@ ProcessSchema = new SimpleSchema({
         type: String,
         max: 100
     },
-    activities: {
-        type: [ActivitySchema]
-    },
-    participants: {
-        type: [String]
-    },
-    where: {
-        type: LocationSchema,
-        optional: true
-    },
-    flows: {
-        type: [FlowSchema],
-        optional: true
-    },
-    contradictions: {
-        type: [ContradictionSchema],
-        optional: true
-    },
-    discussion: {
-        type: DiscussionSchema,
-        optional: true
-    }
+    // activities: {
+    //     type: [ActivitySchema]
+    // }
+    // participants: {
+    //     type: [String]
+    // },
+    // where: {
+    //     type: LocationSchema,
+    //     optional: true
+    // },
+    // flows: {
+    //     type: [FlowSchema],
+    //     optional: true
+    // },
+    // contradictions: {
+    //     type: [ContradictionSchema],
+    //     optional: true
+    // },
+    // discussion: {
+    //     type: DiscussionSchema,
+    //     optional: true
+    // }
 });
 
 // A schema for a license
@@ -385,21 +385,36 @@ ProjectSchema = new SimpleSchema({
     //     type: [String],
     //     label: "Founders"
     // },
-    // processes: {
-    //     type: [ProcessSchema],
-    //     label: "Processes"
+    // license: {
+    //     type: LicenseSchema,
+    //     label: "License"
+    // },
+    processes: {
+        type: [ProcessSchema],
+        label: "Processes"
+    },
+    // flows: {
+    //     type: [FlowSchema],
+    //     optional: true
+    // },
+    // contradictions: {
+    //     type: [ContradictionSchema],
+    //     optional: true
     // },
     createdBy: {
         type: String,
         label: "Creator",
-        autoValue: function () {
-            return this.userId;
+        autoValue: function() {
+            var createdByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return createdByUser.username;
         }
     },
     createdAt: {
         type: Date,
         label: "Created at",
-        autoValue: function () {
+        autoValue: function() {
             if (this.isInsert) {
                 return new Date();
             }
@@ -408,10 +423,12 @@ ProjectSchema = new SimpleSchema({
     updatedAt: {
         type: Date,
         label: "Updated at",
-        autoValue: function () {
+        autoValue: function() {
             if (this.isUpdate) {
                 return new Date();
-            } else { return new Date(); }
+            } else {
+                return new Date();
+            }
         }
     }
 });

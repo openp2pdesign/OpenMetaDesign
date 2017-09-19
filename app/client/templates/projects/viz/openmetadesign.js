@@ -5,19 +5,8 @@ import {
 
 export default function openmetadesign_viz(data) {
 
-    // Filters
-    var defs = svg.append("defs");
-    // Glow filter
-    var glow = defs.append("filter")
-        .attr("id", "glow");
-    glow.append("feGaussianBlur")
-        .attr("stdDeviation", "1.5")
-        .attr("result", "coloredBlur");
-    var feMerge = glow.append("feMerge");
-    feMerge.append("feMergeNode")
-        .attr("in", "coloredBlur");
-    feMerge.append("feMergeNode")
-        .attr("in", "SourceGraphic");
+    // Debug
+    console.log("DATA: ", data);
 
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
@@ -47,6 +36,20 @@ export default function openmetadesign_viz(data) {
         .attr("height", "100%")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Filters
+    var defs = svg.append("defs");
+    // Glow filter
+    var glow = defs.append("filter")
+        .attr("id", "glow");
+    glow.append("feGaussianBlur")
+        .attr("stdDeviation", "1.5")
+        .attr("result", "coloredBlur");
+    var feMerge = glow.append("feMerge");
+    feMerge.append("feMergeNode")
+        .attr("in", "coloredBlur");
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
 
     // Emojis for reactions
     // Source: https://github.com/twitter/twemoji

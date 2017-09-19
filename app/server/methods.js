@@ -59,9 +59,18 @@ Meteor.methods({
     },
     'createProject': function() {
         return Projects.insert({
-            "title": "Title",
+            "title": "Title...",
             "description": "Description...",
-            "version": "0.1"
+            "version": "0.1",
+            "processes": [{
+                "title": "Customer processes"
+            }, {
+                "title": "Front-Office processes"
+            },{
+                "title": "Back-Office processes"
+            },{
+                "title": "Support processes"
+            },],
         });
     },
     'removeProject': function(projectId) {
