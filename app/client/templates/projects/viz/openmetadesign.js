@@ -371,6 +371,7 @@ export default function openmetadesign_viz(data) {
     addActivityCustomerButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
+        .attr("id", "add-activity-0")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
@@ -388,6 +389,7 @@ export default function openmetadesign_viz(data) {
     addActivityFrontButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
+        .attr("id", "add-activity-1")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
@@ -405,6 +407,7 @@ export default function openmetadesign_viz(data) {
     addActivityBackButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
+        .attr("id", "add-activity-2")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 
@@ -422,6 +425,7 @@ export default function openmetadesign_viz(data) {
     addActivitySupportButton.attr("data-toggle", "modal")
         .classed("activity-add-button", true)
         .attr("title", "Add an activity here")
+        .attr("id", "add-activity-3")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
 

@@ -21,8 +21,21 @@ Template.ProjectsViz.events({
     'click .delete-button': function() {
         Modal.show('ActivityDelete');
     },
-    'click .activity-add-button': function() {
-        Modal.show('ActivityAdd');
+    'click #add-activity-0': function() {
+        console.log("Adding an activity to 0 of", this.processes[0]);
+        Modal.show('ActivityAdd', {"id": this._id, "process": 0});
+    },
+    'click #add-activity-1': function() {
+        console.log("Adding an activity to 1", this.processes[1]);
+        Modal.show('ActivityAdd', this);
+    },
+    'click #add-activity-2': function() {
+        console.log("Adding an activity to 2", this.processes[2]);
+        Modal.show('ActivityAdd', this);
+    },
+    'click #add-activity-3': function() {
+        console.log("Adding an activity to 3", this.processes[0]);
+        Modal.show('ActivityAdd', this);
     },
     'click .svg-emoji': function() {
         Modal.show('ActivityAdd');

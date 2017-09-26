@@ -1,5 +1,6 @@
-Projects = new Mongo.Collection('projects');
+import { Random } from 'meteor/random';
 
+Projects = new Mongo.Collection('projects');
 
 // if (Meteor.isServer) {
 //     Projects.allow({
@@ -69,13 +70,11 @@ PointSchema = new SimpleSchema({
     },
     lat: {
         type: Number,
-        decimal: true,
-        label: "Latitude"
+        decimal: true
     },
     lng: {
         type: Number,
-        decimal: true,
-        label: "Longitude"
+        decimal: true
     }
 });
 
@@ -83,31 +82,25 @@ PointSchema = new SimpleSchema({
 LocationSchema = new SimpleSchema({
     street: {
         type: String,
-        label: "Street",
         max: 100
     },
     number: {
-        type: Number,
-        label: "Number"
+        type: Number
     },
     city: {
         type: String,
-        label: "City",
         max: 50
     },
     postalcode: {
         type: String,
-        label: "Postal Code",
         max: 50
     },
     country: {
         type: String,
-        label: "Country",
         max: 50
     },
     url: {
         type: [String],
-        label: "URL",
         regEx: SimpleSchema.RegEx.Url,
         max: 5
     },
@@ -149,11 +142,11 @@ TimeIntervalSchema = new SimpleSchema({
             }
         }
     },
-    startWhere: {
+    startLocation: {
         type: LocationSchema,
         optional: true
     },
-    endWhere: {
+    endLocation: {
         type: LocationSchema,
         optional: true
     }
@@ -201,6 +194,12 @@ ActivityElementSchema = new SimpleSchema({
 
 // A schema for a contradiction
 ContradictionSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function () {
+            return Random.id();
+        }
+    },
     kind: {
         type: [String],
         allowedValues: [
@@ -219,14 +218,20 @@ ContradictionSchema = new SimpleSchema({
     reciprocal: {
         type: Boolean
     },
-    discussion: {
-        type: DiscussionSchema,
-        optional: true
-    }
+    // discussion: {
+    //     type: DiscussionSchema,
+    //     optional: true
+    // }
 });
 
 // A schema for a flow
 FlowSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function () {
+            return Random.id();
+        }
+    },
     title: {
         type: String,
         max: 100
@@ -254,71 +259,76 @@ FlowSchema = new SimpleSchema({
     reciprocal: {
         type: Boolean
     },
-    discussion: {
-        type: DiscussionSchema,
-        optional: true
-    }
+    // discussion: {
+    //     type: DiscussionSchema,
+    //     optional: true
+    // }
 });
 
 // A schema for an activity
 ActivitySchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function () {
+            return Random.id();
+        }
+    },
     title: {
         type: String,
-        max: 100
+        max: 100,
     },
     description: {
-        type: String
+        type: String,
     },
     subject: {
         type: String,
-        label: "Subject"
     },
     object: {
         type: String,
-        label: "Object"
     },
     outcome: {
         type: String,
-        label: "Outcome"
     },
     tools: {
         type: String,
-        label: "Tools"
     },
     rules: {
         type: String,
-        label: "Rules"
     },
     roles: {
         type: String,
-        label: "Roles"
     },
     community: {
         type: String,
-        label: "Community"
     },
     time: {
         type: TimeIntervalSchema
-    }
-    // where: {
+    },
+    // location: {
     //     type: LocationSchema
     // },
     // discussion: {
     //     type: DiscussionSchema
     // },
-    // participation: {
-    //     type: [String],
-    //     allowedValues: ["No participation",
-    //         "Indirect participation",
-    //         "Consultative participation",
-    //         "Shared control",
-    //         "Full control"
-    //     ]
-    // }
+    participation: {
+        type: String,
+        allowedValues: ["No participation",
+            "Indirect participation",
+            "Consultative participation",
+            "Shared control",
+            "Full control"
+        ]
+    }
 });
 
 // A schema for a process
 ProcessSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function () {
+            return Random.id();
+        }
+    },
     title: {
         type: String,
         max: 100
@@ -329,10 +339,6 @@ ProcessSchema = new SimpleSchema({
     }
     // participants: {
     //     type: [String]
-    // },
-    // where: {
-    //     type: LocationSchema,
-    //     optional: true
     // },
     // flows: {
     //     type: [FlowSchema],
@@ -369,17 +375,14 @@ LicenseSchema = new SimpleSchema({
 ProjectSchema = new SimpleSchema({
     title: {
         type: String,
-        label: "Title",
         max: 200
     },
     description: {
         type: String,
-        label: "Description",
         max: 1024
     },
     version: {
         type: String,
-        label: "Version",
         max: 10
     },
     // founders: {
@@ -392,7 +395,6 @@ ProjectSchema = new SimpleSchema({
     // },
     processes: {
         type: [ProcessSchema],
-        label: "Processes"
     },
     // flows: {
     //     type: [FlowSchema],

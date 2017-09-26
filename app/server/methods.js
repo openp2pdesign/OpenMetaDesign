@@ -77,7 +77,8 @@ Meteor.methods({
                     "time": {
                         "start": new Date(),
                         "end": new Date()
-                    }
+                    },
+                    "participation": "Full control"
                 }]
             }, {
                 "title": "Front-Office processes"
@@ -89,6 +90,51 @@ Meteor.methods({
         });
     },
     'removeProject': function(projectId) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'addActivity': function(projectId, activityId, activityData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'updateActivity': function(projectId, activityId, activityData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'deleteActivity': function(projectId, activityId) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'addFlow': function(projectId, flowId, flowData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'updateFlow': function(projectId, flowId, flowData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'deleteFlow': function(projectId, flowId, flowData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'addContradiction': function(projectId, contradictionId, contradictionData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'updateContradiction': function(projectId, contradictionId, contradictionData) {
+        Projects.remove({
+            _id: projectId
+        });
+    },
+    'deleteContradiction': function(projectId, contradictionId, contradictionData) {
         Projects.remove({
             _id: projectId
         });
