@@ -7,6 +7,14 @@ Template.Me.events({
     },
     'click .change-password': function() {
         Modal.show('ChangePassword', this);
+    },
+    'click .create-project': function(event, template) {
+        event.preventDefault();
+        Meteor.call('createProject', function(error, result) {
+            Router.go('projectsViz', {
+                _id: result
+            });
+        });
     }
 });
 

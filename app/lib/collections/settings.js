@@ -1,6 +1,6 @@
-Settings = new Mongo.Collection('settings');
+export const Settings = new Mongo.Collection('settings');
 
-
+import SimpleSchema from 'simpl-schema';
 
 Settings.allow({
     insert: function(userId) {
@@ -18,8 +18,6 @@ Settings.allow({
         return Roles.userIsInRole(userId, ['admin']);
     }
 });
-
-
 
 SettingsSchema = new SimpleSchema({
     GoogleMapsAPIkey: {

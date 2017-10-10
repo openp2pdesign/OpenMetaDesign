@@ -1,13 +1,8 @@
 import Tabular from 'meteor/aldeed:tabular';
-import {
-    Template
-} from 'meteor/templating';
-import {
-    moment
-} from 'meteor/momentjs:moment';
-import {
-    Meteor
-} from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { moment } from 'meteor/momentjs:moment';
+import { Meteor } from 'meteor/meteor';
+import { Projects } from './collections/projects.js'
 
 export const TabularTables = {};
 

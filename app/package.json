@@ -17,6 +17,8 @@
     "meteor-node-stubs": "^0.2.11",
     "node-gyp": "^3.6.2",
     "node-pre-gyp": "^0.6.36",
-    "pnotify": "^3.2.0"
+    "npm": "^5.4.2",
+    "pnotify": "^3.2.0",
+    "simpl-schema": "^0.3.2"
   }
 }

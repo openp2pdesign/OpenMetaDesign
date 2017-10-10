@@ -2,6 +2,9 @@
 /*  Server Methods */
 /*****************************************************************************/
 
+import { Projects } from '../lib/collections/projects.js';
+import { Settings } from '../lib/collections/settings.js';
+
 Meteor.methods({
     'removeAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
@@ -58,6 +61,7 @@ Meteor.methods({
         });
     },
     'createProject': function() {
+        console.log("method: createProject:")
         return Projects.insert({
             "title": "Title...",
             "description": "Description...",
@@ -94,17 +98,21 @@ Meteor.methods({
             _id: projectId
         });
     },
-    'addActivity': function(projectId, activityId, activityData) {
+    'addActivity': function(projectId, processId, activityId, activityData) {
+        Projects.update({
+            _id: projectId
+        }, {
+            $push: {
+                "processes.processId": activityData
+            }
+        });
+    },
+    'updateActivity': function(projectId, processId, activityId, activityData) {
         Projects.remove({
             _id: projectId
         });
     },
-    'updateActivity': function(projectId, activityId, activityData) {
-        Projects.remove({
-            _id: projectId
-        });
-    },
-    'deleteActivity': function(projectId, activityId) {
+    'deleteActivity': function(projectId, processId, activityId) {
         Projects.remove({
             _id: projectId
         });

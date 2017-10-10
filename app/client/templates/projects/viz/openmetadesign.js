@@ -6,7 +6,7 @@ import {
 export default function openmetadesign_viz(data) {
 
     // Debug
-    console.log("DATA: ", data);
+    console.log("DATA in the viz: ", data);
 
     // The container for the viz
     var d3Container = document.getElementById("d3-container");

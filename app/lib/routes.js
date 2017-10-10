@@ -1,3 +1,5 @@
+import { Projects } from './collections/projects.js'
+
 Router.configure({
     layoutTemplate: 'MasterLayout',
     loadingTemplate: 'Loading',
@@ -7,12 +9,6 @@ Router.configure({
 Router.route('projects/list', {
     name: 'projectsList',
     controller: 'ListController',
-    where: 'client'
-});
-
-Router.route('projects/design', {
-    name: 'projectsDesign',
-    controller: 'DesignController',
     where: 'client'
 });
 

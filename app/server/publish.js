@@ -1,3 +1,6 @@
+import { Projects } from '../lib/collections/projects.js';
+import { Settings } from '../lib/collections/settings.js';
+
 Meteor.publish('projects', function(userId) {
     return Projects.find();
 });

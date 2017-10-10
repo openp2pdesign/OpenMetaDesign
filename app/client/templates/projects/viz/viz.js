@@ -4,6 +4,9 @@
 
 import openmetadesign_viz from './openmetadesign.js';
 import { Session } from 'meteor/session';
+import { Projects } from '../../../../lib/collections/projects.js';
+import { Settings } from '../../../../lib/collections/settings.js';
+
 
 Template.ProjectsViz.events({
     'click .edit-button': function() {
@@ -22,8 +25,11 @@ Template.ProjectsViz.events({
         Modal.show('ActivityDelete');
     },
     'click #add-activity-0': function() {
-        console.log("Adding an activity to 0 of", this.processes[0]);
-        Modal.show('ActivityAdd', {"id": this._id, "process": 0});
+        event.preventDefault();
+        console.log("Adding an activity to 0 of", thisProject.processes[0]);
+        Modal.show('ActivityAdd', function () {
+            return { "id": thisProject._id, "process": thisProject.processes[0] }
+        });
     },
     'click #add-activity-1': function() {
         console.log("Adding an activity to 1", this.processes[1]);
@@ -47,7 +53,7 @@ Template.ProjectsViz.events({
 /*****************************************************************************/
 Template.ProjectsViz.helpers({
     data: function() {
-        return this;
+        return thisProject;
     }
 });
 

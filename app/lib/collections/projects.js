@@ -1,6 +1,8 @@
 import { Random } from 'meteor/random';
+import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
 
-Projects = new Mongo.Collection('projects');
+export const Projects = new Mongo.Collection('projects');
 
 // if (Meteor.isServer) {
 //     Projects.allow({
@@ -69,12 +71,10 @@ PointSchema = new SimpleSchema({
         allowedValues: ["Point"]
     },
     lat: {
-        type: Number,
-        decimal: true
+        type: Number
     },
     lng: {
-        type: Number,
-        decimal: true
+        type: Number
     }
 });
 
@@ -100,20 +100,14 @@ LocationSchema = new SimpleSchema({
         max: 50
     },
     url: {
-        type: [String],
+        type: Array,
         regEx: SimpleSchema.RegEx.Url,
-        max: 5
+        max: 5,
+        optional: true
     },
+    'url.$': String,
     location: {
-        type: String,
-        autoform: {
-            type: 'map',
-            afFieldInput: {
-                geolocation: true,
-                searchBox: true,
-                autolocate: true
-            }
-        }
+        type: String
     }
 
 });
@@ -121,26 +115,10 @@ LocationSchema = new SimpleSchema({
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
     start: {
-        type: Date,
-        autoform: {
-            type: "bootstrap-datepicker",
-            datePickerOptions: {
-                autoclose: true,
-                todayBtn: true,
-                format: "dd/mm/yyyy"
-            }
-        }
+        type: Date
     },
     end: {
-        type: Date,
-        autoform: {
-            type: "bootstrap-datepicker",
-            datePickerOptions: {
-                autoclose: true,
-                todayBtn: true,
-                format: "dd/mm/yyyy"
-            }
-        }
+        type: Date
     },
     startLocation: {
         type: LocationSchema,
@@ -160,20 +138,13 @@ DiscussionSchema = new SimpleSchema({
         max: 100
     },
     labels: {
-        type: [String],
+        type: Array,
         max: 50
     },
+    'labels.$': String,
     start: {
         type: Date,
-        optional: true,
-        autoform: {
-            type: "bootstrap-datepicker",
-            datePickerOptions: {
-                autoclose: true,
-                todayBtn: true,
-                format: "dd/mm/yyyy"
-            }
-        }
+        optional: true
     },
     status: {
         type: String,
@@ -201,7 +172,7 @@ ContradictionSchema = new SimpleSchema({
         }
     },
     kind: {
-        type: [String],
+        type: Array,
         allowedValues: [
             'primary',
             'secondary',
@@ -209,6 +180,7 @@ ContradictionSchema = new SimpleSchema({
             'quaternary'
         ]
     },
+    'kind.$': String,
     firstNode: {
         type: String
     },
@@ -240,13 +212,14 @@ FlowSchema = new SimpleSchema({
         type: String
     },
     options: {
-        type: [String],
+        type: Array,
         allowedValues: [
             'information or digital resources',
             'financial resources',
             'material resources'
         ]
     },
+    'options.$': String,
     weight: {
         type: Number
     },
@@ -334,9 +307,10 @@ ProcessSchema = new SimpleSchema({
         max: 100
     },
     activities: {
-        type: [ActivitySchema],
+        type: Array,
         optional: true
-    }
+    },
+    //'activities.$': ActivitySchema,
     // participants: {
     //     type: [String]
     // },
@@ -361,10 +335,11 @@ LicenseSchema = new SimpleSchema({
         max: 100
     },
     url: {
-        type: [String],
+        type: Array,
         regEx: SimpleSchema.RegEx.Url,
         max: 50
     },
+    'url.$': String,
     discussion: {
         type: DiscussionSchema,
         optional: true
@@ -394,8 +369,9 @@ ProjectSchema = new SimpleSchema({
     //     label: "License"
     // },
     processes: {
-        type: [ProcessSchema],
+        type: Array,
     },
+    'processes.$': ProcessSchema,
     // flows: {
     //     type: [FlowSchema],
     //     optional: true

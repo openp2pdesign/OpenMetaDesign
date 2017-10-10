@@ -34,10 +34,6 @@ dynamic-import@0.1.3
 alanning:roles
 rajit:bootstrap3-datepicker
 aldeed:template-extension
-bruceborrett:autoform-map
-aldeed:autoform
-aldeed:autoform-bs-datepicker
-aldeed:collection2
 npm-bcrypt@0.9.3
 tap:i18n
 tap:i18n-ui
@@ -46,3 +42,5 @@ session@1.1.7
 msavin:mongol
 meteortoys:toggle
 allow-deny@1.0.9
+aldeed:collection2-core@2.0.0
+aldeed:schema-index
