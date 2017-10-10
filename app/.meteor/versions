@@ -83,6 +83,7 @@ mongo-dev-server@1.0.1
 mongo-id@1.0.6
 msavin:mongol@4.0.1
 natestrauser:font-awesome@4.6.3
+natestrauser:select2@4.0.3
 npm-bcrypt@0.9.3
 npm-mongo@2.2.31
 observe-sequence@1.0.16

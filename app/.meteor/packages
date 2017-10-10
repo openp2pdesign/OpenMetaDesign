@@ -44,3 +44,4 @@ allow-deny@1.0.9
 aldeed:collection2-core@2.0.0
 aldeed:schema-index
 tsega:bootstrap3-datetimepicker
+natestrauser:select2

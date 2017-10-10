@@ -7,7 +7,8 @@ import 'pnotify/dist/pnotify.css';
 import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
-
+// jquery
+import { $ } from 'meteor/jquery';
 // Random id
 import { Random } from 'meteor/random';
 // Load Projects and Settings
@@ -70,6 +71,12 @@ Template.ActivityAdd.helpers({
         return {
             "project": thisProject,
             "process": this.process,
+            "participationLevel": ["No participation",
+                "Indirect participation",
+                "Consultative participation",
+                "Shared control",
+                "Full control"
+            ],
             "activity": {
                 "title": "A new activity",
                 "description": "Write here a description of the activity.",
@@ -102,6 +109,11 @@ Template.ActivityAdd.onRendered(function() {
         sideBySide: true,
         format:'LLL'
     });
+
+    $("#new-participation").select2({
+          placeholder: "Select a client",
+          allowClear: false,
+      });
 });
 
 Template.ActivityAdd.onDestroyed(function() {});
