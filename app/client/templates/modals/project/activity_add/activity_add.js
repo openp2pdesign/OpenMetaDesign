@@ -9,16 +9,10 @@ PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 
 // Random id
-import {
-    Random
-} from 'meteor/random';
+import { Random } from 'meteor/random';
 // Load Projects and Settings
-import { 
-    Projects
-} from '../../../../../lib/collections/projects.js';
-import { 
-    Settings
-} from '../../../../../lib/collections/settings.js';
+import { Projects } from '../../../../../lib/collections/projects.js';
+import { Settings } from '../../../../../lib/collections/settings.js';
 
 Template.ActivityAdd.events({
     'click #confirm': function(event) {
@@ -102,6 +96,12 @@ Template.ActivityAdd.helpers({
 /*****************************************************************************/
 Template.ActivityAdd.onCreated(function() {});
 
-Template.ActivityAdd.onRendered(function() {});
+Template.ActivityAdd.onRendered(function() {
+    this.$('.datetimepicker').datetimepicker({
+        inline: true,
+        sideBySide: true,
+        format:'LLL'
+    });
+});
 
 Template.ActivityAdd.onDestroyed(function() {});
