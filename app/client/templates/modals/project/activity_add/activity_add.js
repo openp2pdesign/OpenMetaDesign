@@ -9,10 +9,16 @@ PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 
 // Random id
-import { Random } from 'meteor/random';
+import {
+    Random
+} from 'meteor/random';
 // Load Projects and Settings
-import { Projects } from '../../../../../lib/collections/projects.js';
-import { Settings } from '../../../../../lib/collections/settings.js';
+import { 
+    Projects
+} from '../../../../../lib/collections/projects.js';
+import { 
+    Settings
+} from '../../../../../lib/collections/settings.js';
 
 Template.ActivityAdd.events({
     'click #confirm': function(event) {
@@ -62,13 +68,30 @@ Template.ActivityAdd.helpers({
     data: function() {
         // Access projects
         self.subscription = Meteor.subscribe('projects');
+        // Load the current project
         var thisProject = Projects.findOne({
             '_id': this.id
         });
-        console.log("help", this);
+        // Return helper values for the template
         return {
             "project": thisProject,
-            "process": this.process
+            "process": this.process,
+            "activity": {
+                "title": "A new activity",
+                "description": "Write here a description of the activity.",
+                "subject": "Who is doing the activity?",
+                "object": "What is the object of the activity?",
+                "outcome": "What is the outcome of the activity?",
+                "tools": "Which are the tools, knowledge and systems used in the activity?",
+                "rules": "Which are the rules followed in the activity?",
+                "roles": "How is the work in the activity organized into roles?",
+                "community": "Which is the greater community where the activity takes place?",
+                "time": {
+                    "start": new Date(),
+                    "end": new Date()
+                },
+                "participation": "Full control"
+            }
         }
     }
 

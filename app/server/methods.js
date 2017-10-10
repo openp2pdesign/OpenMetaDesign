@@ -69,15 +69,15 @@ Meteor.methods({
             "processes": [{
                 "title": "Customer processes",
                 "activities": [{
-                    "title": "Activity 01",
-                    "description": "...",
-                    "subject": "...",
-                    "object": "...",
-                    "outcome": "...",
-                    "tools": "...",
-                    "rules": "...",
-                    "roles": "...",
-                    "community": "...",
+                    "title": "A new activity",
+                    "description": "Write here a description of the activity.",
+                    "subject": "Who is doing the activity?",
+                    "object": "What is the object of the activity?",
+                    "outcome": "What is the outcome of the activity?",
+                    "tools": "Which are the tools, knowledge and systems used in the activity?",
+                    "rules": "Which are the rules followed in the activity?",
+                    "roles": "How is the work in the activity organized into roles?",
+                    "community": "Which is the greater community where the activity takes place?",
                     "time": {
                         "start": new Date(),
                         "end": new Date()
