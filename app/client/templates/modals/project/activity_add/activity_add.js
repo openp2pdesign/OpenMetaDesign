@@ -106,7 +106,7 @@ Template.ActivityAdd.onCreated(function() {});
 Template.ActivityAdd.onRendered(function() {
     this.$('.datetimepicker').datetimepicker({
         inline: true,
-        sideBySide: true,
+        sideBySide: false,
         format:'LLL'
     });
 
