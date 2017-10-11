@@ -19,18 +19,41 @@ Template.ActivityAdd.events({
     'click #confirm': function(event) {
         event.preventDefault();
 
-        console.log("confirm", this);
-
-        var thisActivityId = Random.id();
+        newID = Random.id();
+        var thisActivityId = newID;
         var newTitle = $('#new-title').val();
         var newDescription = $('#new-description').val();
-        // var newLastName = $('#new-lastname').val();
-        // var newEmail = $('#new-email').val();
-        // var newBio = $('#new-bio').val();
+        var newSubject = $('#new-subject').val();
+        var newObject = $('#new-object').val();
+        var newOutcome = $('#new-outcome').val();
+        var newTools = $('#new-tools').val();
+        var newSubject = $('#new-subject').val();
+        var newRoles = $('#new-roles').val();
+        var newRules = $('#new-rules').val();
+        var newCommunity = $('#new-community').val();
+        var newParticipation = $('#new-participation').val();
+        var newTimeStart = $("#new-time-start").data("DateTimePicker").date().toDate();
+        var newTimeEnd = $("#new-time-end").data("DateTimePicker").date().toDate();
+
+        activityData = {
+            "title": newTitle,
+            "description": newDescription,
+            "subject": newSubject,
+            "object": newObject,
+            "outcome": newOutcome,
+            "tools": newTools,
+            "rules": newRules,
+            "roles": newRoles,
+            "community": newCommunity,
+            "time": {
+                "start": newTimeStart,
+                "end": newTimeEnd
+            },
+            "participation": newParticipation
+        }
 
         // Validate and save new data
-
-        Meteor.call('addActivity', projectId, processId, thisActivityId, activityData);
+        Meteor.call('addActivity', this.id, this.process.id, newID, activityData);
 
         var successNotice = new PNotify({
             type: 'success',
@@ -117,6 +140,7 @@ Template.ActivityAdd.onRendered(function() {
     });
     // Select2 for participation level
     $("#new-participation").select2({
+        dropdownParent: $('#activity-add'),
         data: ["No participation",
             "Indirect participation",
             "Consultative participation",
