@@ -101,12 +101,21 @@ Template.ActivityAdd.onCreated(function() {
 });
 
 Template.ActivityAdd.onRendered(function() {
-    this.$('.datetimepicker').datetimepicker({
+    // Datetimepicker for start
+    this.$('#new-time-start').datetimepicker({
         inline: true,
         sideBySide: false,
-        format: 'LLL'
+        format: 'LLL',
+        defaultDate: defaultActivity.time.start
     });
-
+    // Datetimepicker for end
+    this.$('#new-time-end').datetimepicker({
+        inline: true,
+        sideBySide: false,
+        format: 'LLL',
+        defaultDate: defaultActivity.time.end
+    });
+    // Select2 for participation level
     $("#new-participation").select2({
         data: ["No participation",
             "Indirect participation",
