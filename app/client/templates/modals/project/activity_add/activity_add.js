@@ -19,7 +19,7 @@ Template.ActivityAdd.events({
     'click #confirm': function(event) {
         event.preventDefault();
 
-        console.log(this);
+        console.log("confirm", this);
 
         var thisActivityId = Random.id();
         var newTitle = $('#new-title').val();
@@ -61,38 +61,11 @@ Template.ActivityAdd.events({
 /*****************************************************************************/
 Template.ActivityAdd.helpers({
     data: function() {
-        // Access projects
-        self.subscription = Meteor.subscribe('projects');
-        // Load the current project
-        var thisProject = Projects.findOne({
-            '_id': this.id
-        });
         // Return helper values for the template
         return {
             "project": thisProject,
             "process": this.process,
-            "participationLevel": ["No participation",
-                "Indirect participation",
-                "Consultative participation",
-                "Shared control",
-                "Full control"
-            ],
-            "activity": {
-                "title": "A new activity",
-                "description": "Write here a description of the activity.",
-                "subject": "Who is doing the activity?",
-                "object": "What is the object of the activity?",
-                "outcome": "What is the outcome of the activity?",
-                "tools": "Which are the tools, knowledge and systems used in the activity?",
-                "rules": "Which are the rules followed in the activity?",
-                "roles": "How is the work in the activity organized into roles?",
-                "community": "Which is the greater community where the activity takes place?",
-                "time": {
-                    "start": new Date(),
-                    "end": new Date()
-                },
-                "participation": "Full control"
-            }
+            "activity": defaultActivity
         }
     }
 
@@ -101,19 +74,48 @@ Template.ActivityAdd.helpers({
 /*****************************************************************************/
 /* ActivityAdd: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ActivityAdd.onCreated(function() {});
+Template.ActivityAdd.onCreated(function() {
+    // Access projects
+    self.subscription = Meteor.subscribe('projects');
+    // Load the current project
+    var thisProject = Projects.findOne({
+        '_id': this.id
+    });
+    // Default empty activity
+    defaultActivity = {
+        "title": "A new activity",
+        "description": "Write here a description of the activity.",
+        "subject": "Who is doing the activity?",
+        "object": "What is the object of the activity?",
+        "outcome": "What is the outcome of the activity?",
+        "tools": "Which are the tools, knowledge and systems used in the activity?",
+        "rules": "Which are the rules followed in the activity?",
+        "roles": "How is the work in the activity organized into roles?",
+        "community": "Which is the greater community where the activity takes place?",
+        "time": {
+            "start": new Date(),
+            "end": new Date()
+        },
+        "participation": "Full control"
+    }
+});
 
 Template.ActivityAdd.onRendered(function() {
     this.$('.datetimepicker').datetimepicker({
         inline: true,
         sideBySide: false,
-        format:'LLL'
+        format: 'LLL'
     });
 
     $("#new-participation").select2({
-          placeholder: "Select a client",
-          allowClear: false,
-      });
+        data: ["No participation",
+            "Indirect participation",
+            "Consultative participation",
+            "Shared control",
+            "Full control"
+        ],
+        allowClear: false,
+    });
 });
 
 Template.ActivityAdd.onDestroyed(function() {});

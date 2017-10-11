@@ -78,9 +78,7 @@
                                     <label class="col-lg-3 control-label">{{_ "participation"}}:</label>
                                     <div class="col-lg-8">
                                         <select class="col-lg-8 form-control" id="new-participation" style="width: 100%">
-                                            {{#each item in participationLevel}}
-                                                <option value="{{item}}" data-id={{item}}>{{item}}</option>
-                                            {{/each}}
+                                            <option selected="selected">{{activity.participation}}</option>
                                         </select>
                                     </div>
                                 </div>
