@@ -93,7 +93,7 @@ Meteor.methods({
             $push: {
                 'processes.$.activities': activityData
             }
-        }, function (error) {
+        }, {validate: false, filter: false}, function (error) {
             if (error) {
             alert(error.reason);
             throwError('Error');

@@ -2,6 +2,8 @@ import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
+SimpleSchema.debug = true;
+
 export const Projects = new Mongo.Collection('projects');
 
 // if (Meteor.isServer) {
