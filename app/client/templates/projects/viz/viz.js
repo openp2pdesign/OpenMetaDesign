@@ -10,38 +10,71 @@ import { Settings } from '../../../../lib/collections/settings.js';
 
 Template.ProjectsViz.events({
     'click .edit-button': function() {
-        Modal.show('ActivityEdit');
+        event.preventDefault();
+        console.log("vizthis",this);
+        // TODO id of the process and of the activity
+        Modal.show('Activity', function () {
+            return {
+                "project": thisProject._id,
+                "process": thisProject.processes[0], // TODO id of the process
+                "activity": "edit", // TODO id of the activity
+                "mode": "edit" }
+        });
     },
     'click .discuss-button': function() {
+        event.preventDefault();
         Modal.show('ActivityDiscuss');
     },
     'click .flows-button': function() {
+        event.preventDefault();
         Modal.show('ActivityFlows');
     },
     'click .issues-button': function() {
+        event.preventDefault();
         Modal.show('ActivityIssues');
     },
     'click .delete-button': function() {
-        Modal.show('ActivityDelete');
+        event.preventDefault();
+        Modal.show('ActivityDelete', function () {
+            return { "project": thisProject._id,
+            "activity": "add" } // TODO id of the activity
+        });
     },
     'click #add-activity-0': function() {
         event.preventDefault();
-        
-        Modal.show('ActivityAdd', function () {
-            return { "id": thisProject._id, "process": thisProject.processes[0] }
+        Modal.show('Activity', function () {
+            return { "project": thisProject._id,
+            "process": thisProject.processes[0],
+            "activity": "add",
+            "mode": "add" }
         });
     },
     'click #add-activity-1': function() {
-        console.log("Adding an activity to 1", this.processes[1]);
-        Modal.show('ActivityAdd', this);
+        event.preventDefault();
+        Modal.show('Activity', function () {
+            return { "project": thisProject._id,
+            "process": thisProject.processes[1],
+            "activity": "add",
+            "mode": "add" }
+        });
     },
     'click #add-activity-2': function() {
-        console.log("Adding an activity to 2", this.processes[2]);
-        Modal.show('ActivityAdd', this);
+        event.preventDefault();
+        Modal.show('Activity', function () {
+            return { "project": thisProject._id,
+            "process": thisProject.processes[2],
+            "activity": "add",
+            "mode": "add" }
+        });
     },
     'click #add-activity-3': function() {
-        console.log("Adding an activity to 3", this.processes[0]);
-        Modal.show('ActivityAdd', this);
+        event.preventDefault();
+        Modal.show('Activity', function () {
+            return { "project": thisProject._id,
+            "process": thisProject.processes[3],
+            "activity": "add",
+            "mode": "add" }
+        });
     },
     'click .svg-emoji': function() {
         Modal.show('ActivityAdd');
@@ -61,10 +94,8 @@ Template.ProjectsViz.helpers({
 /* ProjectsViz: Lifecycle Hooks */
 /*****************************************************************************/
 Template.ProjectsViz.onCreated(function() {
-    // Access projects
-    self.subscription = Meteor.subscribe('projects');
-
     // Access this specific project
+    self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
 
     // Access settings

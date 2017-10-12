@@ -102,7 +102,7 @@ Meteor.methods({
             return "success";
         }});
     },
-    'updateActivity': function(projectId, processId, activityId, activityData) {
+    'editActivity': function(projectId, processId, activityId, activityData) {
         Projects.remove({
             _id: projectId
         });
