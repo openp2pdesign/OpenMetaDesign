@@ -54,29 +54,53 @@ Template.ActivityAdd.events({
 
         // Validate and save new data
         Meteor.call('addActivity', this.id, this.process.id, newID, activityData, function(error, result){
-            console.log(error, result);
-        });
+            if (error) {
+                var errorNotice = new PNotify({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'There was an error in adding the activity',
+                    icon: 'fa fa-cubes',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
 
-        var successNotice = new PNotify({
-            type: 'success',
-            title: 'Success',
-            text: 'Activity successfully added.',
-            icon: 'fa fa-user',
-            addclass: 'pnotify stack-topright',
-            animate: {
-                animate: true,
-                in_class: 'slideInDown',
-                out_class: 'slideOutUp'
-            },
-            buttons: {
-                closer: true,
-                sticker: false
+                errorNotice.get().click(function() {
+                    errorNotice.remove();
+                });
+            }
+            else {
+                var successNotice = new PNotify({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Activity successfully added.',
+                    icon: 'fa fa-cubes',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                successNotice.get().click(function() {
+                    successNotice.remove();
+                });
             }
         });
 
-        successNotice.get().click(function() {
-            successNotice.remove();
-        });
+
 
     }
 });

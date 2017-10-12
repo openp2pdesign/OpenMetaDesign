@@ -93,12 +93,13 @@ Meteor.methods({
             $push: {
                 'processes.$.activities': activityData
             }
-        }, {validate: false, filter: false}, function (error) {
+        }, function (error) {
             if (error) {
-            alert(error.reason);
-            throwError('Error');
+            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+            return "error";
         } else {
-            console.log("should be ok");
+            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+            return "success";
         }});
     },
     'updateActivity': function(projectId, processId, activityId, activityData) {

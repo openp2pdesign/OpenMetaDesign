@@ -312,7 +312,7 @@ ProcessSchema = new SimpleSchema({
         type: Array,
         optional: true
     },
-    //'activities.$': ActivitySchema,
+    'activities.$': ActivitySchema,
     // participants: {
     //     type: [String]
     // },
