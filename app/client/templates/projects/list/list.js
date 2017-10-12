@@ -2,7 +2,7 @@
 /* ProjectsList: Event Handlers */
 /*****************************************************************************/
 Template.ProjectsList.events({
-    'click .create-project': function(event, template) {
+    'click #create-project-button': function(event, template) {
         event.preventDefault();
         Meteor.call('createProject', function(error, result) {
             Router.go('projectsViz', {

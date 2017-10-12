@@ -26,7 +26,7 @@ Template.ProjectsViz.events({
     },
     'click #add-activity-0': function() {
         event.preventDefault();
-        console.log("Adding an activity to 0 of", thisProject.processes[0]);
+        
         Modal.show('ActivityAdd', function () {
             return { "id": thisProject._id, "process": thisProject.processes[0] }
         });

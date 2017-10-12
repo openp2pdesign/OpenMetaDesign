@@ -61,35 +61,22 @@ Meteor.methods({
         });
     },
     'createProject': function() {
-        console.log("method: createProject:")
         return Projects.insert({
             "title": "Title...",
             "description": "Description...",
             "version": "0.1",
             "processes": [{
                 "title": "Customer processes",
-                "activities": [{
-                    "title": "A new activity",
-                    "description": "Write here a description of the activity.",
-                    "subject": "Who is doing the activity?",
-                    "object": "What is the object of the activity?",
-                    "outcome": "What is the outcome of the activity?",
-                    "tools": "Which are the tools, knowledge and systems used in the activity?",
-                    "rules": "Which are the rules followed in the activity?",
-                    "roles": "How is the work in the activity organized into roles?",
-                    "community": "Which is the greater community where the activity takes place?",
-                    "time": {
-                        "start": new Date(),
-                        "end": new Date()
-                    },
-                    "participation": "Full control"
-                }]
+                "activities": []
             }, {
-                "title": "Front-Office processes"
+                "title": "Front-Office processes",
+                "activities": []
             }, {
-                "title": "Back-Office processes"
+                "title": "Back-Office processes",
+                "activities": []
             }, {
-                "title": "Support processes"
+                "title": "Support processes",
+                "activities": []
             }]
         });
     },
@@ -100,12 +87,19 @@ Meteor.methods({
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
         Projects.update({
-            _id: projectId
+            '_id': projectId,
+            'processes.id': processId
         }, {
             $push: {
-                "processes.processId": activityData
+                'processes.$.activities': activityData
             }
-        });
+        }, function (error) {
+            if (error) {
+            alert(error.reason);
+            throwError('Error');
+        } else {
+            console.log("should be ok");
+        }});
     },
     'updateActivity': function(projectId, processId, activityId, activityData) {
         Projects.remove({

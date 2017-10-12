@@ -53,7 +53,9 @@ Template.ActivityAdd.events({
         }
 
         // Validate and save new data
-        Meteor.call('addActivity', this.id, this.process.id, newID, activityData);
+        Meteor.call('addActivity', this.id, this.process.id, newID, activityData, function(error, result){
+            console.log(error, result);
+        });
 
         var successNotice = new PNotify({
             type: 'success',
