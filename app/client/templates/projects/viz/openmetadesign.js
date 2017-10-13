@@ -202,6 +202,9 @@ export default function openmetadesign_viz(data) {
 
         var activity = parent.append("g");
 
+        // Add the activity id
+        activity.attr("data-activity-id", "activity_id");
+
         // Add the participation container
         var participationContainer = activity.append("g").attr("class", "svg-activity-participation");
 
@@ -256,13 +259,19 @@ export default function openmetadesign_viz(data) {
         discussButton.attr("data-toggle", "modal")
             .classed("discuss-button", true)
             .attr("title", "Discuss the activity")
+            .attr("data-activity-mode", "discuss")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Edit Button
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")
-            .classed("edit-button", true)
+            .classed("activity-button", true)
             .attr("title", "Edit the activity")
+            .attr("data-activity-mode", "edit")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Flows Button
@@ -270,6 +279,9 @@ export default function openmetadesign_viz(data) {
         flowsButton.attr("data-toggle", "modal")
             .classed("flows-button", true)
             .attr("title", "Edit the flows")
+            .attr("data-activity-mode", "flows")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Issues Button
@@ -277,6 +289,9 @@ export default function openmetadesign_viz(data) {
         issuesButton.attr("data-toggle", "modal")
             .classed("issues-button", true)
             .attr("title", "Document contradictions")
+            .attr("data-activity-mode", "contradictions")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Delete Button
@@ -284,6 +299,9 @@ export default function openmetadesign_viz(data) {
         deleteButton.attr("data-toggle", "modal")
             .classed("delete-button", true)
             .attr("title", "Delete the activity")
+            .attr("data-activity-mode", "delete")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
         // Move the buttons below the title
@@ -360,6 +378,9 @@ export default function openmetadesign_viz(data) {
     timeG.attr("id", "yAxisG")
         .call(yAxis);
 
+    // Sections
+    //sections = ["Time", "Customer processes", "Front-Office processes", "Back-Office processes", "Support processes", "Journey"]
+
     // Time label
     var timeLabel = addSectionLabel("Time", timeG);
 
@@ -369,8 +390,11 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityCustomerButton = addButton(blueprintCustomerLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintCustomerLabel, '\uf067');
     addActivityCustomerButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true)
+        .classed("activity-button", true)
         .attr("title", "Add an activity here")
+        .attr("data-activity-mode", "add")
+        .attr("data-activity-id", "activity id")
+        .attr("data-process-id", 0)
         .attr("id", "add-activity-0")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
@@ -387,8 +411,11 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityFrontButton = addButton(blueprintFrontLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintFrontLabel, '\uf067');
     addActivityFrontButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true)
+        .classed("activity-button", true)
         .attr("title", "Add an activity here")
+        .attr("data-activity-mode", "add")
+        .attr("data-activity-id", "activity id")
+        .attr("data-process-id", 1)
         .attr("id", "add-activity-1")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
@@ -405,8 +432,11 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivityBackButton = addButton(blueprintBackLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintBackLabel, '\uf067');
     addActivityBackButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true)
+        .classed("activity-button", true)
         .attr("title", "Add an activity here")
+        .attr("data-activity-mode", "add")
+        .attr("data-activity-id", "activity id")
+        .attr("data-process-id", 2)
         .attr("id", "add-activity-2")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");
@@ -423,8 +453,11 @@ export default function openmetadesign_viz(data) {
     // Add Activity button
     var addActivitySupportButton = addButton(blueprintSupportLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintSupportLabel, '\uf067');
     addActivitySupportButton.attr("data-toggle", "modal")
-        .classed("activity-add-button", true)
+        .classed("activity-button", true)
         .attr("title", "Add an activity here")
+        .attr("data-activity-mode", "add")
+        .attr("data-activity-id", "activity id")
+        .attr("data-process-id", 3)
         .attr("id", "add-activity-3")
         .classed("button-tooltip", true)
         .attr("data-toggle","tooltip");

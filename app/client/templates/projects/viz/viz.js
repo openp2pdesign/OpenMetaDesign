@@ -9,16 +9,32 @@ import { Settings } from '../../../../lib/collections/settings.js';
 
 
 Template.ProjectsViz.events({
-    'click .edit-button': function() {
+    'click .activity-button': function() {
         event.preventDefault();
-        console.log("vizthis",this);
-        // TODO id of the process and of the activity
-        Modal.show('Activity', function () {
-            return {
-                "project": thisProject._id,
-                "process": thisProject.processes[0], // TODO id of the process
-                "activity": "edit", // TODO id of the activity
-                "mode": "edit" }
+
+        event.path.map( function(item) {
+            // Check the data embedded in the button
+            dataActivityMode = $(item).attr("data-activity-mode");
+            dataProcessId = $(item).attr("data-process-id");
+            dataActivityId = $(item).attr("data-activity-id");
+
+            if (dataActivityMode == "edit") {
+                // Edit button
+                Modal.show('Activity', function () {
+                    return { "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "edit" }
+                });
+            } else if (dataActivityMode == "add") {
+                // Add button
+                Modal.show('Activity', function () {
+                    return { "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "add" }
+                });
+            }
         });
     },
     'click .discuss-button': function() {
@@ -35,45 +51,17 @@ Template.ProjectsViz.events({
     },
     'click .delete-button': function() {
         event.preventDefault();
-        Modal.show('ActivityDelete', function () {
-            return { "project": thisProject._id,
-            "activity": "add" } // TODO id of the activity
-        });
-    },
-    'click #add-activity-0': function() {
-        event.preventDefault();
-        Modal.show('Activity', function () {
-            return { "project": thisProject._id,
-            "process": thisProject.processes[0],
-            "activity": "add",
-            "mode": "add" }
-        });
-    },
-    'click #add-activity-1': function() {
-        event.preventDefault();
-        Modal.show('Activity', function () {
-            return { "project": thisProject._id,
-            "process": thisProject.processes[1],
-            "activity": "add",
-            "mode": "add" }
-        });
-    },
-    'click #add-activity-2': function() {
-        event.preventDefault();
-        Modal.show('Activity', function () {
-            return { "project": thisProject._id,
-            "process": thisProject.processes[2],
-            "activity": "add",
-            "mode": "add" }
-        });
-    },
-    'click #add-activity-3': function() {
-        event.preventDefault();
-        Modal.show('Activity', function () {
-            return { "project": thisProject._id,
-            "process": thisProject.processes[3],
-            "activity": "add",
-            "mode": "add" }
+
+        event.path.map( function(item) {
+            // Check the data embedded in the button
+            dataActivityId = $(item).attr("data-activity-id");
+            // If there's an activity id, delete it
+            if (dataActivityId) {
+                Modal.show('ActivityDelete', function () {
+                    return { "project": thisProject._id,
+                    "activity": dataActivityId }
+                });
+            }
         });
     },
     'click .svg-emoji': function() {

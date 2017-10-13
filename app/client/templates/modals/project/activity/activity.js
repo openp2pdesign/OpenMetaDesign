@@ -19,6 +19,8 @@ Template.Activity.events({
     'click #confirm': function(event) {
         event.preventDefault();
 
+        
+
         newID = Random.id();
         var thisActivityId = newID;
         var newTitle = $('#new-title').val();
