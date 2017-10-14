@@ -263,7 +263,7 @@ export default function openmetadesign_viz(data) {
             .attr("data-activity-id", "activity id")
             .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         // Edit Button
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")
@@ -273,7 +273,7 @@ export default function openmetadesign_viz(data) {
             .attr("data-activity-id", "activity id")
             .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         // Flows Button
         var flowsButton = addButton(x + 55, y, 10, activityButtons, '\uf074');
         flowsButton.attr("data-toggle", "modal")
@@ -283,7 +283,7 @@ export default function openmetadesign_viz(data) {
             .attr("data-activity-id", "activity id")
             .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         // Issues Button
         var issuesButton = addButton(x + 80, y, 10, activityButtons, '\uf071');
         issuesButton.attr("data-toggle", "modal")
@@ -293,7 +293,7 @@ export default function openmetadesign_viz(data) {
             .attr("data-activity-id", "activity id")
             .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         // Delete Button
         var deleteButton = addButton(x + 105, y, 10, activityButtons, '\uf068');
         deleteButton.attr("data-toggle", "modal")
@@ -303,7 +303,7 @@ export default function openmetadesign_viz(data) {
             .attr("data-activity-id", "activity id")
             .attr("data-process-id", "process id")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         // Move the buttons below the title
         activityButtonY = 15 + // padding
             20 + // button size
@@ -330,43 +330,30 @@ export default function openmetadesign_viz(data) {
         var emoji01 = addEmoji(x, y, 10, activityEmojis, "smile");
         emoji01.attr("title", "I like it!")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         var emoji02 = addEmoji(x + 25, y, 10, activityEmojis, "smile");
         emoji02.attr("title", "I like it!")
             .classed("button-tooltip", "true")
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
         var emoji03 = addEmoji(x + 50, y, 10, activityEmojis, "smile");
         emoji03.attr("title", "I like it!")
             .classed("button-tooltip", true)
-            .attr("data-toggle","tooltip");
+            .attr("data-toggle", "tooltip");
 
         // Return the whole activity
         return activity;
 
     }
 
-
+    // Debug: see the border of the svg
+    svg.attr("style", "outline: thin solid black;");
 
     // Draw everything
-
-    // Layout initialization
-    var timeG = svg.append("g");
-    var blueprintCustomerG = svg.append("g");
-    var line01G = svg.append("g")
-    var blueprintFrontG = svg.append("g");
-    var line02G = svg.append("g")
-    var blueprintBackG = svg.append("g");
-    var line03G = svg.append("g")
-    var blueprintSupportG = svg.append("g");
-    var journeyG = svg.append("g");
-
-    // Debug: see the border of each group
-    svg.attr("style", "outline: thin solid black;");
-    journeyG.attr("style", "outline: thin solid red;");
 
     // Draw the Time section
 
     // Time scale and axis
+    var timeG = svg.append("g");
 
     // TODO: get time domain from earliest start and latest end activities
     var yScale = d3.scaleTime()
@@ -378,137 +365,77 @@ export default function openmetadesign_viz(data) {
     timeG.attr("id", "yAxisG")
         .call(yAxis);
 
-    // Sections
-    //sections = ["Time", "Customer processes", "Front-Office processes", "Back-Office processes", "Support processes", "Journey"]
-
     // Time label
     var timeLabel = addSectionLabel("Time", timeG);
 
-    // Draw the Blueprint section
-    // Customer section
-    var blueprintCustomerLabel = addSectionLabel("Customer processes", blueprintCustomerG);
-    // Add Activity button
-    var addActivityCustomerButton = addButton(blueprintCustomerLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintCustomerLabel, '\uf067');
-    addActivityCustomerButton.attr("data-toggle", "modal")
-        .classed("activity-button", true)
-        .attr("title", "Add an activity here")
-        .attr("data-activity-mode", "add")
-        .attr("data-activity-id", "activity id")
-        .attr("data-process-id", 0)
-        .attr("id", "add-activity-0")
-        .classed("button-tooltip", true)
-        .attr("data-toggle","tooltip");
+    // Draw the Processes sections
+    var sections = []
+    var sectionGroups = [];
+    var sectionLabels = [];
+    var lineGroups = [];
 
-    // Activities in the Customer section
-    // TODO for activities in activities_customer....
-    var activity2 = addActivity(0, 0, blueprintCustomerG);
+    for (var j in data.processes) {
+        sectionGroups.push(svg.append("g"));
+        lineGroups.push(svg.append("g"));
+    }
 
-    // Line01
-    addSectionLine("Line 01...", line01G);
+    for (var j in data.processes) {
+        // Add section label
+        sectionLabels.push(addSectionLabel(data.processes[j].title, sectionGroups[j]));
 
-    // Front-Office section
-    var blueprintFrontLabel = addSectionLabel("Front-Office processes", blueprintFrontG);
-    // Add Activity button
-    var addActivityFrontButton = addButton(blueprintFrontLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintFrontLabel, '\uf067');
-    addActivityFrontButton.attr("data-toggle", "modal")
-        .classed("activity-button", true)
-        .attr("title", "Add an activity here")
-        .attr("data-activity-mode", "add")
-        .attr("data-activity-id", "activity id")
-        .attr("data-process-id", 1)
-        .attr("id", "add-activity-1")
-        .classed("button-tooltip", true)
-        .attr("data-toggle","tooltip");
+        // Add separator line
+        addSectionLine("Line 01...", sectionGroups[j]);
 
-    // Activities in the Front-Office section
-    // TODO for activities in activities_front....
-    var activity3 = addActivity(0, 0, blueprintFrontG);
 
-    // Line02
-    addSectionLine("Line 02...", line02G);
+        // Add Activity button
+        var addActivityButton = addButton(sectionLabels[j].node().getBBox().width+15, -labelHeight-5, 10, sectionLabels[j], '\uf067');
+        addActivityButton.attr("data-toggle", "modal")
+            .classed("activity-button", true)
+            .attr("title", "Add an activity here")
+            .attr("data-activity-mode", "add")
+            .attr("data-activity-id", "activity id")
+            .attr("data-process-id", j)
+            .attr("id", "add-activity-0")
+            .classed("button-tooltip", true)
+            .attr("data-toggle","tooltip");
 
-    // Back-Office section
-    var blueprintBackLabel = addSectionLabel("Back-Office processes", blueprintBackG);
-    // Add Activity button
-    var addActivityBackButton = addButton(blueprintBackLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintBackLabel, '\uf067');
-    addActivityBackButton.attr("data-toggle", "modal")
-        .classed("activity-button", true)
-        .attr("title", "Add an activity here")
-        .attr("data-activity-mode", "add")
-        .attr("data-activity-id", "activity id")
-        .attr("data-process-id", 2)
-        .attr("id", "add-activity-2")
-        .classed("button-tooltip", true)
-        .attr("data-toggle","tooltip");
-
-    // Activities in the Back-Office section
-    // TODO for activities in activities_back....
-    var activity4 = addActivity(0, 0, blueprintBackG);
-
-    // Line03
-    addSectionLine("Line 03...", line03G);
-
-    // Support section
-    var blueprintSupportLabel = addSectionLabel("Support processes", blueprintSupportG);
-    // Add Activity button
-    var addActivitySupportButton = addButton(blueprintSupportLabel.node().getBBox().width+15, -labelHeight-5, 10, blueprintSupportLabel, '\uf067');
-    addActivitySupportButton.attr("data-toggle", "modal")
-        .classed("activity-button", true)
-        .attr("title", "Add an activity here")
-        .attr("data-activity-mode", "add")
-        .attr("data-activity-id", "activity id")
-        .attr("data-process-id", 3)
-        .attr("id", "add-activity-3")
-        .classed("button-tooltip", true)
-        .attr("data-toggle","tooltip");
-
-    // Activities in the Support section
-    // TODO for activities in activities_support....
-    var activity5 = addActivity(0, 0, blueprintSupportG);
+    }
 
     // Draw the Journey section
     // Journey label
-    var journeyLabel = addSectionLabel("Journey", journeyG);
-
-    journeyG.append("rect")
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", 50)
-        .attr("height", 20)
-        .attr("fill", "orange");
+    // var journeyLabel = addSectionLabel("Journey", journeyG);
+    //
+    // journeyG.append("rect")
+    //     .attr("x", 0)
+    //     .attr("y", 0)
+    //     .attr("width", 50)
+    //     .attr("height", 20)
+    //     .attr("fill", "orange");
 
 
     // Layout: organize sections
     // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
-    // TODO Each section is wide enough to have overlapping activities
+    // TODO Each section should be wide enough to have overlapping activities
 
     // Translate timeG according to the label width
-    var timeGX = timeG.node().getBBox().width;
-    timeG.attr("transform", "translate(" + timeGX + "," + labelHeight + ")");
-    // Translate blueprintCustomerG after the journeyG section
-    var blueprintGX = timeGX + timeG.node().getBBox().x + timeG.node().getBBox().width + simpleGutter;
-    blueprintCustomerG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
-    // Translate Line01G
-    var lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
-    line01G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
-    // Translate blueprintFrontG after the journeyG section
-    blueprintGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter;
-    blueprintFrontG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
-    // Translate Line02G
-    lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
-    line02G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
-    // Translate blueprintBackG after the journeyG section
-    blueprintGX = blueprintGX + blueprintFrontG.node().getBBox().width + gutter;
-    blueprintBackG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
-    // Translate Line03G
-    lineGX = blueprintGX + blueprintCustomerG.node().getBBox().width + gutter / 2;
-    line03G.attr("transform", "translate(" + lineGX + "," + labelHeight + ")");
-    // Translate blueprintSupportG after the journeyG section
-    blueprintGX = blueprintGX + blueprintBackG.node().getBBox().width + gutter;
-    blueprintSupportG.attr("transform", "translate(" + blueprintGX + "," + labelHeight + ")");
+    var GX = timeG.node().getBBox().width;
+    timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
+
+    for (var j in data.processes) {
+        if (j == 0) {
+            GX = GX + timeG.node().getBBox().x + timeG.node().getBBox().width + simpleGutter;
+        } else {
+            GX = GX + sectionGroups[j].node().getBBox().width + gutter;
+        }
+
+        sectionGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
+
+    }
+
+
     // Translate journeyG it after the timeG section
-    var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
-    journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
+    // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
+    // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
 
 }
