@@ -389,9 +389,8 @@ export default function openmetadesign_viz(data) {
             .classed("activity-button", true)
             .attr("title", "Add an activity here")
             .attr("data-activity-mode", "add")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", j)
-            .attr("id", "add-activity-0")
+            .attr("data-activity-id", "none")
+            .attr("data-process-id", data.processes[j].id)
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
 
@@ -429,6 +428,8 @@ export default function openmetadesign_viz(data) {
         } else {
             GX = GX + sectionGroups[j].node().getBBox().width + gutter / 2;
         }
+
+        console.log("TR",j, GX);
 
         sectionGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
 

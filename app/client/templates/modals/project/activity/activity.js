@@ -19,8 +19,6 @@ Template.Activity.events({
     'click #confirm': function(event) {
         event.preventDefault();
 
-        
-
         newID = Random.id();
         var thisActivityId = newID;
         var newTitle = $('#new-title').val();
@@ -54,12 +52,10 @@ Template.Activity.events({
             "participation": newParticipation
         }
 
-        // TODO: if add or if edit
-        console.log("debig", this);
         // Add a new activity
         if (this.mode == "add") {
             // Validate and save new data
-            Meteor.call('addActivity', this.project, this.process.id, newID, activityData, function(error, result){
+            Meteor.call('addActivity', this.project, this.process, newID, activityData, function(error, result){
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -109,7 +105,7 @@ Template.Activity.events({
         // Edit an existing activity
         else if (this.mode == "edit") {
             // Validate and save new data
-            Meteor.call('editActivity', this.project, this.process.id, this.activity, activityData, function(error, result){
+            Meteor.call('editActivity', this.project, this.process, this.activity, activityData, function(error, result){
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
