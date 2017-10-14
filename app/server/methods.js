@@ -103,14 +103,38 @@ Meteor.methods({
         }});
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
-        Projects.remove({
-            _id: projectId
-        });
+        Projects.update({
+            '_id': projectId,
+            'processes.id': processId
+        }, {
+            $set: {
+                'processes.$.activities': activityData
+            }
+        }, function (error) {
+            if (error) {
+            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+            return "error";
+        } else {
+            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+            return "success";
+        }});
     },
     'deleteActivity': function(projectId, processId, activityId) {
-        Projects.remove({
-            _id: projectId
-        });
+        Projects.update({
+            '_id': projectId,
+            'processes.id': processId
+        }, {
+            $pull: {
+                'processes.$.activities': { id: activityId}
+            }
+        }, function (error) {
+            if (error) {
+            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+            return "error";
+        } else {
+            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+            return "success";
+        }});
     },
     'addFlow': function(projectId, flowId, flowData) {
         Projects.remove({
