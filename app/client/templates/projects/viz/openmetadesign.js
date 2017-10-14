@@ -193,7 +193,7 @@ export default function openmetadesign_viz(data) {
     }
 
     // Create an activity
-    var addActivity = function(x, y, parent) {
+    var addActivity = function(x, y, parent, activityData, processData) {
 
         // Dimensions
         var participationContainerWidth = 30;
@@ -203,7 +203,7 @@ export default function openmetadesign_viz(data) {
         var activity = parent.append("g");
 
         // Add the activity id
-        activity.attr("data-activity-id", "activity_id");
+        activity.attr("data-activity-id", activityData.id);
 
         // Add the participation container
         var participationContainer = activity.append("g").attr("class", "svg-activity-participation");
@@ -244,7 +244,7 @@ export default function openmetadesign_viz(data) {
         title = new TextBox()
             .data([{}])
             .select("#textbox-1")
-            .text("Activity Title")
+            .text(activityData.title)
             .width(mainContainerWidth - 70)
             .x(x + 10)
             .y(y + 20)
@@ -260,8 +260,8 @@ export default function openmetadesign_viz(data) {
             .classed("discuss-button", true)
             .attr("title", "Discuss the activity")
             .attr("data-activity-mode", "discuss")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", "process id")
+            .attr("data-activity-id", activityData.id)
+            .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
         // Edit Button
@@ -270,8 +270,8 @@ export default function openmetadesign_viz(data) {
             .classed("activity-button", true)
             .attr("title", "Edit the activity")
             .attr("data-activity-mode", "edit")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", "process id")
+            .attr("data-activity-id", activityData.id)
+            .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
         // Flows Button
@@ -280,8 +280,8 @@ export default function openmetadesign_viz(data) {
             .classed("flows-button", true)
             .attr("title", "Edit the flows")
             .attr("data-activity-mode", "flows")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", "process id")
+            .attr("data-activity-id", activityData.id)
+            .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
         // Issues Button
@@ -290,8 +290,8 @@ export default function openmetadesign_viz(data) {
             .classed("issues-button", true)
             .attr("title", "Document contradictions")
             .attr("data-activity-mode", "contradictions")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", "process id")
+            .attr("data-activity-id", activityData.id)
+            .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
         // Delete Button
@@ -300,8 +300,8 @@ export default function openmetadesign_viz(data) {
             .classed("delete-button", true)
             .attr("title", "Delete the activity")
             .attr("data-activity-mode", "delete")
-            .attr("data-activity-id", "activity id")
-            .attr("data-process-id", "process id")
+            .attr("data-activity-id", activityData.id)
+            .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
         // Move the buttons below the title
@@ -316,7 +316,7 @@ export default function openmetadesign_viz(data) {
 
         description = new TextBox()
             .data([{}])
-            .text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed turpis at dolor porta malesuada. Mauris sollicitudin mi lorem, eu imperdiet risus fermentum vitae. Suspendisse in velit in felis semper vestibulum non eget nunc. Aliquam ultricies, mauris a rutrum aliquet, justo ante varius odio, at consequat tortor sapien porttitor nisl.")
+            .text(activityData.description)
             .width(mainContainerWidth - 30)
             .select("#textbox-2")
             .x(x + 10)
@@ -383,10 +383,6 @@ export default function openmetadesign_viz(data) {
         // Add section label
         sectionLabels.push(addSectionLabel(data.processes[j].title, sectionGroups[j]));
 
-        // Add separator line
-        addSectionLine("Line 01...", sectionGroups[j]);
-
-
         // Add Activity button
         var addActivityButton = addButton(sectionLabels[j].node().getBBox().width+15, -labelHeight-5, 10, sectionLabels[j], '\uf067');
         addActivityButton.attr("data-toggle", "modal")
@@ -398,6 +394,11 @@ export default function openmetadesign_viz(data) {
             .attr("id", "add-activity-0")
             .classed("button-tooltip", true)
             .attr("data-toggle","tooltip");
+
+        if (j > 0) {
+            // Add separator line
+            addSectionLine("Line 01...", sectionGroups[j]);
+        }
 
     }
 
@@ -426,7 +427,7 @@ export default function openmetadesign_viz(data) {
         if (j == 0) {
             GX = GX + timeG.node().getBBox().x + timeG.node().getBBox().width + simpleGutter;
         } else {
-            GX = GX + sectionGroups[j].node().getBBox().width + gutter;
+            GX = GX + sectionGroups[j].node().getBBox().width + gutter / 2;
         }
 
         sectionGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
