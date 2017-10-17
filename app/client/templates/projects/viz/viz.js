@@ -102,8 +102,11 @@ Template.ProjectsViz.onCreated(function() {
 
 Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
+        // Reactive var for the autorun
+        var thisUpdatedProject = Projects.findOne({_id: thisProject._id });
+
         // Visualize this project
-        openmetadesign_viz(thisProject);
+        openmetadesign_viz(thisUpdatedProject);
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
             container: 'body',
