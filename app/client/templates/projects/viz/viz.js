@@ -6,6 +6,10 @@ import openmetadesign_viz from './openmetadesign.js';
 import { Session } from 'meteor/session';
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Settings } from '../../../../lib/collections/settings.js';
+// Viz
+import d3 from 'd3';
+import { TextBox } from 'd3plus-text';
+let diff = require('deep-diff');
 
 
 Template.ProjectsViz.events({
@@ -104,6 +108,22 @@ Template.ProjectsViz.onRendered(function() {
     Tracker.autorun(function() {
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({_id: thisProject._id });
+        console.log("thisProject:",thisProject);
+        console.log("thisUpdatedProject:",thisUpdatedProject);
+
+        // Check differences with the previous version of the document
+        // In order not to redraw all the project
+        var differences = diff(thisUpdatedProject, thisProject);
+        for (diff in differences) {
+            if (differences[diff].path !== "updatedAt") {
+                console.log(differences[diff]);
+            }
+
+        }
+
+        for (process in thisUpdatedProject.processes) {
+            console.log("PROCESS:", thisUpdatedProject.processes[process]);
+        }
 
         // Visualize this project
         openmetadesign_viz(thisUpdatedProject);

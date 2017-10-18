@@ -1,7 +1,5 @@
 import d3 from 'd3';
-import {
-    TextBox
-} from 'd3plus-text';
+import { TextBox } from 'd3plus-text';
 
 export default function openmetadesign_viz(data) {
 
