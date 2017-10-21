@@ -2,7 +2,6 @@
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 
-import openmetadesign_viz from './openmetadesign.js';
 import { Session } from 'meteor/session';
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Settings } from '../../../../lib/collections/settings.js';
