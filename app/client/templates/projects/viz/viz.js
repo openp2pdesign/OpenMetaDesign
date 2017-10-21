@@ -447,10 +447,9 @@ Template.ProjectsViz.onRendered(function() {
         // Debug: see the border of the svg
         svg.attr("style", "outline: thin solid black;");
 
-        // Draw everything
+        // LAYOUT
 
         // Draw the Time section
-
         // Time scale and axis
         var timeG = svg.append("g");
 
@@ -519,7 +518,7 @@ Template.ProjectsViz.onRendered(function() {
         });
 
 
-        // Layout: organize sections
+        // Organize sections
         // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
         // TODO Each section should be wide enough to have overlapping activities
@@ -541,10 +540,11 @@ Template.ProjectsViz.onRendered(function() {
 
         }
 
-
         // Translate journeyG it after the timeG section
         // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
         // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
+
+        // ACTIVITIES
 
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({_id: thisProject._id });
@@ -563,6 +563,15 @@ Template.ProjectsViz.onRendered(function() {
 
         for (process in thisUpdatedProject.processes) {
             console.log("PROCESS:", thisUpdatedProject.processes[process]);
+            for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                processData = thisUpdatedProject.processes[process];
+                console.log("ACTIVITIES:", );
+                x = 10;
+                y = 10;
+                parent = sectionGroups[0];
+                addActivity(x, y, parent, activityData, processData);
+            }
         }
 
 
