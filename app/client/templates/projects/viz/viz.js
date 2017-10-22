@@ -555,8 +555,42 @@ Template.ProjectsViz.onRendered(function() {
         // In order not to redraw all the project
         var differences = diff(thisUpdatedProject, thisProject);
         for (diff in differences) {
-            if (differences[diff].path !== "updatedAt") {
+            if (differences[diff].path != "updatedAt") {
                 console.log(differences[diff]);
+                elementsChanged = differences[diff].path;
+                if (differences[diff].kind === "A") {
+                    console.log("ADDED");
+                    console.log(elementsChanged);
+                } else if (differences[diff].kind === "E") {
+                    console.log("EDIT");
+                    for (element in elementsChanged) {
+                        if (element != "updatedAt") {
+                            console.log("EDIT is not timestamp");
+                            console.log(elementsChanged);
+                        }
+                    }
+                } else if (differences[diff].kind === "D") {
+                    console.log("DELETE");
+                    console.log(elementsChanged);
+                }
+                // An activity was added
+                // ...
+                // An activity was edited
+                // ...
+                // An activity was deleted
+                // ...
+                // An issue was added
+                // ...
+                // An issue was edited
+                // ...
+                // An issue was deleted
+                // ...
+                // A flow was added
+                // ...
+                // A flow was edited
+                // ...
+                // A flow was deleted
+                // ...
             }
 
         }
