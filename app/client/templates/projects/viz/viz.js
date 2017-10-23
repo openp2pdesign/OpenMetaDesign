@@ -498,6 +498,7 @@ Template.ProjectsViz.onRendered(function() {
 
             if (j > 0) {
                 // Add separator line
+                // TODO: get text from the data, add a new Schema
                 addSectionLine("Line 01...", sectionGroups[j]);
             }
 
@@ -550,13 +551,14 @@ Template.ProjectsViz.onRendered(function() {
 
         // LOAD
         // Before reactive editing, draw everything that's already there
+        // Look in each process
         for (process in thisProject.processes) {
-            console.log("PROCESS:", thisProject.processes[process]);
+            // Look in each activity
             for (activity in thisProject.processes[process]["activities"]) {
                 activityData = thisProject.processes[process]["activities"][activity];
                 processData = thisProject.processes[process];
-                console.log("ACTIVITIES:", );
-
+                // Draw the activity
+                // ...
             }
         }
 
@@ -585,24 +587,23 @@ Template.ProjectsViz.onRendered(function() {
                         parentGroup = sectionGroups[elementsChanged[1]];
                         x = elementsChanged[1] * (mainContainerWidth+gutter);
                         y = 10;
-                        // Added element: id
-                        console.log("ID",itemsChanged.id);
                         addActivity(x, y, parentGroup, activityData, processData);
                     }
                 } else if (differences[diff].kind === "E") {
                     // EDIT
                     for (element in elementsChanged) {
+                        // The updatedAt field is always edited, so let's skip it
                         if (element != "updatedAt") {
-                            console.log("EDIT is not timestamp");
                             console.log(elementsChanged);
                             // Get the changed element, delete it and recreate it with new data
+                            // itemsChanged.id
                         }
                     }
                 } else if (differences[diff].kind === "D") {
-                    console.log("DELETE");
                     console.log(elementsChanged);
                     // DELETE
                     // Get the selected element, delete it
+                    // itemsChanged.id
                 }
                 // An activity was added
                 // ...
