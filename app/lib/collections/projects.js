@@ -330,6 +330,20 @@ ProcessSchema = new SimpleSchema({
     // }
 });
 
+// A schema for the separator lines between the processes
+SeparatorSchema = new SimpleSchema({
+    first: {
+        type: String
+    },
+    second: {
+        type: String
+    },
+    text: {
+        type: String,
+        max: 140
+    },
+});
+
 // A schema for a license
 LicenseSchema = new SimpleSchema({
     title: {
@@ -374,6 +388,10 @@ ProjectSchema = new SimpleSchema({
         type: Array,
     },
     'processes.$': ProcessSchema,
+    separators: {
+        type: Array,
+    },
+    'separators.$': SeparatorSchema,
     // flows: {
     //     type: [FlowSchema],
     //     optional: true
