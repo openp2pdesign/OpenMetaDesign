@@ -122,6 +122,11 @@ Template.ProjectsViz.onRendered(function() {
         var simpleGutter = 10;
         var labelHeight = 20;
 
+        // Activity
+        var participationContainerWidth = 30;
+        var mainContainerWidth = 170;
+        var containerHeight = 500;
+
         // Get dimensions of the container on window resize
         window.addEventListener("resize", function(d) {
             width = d3Container.clientWidth;
@@ -294,11 +299,6 @@ Template.ProjectsViz.onRendered(function() {
         // Create an activity
         var addActivity = function(x, y, parent, activityData, processData) {
 
-            // Dimensions
-            var participationContainerWidth = 30;
-            var mainContainerWidth = 170;
-            var containerHeight = 500;
-
             var activity = parent.append("g");
 
             // Add the activity id
@@ -425,19 +425,19 @@ Template.ProjectsViz.onRendered(function() {
                 .render();
 
             // Add emojis
-            var activityEmojis = mainContainer.append("g");
-            var emoji01 = addEmoji(x, y, 10, activityEmojis, "smile");
-            emoji01.attr("title", "I like it!")
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
-            var emoji02 = addEmoji(x + 25, y, 10, activityEmojis, "smile");
-            emoji02.attr("title", "I like it!")
-                .classed("button-tooltip", "true")
-                .attr("data-toggle", "tooltip");
-            var emoji03 = addEmoji(x + 50, y, 10, activityEmojis, "smile");
-            emoji03.attr("title", "I like it!")
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
+            // var activityEmojis = mainContainer.append("g");
+            // var emoji01 = addEmoji(x, y, 10, activityEmojis, "smile");
+            // emoji01.attr("title", "I like it!")
+            //     .classed("button-tooltip", true)
+            //     .attr("data-toggle", "tooltip");
+            // var emoji02 = addEmoji(x + 25, y, 10, activityEmojis, "smile");
+            // emoji02.attr("title", "I like it!")
+            //     .classed("button-tooltip", "true")
+            //     .attr("data-toggle", "tooltip");
+            // var emoji03 = addEmoji(x + 50, y, 10, activityEmojis, "smile");
+            // emoji03.attr("title", "I like it!")
+            //     .classed("button-tooltip", true)
+            //     .attr("data-toggle", "tooltip");
 
             // Return the whole activity
             return activity;
@@ -510,18 +510,11 @@ Template.ProjectsViz.onRendered(function() {
         //     .attr("height", 20)
         //     .attr("fill", "orange");
 
-        // Add tooltips to the visualization
-        this.$('svg .button-tooltip').tooltip({
-            container: 'body',
-            trigger: "hover",
-            placement: 'top'
-        });
-
 
         // Organize sections
         // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
-        // TODO Each section should be wide enough to have overlapping activities
+        // TODO Each section should be wide enough to avoid have overlapping activities
 
         // Translate timeG according to the label width
         var GX = timeG.node().getBBox().width;
@@ -529,12 +522,10 @@ Template.ProjectsViz.onRendered(function() {
 
         for (var j in thisProject.processes) {
             if (j == 0) {
-                GX = GX + timeG.node().getBBox().x + timeG.node().getBBox().width + simpleGutter;
+                GX = GX + simpleGutter;
             } else {
-                GX = GX + sectionGroups[j].node().getBBox().width + gutter / 2;
+                GX = GX + sectionGroups[j-1].node().getBBox().width + gutter;
             }
-
-            console.log("TR",j, GX);
 
             sectionGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
 
@@ -543,6 +534,13 @@ Template.ProjectsViz.onRendered(function() {
         // Translate journeyG it after the timeG section
         // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
         // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
+
+        // Add tooltips to the visualization
+        this.$('svg .button-tooltip').tooltip({
+            container: 'body',
+            trigger: "hover",
+            placement: 'top'
+        });
 
         // ACTIVITIES
 
@@ -558,20 +556,36 @@ Template.ProjectsViz.onRendered(function() {
             if (differences[diff].path != "updatedAt") {
                 console.log(differences[diff]);
                 elementsChanged = differences[diff].path;
+                itemsChanged = differences[diff].item.lhs;
                 if (differences[diff].kind === "A") {
-                    console.log("ADDED");
-                    console.log(elementsChanged);
+                    // ADD
+                    // What changed:
+                    // 0: what (process)
+                    // 1: which process (0-3)
+                    // 2: what inside (activities)
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {
+                        // Add the new element
+                        parentGroup = sectionGroups[elementsChanged[1]];
+                        x = elementsChanged[1] * (mainContainerWidth+gutter);
+                        y = 10;
+                        // Added element: id
+                        console.log("ID",itemsChanged.id);
+                        addActivity(x, y, parentGroup, activityData, processData);
+                    }
                 } else if (differences[diff].kind === "E") {
-                    console.log("EDIT");
+                    // EDIT
                     for (element in elementsChanged) {
                         if (element != "updatedAt") {
                             console.log("EDIT is not timestamp");
                             console.log(elementsChanged);
+                            // Get the changed element, delete it and recreate it with new data
                         }
                     }
                 } else if (differences[diff].kind === "D") {
                     console.log("DELETE");
                     console.log(elementsChanged);
+                    // DELETE
+                    // Get the selected element, delete it
                 }
                 // An activity was added
                 // ...
@@ -601,10 +615,7 @@ Template.ProjectsViz.onRendered(function() {
                 activityData = thisUpdatedProject.processes[process]["activities"][activity];
                 processData = thisUpdatedProject.processes[process];
                 console.log("ACTIVITIES:", );
-                x = 10;
-                y = 10;
-                parent = sectionGroups[0];
-                addActivity(x, y, parent, activityData, processData);
+
             }
         }
 
