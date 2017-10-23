@@ -582,12 +582,22 @@ Template.ProjectsViz.onRendered(function() {
                     // 0: what (process)
                     // 1: which process (0-3)
                     // 2: what inside (activities)
+
+                    // An activity was added
                     if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {
                         // Add the new element
                         parentGroup = sectionGroups[elementsChanged[1]];
                         x = elementsChanged[1] * (mainContainerWidth+gutter);
                         y = 10;
                         addActivity(x, y, parentGroup, activityData, processData);
+                    }
+                    // An issue was added
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {
+                        // Add the new element
+                    }
+                    // A flow was added
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {
+                        // Add the new element
                     }
                 } else if (differences[diff].kind === "E") {
                     // EDIT
@@ -597,6 +607,13 @@ Template.ProjectsViz.onRendered(function() {
                             console.log(elementsChanged);
                             // Get the changed element, delete it and recreate it with new data
                             // itemsChanged.id
+
+                            // An activity was edited
+                            // ...
+                            // An issue was edited
+                            // ...
+                            // A flow was edited
+                            // ...
                         }
                     }
                 } else if (differences[diff].kind === "D") {
@@ -604,29 +621,18 @@ Template.ProjectsViz.onRendered(function() {
                     // DELETE
                     // Get the selected element, delete it
                     // itemsChanged.id
+
+                    // An activity was deleted
+                    // ...
+                    // An issue was deleted
+                    // ...
+                    // A flow was deleted
+                    // ...
                 }
-                // An activity was added
-                // ...
-                // An activity was edited
-                // ...
-                // An activity was deleted
-                // ...
-                // An issue was added
-                // ...
-                // An issue was edited
-                // ...
-                // An issue was deleted
-                // ...
-                // A flow was added
-                // ...
-                // A flow was edited
-                // ...
-                // A flow was deleted
-                // ...
+
             }
 
         }
-
 
     });
 });
