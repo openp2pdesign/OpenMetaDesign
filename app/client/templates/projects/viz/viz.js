@@ -454,8 +454,12 @@ Template.ProjectsViz.onRendered(function() {
         var timeG = svg.append("g");
 
         // TODO: get time domain from earliest start and latest end activities
+        // When the project is brand new, start with 1 year from now
+        startDate = new Date();
+        endDate = new Date().setFullYear(new Date().getFullYear() + 1);
+
         var yScale = d3.scaleTime()
-            .domain([new Date(2000, 0, 1), new Date(2001, 0, 11)])
+            .domain([startDate, endDate])
             .range([0, 800]);
         yAxis = d3.axisLeft().scale(yScale)
             .ticks(16)
@@ -544,6 +548,19 @@ Template.ProjectsViz.onRendered(function() {
 
         // ACTIVITIES
 
+        // LOAD
+        // Before reactive editing, draw everything that's already there
+        for (process in thisProject.processes) {
+            console.log("PROCESS:", thisProject.processes[process]);
+            for (activity in thisProject.processes[process]["activities"]) {
+                activityData = thisProject.processes[process]["activities"][activity];
+                processData = thisProject.processes[process];
+                console.log("ACTIVITIES:", );
+
+            }
+        }
+
+        // REACTIVE EDITING
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({_id: thisProject._id });
         console.log("thisProject:",thisProject);
@@ -607,16 +624,6 @@ Template.ProjectsViz.onRendered(function() {
                 // ...
             }
 
-        }
-
-        for (process in thisUpdatedProject.processes) {
-            console.log("PROCESS:", thisUpdatedProject.processes[process]);
-            for (activity in thisUpdatedProject.processes[process]["activities"]) {
-                activityData = thisUpdatedProject.processes[process]["activities"][activity];
-                processData = thisUpdatedProject.processes[process];
-                console.log("ACTIVITIES:", );
-
-            }
         }
 
 
