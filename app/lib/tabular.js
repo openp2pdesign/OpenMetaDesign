@@ -14,22 +14,22 @@ TabularTables.Users = new Tabular.Table({
     pub: "tabular_users",
     columns: [{
         data: "username",
-        title: "Username"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Username'
     }, {
         data: "emails.[0].address",
-        title: "E-mail"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> E-mail'
     }, {
         data: "profile.firstName",
-        title: "Name"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Name'
     }, {
         data: "profile.lastName",
-        title: "Surname"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Surname'
     }, {
         data: "profile.bio",
-        title: "Bio"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Bio'
     }, {
         data: "roles",
-        title: "Role"
+        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Roles'
     }, {
         title: "Actions",
         tmpl: Meteor.isClient && Template.EditUser
@@ -44,22 +44,19 @@ TabularTables.Projects = new Tabular.Table({
     pub: "projects",
     columns: [{
         data: "_id",
-        title: "ID"
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }, {
         data: "title",
-        title: "Title"
+        title: '<i class="fa fa-header" aria-hidden="true"></i> Title'
     }, {
         data: "createdBy",
-        title: "Created by"
+        title: '<i class="fa fa-header" aria-hidden="true"></i> Created by'
     }, {
         data: "createdAt",
-        title: "Created at"
-    }, {
-        data: "createdAt",
-        title: "... time ago",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
         render: function(val, type, doc) {
             if (val instanceof Date) {
-                return moment(val).calendar();
+                return moment(val).calendar() + " -- " + val;
             } else {
                 return "Never";
             }

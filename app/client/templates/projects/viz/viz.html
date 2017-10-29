@@ -1,26 +1,44 @@
 <template name="ProjectsViz">
-  <div class="viz">
-    <h1>Project title <span class="label label-primary">v0.1</span></h1>
-    <div>
-        <h2>{{_ "project_description"}}</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut. Nullam in turpis tincidunt, mattis ante nec, sodales felis. Vivamus sagittis metus a arcu ullamcorper tristique. Fusce viverra a libero dapibus porttitor. Pellentesque orci nisi, consectetur ut aliquam at, eleifend ac justo. Praesent fermentum dui sit amet diam tincidunt, et dignissim metus luctus. Integer placerat molestie tellus vel pellentesque. Vestibulum semper neque quam. Duis accumsan accumsan odio, ac vestibulum quam suscipit at. Integer et massa euismod, feugiat lorem vel, pretium augue. Nam id justo arcu. Pellentesque ullamcorper vitae lacus ac vestibulum.</p>
+    <div class="viz">
+        {{#with data}}
+            <h1>
+                {{title}}
+                <span class="label label-primary">{{version}}</span>
+            </h1>
+            <div class="row">
+                <div class="col-md-8 col-lg-8">
+                    <h2>{{_ "project_description"}}</h2>
+                    <p>
+                        {{description}}
+                    </p>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    Created at {{createdAt}} by {{createdBy}}
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    Last updated at {{updatedAt}} by {{updatedAtBy}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <h2>Founders</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h2>Designers</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <h2>Community</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h2>{{_ "processes"}}</h2>
+                    <div id="d3-container"></div>
+                </div>
+            </div>
+        {{/with}}
     </div>
-    <div>
-        <h2>Founders</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
-    </div>
-    <div>
-        <h2>Designers</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
-    </div>
-    <div>
-        <h2>Community</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
-    </div>
-    <div>
-        <h2>Processes</h2>
-    </div>
-    <div id="d3-container" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    </div>
-  </div>
 </template>
