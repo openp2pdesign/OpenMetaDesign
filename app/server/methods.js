@@ -77,7 +77,20 @@ Meteor.methods({
             }, {
                 "title": "Support processes",
                 "activities": []
-            }]
+            }],
+            "separators": [{
+                "first": "#ID of left process",
+                "second": "#ID of right process",
+                "text": "Line of interaction"
+            }, {
+                "first": "#ID of left process",
+                "second": "#ID of right process",
+                "text": "Line of external visibility"
+            }, {
+                "first": "#ID of left process",
+                "second": "#ID of right process",
+                "text": "Line of ..."
+            },]
         });
     },
     'removeProject': function(projectId) {

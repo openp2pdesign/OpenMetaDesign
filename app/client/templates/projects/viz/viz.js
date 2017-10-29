@@ -134,7 +134,7 @@ Template.ProjectsViz.onRendered(function() {
             console.log(width, height);
         });
 
-        // Add the SVG to the container
+        // Add the visualization SVG to the container
         var svg = d3.select('#d3-container').append("svg")
             .attr("width", "100%")
             .attr("height", "100%")
@@ -449,6 +449,42 @@ Template.ProjectsViz.onRendered(function() {
 
         // LAYOUT
 
+        // Add the buttons svg for html sections
+        var htmlButtons = d3.selectAll(".html-edit-button").append("svg")
+            .attr("width", "50px")
+            .attr("height", "20px");
+        htmlButtons.attr("style", "outline: thin solid red;");
+
+        console.log("HTML BUTTONS",htmlButtons);
+
+        for (htmlButtonGroup in htmlButtons["_groups"][0]) {
+            thisParentID = htmlButtons["_groups"][0][htmlButtonGroup]["parentElement"]["id"];
+            thisSvgElement = htmlButtons["_groups"][0][htmlButtonGroup];
+
+            thisGroup = d3.select(thisSvgElement).append("g");
+
+            // Edit this field button
+            var editThisButton = addButton(10, 10, 10, thisGroup, '\uf074');
+            editThisButton.attr("data-toggle", "modal")
+                .classed("activity-button", true)
+                .attr("title", "Edit this")
+                .attr("data-activity-mode", "add")
+                .attr("data-activity-id", "none")
+                .attr("data-process-id", thisParentID)
+                .classed("button-tooltip", true)
+                .attr("data-toggle","tooltip");
+            // Discuss this field button
+            var discussThisButton = addButton(32, 10, 10, thisGroup, '\uf074');
+            discussThisButton.attr("data-toggle", "modal")
+                .classed("activity-button", true)
+                .attr("title", "Discuss this")
+                .attr("data-activity-mode", "add")
+                .attr("data-activity-id", "none")
+                .attr("data-process-id", thisParentID)
+                .classed("button-tooltip", true)
+                .attr("data-toggle","tooltip");
+        }
+
         // Draw the Time section
         // Time scale and axis
         var timeG = svg.append("g");
@@ -457,6 +493,14 @@ Template.ProjectsViz.onRendered(function() {
         // When the project is brand new, start with 1 year from now
         startDate = new Date();
         endDate = new Date().setFullYear(new Date().getFullYear() + 1);
+        // else
+        //console.log("PRO",thisProject.processes);
+        // Find earliest start and latest end of an activity
+        for (process in thisProject.processes) {
+            for (activity in process.activities) {
+                console.log(activity);
+            }
+        }
 
         var yScale = d3.scaleTime()
             .domain([startDate, endDate])

@@ -447,6 +447,16 @@ ProjectSchema = new SimpleSchema({
             return updatedByUser.username;
         }
     },
+    updatedAtByID: {
+        type: String,
+        label: "Last updated by",
+        autoValue: function () {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            }); // TODO: look for the last user who modified the doc
+            return updatedByUser.username;
+        }
+    },
 });
 
 // Attach the ProjectSchema to the projects collection

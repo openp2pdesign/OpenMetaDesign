@@ -2,12 +2,12 @@
     <div class="viz">
         {{#with data}}
             <h1>
-                {{title}}
-                <span class="label label-primary">{{version}}</span>
+                {{title}}<span class="html-edit-button" id="html-edit-button-title"></span>
+                <span class="label label-primary">{{version}}</span><span class="html-edit-button" id="html-edit-button-version"></span>
             </h1>
             <div class="row">
                 <div class="col-md-8 col-lg-8">
-                    <h2>{{_ "project_description"}}</h2>
+                    <h2>{{_ "project_description"}}</h2><span class="html-edit-button" id="html-edit-button-description"></span>
                     <p>
                         {{description}}
                     </p>
@@ -21,15 +21,15 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-lg-4">
-                    <h2>Founders</h2>
+                    <h2>Founders</h2><span class="html-edit-button" id="html-edit-button-founders"></span>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <h2>Designers</h2>
+                    <h2>Designers</h2><span class="html-edit-button" id="html-edit-button-designers"></span>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    <h2>Community</h2>
+                    <h2>Community</h2><span class="html-edit-button" id="html-edit-button-community"></span>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
                 </div>
             </div>
