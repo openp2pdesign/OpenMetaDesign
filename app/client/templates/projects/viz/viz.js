@@ -100,7 +100,7 @@ Template.ProjectsViz.events({
 /*****************************************************************************/
 Template.ProjectsViz.helpers({
     data: function() {
-        return thisProject;
+        return Projects.findOne({_id: thisProject._id });
     }
 });
 
@@ -478,14 +478,11 @@ Template.ProjectsViz.onRendered(function() {
             .attr("height", "20px");
         htmlButtons.attr("style", "outline: thin solid red;");
 
-        console.log("HTML BUTTONS",htmlButtons);
-
         for (htmlButtonGroup in htmlButtons["_groups"][0]) {
             thisParentID = htmlButtons["_groups"][0][htmlButtonGroup]["parentElement"]["id"];
             thisSvgElement = htmlButtons["_groups"][0][htmlButtonGroup];
 
             thisGroup = d3.select(thisSvgElement).append("g");
-
             projectField = thisParentID.replace("html-edit-button-","");
 
             // Edit this field button

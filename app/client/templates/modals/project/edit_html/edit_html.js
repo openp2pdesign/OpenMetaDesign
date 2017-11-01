@@ -85,6 +85,7 @@ Template.EditHtml.events({
 Template.EditHtml.helpers({
     data: function() {
         // Return helper values for the template
+        thisProject = Projects.findOne({_id: thisProject._id });
         return {
             "project": thisProject,
             "id": this.field,
@@ -96,14 +97,7 @@ Template.EditHtml.helpers({
 /*****************************************************************************/
 /* EditHtml: Lifecycle Hooks */
 /*****************************************************************************/
-Template.EditHtml.onCreated(function() {
-    // Access projects
-    self.subscription = Meteor.subscribe('projects');
-    // Load the current project
-    var thisProject = Projects.findOne({
-        '_id': this.project
-    });
-});
+Template.EditHtml.onCreated(function() {});
 
 Template.EditHtml.onRendered(function() {});
 
