@@ -79,16 +79,16 @@ Meteor.methods({
                 "activities": []
             }],
             "separators": [{
-                "first": "#ID of left process",
-                "second": "#ID of right process",
+                "first": "Customer processes",
+                "second": "Front-Office processes",
                 "text": "Line of interaction"
             }, {
-                "first": "#ID of left process",
-                "second": "#ID of right process",
+                "first": "Front-Office processes",
+                "second": "Back-Office processes",
                 "text": "Line of external visibility"
             }, {
-                "first": "#ID of left process",
-                "second": "#ID of right process",
+                "first": "Back-Office processes",
+                "second": "Support processes",
                 "text": "Line of ..."
             },]
         });

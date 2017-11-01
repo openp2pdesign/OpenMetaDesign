@@ -588,14 +588,14 @@ Template.ProjectsViz.onRendered(function() {
         var sectionLabels = [];
         var lineGroups = [];
 
-        for (var j in thisProject.processes) {
+        for (var j in thisUpdatedProject.processes) {
             sectionGroups.push(svg.append("g"));
             lineGroups.push(svg.append("g"));
         }
 
-        for (var j in thisProject.processes) {
+        for (var j in thisUpdatedProject.processes) {
             // Add section label
-            sectionLabels.push(addSectionLabel(thisProject.processes[j].title, sectionGroups[j]));
+            sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionGroups[j]));
 
             // Add Activity button
             var addActivityButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf067');
@@ -604,15 +604,23 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("title", "Add an activity here")
                 .attr("data-activity-mode", "add")
                 .attr("data-activity-id", "none")
-                .attr("data-process-id", thisProject.processes[j].id)
+                .attr("data-process-id", thisUpdatedProject.processes[j].id)
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
-            if (j > 0) {
+
                 // Add separator line
                 // TODO: get text from the data, add a new Schema
-                addSectionLine("Line 01...", sectionGroups[j]);
-            }
+                console.log(thisUpdatedProject.processes[j].title);
+                for (separator in thisUpdatedProject.separators) {
+                    thisSeparator = thisUpdatedProject.separators[separator]
+                    if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
+                        console.log(thisSeparator.text);
+                        addSectionLine(thisSeparator.text, sectionGroups[j]);
+                    }
+                }
+
+
 
         }
 
