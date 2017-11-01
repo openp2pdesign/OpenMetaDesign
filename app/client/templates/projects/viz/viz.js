@@ -645,7 +645,7 @@ Template.ProjectsViz.onRendered(function() {
         // TODO Each section should be wide enough to avoid have overlapping activities
 
         // Translate timeG according to the label width
-        var GX = timeG.node().getBBox().width + 20;
+        var GX = d3.select("#yAxisG").node().getBBox().width + 20;
         timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
 
         for (var j in thisProject.processes) {
