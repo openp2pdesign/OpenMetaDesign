@@ -325,14 +325,14 @@ Template.ProjectsViz.onRendered(function() {
             .attr("x1", 0)
             .attr("y1", 0)
             .attr("x1", 0)
-            .attr("y1", 300)
+            .attr("y1", d3Container.clientHeight)
             .attr("class", "svg-lines-line");
         // Add the background behind the text
         sectionLine.append("rect")
             .attr("x", -10)
             .attr("y", 0)
             .attr("width", 20)
-            .attr("height", 100)
+            .attr("height", text.length * 5)
             .attr("class", "svg-lines-rect");
         // Add the text
         sectionLine.append("text")
@@ -597,7 +597,7 @@ Template.ProjectsViz.onRendered(function() {
             // Add section label
             sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionGroups[j]));
 
-            // Add Activity button
+            // Add Add Activity button
             var addActivityButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf067');
             addActivityButton.attr("data-toggle", "modal")
                 .classed("activity-button", true)
@@ -607,7 +607,6 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("data-process-id", thisUpdatedProject.processes[j].id)
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
-
 
                 // Add separator line
                 // TODO: get text from the data, add a new Schema
@@ -619,8 +618,6 @@ Template.ProjectsViz.onRendered(function() {
                         addSectionLine(thisSeparator.text, sectionGroups[j]);
                     }
                 }
-
-
 
         }
 
