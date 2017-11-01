@@ -177,8 +177,6 @@ Template.ProjectsViz.onRendered(function() {
         console.log(width, height);
     });
 
-    // Remove previous svg
-    //d3.selectAll("#d3-container").selectAll("*").remove();
     // Add the visualization SVG to the container
     var svg = d3.select('#d3-container').append("svg")
         .attr("width", "100%")
@@ -539,7 +537,7 @@ Template.ProjectsViz.onRendered(function() {
             _id: thisProject._id
         });
 
-        // LAYOUT AND DRAWING - SVG
+        // LAYOUT - SVG
         // Both general layout and all activities are rendered programmatically here
         // Layout: Find the activity with the earlieast start
         activitiesStarts = []
@@ -551,10 +549,6 @@ Template.ProjectsViz.onRendered(function() {
             for (activity in thisUpdatedProject.processes[process]["activities"]) {
                 activityData = thisUpdatedProject.processes[process]["activities"][activity];
                 processData = thisUpdatedProject.processes[process];
-                // Draw the activity
-                // ...
-                console.log(activityData);
-                console.log(activityData.time);
                 activitiesStarts.push(activityData.time.start)
                 activitiesEnds.push(activityData.time.end)
             }
@@ -563,13 +557,9 @@ Template.ProjectsViz.onRendered(function() {
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
 
-        // LAYOUT - SVG
-
         // Draw the Time section
-        // Time scale and axis
-        var timeG = svg.append("g");
-
-        console.log((isFinite(firstStart)), isFinite(lastEnd));
+        var timeG = svg.append("g").attr("id", "yAxisG");
+        // Choose the start and end for the time scale
         if (isFinite(firstStart) || isFinite(lastEnd)) {
             // If there are start and end, then use them for the time scale
             startDate = firstStart;
@@ -579,15 +569,15 @@ Template.ProjectsViz.onRendered(function() {
             startDate = new Date();
             endDate = new Date().setFullYear(new Date().getFullYear() + 1);
         }
-
+        // Time scale
         var yScale = d3.scaleTime()
             .domain([startDate, endDate])
             .range([0, 800]);
-        yAxis = d3.axisLeft().scale(yScale)
+        // Time axis
+        let yAxis = d3.axisLeft().scale(yScale)
             .ticks(16)
             .tickSize(10);
-        timeG.attr("id", "yAxisG")
-            .call(yAxis);
+        timeG.call(yAxis);
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
@@ -661,6 +651,19 @@ Template.ProjectsViz.onRendered(function() {
         // Translate journeyG it after the timeG section
         // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
         // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
+
+        // Draw the activities
+        // Look in each process
+        for (process in thisUpdatedProject.processes) {
+            // Look in each activity
+            for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                processData = thisUpdatedProject.processes[process];
+                // Draw the activity
+                // ...
+                console.log("Drawing activity with id",activityData.id);
+            }
+        }
 
         // FINAL STEPS
         // Add tooltips to the visualization
