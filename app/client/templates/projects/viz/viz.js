@@ -2,20 +2,11 @@
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 
-import {
-    Session
-} from 'meteor/session';
-import { 
-    Projects
-} from '../../../../lib/collections/projects.js';
-import { 
-    Settings
-} from '../../../../lib/collections/settings.js';
+import { Projects } from '../../../../lib/collections/projects.js';
+import { Settings } from '../../../../lib/collections/settings.js';
 // Viz
 import d3 from 'd3';
-import {
-    TextBox
-} from 'd3plus-text';
+import { TextBox } from 'd3plus-text';
 let diff = require('deep-diff');
 
 
@@ -543,9 +534,11 @@ Template.ProjectsViz.onRendered(function() {
         // LAYOUT - SVG
         // Both general layout and all activities are rendered programmatically here
         // Layout: Find the activity with the earlieast start
-        activitiesStarts = []
+        activitiesStarts = [];
         // Layout: Find the activity with the latest end
-        activitiesEnds = []
+        activitiesEnds = [];
+        activitiesRanges = [];
+        overlaps = [];
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
@@ -554,8 +547,28 @@ Template.ProjectsViz.onRendered(function() {
                 processData = thisUpdatedProject.processes[process];
                 activitiesStarts.push(activityData.time.start)
                 activitiesEnds.push(activityData.time.end)
+                activitiesRanges.push(moment().range(moment(activityData.time.start), moment(activityData.time.end)));
             }
+            // Check overlaps between activities in each process for the layout
+            overlapsCount = 0;
+            for (range in activitiesRanges) {
+                firstRange = activitiesRanges[range];
+                for (anotherRange in activitiesRanges) {
+                    secondRange = activitiesRanges[anotherRange];
+                    // Avoid to check the same dates
+                    if (!firstRange.isSame(secondRange)) {
+                        // If they overlaps...
+                        if (firstRange.overlaps(secondRange)) {
+                            overlapsCount += 1;
+                        }
+                    }
+                }
+            }
+            overlaps.push({process: thisUpdatedProject.processes[process]["title"], overlaps: overlapsCount});
+            activitiesRanges = [];
+            overlapsCount = 0;
         }
+        console.log(overlaps);
         // Layout: Find the first start and last end of activities
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
@@ -614,13 +627,10 @@ Template.ProjectsViz.onRendered(function() {
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
-                // Add separator line
-                // TODO: get text from the data, add a new Schema
-                console.log(thisUpdatedProject.processes[j].title);
+                // Add separator lines from the project data
                 for (separator in thisUpdatedProject.separators) {
                     thisSeparator = thisUpdatedProject.separators[separator]
                     if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
-                        console.log(thisSeparator.text);
                         addSectionLine(thisSeparator.text, sectionGroups[j]);
                     }
                 }
