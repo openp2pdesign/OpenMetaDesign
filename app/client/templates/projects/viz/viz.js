@@ -572,7 +572,7 @@ Template.ProjectsViz.onRendered(function() {
         // Time scale
         var yScale = d3.scaleTime()
             .domain([startDate, endDate])
-            .range([0, 800]);
+            .range([0, d3Container.clientHeight - labelHeight]);
         // Time axis
         let yAxis = d3.axisLeft().scale(yScale)
             .ticks(16)
