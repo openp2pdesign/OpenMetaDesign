@@ -538,27 +538,30 @@ Template.ProjectsViz.onRendered(function() {
         var thisUpdatedProject = Projects.findOne({
             _id: thisProject._id
         });
-        console.log("thisProject:", thisProject);
-        console.log("thisUpdatedProject:", thisUpdatedProject);
 
-        // ACTIVITIES
-        // Draw all the activities
+        // LAYOUT AND DRAWING - SVG
+        // Both general layout and all activities are rendered programmatically here
+        // Layout: Find the activity with the earlieast start
+        activitiesStarts = []
+        // Layout: Find the activity with the latest end
+        activitiesEnds = []
         // Look in each process
-        for (process in thisProject.processes) {
+        for (process in thisUpdatedProject.processes) {
             // Look in each activity
-            for (activity in thisProject.processes[process]["activities"]) {
-                activityData = thisProject.processes[process]["activities"][activity];
-                processData = thisProject.processes[process];
+            for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                processData = thisUpdatedProject.processes[process];
                 // Draw the activity
                 // ...
                 console.log(activityData);
+                console.log(activityData.time);
+                activitiesStarts.push(activityData.time.start)
+                activitiesEnds.push(activityData.time.end)
             }
         }
-
-
-
-
-
+        // Layout: Find the first start and last end of activities
+        firstStart = _.min(activitiesStarts);
+        lastEnd = _.max(activitiesEnds);
 
         // LAYOUT - SVG
 
@@ -566,17 +569,15 @@ Template.ProjectsViz.onRendered(function() {
         // Time scale and axis
         var timeG = svg.append("g");
 
-        // TODO: get time domain from earliest start and latest end activities
-        // When the project is brand new, start with 1 year from now
-        startDate = new Date();
-        endDate = new Date().setFullYear(new Date().getFullYear() + 1);
-        // else
-        //console.log("PRO",thisProject.processes);
-        // Find earliest start and latest end of an activity
-        for (process in thisProject.processes) {
-            for (activity in process.activities) {
-                console.log(activity);
-            }
+        console.log((isFinite(firstStart)), isFinite(lastEnd));
+        if (isFinite(firstStart) || isFinite(lastEnd)) {
+            // If there are start and end, then use them for the time scale
+            startDate = firstStart;
+            endDate = lastEnd;
+        } else {
+            // If there is no start or end, then use 1 year from now as a time scale
+            startDate = new Date();
+            endDate = new Date().setFullYear(new Date().getFullYear() + 1);
         }
 
         var yScale = d3.scaleTime()
@@ -661,6 +662,7 @@ Template.ProjectsViz.onRendered(function() {
         // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
         // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
 
+        // FINAL STEPS
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
             container: 'body',
