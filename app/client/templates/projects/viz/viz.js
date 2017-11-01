@@ -473,10 +473,13 @@ Template.ProjectsViz.onRendered(function() {
         // LAYOUT
 
         // Add the buttons svg for html sections
+
+        // Remove previous ones
+        d3.selectAll(".html-edit-button").selectAll("*").remove();
+        // Add the current ones
         var htmlButtons = d3.selectAll(".html-edit-button").append("svg")
-            .attr("width", "50px")
+            .attr("width", "45px")
             .attr("height", "20px");
-        htmlButtons.attr("style", "outline: thin solid red;");
 
         for (htmlButtonGroup in htmlButtons["_groups"][0]) {
             thisParentID = htmlButtons["_groups"][0][htmlButtonGroup]["parentElement"]["id"];
@@ -486,7 +489,7 @@ Template.ProjectsViz.onRendered(function() {
             projectField = thisParentID.replace("html-edit-button-","");
 
             // Edit this field button
-            var editThisButton = addButton(10, 10, 10, thisGroup, '\uf074');
+            var editThisButton = addButton(10, 10, 10, thisGroup, '\uf044');
             editThisButton.attr("data-toggle", "modal")
                 .attr("title", "Edit this")
                 .attr("data-mode", "edit")
