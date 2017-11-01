@@ -12,6 +12,29 @@ let diff = require('deep-diff');
 
 
 Template.ProjectsViz.events({
+    'click .html-edit-button': function() {
+        event.preventDefault();
+
+        event.path.map( function(item) {
+            // Check the data embedded in the button
+            dataFieldMode = $(item).attr("data-mode");
+            dataFieldID = $(item).attr("data-id");
+
+            if (dataFieldMode == "edit") {
+                // Edit button
+                Modal.show('EditHtml', function () {
+                    return { "project": thisProject._id, "field": dataFieldID,
+                    "mode": "edit" }
+                });
+            } else if (dataFieldMode == "discuss") {
+                // Discuss button
+                Modal.show('DiscussHtml', function () {
+                    return { "project": thisProject._id, "field": dataFieldID,
+                    "mode": "discuss" }
+                });
+            }
+        });
+    },
     'click .activity-button': function() {
         event.preventDefault();
 
@@ -463,24 +486,22 @@ Template.ProjectsViz.onRendered(function() {
 
             thisGroup = d3.select(thisSvgElement).append("g");
 
+            projectField = thisParentID.replace("html-edit-button-","");
+
             // Edit this field button
             var editThisButton = addButton(10, 10, 10, thisGroup, '\uf074');
             editThisButton.attr("data-toggle", "modal")
-                .classed("activity-button", true)
                 .attr("title", "Edit this")
-                .attr("data-activity-mode", "add")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", thisParentID)
+                .attr("data-mode", "edit")
+                .attr("data-id", projectField)
                 .classed("button-tooltip", true)
                 .attr("data-toggle","tooltip");
             // Discuss this field button
             var discussThisButton = addButton(32, 10, 10, thisGroup, '\uf074');
             discussThisButton.attr("data-toggle", "modal")
-                .classed("activity-button", true)
                 .attr("title", "Discuss this")
-                .attr("data-activity-mode", "add")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", thisParentID)
+                .attr("data-mode", "discuss")
+                .attr("data-id", projectField)
                 .classed("button-tooltip", true)
                 .attr("data-toggle","tooltip");
         }

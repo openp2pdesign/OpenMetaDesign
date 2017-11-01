@@ -1,7 +1,3 @@
-/*****************************************************************************/
-/* Activity: Event Handlers */
-/*****************************************************************************/
-
 // Load Pnotify
 import 'pnotify/dist/pnotify.css';
 import PNotify from 'pnotify';
@@ -15,6 +11,9 @@ import { Random } from 'meteor/random';
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 
+/*****************************************************************************/
+/* Activity: Event Handlers */
+/*****************************************************************************/
 Template.Activity.events({
     'click #confirm': function(event) {
         event.preventDefault();

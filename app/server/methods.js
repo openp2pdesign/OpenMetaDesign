@@ -98,6 +98,22 @@ Meteor.methods({
             _id: projectId
         });
     },
+    'editProjectField': function(projectId, field, fieldData) {
+        var fields = {};
+        fields[field] = fieldData;
+        Projects.update({
+            '_id': projectId
+        }, {
+            $set: fields
+        }, function (error) {
+            if (error) {
+            throwError("Error", error.reason, "while editing the", field, "in project", projectId, ".");
+            return "error";
+        } else {
+            console.log(field, "field added to project", projectId, "successfully.");
+            return "success";
+        }});
+    },
     'addActivity': function(projectId, processId, activityId, activityData) {
         Projects.update({
             '_id': projectId,
