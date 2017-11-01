@@ -184,6 +184,9 @@ Template.ProjectsViz.onRendered(function() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // Setup layout container
+    var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
+
     // Debug: see the border of the svg
     // TODO: to be removed
     svg.attr("style", "outline: thin solid black;");
@@ -557,8 +560,11 @@ Template.ProjectsViz.onRendered(function() {
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
 
+        // Reset Layout
+        d3.selectAll("#sectionsSVG").remove();
+        var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
         // Draw the Time section
-        var timeG = svg.append("g").attr("id", "yAxisG");
+        var timeG = sectionsSVG.append("g").attr("id", "yAxisG");
         // Choose the start and end for the time scale
         if (isFinite(firstStart) || isFinite(lastEnd)) {
             // If there are start and end, then use them for the time scale
@@ -577,7 +583,7 @@ Template.ProjectsViz.onRendered(function() {
         let yAxis = d3.axisLeft().scale(yScale)
             .ticks(16)
             .tickSize(10);
-        timeG.call(yAxis);
+        timeG.transition().duration(1000).call(yAxis);
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
@@ -589,8 +595,8 @@ Template.ProjectsViz.onRendered(function() {
         var lineGroups = [];
 
         for (var j in thisUpdatedProject.processes) {
-            sectionGroups.push(svg.append("g"));
-            lineGroups.push(svg.append("g"));
+            sectionGroups.push(sectionsSVG.append("g"));
+            lineGroups.push(sectionsSVG.append("g"));
         }
 
         for (var j in thisUpdatedProject.processes) {
@@ -639,7 +645,7 @@ Template.ProjectsViz.onRendered(function() {
         // TODO Each section should be wide enough to avoid have overlapping activities
 
         // Translate timeG according to the label width
-        var GX = timeG.node().getBBox().width;
+        var GX = timeG.node().getBBox().width + 20;
         timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
 
         for (var j in thisProject.processes) {
