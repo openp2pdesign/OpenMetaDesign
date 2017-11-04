@@ -492,7 +492,7 @@ ProjectSchema = new SimpleSchema({
     versionsCount: {
         type: Number,
         autoValue: function () {
-            return this.siblingField('versions').length;
+            return this.siblingField('versions').value.length;
         }
     },
     // founders: {
