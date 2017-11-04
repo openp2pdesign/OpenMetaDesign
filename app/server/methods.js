@@ -2,10 +2,64 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import { Projects } from '../lib/collections/projects.js';
-import { Settings } from '../lib/collections/settings.js';
+import {
+    Projects
+} from '../lib/collections/projects.js';
+import {
+    Settings
+} from '../lib/collections/settings.js';
+let diff = require('deep-diff');
 
 Meteor.methods({
+    'checkDiff': function(newVersion, oldVersion) {
+        var differences = diff(newVersion, oldVersion);
+        for (diff in differences) {
+            if (differences[diff].path != "updatedAt") {
+                elementsChanged = differences[diff].path;
+                itemsChanged = differences[diff].item.lhs;
+                if (differences[diff].kind === "A") {
+                    // ADD
+                    // An activity was added
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
+                    // An issue was added
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
+                    // A flow was added
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
+                } else if (differences[diff].kind === "E") {
+                    // EDIT
+                    for (element in elementsChanged) {
+                        // The updatedAt field is always edited, so let's skip it
+                        if (element != "updatedAt") {
+                            console.log(elementsChanged);
+                            // Get the changed element, delete it and recreate it with new data
+                            // itemsChanged.id
+
+                            // An element in the html fields was edited
+
+                            // An activity was edited
+                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
+                            // An issue was edited
+                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
+                            // A flow was edited
+                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
+                        }
+                    }
+                } else if (differences[diff].kind === "D") {
+                    console.log(elementsChanged);
+                    // DELETE
+                    // Get the selected element, delete it
+                    // itemsChanged.id
+
+                    // An activity was deleted
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
+                    // An issue was deleted
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
+                    // A flow was deleted
+                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
+                }
+            }
+        }
+    },
     'removeAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
     },
@@ -90,7 +144,7 @@ Meteor.methods({
                 "first": "Back-Office processes",
                 "second": "Support processes",
                 "text": "Line of ..."
-            },]
+            }, ]
         });
     },
     'removeProject': function(projectId) {
@@ -105,14 +159,15 @@ Meteor.methods({
             '_id': projectId
         }, {
             $set: fields
-        }, function (error) {
+        }, function(error) {
             if (error) {
-            throwError("Error", error.reason, "while editing the", field, "in project", projectId, ".");
-            return "error";
-        } else {
-            console.log(field, "field added to project", projectId, "successfully.");
-            return "success";
-        }});
+                throwError("Error", error.reason, "while editing the", field, "in project", projectId, ".");
+                return "error";
+            } else {
+                console.log(field, "field added to project", projectId, "successfully.");
+                return "success";
+            }
+        });
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
         Projects.update({
@@ -122,14 +177,15 @@ Meteor.methods({
             $push: {
                 'processes.$.activities': activityData
             }
-        }, function (error) {
+        }, function(error) {
             if (error) {
-            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
-            return "error";
-        } else {
-            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
-            return "success";
-        }});
+                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                return "success";
+            }
+        });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         Projects.update({
@@ -139,14 +195,15 @@ Meteor.methods({
             $set: {
                 'processes.$.activities': activityData
             }
-        }, function (error) {
+        }, function(error) {
             if (error) {
-            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
-            return "error";
-        } else {
-            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
-            return "success";
-        }});
+                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                return "success";
+            }
+        });
     },
     'deleteActivity': function(projectId, processId, activityId) {
         Projects.update({
@@ -154,16 +211,19 @@ Meteor.methods({
             'processes.id': processId
         }, {
             $pull: {
-                'processes.$.activities': { id: activityId}
+                'processes.$.activities': {
+                    id: activityId
+                }
             }
-        }, function (error) {
+        }, function(error) {
             if (error) {
-            throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
-            return "error";
-        } else {
-            console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
-            return "success";
-        }});
+                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                return "success";
+            }
+        });
     },
     'addFlow': function(projectId, flowId, flowData) {
         Projects.remove({

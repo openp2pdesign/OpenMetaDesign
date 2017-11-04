@@ -362,6 +362,54 @@ LicenseSchema = new SimpleSchema({
     }
 });
 
+// A schema for versioning the project
+VersionSchema = new SimpleSchema({
+    number: {
+        type: Number,
+        defaultValue: 0
+    },
+    id: {
+        type: String,
+        autoValue: function () {
+            return Random.id();
+        }
+    },
+    diff: {
+        type: String
+    },
+    updatedAt: {
+        type: Date,
+        label: "Last update at",
+        autoValue: function () {
+            if (this.isUpdate) {
+                return new Date();
+            } else {
+                return new Date();
+            }
+        }
+    },
+    updatedAtBy: {
+        type: String,
+        label: "Last updated by",
+        autoValue: function () {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return updatedByUser.username;
+        }
+    },
+    updatedAtByID: {
+        type: String,
+        label: "Last updated by",
+        autoValue: function () {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return updatedByUser.username;
+        }
+    },
+});
+
 // A schema for a meta-design project
 ProjectSchema = new SimpleSchema({
     title: {
@@ -372,34 +420,14 @@ ProjectSchema = new SimpleSchema({
         type: String,
         max: 1024
     },
-    version: {
-        type: String,
-        max: 10
-    },
-    // founders: {
-    //     type: [String],
-    //     label: "Founders"
-    // },
     // license: {
     //     type: LicenseSchema,
     //     label: "License"
     // },
-    processes: {
-        type: Array,
+    release: {
+        type: String,
+        max: 10
     },
-    'processes.$': ProcessSchema,
-    separators: {
-        type: Array,
-    },
-    'separators.$': SeparatorSchema,
-    // flows: {
-    //     type: [FlowSchema],
-    //     optional: true
-    // },
-    // contradictions: {
-    //     type: [ContradictionSchema],
-    //     optional: true
-    // },
     createdBy: {
         type: String,
         label: "Creator",
@@ -426,37 +454,40 @@ ProjectSchema = new SimpleSchema({
             }
         }
     },
-    updatedAt: {
-        type: Date,
-        label: "Updated at",
+    versions: {
+        type: Array,
+    },
+    'versions.$': VersionSchema
+    versionsCount: {
+        type: Number,
+        defaultValue: 0,
         autoValue: function () {
-            if (this.isUpdate) {
-                return new Date();
-            } else {
-                return new Date();
-            }
+            return this.versions.length;
         }
     },
-    updatedAtBy: {
-        type: String,
-        label: "Last updated by",
-        autoValue: function () {
-            var updatedByUser = Meteor.users.findOne({
-                _id: this.userId
-            }); // TODO: look for the last user who modified the doc
-            return updatedByUser.username;
-        }
+    // founders: {
+    //     type: [String],
+    //     label: "Founders"
+    // },
+    // community: {
+    //     type: String
+    // },
+    processes: {
+        type: Array,
     },
-    updatedAtByID: {
-        type: String,
-        label: "Last updated by",
-        autoValue: function () {
-            var updatedByUser = Meteor.users.findOne({
-                _id: this.userId
-            }); // TODO: look for the last user who modified the doc
-            return updatedByUser.username;
-        }
+    'processes.$': ProcessSchema,
+    separators: {
+        type: Array,
     },
+    'separators.$': SeparatorSchema,
+    // flows: {
+    //     type: [FlowSchema],
+    //     optional: true
+    // },
+    // contradictions: {
+    //     type: [ContradictionSchema],
+    //     optional: true
+    // },
 });
 
 // Attach the ProjectSchema to the projects collection
