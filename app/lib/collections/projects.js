@@ -454,15 +454,45 @@ ProjectSchema = new SimpleSchema({
             }
         }
     },
+    lastUpdatedAt: {
+        type: Date,
+        label: "Last update at",
+        autoValue: function () {
+            if (this.isUpdate) {
+                return new Date();
+            } else {
+                return new Date();
+            }
+        }
+    },
+    lastUpdatedAtBy: {
+        type: String,
+        label: "Last updated by",
+        autoValue: function () {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return updatedByUser.username;
+        }
+    },
+    lastUpdatedAtByID: {
+        type: String,
+        label: "Last updated by",
+        autoValue: function () {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return updatedByUser.username;
+        }
+    },
     versions: {
         type: Array,
     },
-    'versions.$': VersionSchema
+    'versions.$': VersionSchema,
     versionsCount: {
         type: Number,
-        defaultValue: 0,
         autoValue: function () {
-            return this.versions.length;
+            return this.siblingField('versions').length;
         }
     },
     // founders: {

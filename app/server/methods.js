@@ -2,12 +2,8 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import {
-    Projects
-} from '../lib/collections/projects.js';
-import {
-    Settings
-} from '../lib/collections/settings.js';
+import { Projects } from '../lib/collections/projects.js';
+import { Settings } from '../lib/collections/settings.js';
 let diff = require('deep-diff');
 
 Meteor.methods({
@@ -155,6 +151,7 @@ Meteor.methods({
     'editProjectField': function(projectId, field, fieldData) {
         var fields = {};
         fields[field] = fieldData;
+        // TODO Check diff between new and old version
         Projects.update({
             '_id': projectId
         }, {
@@ -170,6 +167,7 @@ Meteor.methods({
         });
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
+        // TODO Check diff between new and old version
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -188,6 +186,7 @@ Meteor.methods({
         });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
+        // TODO Check diff between new and old version
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -206,6 +205,7 @@ Meteor.methods({
         });
     },
     'deleteActivity': function(projectId, processId, activityId) {
+        // TODO Check diff between new and old version
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -226,31 +226,38 @@ Meteor.methods({
         });
     },
     'addFlow': function(projectId, flowId, flowData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
     },
     'updateFlow': function(projectId, flowId, flowData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
     },
     'deleteFlow': function(projectId, flowId, flowData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
     },
-    'addContradiction': function(projectId, contradictionId, contradictionData) {
+    'addContradiction': function(projectId, contradictionId, contradictionData)
+     {
+         // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
     },
     'updateContradiction': function(projectId, contradictionId, contradictionData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
     },
     'deleteContradiction': function(projectId, contradictionId, contradictionData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
