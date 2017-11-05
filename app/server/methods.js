@@ -2,12 +2,8 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import {
-    Projects
-} from '../lib/collections/projects.js';
-import {
-    Settings
-} from '../lib/collections/settings.js';
+import { Projects } from '../lib/collections/projects.js';
+import { Settings } from '../lib/collections/settings.js';
 let diff = require('deep-diff');
 
 Meteor.methods({
@@ -116,7 +112,7 @@ Meteor.methods({
         });
     },
     'createProject': function() {
-        return Projects.insert({
+        var newProject = {
             "title": "Title...",
             "description": "Description...",
             "release": "0.1",
@@ -151,7 +147,10 @@ Meteor.methods({
                 "number": 1,
                 "diff": "First version"
             }]
-        });
+        }
+        var differences = diff({}, newProject);
+        newProject.versions[0].diff = differences;
+        return Projects.insert(newProject);
     },
     'removeProject': function(projectId) {
         Projects.remove({
@@ -159,14 +158,15 @@ Meteor.methods({
         });
     },
     'editProjectField': function(projectId, field, fieldData) {
-        var fields = {};
-        fields[field] = fieldData;
-        //fields.versionsCount
-        //fields.versions.push()
+        // Load the Project
         var thisProject = Projects.findOne({
             _id: projectId
         });
-        // TODO Check diff between new and old version
+        oldVersion = thisProject;
+        // Set up the changes to be implemented
+        var fields = {};
+        fields[field] = fieldData;
+        // Apply changes by updating the Project
         Projects.update({
             '_id': projectId
         }, {
@@ -177,28 +177,25 @@ Meteor.methods({
                 return "error";
             } else {
                 console.log("Field", field, "edited in project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                        '_id': projectId
+                    }, {
+                        $push: {
+                            "versions": {
+                                "number": thisProject.versionsCount + 1,
+                                "diff": differences
+                            }
+                        }
+                });
                 return "success";
             }
         });
-        Projects.update({
-                '_id': projectId
-            }, {
-                $push: {
-                    "versions": {
-                        "number": thisProject.versionsCount + 1,
-                        "diff": "diff"
-                    }
-                }
-            },
-            function(error) {
-                if (error) {
-                    throwError("Error", error.reason, "while editing the", field, "field in project", projectId, ".");
-                    return "error";
-                } else {
-                    console.log("Field", field, "edited in project", projectId, "successfully.");
-                    return "success";
-                }
-            });
+
 
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
