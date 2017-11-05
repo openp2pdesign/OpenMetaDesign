@@ -379,18 +379,12 @@ VersionSchema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        label: "Last update at",
         autoValue: function () {
-            if (this.isUpdate) {
-                return new Date();
-            } else {
-                return new Date();
-            }
+            return new Date();
         }
     },
     updatedAtBy: {
         type: String,
-        label: "Last updated by",
         autoValue: function () {
             var updatedByUser = Meteor.users.findOne({
                 _id: this.userId
@@ -400,12 +394,8 @@ VersionSchema = new SimpleSchema({
     },
     updatedAtByID: {
         type: String,
-        label: "Last updated by",
         autoValue: function () {
-            var updatedByUser = Meteor.users.findOne({
-                _id: this.userId
-            });
-            return updatedByUser.username;
+            return this.userId;
         }
     },
 });
@@ -430,7 +420,6 @@ ProjectSchema = new SimpleSchema({
     },
     createdBy: {
         type: String,
-        label: "Creator",
         autoValue: function () {
             var createdByUser = Meteor.users.findOne({
                 _id: this.userId
@@ -440,14 +429,12 @@ ProjectSchema = new SimpleSchema({
     },
     createdByID: {
         type: String,
-        label: "Creator ID",
         autoValue: function () {
             return this.userId;
         }
     },
     createdAt: {
         type: Date,
-        label: "Created at",
         autoValue: function () {
             if (this.isInsert) {
                 return new Date();
@@ -456,18 +443,12 @@ ProjectSchema = new SimpleSchema({
     },
     lastUpdatedAt: {
         type: Date,
-        label: "Last update at",
         autoValue: function () {
-            if (this.isUpdate) {
-                return new Date();
-            } else {
-                return new Date();
-            }
+            return new Date();
         }
     },
-    lastUpdatedAtBy: {
+    lastUpdatedBy: {
         type: String,
-        label: "Last updated by",
         autoValue: function () {
             var updatedByUser = Meteor.users.findOne({
                 _id: this.userId
@@ -475,14 +456,10 @@ ProjectSchema = new SimpleSchema({
             return updatedByUser.username;
         }
     },
-    lastUpdatedAtByID: {
+    lastUpdatedByID: {
         type: String,
-        label: "Last updated by",
         autoValue: function () {
-            var updatedByUser = Meteor.users.findOne({
-                _id: this.userId
-            });
-            return updatedByUser.username;
+            return this.userId;
         }
     },
     versions: {
@@ -499,9 +476,10 @@ ProjectSchema = new SimpleSchema({
     //     type: [String],
     //     label: "Founders"
     // },
-    // community: {
-    //     type: String
-    // },
+    community: {
+        type: String,
+        max: 1024
+    },
     processes: {
         type: Array,
     },
