@@ -339,7 +339,7 @@ Template.ProjectsViz.onRendered(function() {
     }
 
     // Create an activity
-    var addActivity = function(x, y, parent, activityData, processData) {
+    var addActivity = function(x, y, height, parent, activityData, processData) {
 
         var activity = parent.append("g");
 
@@ -353,7 +353,7 @@ Template.ProjectsViz.onRendered(function() {
             .attr("x", x)
             .attr("y", y)
             .attr("width", participationContainerWidth)
-            .attr("height", containerHeight);
+            .attr("height", height);
 
         var participationLevelX = x + participationContainerWidth / 2;
         var participationLevelY = y + 20;
@@ -372,7 +372,7 @@ Template.ProjectsViz.onRendered(function() {
             .attr("x", x)
             .attr("y", y)
             .attr("width", mainContainerWidth)
-            .attr("height", containerHeight);
+            .attr("height", height);
 
         // Move the main container beside the participation container
         var mainContainerX = participationContainerWidth + 5;
@@ -551,6 +551,7 @@ Template.ProjectsViz.onRendered(function() {
             }
             // Check overlaps between activities in each process for the layout
             overlapsCount = 0;
+            overlapRanges = []
             for (range in activitiesRanges) {
                 firstRange = activitiesRanges[range];
                 for (anotherRange in activitiesRanges) {
@@ -560,15 +561,22 @@ Template.ProjectsViz.onRendered(function() {
                         // If they overlaps...
                         if (firstRange.overlaps(secondRange)) {
                             overlapsCount += 1;
+                            overlapRanges.push({"first":firstRange, "second":secondRange});
                         }
                     }
                 }
             }
+            // Get the final number of meaningful overlaps per process
+            if (overlapsCount > 0) {
+                console.log(overlapRanges);
+            }
             overlaps.push({process: thisUpdatedProject.processes[process]["title"], overlaps: overlapsCount});
             activitiesRanges = [];
             overlapsCount = 0;
+            overlapRanges = []
         }
-        console.log(overlaps);
+
+
         // Layout: Find the first start and last end of activities
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
@@ -608,7 +616,7 @@ Template.ProjectsViz.onRendered(function() {
         var lineGroups = [];
 
         for (var j in thisUpdatedProject.processes) {
-            sectionGroups.push(sectionsSVG.append("g"));
+            sectionGroups.push(sectionsSVG.append("g").attr("id", thisUpdatedProject.processes[j].title));
             lineGroups.push(sectionsSVG.append("g"));
         }
 
@@ -681,8 +689,17 @@ Template.ProjectsViz.onRendered(function() {
                 activityData = thisUpdatedProject.processes[process]["activities"][activity];
                 processData = thisUpdatedProject.processes[process];
                 // Draw the activity
-                // ...
-                console.log("Drawing activity with id",activityData.id);
+                console.log("Drawing activity with id", activityData.id, "in process", processData.title);
+                console.log(sectionGroups);
+                for (group in sectionGroups) {
+                    sectionSelection = sectionGroups[group]._groups[0][0];
+                    sectionSelectionID = $(sectionSelection).attr("id");
+                    if (sectionSelectionID == processData.title) {
+                        parentGroup = sectionGroups[group]._groups[0];
+                    }
+                }
+                // TODO: get x from the section group... to be stored above
+                addActivity(10, yScale(activityData.time.start), yScale(activityData.time.end), parentGroup, activityData, thisUpdatedProject.processes[process]);
             }
         }
 

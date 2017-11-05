@@ -150,8 +150,6 @@ Meteor.methods({
                 return "success";
             }
         });
-
-
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
