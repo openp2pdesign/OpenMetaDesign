@@ -375,7 +375,7 @@ VersionSchema = new SimpleSchema({
         }
     },
     diff: {
-        type: Object,
+        type: String,
         optional: true,
         blackbox: true
     },

@@ -7,56 +7,6 @@ import { Settings } from '../lib/collections/settings.js';
 let diff = require('deep-diff');
 
 Meteor.methods({
-    'checkDiff': function(newVersion, oldVersion) {
-        var differences = diff(newVersion, oldVersion);
-        return differences;
-        for (diff in differences) {
-            if (differences[diff].path != "updatedAt") {
-                elementsChanged = differences[diff].path;
-                itemsChanged = differences[diff].item.lhs;
-                if (differences[diff].kind === "A") {
-                    // ADD
-                    // An activity was added
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
-                    // An issue was added
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
-                    // A flow was added
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
-                } else if (differences[diff].kind === "E") {
-                    // EDIT
-                    for (element in elementsChanged) {
-                        // The updatedAt field is always edited, so let's skip it
-                        if (element != "updatedAt") {
-                            console.log(elementsChanged);
-                            // Get the changed element, delete it and recreate it with new data
-                            // itemsChanged.id
-
-                            // An element in the html fields was edited
-
-                            // An activity was edited
-                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
-                            // An issue was edited
-                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
-                            // A flow was edited
-                            if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
-                        }
-                    }
-                } else if (differences[diff].kind === "D") {
-                    console.log(elementsChanged);
-                    // DELETE
-                    // Get the selected element, delete it
-                    // itemsChanged.id
-
-                    // An activity was deleted
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "activities") {}
-                    // An issue was deleted
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "issues") {}
-                    // A flow was deleted
-                    if (elementsChanged[0] === "processes" && elementsChanged[2] === "flows") {}
-                }
-            }
-        }
-    },
     'removeAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
     },
@@ -112,6 +62,7 @@ Meteor.methods({
         });
     },
     'createProject': function() {
+        // Default empty project, without version diff
         var newProject = {
             "title": "Title...",
             "description": "Description...",
@@ -148,8 +99,12 @@ Meteor.methods({
                 "diff": "First version"
             }]
         }
+        // Get the first version diff
         var differences = diff({}, newProject);
-        newProject.versions[0].diff = differences;
+        // Store it as a string
+        newProject.versions[0].diff = JSON.stringify(differences);
+        // Get back the value with: JSON.parse()
+        // Save the the first version of the project
         return Projects.insert(newProject);
     },
     'removeProject': function(projectId) {
@@ -188,7 +143,7 @@ Meteor.methods({
                         $push: {
                             "versions": {
                                 "number": thisProject.versionsCount + 1,
-                                "diff": differences
+                                "diff": JSON.stringify(differences)
                             }
                         }
                 });
