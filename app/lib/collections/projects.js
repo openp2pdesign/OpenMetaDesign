@@ -475,7 +475,7 @@ ProjectSchema = new SimpleSchema({
                 var thisProject = Projects.findOne({
                     _id: this.docId
                 });
-                return thisProject.versions.length;
+                return thisProject.versions.length + 1;
             }
         }
     },

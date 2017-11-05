@@ -2,13 +2,18 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import { Projects } from '../lib/collections/projects.js';
-import { Settings } from '../lib/collections/settings.js';
+import {
+    Projects
+} from '../lib/collections/projects.js';
+import {
+    Settings
+} from '../lib/collections/settings.js';
 let diff = require('deep-diff');
 
 Meteor.methods({
     'checkDiff': function(newVersion, oldVersion) {
         var differences = diff(newVersion, oldVersion);
+        return differences;
         for (diff in differences) {
             if (differences[diff].path != "updatedAt") {
                 elementsChanged = differences[diff].path;
@@ -114,7 +119,8 @@ Meteor.methods({
         return Projects.insert({
             "title": "Title...",
             "description": "Description...",
-            "version": "0.1",
+            "release": "0.1",
+            "community": "Describe the community that will be affected by this project or for which this project is developed for.",
             "processes": [{
                 "title": "Customer processes",
                 "activities": []
@@ -140,7 +146,11 @@ Meteor.methods({
                 "first": "Back-Office processes",
                 "second": "Support processes",
                 "text": "Line of ..."
-            }, ]
+            }],
+            "versions": [{
+                "number": 1,
+                "diff": "First version"
+            }]
         });
     },
     'removeProject': function(projectId) {
@@ -151,6 +161,11 @@ Meteor.methods({
     'editProjectField': function(projectId, field, fieldData) {
         var fields = {};
         fields[field] = fieldData;
+        //fields.versionsCount
+        //fields.versions.push()
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
         // TODO Check diff between new and old version
         Projects.update({
             '_id': projectId
@@ -158,13 +173,33 @@ Meteor.methods({
             $set: fields
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while editing the", field, "in project", projectId, ".");
+                throwError("Error", error.reason, "while editing the", field, "field in project", projectId, ".");
                 return "error";
             } else {
-                console.log(field, "field added to project", projectId, "successfully.");
+                console.log("Field", field, "edited in project", projectId, "successfully.");
                 return "success";
             }
         });
+        Projects.update({
+                '_id': projectId
+            }, {
+                $push: {
+                    "versions": {
+                        "number": thisProject.versionsCount + 1,
+                        "diff": "diff"
+                    }
+                }
+            },
+            function(error) {
+                if (error) {
+                    throwError("Error", error.reason, "while editing the", field, "field in project", projectId, ".");
+                    return "error";
+                } else {
+                    console.log("Field", field, "edited in project", projectId, "successfully.");
+                    return "success";
+                }
+            });
+
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
         // TODO Check diff between new and old version
@@ -243,9 +278,8 @@ Meteor.methods({
             _id: projectId
         });
     },
-    'addContradiction': function(projectId, contradictionId, contradictionData)
-     {
-         // TODO Check diff between new and old version
+    'addContradiction': function(projectId, contradictionId, contradictionData) {
+        // TODO Check diff between new and old version
         Projects.remove({
             _id: projectId
         });
