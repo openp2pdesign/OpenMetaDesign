@@ -469,7 +469,14 @@ ProjectSchema = new SimpleSchema({
     versionsCount: {
         type: Number,
         autoValue: function () {
-            return this.siblingField('versions').value.length;
+            if (this.isInsert) {
+                return 1;
+            } else if (this.isUpdate) {
+                var thisProject = Projects.findOne({
+                    _id: this.docId
+                });
+                return thisProject.versions.length;
+            }
         }
     },
     // founders: {
