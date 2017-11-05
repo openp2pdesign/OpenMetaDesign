@@ -154,7 +154,12 @@ Meteor.methods({
 
     },
     'addActivity': function(projectId, processId, activityId, activityData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -168,12 +173,32 @@ Meteor.methods({
                 return "error";
             } else {
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                        '_id': projectId
+                    }, {
+                        $push: {
+                            "versions": {
+                                "number": thisProject.versionsCount + 1,
+                                "diff": JSON.stringify(differences)
+                            }
+                        }
+                });
                 return "success";
             }
         });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -187,12 +212,32 @@ Meteor.methods({
                 return "error";
             } else {
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                        '_id': projectId
+                    }, {
+                        $push: {
+                            "versions": {
+                                "number": thisProject.versionsCount + 1,
+                                "diff": JSON.stringify(differences)
+                            }
+                        }
+                });
                 return "success";
             }
         });
     },
     'deleteActivity': function(projectId, processId, activityId) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
             'processes.id': processId
@@ -208,42 +253,87 @@ Meteor.methods({
                 return "error";
             } else {
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                        '_id': projectId
+                    }, {
+                        $push: {
+                            "versions": {
+                                "number": thisProject.versionsCount + 1,
+                                "diff": JSON.stringify(differences)
+                            }
+                        }
+                });
                 return "success";
             }
         });
     },
     'addFlow': function(projectId, flowId, flowData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
     },
     'updateFlow': function(projectId, flowId, flowData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
     },
     'deleteFlow': function(projectId, flowId, flowData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
     },
     'addContradiction': function(projectId, contradictionId, contradictionData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
     },
     'updateContradiction': function(projectId, contradictionId, contradictionData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
     },
     'deleteContradiction': function(projectId, contradictionId, contradictionData) {
-        // TODO Check diff between new and old version
+        // Load the Project
+        var thisProject = Projects.findOne({
+            _id: projectId
+        });
+        oldVersion = thisProject;
+        // Apply changes by updating the Project
         Projects.remove({
             _id: projectId
         });
