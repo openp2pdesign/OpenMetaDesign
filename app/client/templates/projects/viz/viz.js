@@ -611,18 +611,15 @@ Template.ProjectsViz.onRendered(function() {
 
         // Draw the Processes sections
         var sections = []
-        var sectionGroups = [];
+        var sectionsGroups = [];
         var sectionLabels = [];
         var lineGroups = [];
 
         for (var j in thisUpdatedProject.processes) {
-            sectionGroups.push(sectionsSVG.append("g").attr("id", thisUpdatedProject.processes[j].title));
+            sectionsGroups.push(sectionsSVG.append("g").attr("id", thisUpdatedProject.processes[j].title));
             lineGroups.push(sectionsSVG.append("g"));
-        }
-
-        for (var j in thisUpdatedProject.processes) {
             // Add section label
-            sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionGroups[j]));
+            sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionsGroups[j]));
 
             // Add Add Activity button
             var addActivityButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf067');
@@ -639,7 +636,7 @@ Template.ProjectsViz.onRendered(function() {
                 for (separator in thisUpdatedProject.separators) {
                     thisSeparator = thisUpdatedProject.separators[separator]
                     if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
-                        addSectionLine(thisSeparator.text, sectionGroups[j]);
+                        addSectionLine(thisSeparator.text, sectionsGroups[j]);
                     }
                 }
 
@@ -656,30 +653,28 @@ Template.ProjectsViz.onRendered(function() {
         //     .attr("height", 20)
         //     .attr("fill", "orange");
 
-
         // Organize sections
         // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
         // TODO Each section should be wide enough to avoid have overlapping activities
 
+        sectionsWidth = []
+
         // Translate timeG according to the label width
         var GX = d3.select("#yAxisG").node().getBBox().width + 20;
         timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
+        sectionsWidth.push({"section": "Time", "x": GX});
 
         for (var j in thisProject.processes) {
             if (j == 0) {
                 GX = GX + simpleGutter;
             } else {
-                GX = GX + sectionGroups[j - 1].node().getBBox().width + gutter;
+                GX = GX + sectionsGroups[j - 1].node().getBBox().width + gutter;
             }
-
-            sectionGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
+            sectionsWidth.push({"section": thisProject.processes[j].title, "x": GX});
+            sectionsGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
 
         }
-
-        // Translate journeyG it after the timeG section
-        // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
-        // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
 
         // Draw the activities
         // Look in each process
@@ -690,18 +685,27 @@ Template.ProjectsViz.onRendered(function() {
                 processData = thisUpdatedProject.processes[process];
                 // Draw the activity
                 console.log("Drawing activity with id", activityData.id, "in process", processData.title);
-                console.log(sectionGroups);
-                for (group in sectionGroups) {
-                    sectionSelection = sectionGroups[group]._groups[0][0];
+                // Find the process group in the svg
+                for (group in sectionsGroups) {
+                    sectionSelection = sectionsGroups[group]._groups[0][0];
                     sectionSelectionID = $(sectionSelection).attr("id");
                     if (sectionSelectionID == processData.title) {
-                        parentGroup = sectionGroups[group]._groups[0];
+                        parentGroup = sectionsGroups[group];
                     }
                 }
-                // TODO: get x from the section group... to be stored above
-                addActivity(10, yScale(activityData.time.start), yScale(activityData.time.end), parentGroup, activityData, thisUpdatedProject.processes[process]);
+                // Find the width
+                for (width in sectionsWidth) {
+                    if (sectionsWidth[width].section == processData.title) {
+                        sectionX = sectionsWidth[width].x;
+                    }
+                }
+                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
             }
         }
+
+        // Translate journeyG it after the timeG section
+        // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
+        // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
 
         // FINAL STEPS
         // Add tooltips to the visualization
