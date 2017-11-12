@@ -632,6 +632,17 @@ Template.ProjectsViz.onRendered(function() {
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
+            // Add Discuss this Process button
+            var discussProcessButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf086');
+            discussProcessButton.attr("data-toggle", "modal")
+                .classed("discuss-button", true)
+                .attr("title", "Discuss this process")
+                .attr("data-activity-mode", "discuss")
+                .attr("data-activity-id", "none")
+                .attr("data-process-id", thisUpdatedProject.processes[j].id)
+                .classed("button-tooltip", true)
+                .attr("data-toggle", "tooltip");
+
                 // Add separator lines from the project data
                 for (separator in thisUpdatedProject.separators) {
                     thisSeparator = thisUpdatedProject.separators[separator]
