@@ -14,22 +14,25 @@
                             <!-- Tabs -->
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a href="#activity-view-tab" data-toggle="tab">{{_ "activity_title"}}</a>
+                                    <a href="#activity-view-tab" data-toggle="tab"><i class="fa fa-eye" aria-hidden="true"></i> {{_ "activity_title"}}</a>
                                 </li>
                                 <li>
-                                    <a href="#activity-edit-tab" data-toggle="tab">{{_ "activity_tab_edit"}}</a>
+                                    <a href="#activity-edit-tab" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{_ "activity_tab_edit"}}</a>
                                 </li>
                                 <li>
-                                    <a href="#activity-flows-tab" data-toggle="tab">{{_ "activity_tab_flows"}}</a>
+                                    <a href="#activity-flows-tab" data-toggle="tab"><i class="fa fa-random" aria-hidden="true"></i> {{_ "activity_tab_flows"}}</a>
                                 </li>
                                 <li>
-                                    <a href="#activity-contradictions-tab" data-toggle="tab">{{_ "activity_tab_contradictions"}}</a>
+                                    <a href="#activity-contradictions-tab" data-toggle="tab"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{_ "activity_tab_contradictions"}}</a>
                                 </li>
                                 <li>
-                                    <a href="#activity-where-tab" data-toggle="tab">{{_ "activity_tab_where"}}</a>
+                                    <a href="#activity-where-tab" data-toggle="tab"><i class="fa fa-globe" aria-hidden="true"></i> {{_ "activity_tab_where"}}</a>
                                 </li>
                                 <li>
-                                    <a href="#activity-discuss-tab" data-toggle="tab">{{_ "activity_tab_discuss"}}</a>
+                                    <a href="#activity-discuss-tab" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> {{_ "activity_tab_discuss"}}</a>
+                                </li>
+                                <li>
+                                    <a href="#activity-delete-tab" data-toggle="tab"><i class="fa fa-minus" aria-hidden="true"></i> {{_ "activity_tab_delete"}}</a>
                                 </li>
                             </ul>
                             <!-- Tabs contents -->
@@ -51,6 +54,9 @@
                                 </div>
                                 <div class="tab-pane fade in" id="activity-discuss-tab">
                                     {{> ActivityDiscuss}}
+                                </div>
+                                <div class="tab-pane fade in" id="activity-delete-tab">
+                                    {{> ActivityDelete}}
                                 </div>
                             </div>
                         {{/with}}
