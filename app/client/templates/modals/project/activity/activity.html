@@ -43,97 +43,22 @@
                             <!-- Tabs contents -->
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="activity-view-tab">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "activity_title"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.title}} id="new-title">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "activity_description"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.description}} id="new-description">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "subject"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.subject}} id="new-subject">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "object"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.object}} id="new-object">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "outcome"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.outcome}} id="new-outcome">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "tools"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.tools}} id="new-tools">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "roles"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.roles}} id="new-roles">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "rules"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.rules}} id="new-rules">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "community"}}:</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{activity.community}} id="new-community">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "participation"}}:</label>
-                                            <div class="col-lg-8">
-                                                <select class="col-lg-8 form-control" id="new-participation" style="width: 100%">
-                                                    <option selected="selected">{{activity.participation}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "time-start"}}:</label>
-                                            <div class="col-lg-8">
-                                                <div class="datetimepicker" id="new-time-start"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "time-end"}}:</label>
-                                            <div class="col-lg-8">
-                                                <div class="datetimepicker" id="new-time-end"></div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    {{> ActivityView}}
                                 </div>
                                 <div class="tab-pane fade in" id="activity-edit-tab">
-                                    Edit
+                                    {{> ActivityEdit}}
                                 </div>
                                 <div class="tab-pane fade in" id="activity-flows-tab">
-                                    Flows
+                                    {{> ActivityFlows}}
                                 </div>
                                 <div class="tab-pane fade in" id="activity-contradictions-tab">
-                                    Contradictions
+                                    {{> ActivityContradictions}}
                                 </div>
                                 <div class="tab-pane fade in" id="activity-where-tab">
-                                    Where
+                                    {{> ActivityWhere}}
                                 </div>
                                 <div class="tab-pane fade in" id="activity-discuss-tab">
-                                    Discuss
+                                    {{> ActivityDiscuss}}
                                 </div>
                             </div>
                         {{/with}}
