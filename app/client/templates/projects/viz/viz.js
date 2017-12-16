@@ -201,12 +201,12 @@ Template.ProjectsViz.onRendered(function() {
     // License: CC-BY
 
     var emojis = {
-        simple_smile: "",
-        heart_eyes: '',
-        worried: "",
-        angry: "",
-        up: "",
-        down: ""
+        simple_smile: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f603.svg",
+        heart_eyes: 'https://github.com/twitter/twemoji/blob/gh-pages/svg/1f60d.svg',
+        worried: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f61f.svg",
+        angry: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f621.svg",
+        up: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f44d.svg",
+        down: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f44e.svg"
     }
 
     emojis.worried = "";
