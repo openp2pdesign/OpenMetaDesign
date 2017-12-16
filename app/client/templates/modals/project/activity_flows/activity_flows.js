@@ -8,6 +8,14 @@ Template.ActivityFlows.events({
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
+    data: function() {
+        // Return helper values for the template
+        return {
+            "project": thisProject,
+            "process": this.process,
+            "activity": defaultActivity
+        }
+    }
 });
 
 /*****************************************************************************/

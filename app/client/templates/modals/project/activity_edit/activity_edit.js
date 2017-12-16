@@ -8,6 +8,14 @@ Template.ActivityEdit.events({
 /* ActivityEdit: Helpers */
 /*****************************************************************************/
 Template.ActivityEdit.helpers({
+    data: function() {
+        // Return helper values for the template
+        return {
+            "project": thisProject,
+            "process": this.process,
+            "activity": defaultActivity
+        }
+    }
 });
 
 /*****************************************************************************/

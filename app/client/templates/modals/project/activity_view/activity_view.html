@@ -1,5 +1,15 @@
 <template name="ActivityView">
   <div class="activity-view">
-    <h1>Find me in app/client/templates/modals/project/activity_view/activity_view</h1>
+    <h2>{{activity.title}}</h2>
+    {{#with data}}
+        <p>
+            ID:
+            {{project.title}}
+        </p>
+        <p>
+            ID:
+            {{process.title}}
+        </p>
+    {{/with}}
   </div>
 </template>

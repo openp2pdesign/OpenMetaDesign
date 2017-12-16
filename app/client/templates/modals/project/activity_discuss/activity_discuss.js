@@ -8,6 +8,14 @@ Template.ActivityDiscuss.events({
 /* ActivityDiscuss: Helpers */
 /*****************************************************************************/
 Template.ActivityDiscuss.helpers({
+    data: function() {
+        // Return helper values for the template
+        return {
+            "project": thisProject,
+            "process": this.process,
+            "activity": defaultActivity
+        }
+    }
 });
 
 /*****************************************************************************/

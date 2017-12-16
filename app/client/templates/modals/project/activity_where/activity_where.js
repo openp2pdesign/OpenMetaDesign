@@ -8,6 +8,14 @@ Template.ActivityWhere.events({
 /* ActivityWhere: Helpers */
 /*****************************************************************************/
 Template.ActivityWhere.helpers({
+    data: function() {
+        // Return helper values for the template
+        return {
+            "project": thisProject,
+            "process": this.process,
+            "activity": defaultActivity
+        }
+    }
 });
 
 /*****************************************************************************/
