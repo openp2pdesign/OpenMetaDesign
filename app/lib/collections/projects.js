@@ -1,4 +1,4 @@
-import { Random } from 'meteor/random';
+    import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
@@ -316,14 +316,20 @@ ProcessSchema = new SimpleSchema({
     // participants: {
     //     type: [String]
     // },
-    // flows: {
-    //     type: [FlowSchema],
-    //     optional: true
-    // },
-    // contradictions: {
-    //     type: [ContradictionSchema],
-    //     optional: true
-    // },
+    flows: {
+        type: Array,
+        optional: true
+    },
+    'flows.$': {
+        type: FlowSchema,
+    },
+    contradictions: {
+        type: Array,
+        optional: true
+    },
+    'contradictions.$': {
+        type: ContradictionSchema
+    },
     // discussion: {
     //     type: DiscussionSchema,
     //     optional: true
