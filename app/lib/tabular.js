@@ -75,7 +75,7 @@ TabularTables.Projects = new Tabular.Table({
 TabularTables.Flows = new Tabular.Table({
     name: "Flows",
     collection: Projects,
-    pub: "projects",
+    pub: "flows",
     columns: [{
         data: "_id",
         title: '<i class="fa fa-key" aria-hidden="true"></i> ID'

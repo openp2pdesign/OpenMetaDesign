@@ -50,8 +50,13 @@ Meteor.publish('settings', function () {
 Meteor.publish('flows', function(projectId) {
     projects = Projects.findOne({ _id: projectId });
 
-    // cycle all the processes
-    // get the .flows of each of them
+    flows = [];
 
-    return projects.flows;
+    // cycle all the processes
+    for (process in projects.processes) {
+        // get the .flows of each of them
+        flows.push(projects.processes[process].flows)
+    }
+
+    return flows;
 });
