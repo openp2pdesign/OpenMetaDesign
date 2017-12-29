@@ -259,6 +259,10 @@ ActivitySchema = new SimpleSchema({
             return Random.id();
         }
     },
+    number: {
+        type: Number,
+        defaultValue: 1
+    },
     title: {
         type: String,
         max: 100,
