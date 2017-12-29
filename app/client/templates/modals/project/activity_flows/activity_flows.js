@@ -40,6 +40,11 @@ Template.ActivityFlows.onCreated(function() {});
 Template.ActivityFlows.onRendered(function() {
     // Hide the divs that enable the edit, view, delete of flows by default
     $("#createFlowDiv").hide();
+    // Enable select2
+    $('.select2-dropdown').select2({
+        dropdownAutoWidth: true,
+        width: '100%'
+    });
 });
 
 Template.ActivityFlows.onDestroyed(function() {});
