@@ -1,4 +1,4 @@
-    import { Random } from 'meteor/random';
+import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 

@@ -46,17 +46,3 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
 Meteor.publish('settings', function () {
   return Settings.find();
 });
-
-Meteor.publish('flows', function(projectId) {
-    projects = Projects.findOne({ _id: projectId });
-
-    flows = [];
-
-    // cycle all the processes
-    for (process in projects.processes) {
-        // get the .flows of each of them
-        flows.push(projects.processes[process].flows)
-    }
-
-    return flows;
-});

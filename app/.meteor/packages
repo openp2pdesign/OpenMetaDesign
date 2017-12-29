@@ -46,3 +46,5 @@ aldeed:schema-index
 tsega:bootstrap3-datetimepicker
 natestrauser:select2
 benmgreene:moment-range
+dburles:collection-helpers
+aslagle:reactive-table

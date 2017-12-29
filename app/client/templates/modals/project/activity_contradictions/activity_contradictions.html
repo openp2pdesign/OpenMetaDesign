@@ -1,5 +1,11 @@
 <template name="ActivityContradictions">
   <div class="activity-contradictions">
-    <h1>Find me in app/client/templates/modals/project/activity_contradictions/activity_contradictions</h1>
+      <h2>Contradictions</h2>
+      {{> reactiveTable collection=thisProjectContradictions rowsPerPage=5 class="table table-bordered table-hover"}}
+      <button class="btn btn-primary" id="create-project-button">
+      <i class="fa fa-plus"></i>
+      <i class="fa fa-cube"></i>
+      Add a contradiction
+      </button>
   </div>
 </template>

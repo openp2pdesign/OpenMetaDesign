@@ -1,8 +1,7 @@
 /*****************************************************************************/
 /* ActivityFlows: Event Handlers */
 /*****************************************************************************/
-Template.ActivityFlows.events({
-});
+Template.ActivityFlows.events({});
 
 /*****************************************************************************/
 /* ActivityFlows: Helpers */
@@ -15,20 +14,26 @@ Template.ActivityFlows.helpers({
             "process": this.process,
             "activity": defaultActivity
         }
-    }
+    },
+    thisProjectFlows: function() {
+        flows = [];
+        // cycle all the processes
+        for (process in thisProjects.processes) {
+            // get the .flows of each of them
+            flows.push(projects.processes[process].flows)
+        }
+        return flows;
+    },
 });
 
 /*****************************************************************************/
 /* ActivityFlows: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ActivityFlows.onCreated(function () {
-});
+Template.ActivityFlows.onCreated(function() {});
 
-Template.ActivityFlows.onRendered(function () {
-});
+Template.ActivityFlows.onRendered(function() {});
 
-Template.ActivityFlows.onDestroyed(function () {
-});
+Template.ActivityFlows.onDestroyed(function() {});
 
 // Setup of tabular for this template
 import { $ } from 'meteor/jquery';

@@ -75,29 +75,12 @@ TabularTables.Projects = new Tabular.Table({
 TabularTables.Flows = new Tabular.Table({
     name: "Flows",
     collection: Projects,
-    pub: "flows",
     columns: [{
         data: "_id",
         title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }, {
-        data: "title",
-        title: '<i class="fa fa-header" aria-hidden="true"></i> Title'
-    }, {
-        data: "createdBy",
-        title: '<i class="fa fa-header" aria-hidden="true"></i> Created by'
-    }, {
-        data: "createdAt",
-        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
-        render: function(val, type, doc) {
-            if (val instanceof Date) {
-                return moment(val).calendar() + " -- " + val;
-            } else {
-                return "Never";
-            }
-        }
-    }, {
-        title: "Actions",
-        tmpl: Meteor.isClient && Template.EditProject
+        data: "processes",
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }],
     responsive: true,
     autoWidth: false

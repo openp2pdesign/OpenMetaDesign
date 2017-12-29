@@ -70,16 +70,24 @@ Meteor.methods({
             "community": "Describe the community that will be affected by this project or for which this project is developed for.",
             "processes": [{
                 "title": "Customer processes",
-                "activities": []
+                "activities": [],
+                "flows": [],
+                "contradictions": []
             }, {
                 "title": "Front-Office processes",
-                "activities": []
+                "activities": [],
+                "flows": [],
+                "contradictions": []
             }, {
                 "title": "Back-Office processes",
-                "activities": []
+                "activities": [],
+                "flows": [],
+                "contradictions": []
             }, {
                 "title": "Support processes",
-                "activities": []
+                "activities": [],
+                "flows": [],
+                "contradictions": []
             }],
             "separators": [{
                 "first": "Customer processes",
