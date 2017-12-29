@@ -327,20 +327,6 @@ ProcessSchema = new SimpleSchema({
     // participants: {
     //     type: [String]
     // },
-    flows: {
-        type: Array,
-        optional: true
-    },
-    'flows.$': {
-        type: FlowSchema,
-    },
-    contradictions: {
-        type: Array,
-        optional: true
-    },
-    'contradictions.$': {
-        type: ContradictionSchema
-    },
     // discussion: {
     //     type: DiscussionSchema,
     //     optional: true
@@ -514,14 +500,20 @@ ProjectSchema = new SimpleSchema({
         type: Array,
     },
     'separators.$': SeparatorSchema,
-    // flows: {
-    //     type: [FlowSchema],
-    //     optional: true
-    // },
-    // contradictions: {
-    //     type: [ContradictionSchema],
-    //     optional: true
-    // },
+    flows: {
+        type: Array,
+        optional: true
+    },
+    'flows.$': {
+        type: FlowSchema,
+    },
+    contradictions: {
+        type: Array,
+        optional: true
+    },
+    'contradictions.$': {
+        type: ContradictionSchema
+    },
 });
 
 // Attach the ProjectSchema to the projects collection

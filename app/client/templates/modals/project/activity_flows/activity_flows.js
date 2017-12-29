@@ -28,13 +28,7 @@ Template.ActivityFlows.helpers({
         }
     },
     thisProjectFlows: function() {
-        flows = [];
-        // cycle all the processes
-        for (process in thisProject.processes) {
-            // get the .flows of each of them
-            flows.push(thisProject.processes[process].flows)
-        }
-        return flows;
+        return thisProject.flows;
     },
 });
 
