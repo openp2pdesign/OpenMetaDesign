@@ -19,9 +19,9 @@ Template.ActivityContradictions.helpers({
     thisProjectContradictions: function() {
         contradictions = [];
         // cycle all the processes
-        for (process in thisProjects.processes) {
+        for (process in thisProject.processes) {
             // get the .contradictions of each of them
-            contradictions.push(projects.processes[process].contradictions)
+            contradictions.push(thisProject.processes[process].contradictions)
         }
         return contradictions;
     },

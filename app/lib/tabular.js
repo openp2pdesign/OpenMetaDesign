@@ -70,18 +70,3 @@ TabularTables.Projects = new Tabular.Table({
     responsive: true,
     autoWidth: false
 });
-
-// Table of flows of an activity
-TabularTables.Flows = new Tabular.Table({
-    name: "Flows",
-    collection: Projects,
-    columns: [{
-        data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
-    }, {
-        data: "processes",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
-    }],
-    responsive: true,
-    autoWidth: false
-});
