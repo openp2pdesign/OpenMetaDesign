@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "weight"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{activity.outcome}} id="new-outcome">
+                            <input class="form-control" type="number" value={{activity.outcome}} id="new-outcome">
                         </div>
                     </div>
                     <div class="form-group">
@@ -72,7 +72,12 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "reciprocal"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{activity.outcome}} id="new-outcome">
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">Yes</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">No</label>
+                            </div>
                         </div>
                     </div>
                 </form>
