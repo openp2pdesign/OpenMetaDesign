@@ -165,6 +165,8 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
+        // Add activity number
+        activityData.number = thisProject.activitiesCount + 1;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
@@ -214,10 +216,10 @@ Meteor.methods({
             }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                throwError("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
                 return "error";
             } else {
-                console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                console.log("Activity", activityId, "edited in process", processId, "of project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
                     _id: projectId
@@ -255,10 +257,10 @@ Meteor.methods({
             }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                throwError("Error", error.reason, "while deleting", activityId, "to process", processId, "of project", projectId, ".");
                 return "error";
             } else {
-                console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
+                console.log("Activity", activityId, "deleted from process", processId, "of project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
                     _id: projectId

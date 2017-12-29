@@ -15,144 +15,6 @@ import { Settings } from '../../../../../lib/collections/settings.js';
 /* Activity: Event Handlers */
 /*****************************************************************************/
 Template.Activity.events({
-    'click #confirm': function(event) {
-        event.preventDefault();
-
-        newID = Random.id();
-        var thisActivityId = newID;
-        var newTitle = $('#new-title').val();
-        var newDescription = $('#new-description').val();
-        var newSubject = $('#new-subject').val();
-        var newObject = $('#new-object').val();
-        var newOutcome = $('#new-outcome').val();
-        var newTools = $('#new-tools').val();
-        var newSubject = $('#new-subject').val();
-        var newRoles = $('#new-roles').val();
-        var newRules = $('#new-rules').val();
-        var newCommunity = $('#new-community').val();
-        var newParticipation = $('#new-participation').val();
-        var newTimeStart = $("#new-time-start").data("DateTimePicker").date().toDate();
-        var newTimeEnd = $("#new-time-end").data("DateTimePicker").date().toDate();
-
-        activityData = {
-            "title": newTitle,
-            "description": newDescription,
-            "subject": newSubject,
-            "object": newObject,
-            "outcome": newOutcome,
-            "tools": newTools,
-            "rules": newRules,
-            "roles": newRoles,
-            "community": newCommunity,
-            "time": {
-                "start": newTimeStart,
-                "end": newTimeEnd
-            },
-            "participation": newParticipation
-        }
-
-        // Add a new activity
-        if (this.mode == "add") {
-            // Validate and save new data
-            Meteor.call('addActivity', this.project, this.process, newID, activityData, function(error, result){
-                if (error) {
-                    var errorNotice = new PNotify({
-                        type: 'error',
-                        title: 'Error',
-                        text: 'There was an error in adding the activity',
-                        icon: 'fa fa-cubes',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-
-                    errorNotice.get().click(function() {
-                        errorNotice.remove();
-                    });
-                }
-                else {
-                    var successNotice = new PNotify({
-                        type: 'success',
-                        title: 'Success',
-                        text: 'Activity successfully added.',
-                        icon: 'fa fa-cubes',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-
-                    successNotice.get().click(function() {
-                        successNotice.remove();
-                    });
-                }
-            });
-        }
-        // Edit an existing activity
-        else if (this.mode == "edit") {
-            // Validate and save new data
-            Meteor.call('editActivity', this.project, this.process, this.activity, activityData, function(error, result){
-                if (error) {
-                    var errorNotice = new PNotify({
-                        type: 'error',
-                        title: 'Error',
-                        text: 'There was an error in adding the activity',
-                        icon: 'fa fa-cubes',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-
-                    errorNotice.get().click(function() {
-                        errorNotice.remove();
-                    });
-                }
-                else {
-                    var successNotice = new PNotify({
-                        type: 'success',
-                        title: 'Success',
-                        text: 'Activity successfully added.',
-                        icon: 'fa fa-cubes',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-
-                    successNotice.get().click(function() {
-                        successNotice.remove();
-                    });
-                }
-            });
-        }
-
-    }
 });
 
 /*****************************************************************************/
@@ -200,31 +62,14 @@ Template.Activity.onCreated(function() {
 });
 
 Template.Activity.onRendered(function() {
-    // Datetimepicker for start
-    this.$('#new-time-start').datetimepicker({
-        inline: true,
-        sideBySide: false,
-        format: 'LLL',
-        defaultDate: defaultActivity.time.start
-    });
-    // Datetimepicker for end
-    this.$('#new-time-end').datetimepicker({
-        inline: true,
-        sideBySide: false,
-        format: 'LLL',
-        defaultDate: defaultActivity.time.end
-    });
-    // Select2 for participation level
-    $("#new-participation").select2({
-        dropdownParent: $('#activity-add'),
-        data: ["No participation",
-            "Indirect participation",
-            "Consultative participation",
-            "Shared control",
-            "Full control"
-        ],
-        allowClear: false,
-    });
+    $('.activity').tooltip();
+    $('[data-toggle="tab"]').tooltip({
+    trigger: 'hover',
+    placement: 'top',
+    animate: true,
+    delay: 500,
+    container: 'body'
+});
 });
 
 Template.Activity.onDestroyed(function() {});

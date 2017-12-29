@@ -1,5 +1,9 @@
-import { Random } from 'meteor/random';
-import { Mongo } from 'meteor/mongo';
+import {
+    Random
+} from 'meteor/random';
+import {
+    Mongo
+} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 SimpleSchema.debug = true;
@@ -169,7 +173,7 @@ ActivityElementSchema = new SimpleSchema({
 ContradictionSchema = new SimpleSchema({
     id: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return Random.id();
         }
     },
@@ -209,7 +213,7 @@ ContradictionSchema = new SimpleSchema({
 FlowSchema = new SimpleSchema({
     id: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return Random.id();
         }
     },
@@ -255,7 +259,7 @@ FlowSchema = new SimpleSchema({
 ActivitySchema = new SimpleSchema({
     id: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return Random.id();
         }
     },
@@ -315,7 +319,7 @@ ActivitySchema = new SimpleSchema({
 ProcessSchema = new SimpleSchema({
     id: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return Random.id();
         }
     },
@@ -377,7 +381,7 @@ VersionSchema = new SimpleSchema({
     },
     id: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return Random.id();
         }
     },
@@ -388,13 +392,13 @@ VersionSchema = new SimpleSchema({
     },
     updatedAt: {
         type: Date,
-        autoValue: function () {
+        autoValue: function() {
             return new Date();
         }
     },
     updatedAtBy: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             var updatedByUser = Meteor.users.findOne({
                 _id: this.userId
             });
@@ -403,7 +407,7 @@ VersionSchema = new SimpleSchema({
     },
     updatedAtByID: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return this.userId;
         }
     },
@@ -429,7 +433,7 @@ ProjectSchema = new SimpleSchema({
     },
     createdBy: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             var createdByUser = Meteor.users.findOne({
                 _id: this.userId
             });
@@ -438,13 +442,13 @@ ProjectSchema = new SimpleSchema({
     },
     createdByID: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return this.userId;
         }
     },
     createdAt: {
         type: Date,
-        autoValue: function () {
+        autoValue: function() {
             if (this.isInsert) {
                 return new Date();
             }
@@ -452,13 +456,13 @@ ProjectSchema = new SimpleSchema({
     },
     lastUpdatedAt: {
         type: Date,
-        autoValue: function () {
+        autoValue: function() {
             return new Date();
         }
     },
     lastUpdatedBy: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             var updatedByUser = Meteor.users.findOne({
                 _id: this.userId
             });
@@ -467,7 +471,7 @@ ProjectSchema = new SimpleSchema({
     },
     lastUpdatedByID: {
         type: String,
-        autoValue: function () {
+        autoValue: function() {
             return this.userId;
         }
     },
@@ -477,7 +481,7 @@ ProjectSchema = new SimpleSchema({
     'versions.$': VersionSchema,
     versionsCount: {
         type: Number,
-        autoValue: function () {
+        autoValue: function() {
             if (this.isInsert) {
                 return 1;
             } else if (this.isUpdate) {
@@ -517,6 +521,19 @@ ProjectSchema = new SimpleSchema({
     },
     'contradictions.$': {
         type: ContradictionSchema
+    },
+    activitiesCount: {
+        type: Number,
+        autoValue: function() {
+            if (this.isInsert) {
+                return 0;
+            } else if (this.isUpdate) {
+                var thisProject = Projects.findOne({
+                    _id: this.docId
+                });
+                return thisProject.activitiesCount + 1;
+            }
+        }
     },
 });
 
