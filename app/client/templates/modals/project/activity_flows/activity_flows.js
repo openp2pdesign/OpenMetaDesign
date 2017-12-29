@@ -13,6 +13,11 @@ Template.ActivityFlows.events({
         // save the flow here
         $("#createFlowDiv").hide();
     },
+    // Cancel save the flow
+    'click #cancel-save-flow-button': function(event, template) {
+        event.preventDefault();
+        $("#createFlowDiv").hide();
+    },
 });
 
 /*****************************************************************************/
