@@ -51,12 +51,10 @@ Template.ActivityEdit.events({
             "participation": newParticipation
         }
 
-        console.log(this, this.mode);
-
         // Add a new activity
         if (this.mode == "add") {
             // Validate and save new data
-            Meteor.call('addActivity', this.project, this.process, newID, activityData, function(error, result) {
+            Meteor.call('addActivity', this.project._id, this.process, newID, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -105,7 +103,7 @@ Template.ActivityEdit.events({
         // Edit an existing activity
         else if (this.mode == "edit") {
             // Validate and save new data
-            Meteor.call('editActivity', this.project, this.process, this.activity, activityData, function(error, result) {
+            Meteor.call('editActivity', this.project._id, this.process, this.activity, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -164,7 +162,8 @@ Template.ActivityEdit.helpers({
         return {
             "project": thisProject,
             "process": this.process,
-            "activity": defaultActivity
+            "activity": defaultActivity,
+            "mode": this.mode
         }
     }
 });

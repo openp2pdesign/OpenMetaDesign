@@ -14,8 +14,7 @@ import { Settings } from '../../../../../lib/collections/settings.js';
 /*****************************************************************************/
 /* Activity: Event Handlers */
 /*****************************************************************************/
-Template.Activity.events({
-});
+Template.Activity.events({});
 
 /*****************************************************************************/
 /* Activity: Helpers */
@@ -26,7 +25,8 @@ Template.Activity.helpers({
         return {
             "project": thisProject,
             "process": this.process,
-            "activity": defaultActivity
+            "activity": defaultActivity,
+            "mode": this.mode
         }
     }
 
@@ -62,14 +62,14 @@ Template.Activity.onCreated(function() {
 });
 
 Template.Activity.onRendered(function() {
-    $('.activity').tooltip();
+    // Enable tooltips in the tabs
     $('[data-toggle="tab"]').tooltip({
-    trigger: 'hover',
-    placement: 'top',
-    animate: true,
-    delay: 500,
-    container: 'body'
-});
+        trigger: 'hover',
+        placement: 'top',
+        animate: true,
+        delay: 500,
+        container: 'body'
+    });
 });
 
 Template.Activity.onDestroyed(function() {});
