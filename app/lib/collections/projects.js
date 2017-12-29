@@ -173,6 +173,13 @@ ContradictionSchema = new SimpleSchema({
             return Random.id();
         }
     },
+    title: {
+        type: String,
+        max: 100
+    },
+    description: {
+        type: String,
+    },
     kind: {
         type: Array,
         allowedValues: [
@@ -209,6 +216,10 @@ FlowSchema = new SimpleSchema({
     title: {
         type: String,
         max: 100
+    },
+    description: {
+        type: String,
+        optional: true
     },
     resource: {
         type: String
