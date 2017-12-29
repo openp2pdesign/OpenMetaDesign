@@ -7,32 +7,32 @@
                         <button type="button" class="close" data-dismiss="modal">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </button>
-                        <h2 class="modal-title">{{_ "activity_modal"}}</h2>
+                        <h2 class="modal-title">{{activity.title}}</h2>
                     </div>
                     <div class="modal-body">
                         {{#with data}}
                             <!-- Tabs -->
                             <ul class="nav nav-tabs">
                                 <li class="active">
-                                    <a href="#activity-view-tab" data-toggle="tab"><i class="fa fa-eye" aria-hidden="true"></i> {{_ "activity_title"}}</a>
+                                    <a href="#activity-view-tab" data-toggle="tab"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-edit-tab" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{_ "activity_tab_edit"}}</a>
+                                    <a href="#activity-edit-tab" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-flows-tab" data-toggle="tab"><i class="fa fa-random" aria-hidden="true"></i> {{_ "activity_tab_flows"}}</a>
+                                    <a href="#activity-flows-tab" data-toggle="tab"><i class="fa fa-random" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-contradictions-tab" data-toggle="tab"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{_ "activity_tab_contradictions"}}</a>
+                                    <a href="#activity-contradictions-tab" data-toggle="tab"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-where-tab" data-toggle="tab"><i class="fa fa-globe" aria-hidden="true"></i> {{_ "activity_tab_where"}}</a>
+                                    <a href="#activity-where-tab" data-toggle="tab"><i class="fa fa-globe" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-discuss-tab" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i> {{_ "activity_tab_discuss"}}</a>
+                                    <a href="#activity-discuss-tab" data-toggle="tab"><i class="fa fa-comments" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#activity-delete-tab" data-toggle="tab"><i class="fa fa-minus" aria-hidden="true"></i> {{_ "activity_tab_delete"}}</a>
+                                    <a href="#activity-delete-tab" data-toggle="tab"><i class="fa fa-minus" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                             <!-- Tabs contents -->
@@ -60,10 +60,6 @@
                                 </div>
                             </div>
                         {{/with}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">{{_ "save_changes"}}</button>
                     </div>
                 </div>
             </div>
