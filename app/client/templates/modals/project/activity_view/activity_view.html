@@ -1,15 +1,21 @@
 <template name="ActivityView">
-  <div class="activity-view">
-    <h2>{{activity.title}}</h2>
-    {{#with data}}
-        <p>
-            ID:
-            {{project.title}}
-        </p>
-        <p>
-            ID:
-            {{process.title}}
-        </p>
-    {{/with}}
-  </div>
+    <div class="activity-view">
+        {{#with data}}
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{activity.title}}</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{{activity.description}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>{{activity.subject}}</p>
+                </div>
+            </div>
+        {{/with}}
+    </div>
 </template>
