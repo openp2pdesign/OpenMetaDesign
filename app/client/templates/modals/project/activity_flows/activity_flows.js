@@ -11,6 +11,8 @@ Template.ActivityFlows.events({
     'click #save-flow-button': function(event, template) {
         event.preventDefault();
         // save the flow here
+        var newTitle = $('#new-reciprocal').val();
+        console.log(newTitle);
         $("#createFlowDiv").hide();
     },
     // Cancel save the flow
