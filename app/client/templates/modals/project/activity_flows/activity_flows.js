@@ -46,7 +46,6 @@ Template.ActivityFlows.events({
             "secondNode": newSecondNode,
             "direction": newDirection
         }
-        console.log("FL", flowData);
         // Save the flow
         // Validate and save new data
         Meteor.call('addFlow', this.project._id, flowData, function(error, result) {
@@ -107,7 +106,19 @@ Template.ActivityFlows.events({
 /*****************************************************************************/
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
-Template.ActivityFlows.helpers({});
+Template.ActivityFlows.helpers({
+    thisProjectFlows: function() {
+        return this.project.flows;
+    },
+    reactiveTableSettings: function () {
+       return {
+           collection: this.project.flows,
+           rowsPerPage: 10,
+           showFilter: true,
+           fields: ['id', 'title', 'resource']
+       };
+   },
+});
 
 /*****************************************************************************/
 /* ActivityFlows: Lifecycle Hooks */
@@ -115,6 +126,7 @@ Template.ActivityFlows.helpers({});
 Template.ActivityFlows.onCreated(function() {});
 
 Template.ActivityFlows.onRendered(function() {
+    $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
     // Hide the divs that enable the edit, view, delete of flows by default
     $("#createFlowDiv").hide();
     // Enable select2

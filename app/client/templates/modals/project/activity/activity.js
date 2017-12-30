@@ -4,20 +4,12 @@ import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 // jquery
-import {
-    $
-} from 'meteor/jquery';
+import { $ } from 'meteor/jquery';
 // Random id
-import {
-    Random
-} from 'meteor/random';
+import { Random } from 'meteor/random';
 // Load Projects and Settings
-import { 
-    Projects
-} from '../../../../../lib/collections/projects.js';
-import { 
-    Settings
-} from '../../../../../lib/collections/settings.js';
+import { Projects } from '../../../../../lib/collections/projects.js';
+import { Settings } from '../../../../../lib/collections/settings.js';
 
 /*****************************************************************************/
 /* Activity: Event Handlers */
@@ -37,13 +29,6 @@ Template.Activity.helpers({
             "mode": this.mode
         }
     },
-    thisProjectFlows: function() {
-        return thisProjectFlowsData;
-    },
-    thisProjectContradictions: function() {
-        return thisProjectContradictionsData;
-    },
-
 });
 
 /*****************************************************************************/
@@ -91,10 +76,6 @@ Template.Activity.onCreated(function() {
             "participation": "Full control"
         }
     }
-    // Load flows
-    thisProjectFlowsData = thisProject.flows;
-    // Load contradictions
-    thisProjectContradictionsData = thisProject.contradictions;
 
 });
 

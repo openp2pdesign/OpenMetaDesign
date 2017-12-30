@@ -8,16 +8,8 @@ Template.ActivityContradictions.events({
 /* ActivityContradictions: Helpers */
 /*****************************************************************************/
 Template.ActivityContradictions.helpers({
-    data: function() {
-        // Return helper values for the template
-        return {
-            "project": thisProject,
-            "process": this.process,
-            "activity": thisActivity
-        }
-    },
     thisProjectContradictions: function() {
-        return thisProject.contradictions;
+        return this.project.contradictions;
     },
 });
 
