@@ -13,7 +13,7 @@ Template.ActivityContradictions.helpers({
         return {
             "project": thisProject,
             "process": this.process,
-            "activity": defaultActivity
+            "activity": thisActivity
         }
     },
     thisProjectContradictions: function() {

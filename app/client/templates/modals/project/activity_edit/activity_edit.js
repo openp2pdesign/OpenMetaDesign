@@ -18,7 +18,7 @@ Template.ActivityEdit.events({
     'click #save-activity-button': function(event) {
         event.preventDefault();
 
-        newID = Random.id();
+        // Load data from the form
         var thisActivityId = newID;
         var newTitle = $('#new-title').val();
         var newDescription = $('#new-description').val();
@@ -33,7 +33,7 @@ Template.ActivityEdit.events({
         var newParticipation = $('#new-participation').val();
         var newTimeStart = $("#new-time-start").data("DateTimePicker").date().toDate();
         var newTimeEnd = $("#new-time-end").data("DateTimePicker").date().toDate();
-
+        // Format data from the form as an object
         activityData = {
             "title": newTitle,
             "description": newDescription,
@@ -53,6 +53,8 @@ Template.ActivityEdit.events({
 
         // Add a new activity
         if (this.mode == "add") {
+            // Create a random id for a new activity
+            newID = Random.id();
             // Validate and save new data
             Meteor.call('addActivity', this.project._id, this.process, newID, activityData, function(error, result) {
                 if (error) {
@@ -161,8 +163,8 @@ Template.ActivityEdit.helpers({
         // Return helper values for the template
         return {
             "project": thisProject,
-            "process": this.process,
-            "activity": defaultActivity,
+            "process": thisProcess,
+            "activity": thisActivity,
             "mode": this.mode
         }
     }
@@ -174,27 +176,10 @@ Template.ActivityEdit.helpers({
 Template.ActivityEdit.onCreated(function() {
     // Access projects
     self.subscription = Meteor.subscribe('projects');
-    // Load the current project
-    var thisProject = Projects.findOne({
-        '_id': this.project
-    });
-    // Default empty activity
-    defaultActivity = {
-        "title": "A new activity",
-        "description": "Write here a description of the activity.",
-        "subject": "Who is doing the activity?",
-        "object": "What is the object of the activity?",
-        "outcome": "What is the outcome of the activity?",
-        "tools": "Which are the tools, knowledge and systems used in the activity?",
-        "rules": "Which are the rules followed in the activity?",
-        "roles": "How is the work in the activity organized into roles?",
-        "community": "Which is the greater community where the activity takes place?",
-        "time": {
-            "start": new Date(),
-            "end": new Date()
-        },
-        "participation": "Full control"
-    }
+    // Load contents (already loaded in activity.js)
+    thisProject = this.data.project;
+    thisProcess = this.data.process;
+    thisActivity = this.data.activity;
 });
 
 Template.ActivityEdit.onRendered(function() {
@@ -203,14 +188,14 @@ Template.ActivityEdit.onRendered(function() {
         inline: true,
         sideBySide: false,
         format: 'LLL',
-        defaultDate: defaultActivity.time.start
+        defaultDate: thisActivity.time.start
     });
     // Datetimepicker for end
     this.$('#new-time-end').datetimepicker({
         inline: true,
         sideBySide: false,
         format: 'LLL',
-        defaultDate: defaultActivity.time.end
+        defaultDate: thisActivity.time.end
     });
     // Select2 for participation level
     $("#new-participation").select2({
