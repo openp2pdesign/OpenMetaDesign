@@ -18,19 +18,19 @@ TabularTables.Users = new Tabular.Table({
         title: '<i class="fa fa-id-card" aria-hidden="true"></i> Username'
     }, {
         data: "emails.[0].address",
-        title: '<i class="fa fa-id-card" aria-hidden="true"></i> E-mail'
+        title: '<i class="fa fa-envelope" aria-hidden="true"></i> E-mail'
     }, {
         data: "profile.firstName",
-        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Name'
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Name'
     }, {
         data: "profile.lastName",
-        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Surname'
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Surname'
     }, {
         data: "profile.bio",
-        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Bio'
+        title: '<i class="fa fa-user-circle-o" aria-hidden="true"></i> Bio'
     }, {
         data: "roles",
-        title: '<i class="fa fa-id-card" aria-hidden="true"></i> Roles'
+        title: '<i class="fa fa-graduation-cap" aria-hidden="true"></i> Roles'
     }, {
         title: "Actions",
         tmpl: Meteor.isClient && Template.EditUser
@@ -49,10 +49,10 @@ TabularTables.Projects = new Tabular.Table({
         title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }, {
         data: "title",
-        title: '<i class="fa fa-header" aria-hidden="true"></i> Title'
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
     }, {
         data: "createdBy",
-        title: '<i class="fa fa-header" aria-hidden="true"></i> Created by'
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
     }, {
         data: "createdAt",
         title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',

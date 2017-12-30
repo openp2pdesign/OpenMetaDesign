@@ -107,17 +107,36 @@ Template.ActivityFlows.events({
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
-    thisProjectFlows: function() {
-        return this.project.flows;
+    reactiveTableFlowsSettings: function() {
+        return {
+            collection: this.project.flows,
+            rowsPerPage: 5,
+            useFontAwesome: true,
+            showFilter: true,
+            class: "table table-bordered table-hover",
+            //noDataTmpl: ",,,",
+            fields: [{
+                    key: 'id',
+                    label: function() {
+                        return new Spacebars.SafeString('<span><i class="fa fa-key"></i> ID</span>');
+                    },
+                    sortable: false
+                },
+                {
+                    key: 'title',
+                    label: function() {
+                        return new Spacebars.SafeString('<span><i class="fa fa-book" aria-hidden="true"></i> Title</span>');
+                    },
+                    sortable: false
+                },
+                {
+                    key: 'resource',
+                    label: 'Resource',
+                    sortable: false
+                }
+            ]
+        };
     },
-    reactiveTableSettings: function () {
-       return {
-           collection: this.project.flows,
-           rowsPerPage: 10,
-           showFilter: true,
-           fields: ['id', 'title', 'resource']
-       };
-   },
 });
 
 /*****************************************************************************/
