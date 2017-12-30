@@ -8,7 +8,7 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").show();
         $("#createFlowDiv").hide();
         // Pass the flow id to Sessions
-        Session.set('flowToDelete', this.id);
+        Session.set('flowToDeleteData', this);
     },
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
@@ -17,7 +17,7 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
         // Pass the flow id to Sessions
-        Session.set('flowToEdit', this.id);
+        Session.set('flowToEditData', this);
     },
 });
 

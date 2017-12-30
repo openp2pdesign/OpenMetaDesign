@@ -111,10 +111,6 @@ Template.ActivityFlows.events({
         event.preventDefault();
         $("#deleteFlowDiv").hide();
     },
-    'show #deleteFlowDiv': function(event, template) {
-        event.preventDefault();
-        console.log("VISIBLE");
-    },
 
 });
 
@@ -123,7 +119,10 @@ Template.ActivityFlows.events({
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
     deleteFlowData: function() {
-        return {"id": Session.get('flowToDelete') };
+        return Session.get('flowToDeleteData');
+    },
+    editFlowData: function() {
+        return Session.get('flowToEditData');
     },
     reactiveTableFlowsSettings: function() {
         return {
@@ -132,7 +131,7 @@ Template.ActivityFlows.helpers({
             useFontAwesome: true,
             showFilter: true,
             class: "table table-bordered table-hover",
-            //noDataTmpl: ",,,",
+            //noDataTmpl: ",,," // TODO Add template for an empty table
             fields: [{
                     key: 'id',
                     label: function() {
