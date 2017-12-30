@@ -228,7 +228,7 @@ FlowSchema = new SimpleSchema({
     resource: {
         type: String
     },
-    options: {
+    type: {
         type: Array,
         allowedValues: [
             'information or digital resources',
@@ -246,7 +246,7 @@ FlowSchema = new SimpleSchema({
     secondNode: {
         type: String
     },
-    reciprocal: {
+    direction: {
         type: Boolean
     },
     // discussion: {

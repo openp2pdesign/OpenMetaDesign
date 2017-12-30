@@ -17,7 +17,8 @@ import { Settings } from '../../../../../lib/collections/settings.js';
 Template.ActivityEdit.events({
     'click #save-activity-button': function(event) {
         event.preventDefault();
-
+        // Create a random id for a new activity
+        newID = Random.id();
         // Load data from the form
         var thisActivityId = newID;
         var newTitle = $('#new-title').val();
@@ -53,10 +54,8 @@ Template.ActivityEdit.events({
 
         // Add a new activity
         if (this.mode == "add") {
-            // Create a random id for a new activity
-            newID = Random.id();
             // Validate and save new data
-            Meteor.call('addActivity', this.project._id, this.process, newID, activityData, function(error, result) {
+            Meteor.call('addActivity', this.project._id, this.process.id, newID, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -105,7 +104,7 @@ Template.ActivityEdit.events({
         // Edit an existing activity
         else if (this.mode == "edit") {
             // Validate and save new data
-            Meteor.call('editActivity', this.project._id, this.process, this.activity, activityData, function(error, result) {
+            Meteor.call('editActivity', this.project._id, this.process.id, this.activity, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
