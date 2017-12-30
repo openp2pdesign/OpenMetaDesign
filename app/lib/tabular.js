@@ -64,7 +64,7 @@ TabularTables.Projects = new Tabular.Table({
             }
         }
     }, {
-        title: "Actions",
+        title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.EditProject
     }],
     responsive: true,

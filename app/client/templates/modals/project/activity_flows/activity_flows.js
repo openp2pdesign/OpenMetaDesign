@@ -118,7 +118,7 @@ Template.ActivityFlows.helpers({
             fields: [{
                     key: 'id',
                     label: function() {
-                        return new Spacebars.SafeString('<span><i class="fa fa-key"></i> ID</span>');
+                        return new Spacebars.SafeString('<span><i class="fa fa-key" aria-hidden="true"></i> ID</span>');
                     },
                     sortable: false
                 },
@@ -130,8 +130,10 @@ Template.ActivityFlows.helpers({
                     sortable: false
                 },
                 {
-                    key: 'resource',
-                    label: 'Resource',
+                    label: function() {
+                        return new Spacebars.SafeString('<span><i class="fa fa-tasks" aria-hidden="true"></i> Actions</span>');
+                    },
+                    tmpl: Template.FlowButtons,
                     sortable: false
                 }
             ]
