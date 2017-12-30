@@ -235,16 +235,16 @@ FlowSchema = new SimpleSchema({
         type: String
     },
     type: {
-        type: Array,
+        type: String,
         allowedValues: [
             'information or digital resources',
             'financial resources',
             'material resources'
         ]
     },
-    'options.$': String,
     weight: {
-        type: Number
+        type: Number,
+        defaultValue: 0
     },
     firstNode: {
         type: String
@@ -253,7 +253,7 @@ FlowSchema = new SimpleSchema({
         type: String
     },
     direction: {
-        type: Boolean
+        type: String
     },
     // discussion: {
     //     type: DiscussionSchema,

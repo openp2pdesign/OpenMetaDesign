@@ -30,7 +30,7 @@ Template.ActivityFlows.events({
         var newDescription = $('#new-flow-description').val();
         var newResource = $('#new-flow-resource').val();
         var newType = $('#new-flow-type').val();
-        var newWeight = $('#new-flow-weight').val();
+        var newWeight = parseInt($('#new-flow-weight').val());
         var newFirstNode = $('#new-flow-first-node').val();
         var newSecondNode = $('#new-flow-second-node').val();
         var newDirection = $('input[name=flow_direction]:checked').val();
@@ -46,6 +46,7 @@ Template.ActivityFlows.events({
             "secondNode": newSecondNode,
             "direction": newDirection
         }
+        console.log("FL", flowData);
         // Save the flow
         // Validate and save new data
         Meteor.call('addFlow', this.project._id, flowData, function(error, result) {

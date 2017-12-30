@@ -136,7 +136,7 @@ Meteor.methods({
             $set: fields
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while editing the", field, "field in project", projectId, ".");
+                throw new Meteor.Error("method_error", "Error", error.reason, "while editing the", field, "field in project", projectId, ".");
                 return "error";
             } else {
                 console.log("Field", field, "edited in project", projectId, "successfully.");
@@ -177,7 +177,8 @@ Meteor.methods({
             }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
                 return "error";
             } else {
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
@@ -224,7 +225,8 @@ Meteor.methods({
             }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
                 return "error";
             } else {
                 console.log("Activity", activityId, "edited in process", processId, "of project", projectId, "successfully.");
@@ -265,7 +267,8 @@ Meteor.methods({
             }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while deleting", activityId, "to process", processId, "of project", projectId, ".");
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while deleting", activityId, "to process", processId, "of project", projectId, ".");
                 return "error";
             } else {
                 console.log("Activity", activityId, "deleted from process", processId, "of project", projectId, "successfully.");
@@ -296,14 +299,15 @@ Meteor.methods({
         oldVersion = thisProject;
         // Apply changes by updating the Project
         Projects.update({
-            '_id': projectId
-        }, {
-            $push: {
-                'flows': flowData
-            }
+                '_id': projectId
+            }, {
+                $push: {
+                    "flows": flowData
+                }
         }, function(error) {
             if (error) {
-                throwError("Error", error.reason, "while adding", flowData.id, "to project", projectId, ".");
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while adding", flowData.id, "to project", projectId, ".");
                 return "error";
             } else {
                 console.log("Flow", flowData.id, "added to prooject", projectId, "successfully.");
