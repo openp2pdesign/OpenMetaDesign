@@ -1,1 +1,14 @@
-{}
+{
+  "activity_modal": "",
+  "activity_tab_contradictions": "Contradictions",
+  "activity_tab_delete": "Delete",
+  "activity_tab_discuss": "Discuss",
+  "activity_tab_edit": "Edit",
+  "activity_tab_flows": "Flows",
+  "activity_tab_where": "Location",
+  "first_node": "First node",
+  "reciprocal": "",
+  "second_node": "Second Node",
+  "type": "Type",
+  "weight": "Weight"
+}

@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                {{> reactiveTable collection=thisProjectFlows rowsPerPage=5 class="table table-bordered table-hover"}}
+                <!-- {{> reactiveTable collection=Projects rowsPerPage=5 class="table table-bordered table-hover"}} -->
             </div>
         </div>
         <div class="row">
@@ -15,7 +15,7 @@
                 <button class="btn btn-primary" id="create-flow-button">
                     <i class="fa fa-plus"></i>
                     <i class="fa fa-random"></i>
-                    Add a flow
+                    {{_ "flow_add_button"}}
                 </button>
             </div>
         </div>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "type"}}:</label>
+                        <label class="col-lg-3 control-label">{{_ "flow_type"}}:</label>
                         <div class="col-lg-8">
                             <select class="select2-dropdown" name="state">
                                 <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
@@ -52,25 +52,25 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "weight"}}:</label>
+                        <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="number" value={{activity.outcome}} id="new-outcome">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "first_node"}}:</label>
+                        <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" value={{activity.outcome}} id="new-outcome">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "second_node"}}:</label>
+                        <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" value={{activity.outcome}} id="new-outcome">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "reciprocal"}}:</label>
+                        <label class="col-lg-3 control-label">{{_ "flow_reciprocal"}}:</label>
                         <div class="col-lg-8">
                             <div class="radio">
                                 <label><input type="radio" name="optradio">Yes</label>
@@ -85,12 +85,12 @@
             <div class="col-md-12">
                 <button class="btn btn-warning" id="cancel-save-flow-button">
                     <i class="fa fa-ban"></i>
-                    Cancel
+                    {{_ "flow_cancel_save_button"}}
                 </button>
                 <button class="btn btn-info" id="save-flow-button">
                     <i class="fa fa-floppy-o"></i>
                     <i class="fa fa-random"></i>
-                    Save the flow
+                    {{_ "flow_save_button"}}
                 </button>
             </div>
         </div>

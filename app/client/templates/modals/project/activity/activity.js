@@ -36,7 +36,13 @@ Template.Activity.helpers({
             "activity": thisActivity,
             "mode": this.mode
         }
-    }
+    },
+    thisProjectFlows: function() {
+        return thisProjectFlowsData;
+    },
+    thisProjectContradictions: function() {
+        return thisProjectContradictionsData;
+    },
 
 });
 
@@ -85,6 +91,10 @@ Template.Activity.onCreated(function() {
             "participation": "Full control"
         }
     }
+    // Load flows
+    thisProjectFlowsData = thisProject.flows;
+    // Load contradictions
+    thisProjectContradictionsData = thisProject.contradictions;
 
 });
 
