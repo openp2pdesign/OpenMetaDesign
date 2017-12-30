@@ -199,6 +199,14 @@ Meteor.methods({
                 return "success";
             }
         });
+        // Update activities count
+        Projects.update({
+            '_id': projectId
+        }, {
+            $set: {
+                'activitiesCount': activityData.number
+            }
+        });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project

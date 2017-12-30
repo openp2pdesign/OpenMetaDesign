@@ -139,6 +139,12 @@ TimeIntervalSchema = new SimpleSchema({
 
 // A schema for a discussion
 DiscussionSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function() {
+            return Random.id();
+        }
+    },
     title: {
         type: String,
         max: 100
@@ -524,16 +530,7 @@ ProjectSchema = new SimpleSchema({
     },
     activitiesCount: {
         type: Number,
-        autoValue: function() {
-            if (this.isInsert) {
-                return 0;
-            } else if (this.isUpdate) {
-                var thisProject = Projects.findOne({
-                    _id: this.docId
-                });
-                return thisProject.activitiesCount + 1;
-            }
-        }
+        defaultValue: 0
     },
 });
 
