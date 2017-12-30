@@ -37,7 +37,7 @@ npm-bcrypt@0.9.3
 tap:i18n
 tap:i18n-ui
 fourseven:scss
-session@1.1.7
+session
 msavin:mongol
 meteortoys:toggle
 allow-deny@1.1.0

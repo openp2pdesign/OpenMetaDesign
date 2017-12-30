@@ -96,20 +96,24 @@ Template.ActivityFlows.events({
         // Hide the form
         $("#createFlowDiv").hide();
     },
-    // Cancel save the flow
+    // Cancel save the new flow
     'click #cancel-create-save-flow-button': function(event, template) {
         event.preventDefault();
         $("#createFlowDiv").hide();
     },
-    // Cancel save the flow
+    // Cancel save the edited flow
     'click #cancel-edit-save-flow-button': function(event, template) {
         event.preventDefault();
         $("#editFlowDiv").hide();
     },
-    // Cancel save the flow
+    // Cancel delete the flow
     'click #cancel-delete-flow-button': function(event, template) {
         event.preventDefault();
         $("#deleteFlowDiv").hide();
+    },
+    'show #deleteFlowDiv': function(event, template) {
+        event.preventDefault();
+        console.log("VISIBLE");
     },
 
 });
@@ -118,6 +122,9 @@ Template.ActivityFlows.events({
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
+    deleteFlowData: function() {
+        return {"id": Session.get('flowToDelete') };
+    },
     reactiveTableFlowsSettings: function() {
         return {
             collection: this.project.flows,
