@@ -21,7 +21,7 @@ Template.ActivityFlows.events({
         $("#createFlowDiv").show();
     },
     // Save the flow and hide the form
-    'click #save-flow-button': function(event, template) {
+    'click #create-save-flow-button': function(event, template) {
         event.preventDefault();
         // Create a random id for the new flow
         newID = Random.id();
@@ -97,10 +97,21 @@ Template.ActivityFlows.events({
         $("#createFlowDiv").hide();
     },
     // Cancel save the flow
-    'click #cancel-save-flow-button': function(event, template) {
+    'click #cancel-create-save-flow-button': function(event, template) {
         event.preventDefault();
         $("#createFlowDiv").hide();
     },
+    // Cancel save the flow
+    'click #cancel-edit-save-flow-button': function(event, template) {
+        event.preventDefault();
+        $("#editFlowDiv").hide();
+    },
+    // Cancel save the flow
+    'click #cancel-delete-flow-button': function(event, template) {
+        event.preventDefault();
+        $("#deleteFlowDiv").hide();
+    },
+
 });
 
 /*****************************************************************************/
@@ -149,7 +160,9 @@ Template.ActivityFlows.onCreated(function() {});
 Template.ActivityFlows.onRendered(function() {
     $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
     // Hide the divs that enable the edit, view, delete of flows by default
+    $("#editFlowDiv").hide();
     $("#createFlowDiv").hide();
+    $("#deleteFlowDiv").hide();
     // Enable select2
     $('.select2-dropdown').select2({
         dropdownAutoWidth: true,

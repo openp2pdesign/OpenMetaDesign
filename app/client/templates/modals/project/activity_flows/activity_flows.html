@@ -18,6 +18,22 @@
                 </button>
             </div>
         </div>
+        <div class="row" id="deleteFlowDiv">
+            <div class="col-md-12">
+                <h3>{{_ "flow_delete"}}</h3>
+
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-warning" id="cancel-delete-flow-button">
+                    <i class="fa fa-close"></i>
+                    {{_ "flow_cancel_save_button"}}
+                </button>
+                <button class="btn btn-info" id="delete-flow-button">
+                    <i class="fa fa-floppy-o"></i>
+                    {{_ "flow_save_button"}}
+                </button>
+            </div>
+        </div>
         <div class="row" id="createFlowDiv">
             <div class="col-md-12">
                 <h3>{{_ "flow_create"}}</h3>
@@ -94,11 +110,97 @@
                 </form>
             </div>
             <div class="col-md-12">
-                <button class="btn btn-warning" id="cancel-save-flow-button">
+                <button class="btn btn-warning" id="cancel-create-save-flow-button">
                     <i class="fa fa-close"></i>
                     {{_ "flow_cancel_save_button"}}
                 </button>
-                <button class="btn btn-info" id="save-flow-button">
+                <button class="btn btn-info" id="create-save-flow-button">
+                    <i class="fa fa-floppy-o"></i>
+                    {{_ "flow_save_button"}}
+                </button>
+            </div>
+        </div>
+        <div class="row" id="editFlowDiv">
+            <div class="col-md-12">
+                <h3>{{_ "flow_edit"}}</h3>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value={{activity.title}} id="new-flow-title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value={{activity.description}} id="new-flow-description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value={{activity.subject}} id="new-flow-resource">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_type"}}:</label>
+                        <div class="col-lg-8">
+                            <select class="select2-dropdown" name="state" id="new-flow-type">
+                                <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
+                                <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
+                                <option value={{_ "material_flow_value"}}>{{_ "material_flow"}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="number" value={{activity.outcome}} id="new-flow-weight">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value={{activity.outcome}} id="new-flow-first-node">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" value={{activity.outcome}} id="new-flow-second-node">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "flow_reciprocal"}}:</label>
+                        <div class="col-lg-8">
+                            <div class="pretty p-default p-curve radio-div">
+                                <input type="radio" name="flow_direction" value="bi">
+                                <div class="state p-primary-o">
+                                    <label>
+                                        <i class="fa fa-arrows-h" aria-hidden="true"></i>
+                                        {{_ "flow_bidirectional"}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="pretty p-default p-curve radio-div">
+                                <input type="radio" name="flow_direction" value="mono">
+                                <div class="state p-primary-o">
+                                    <label>
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                        {{_ "flow_monodirectional"}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-warning" id="cancel-edit-save-flow-button">
+                    <i class="fa fa-close"></i>
+                    {{_ "flow_cancel_save_button"}}
+                </button>
+                <button class="btn btn-info" id="edit-save-flow-button">
                     <i class="fa fa-floppy-o"></i>
                     {{_ "flow_save_button"}}
                 </button>
