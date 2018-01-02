@@ -61,3 +61,15 @@ AccountsTemplates.configureRoute('signIn', {
             Router.go('me');
     }
 });
+
+// OAuth2Server
+
+// Define the route to render the popup view
+Router.route('authorize', {
+    name: 'authorize',
+    path: '/oauth',
+    where: 'client',
+    redirect: function(params, queryParams) {
+        BlazeLayout.render('authorize', queryParams);
+    }
+});

@@ -1,0 +1,20 @@
+<template name="Authorize">
+  <div class="authorize">
+      {{#if currentUser}}
+      <form method="post" action="" role="form" class="{{#unless Template.subscriptionsReady}}hidden{{/unless}}">
+        <h2>Authorize OAuth</h2>
+        <input type="hidden" name="allow" value="yes">
+        <input type="hidden" name="token" value="{{getToken}}">
+        <input type="hidden" name="client_id" value="{{client_id}}">
+        <input type="hidden" name="redirect_uri" value="{{redirect_uri}}">
+        <input type="hidden" name="response_type" value="code">
+        <button class="btn btn-primary" type="submit"><i class="fa fa-address-card-o"></i> Authorize</button>
+      </form>
+      {{#unless Template.subscriptionsReady}}
+        loading...
+      {{/unless}}
+    {{else}}
+      {{> loginButtons}}
+    {{/if}}
+  </div>
+</template>
