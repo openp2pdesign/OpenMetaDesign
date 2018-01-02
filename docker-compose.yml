@@ -1,6 +1,9 @@
 version: '2'
 
 services:
+
+  # METEOR
+
   # Meteor
   meteor:
     container_name: "openmetadesign-meteor"
@@ -16,9 +19,11 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017/meteor
 
+  # MONGO
+
   # Mongo DB
   mongo:
-    container_name: "openmetadesign-mongo"
+    container_name: "openmetadesign-mongo-meteor"
     image: mongo:latest
     volumes:
       - mongo:/data
@@ -26,8 +31,8 @@ services:
       - '27017:27017'
     command:
       - --storageEngine=wiredTiger
-      
-  # Mongo UI admin 
+
+  # Mongo UI admin
   mongoui:
     container_name: "openmetadesign-mongo-ui"
     image: mongoclient/mongoclient:latest
@@ -44,6 +49,41 @@ services:
       - "MONGOCLIENT_USERNAME=admin"
       - "MONGOCLIENT_PASSWORD=password"
       - "MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://mongo:27017"
+
+  # ROCKET.CHAT
+
+  # Rocket.chat
+  rocketchat:
+    image: rocketchat/rocket.chat:latest
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/rocketchat
+      # - ROOT_URL=https://chat.inumio.com
+      - Accounts_UseDNSDomainCheck=True
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - 3500:3000
+
+  # Hubot for Rocket.chat
+  hubot:
+    image: rocketchat/hubot-rocketchat:v0.1.4
+    environment:
+      - ROCKETCHAT_URL=0.0.0.0:3000
+      - ROCKETCHAT_ROOM=GENERAL
+      - ROCKETCHAT_USER=Botname
+      - ROCKETCHAT_PASSWORD=BotPassw0rd
+      - BOT_NAME=Botname
+      - EXTERNAL_SCRIPTS=hubot-help,hubot-seen,hubot-links,hubot-greetings
+    links:
+      - rocketchat:rocketchat
+  # this is used to expose the hubot port for notifications on the host on port 3001, e.g. for hubot-jenkins-notifier
+    ports:
+      - 3001:8080
+
+
+
 
 volumes:
   mongo:
