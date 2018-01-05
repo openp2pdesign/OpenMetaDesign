@@ -67,7 +67,7 @@ AccountsTemplates.configureRoute('signIn', {
 // Define the route to render the popup view
 Router.route('authorize', {
     name: 'authorize',
-    path: '/oauth',
+    path: '/oauth/autorize',
     where: 'client',
     redirect: function(params, queryParams) {
         BlazeLayout.render('authorize', queryParams);
