@@ -1,9 +1,5 @@
-import {
-    Random
-} from 'meteor/random';
-import {
-    Mongo
-} from 'meteor/mongo';
+import { Random } from 'meteor/random';
+import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 SimpleSchema.debug = true;
@@ -63,27 +59,6 @@ if (Meteor.isClient) {
 // Schemas
 // Elaborated from https://gist.github.com/openp2pdesign/dba8cdfa0c4293b2d5e93f6a0835a755
 
-// A schema for a GEOjson point
-// See more here:
-// https://forums.meteor.com/t/howto-use-simpleschema-to-fill-geodata-in-database/9855/2
-// http://joshowens.me/using-mongodb-geospatial-index-with-meteor-js/
-PointSchema = new SimpleSchema({
-    location: {
-        type: Object,
-        index: "2dsphere"
-    },
-    type: {
-        type: String,
-        allowedValues: ["Point"]
-    },
-    lat: {
-        type: Number
-    },
-    lng: {
-        type: Number
-    }
-});
-
 // A schema for a location
 LocationSchema = new SimpleSchema({
     street: {
@@ -112,11 +87,15 @@ LocationSchema = new SimpleSchema({
         optional: true
     },
     'url.$': String,
-    location: {
-        type: String
+    latitude: {
+        type: Number
+    },
+    longitude: {
+        type: Number
     }
 
 });
+
 
 // A schema for a time interval
 TimeIntervalSchema = new SimpleSchema({
@@ -158,19 +137,21 @@ DiscussionSchema = new SimpleSchema({
         type: Date,
         optional: true
     },
-    status: {
+    url: {
         type: String,
         optional: true
-    }
+    },
 });
-
-// A schema for a message in the discussion
-// See https://github.com/cesarve77/simple-chat
-MessageSchema = new SimpleSchema({});
 
 // A schema for an activity element
 ActivityElementSchema = new SimpleSchema({
-    description: {
+    id: {
+        type: String,
+        autoValue: function() {
+            return Random.id();
+        }
+    },
+    name: {
         type: String
     }
 });
@@ -209,10 +190,10 @@ ContradictionSchema = new SimpleSchema({
     reciprocal: {
         type: Boolean
     },
-    // discussion: {
-    //     type: DiscussionSchema,
-    //     optional: true
-    // }
+    discussion: {
+        type: DiscussionSchema,
+        optional: true
+    }
 });
 
 // A schema for a flow
@@ -255,10 +236,10 @@ FlowSchema = new SimpleSchema({
     direction: {
         type: String
     },
-    // discussion: {
-    //     type: DiscussionSchema,
-    //     optional: true
-    // }
+    discussion: {
+        type: DiscussionSchema,
+        optional: true
+    }
 });
 
 // A schema for an activity
@@ -281,35 +262,37 @@ ActivitySchema = new SimpleSchema({
         type: String,
     },
     subject: {
-        type: String,
+        type: ActivityElementSchema,
     },
     object: {
-        type: String,
+        type: ActivityElementSchema,
     },
     outcome: {
-        type: String,
+        type: ActivityElementSchema,
     },
     tools: {
-        type: String,
+        type: ActivityElementSchema,
     },
     rules: {
-        type: String,
+        type: ActivityElementSchema,
     },
     roles: {
-        type: String,
+        type: ActivityElementSchema,
     },
     community: {
-        type: String,
+        type: ActivityElementSchema,
     },
     time: {
         type: TimeIntervalSchema
     },
-    // location: {
-    //     type: LocationSchema
-    // },
-    // discussion: {
-    //     type: DiscussionSchema
-    // },
+    location: {
+        type: LocationSchema,
+        optional: true
+    },
+    discussion: {
+        type: DiscussionSchema,
+        optional: true
+    },
     participation: {
         type: String,
         allowedValues: ["No participation",
@@ -338,17 +321,20 @@ ProcessSchema = new SimpleSchema({
         optional: true
     },
     'activities.$': ActivitySchema,
-    // participants: {
-    //     type: [String]
-    // },
-    // discussion: {
-    //     type: DiscussionSchema,
-    //     optional: true
-    // }
+    discussion: {
+        type: DiscussionSchema,
+        optional: true
+    }
 });
 
 // A schema for the separator lines between the processes
 SeparatorSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function() {
+            return Random.id();
+        }
+    },
     first: {
         type: String
     },
@@ -429,10 +415,9 @@ ProjectSchema = new SimpleSchema({
         type: String,
         max: 1024
     },
-    // license: {
-    //     type: LicenseSchema,
-    //     label: "License"
-    // },
+    license: {
+        type: LicenseSchema
+    },
     release: {
         type: String,
         max: 10
@@ -498,10 +483,9 @@ ProjectSchema = new SimpleSchema({
             }
         }
     },
-    // founders: {
-    //     type: [String],
-    //     label: "Founders"
-    // },
+    designers: {
+        type: String
+    },
     community: {
         type: String,
         max: 1024
