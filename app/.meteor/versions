@@ -30,6 +30,7 @@ cfs:http-methods@0.0.32
 check@1.2.5
 coffeescript@1.12.7_3
 coffeescript-compiler@1.12.7_3
+dandv:caret-position@2.1.1
 dburles:collection-helpers@1.1.0
 ddp@1.4.0
 ddp-client@2.2.0
@@ -78,6 +79,7 @@ meteortoys:toykit@4.0.1
 minifier-css@1.2.16
 minifier-js@2.2.2
 minimongo@1.4.3
+mizzao:autocomplete@0.5.1
 mobile-experience@1.0.5
 mobile-status-bar@1.0.14
 modules@0.11.2

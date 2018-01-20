@@ -46,3 +46,8 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
 Meteor.publish('settings', function () {
   return Settings.find();
 });
+
+Meteor.publish("autocompleteProjects", function(selector, options) {
+  Autocomplete.publishCursor(Projects.find(selector, options), this);
+  this.ready();
+});

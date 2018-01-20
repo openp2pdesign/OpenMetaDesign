@@ -118,6 +118,20 @@ Template.ActivityFlows.events({
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
+    autocompleteSettingsNode: function() {
+        return {
+            position: "top",
+            limit: 5,
+            rules: [{
+                    token: '@',
+                    collection: 'Projects',
+                    subscription: 'autocompleteProjects',
+                    field: 'title',
+                    template: Template.TitlePill
+                },
+            ]
+        };
+    },
     deleteFlowData: function() {
         return Session.get('flowToDeleteData');
     },

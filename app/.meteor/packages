@@ -27,7 +27,6 @@ useraccounts:bootstrap
 accounts-ui@1.2.0
 useraccounts:iron-routing
 aldeed:tabular
-check@1.2.5
 meteorhacks:unblock
 reywood:publish-composite
 dynamic-import@0.2.0
@@ -48,3 +47,5 @@ natestrauser:select2
 benmgreene:moment-range
 dburles:collection-helpers
 aslagle:reactive-table
+mizzao:autocomplete
+check
