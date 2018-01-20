@@ -1,8 +1,8 @@
-#OpenMetaDesign
+# OpenMetaDesign
 
 A platform for the collaborative design and discussion of collaborative design processes.
 
-##Instructions
+## Instructions
 
 The project is structured with the help of [iron-cli](https://github.com/iron-meteor/iron-cli), but you do not need it to run the project, it's just for development.
 
@@ -34,10 +34,10 @@ meteor run
 Open a browser to [http://localhost:3000/](http://localhost:3000/)
 
 
-##Docker Compose
+## Docker Compose
 The compose file is only for production at the moment, for local development only Meteor is needed.
 
 The key issue for using Docker is for the integration with a discussion service. The integration with Rocket.Chat is almost ready but it still has some issues, it might be replaced by Discourse (see [this compose](https://github.com/leopku/discourse-compose)).
 
-##License
+## License
 [AGPL](https://github.com/openp2pdesign/OpenMetaDesign/blob/master/LICENSE)
