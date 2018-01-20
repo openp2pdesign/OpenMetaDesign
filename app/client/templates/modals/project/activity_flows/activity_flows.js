@@ -121,6 +121,9 @@ Template.ActivityFlows.helpers({
     deleteFlowData: function() {
         return Session.get('flowToDeleteData');
     },
+    showFlowData: function() {
+        return Session.get('flowToShowData');
+    },
     editFlowData: function() {
         return Session.get('flowToEditData');
     },
