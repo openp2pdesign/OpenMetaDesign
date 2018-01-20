@@ -10,20 +10,10 @@
                       <h2 class="modal-title">{{_ "discuss_html"}}</h2>
                   </div>
                   <div class="modal-body">
-                      {{#with data}}
-                          <form class="form-horizontal" role="form">
-                              <div class="form-group">
-                                  <label class="col-lg-3 control-label">{{_ "activity_title"}}:</label>
-                                  <div class="col-lg-8">
-                                      <input class="form-control" type="text" value={{title}} id="new-title">
-                                  </div>
-                              </div>
-                          </form>
-                      {{/with}}
+                          Embed here the discussion for this element.
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
-                      <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">{{_ "save_changes"}}</button>
+                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "close"}}</button>
                   </div>
               </div>
           </div>

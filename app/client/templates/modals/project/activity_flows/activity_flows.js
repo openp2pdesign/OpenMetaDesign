@@ -165,7 +165,8 @@ Template.ActivityFlows.onCreated(function() {});
 
 Template.ActivityFlows.onRendered(function() {
     $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
-    // Hide the divs that enable the edit, view, delete of flows by default
+    // Hide the divs that enable the edit, view, delete and create of flows by default
+    $("#showFlowDiv").hide();
     $("#editFlowDiv").hide();
     $("#createFlowDiv").hide();
     $("#deleteFlowDiv").hide();
