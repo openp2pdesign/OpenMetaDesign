@@ -65,9 +65,11 @@ Meteor.methods({
         // Default empty project, without version diff
         var newProject = {
             "title": "Title...",
+            "license": {"title": "CC-BY", "url": "https://creativecommons.org/licenses/by/4.0/"},
             "description": "Description...",
             "release": "0.1",
             "community": "Describe the community that will be affected by this project or for which this project is developed for.",
+            "designers": "Describe the designers participate in this project.",
             "processes": [{
                 "title": "Customer processes",
                 "activities": [],
@@ -113,7 +115,9 @@ Meteor.methods({
         newProject.versions[0].diff = JSON.stringify(differences);
         // Get back the value with: JSON.parse()
         // Save the the first version of the project
-        return Projects.insert(newProject);
+        projectId = Projects.insert(newProject);
+        console.log("Project created with id", projectId, "successfully.");
+        return projectId;
     },
     'removeProject': function(projectId) {
         Projects.remove({

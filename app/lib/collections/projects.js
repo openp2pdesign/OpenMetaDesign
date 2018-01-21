@@ -126,11 +126,13 @@ DiscussionSchema = new SimpleSchema({
     },
     title: {
         type: String,
-        max: 100
+        max: 100,
+        optional: true
     },
     labels: {
         type: Array,
-        max: 50
+        max: 50,
+        optional: true
     },
     'labels.$': String,
     start: {
@@ -354,11 +356,9 @@ LicenseSchema = new SimpleSchema({
         max: 100
     },
     url: {
-        type: Array,
-        regEx: SimpleSchema.RegEx.Url,
-        max: 50
+        type: String,
+        regEx: SimpleSchema.RegEx.Url
     },
-    'url.$': String,
     discussion: {
         type: DiscussionSchema,
         optional: true

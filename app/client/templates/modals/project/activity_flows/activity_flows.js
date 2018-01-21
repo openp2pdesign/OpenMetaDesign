@@ -123,7 +123,7 @@ Template.ActivityFlows.helpers({
             position: "top",
             limit: 5,
             rules: [{
-                    token: '@',
+                    token: '',
                     collection: 'Projects',
                     subscription: 'autocompleteProjects',
                     field: 'title',
