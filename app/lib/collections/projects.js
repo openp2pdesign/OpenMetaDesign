@@ -4,6 +4,7 @@ import SimpleSchema from 'simpl-schema';
 
 SimpleSchema.debug = true;
 
+// Collection of Projects
 export const Projects = new Mongo.Collection('projects');
 
 // if (Meteor.isServer) {

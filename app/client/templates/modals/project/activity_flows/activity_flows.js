@@ -11,6 +11,9 @@ import { Random } from 'meteor/random';
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 
+// Client only collection for the autocomplete
+LocalActivityElements = new Mongo.Collection(null);
+
 /*****************************************************************************/
 /* ActivityFlows: Event Handlers */
 /*****************************************************************************/
@@ -120,14 +123,15 @@ Template.ActivityFlows.events({
 Template.ActivityFlows.helpers({
     autocompleteSettingsNode: function() {
         return {
-            position: "top",
-            limit: 5,
+            position: "bottom",
+            limit: 8,
             rules: [{
                     token: '',
-                    collection: 'Projects',
-                    subscription: 'autocompleteProjects',
+                    collection: 'ActivityElements',
+                    collection: "autocompleteActivityElements",
                     field: 'title',
-                    template: Template.TitlePill
+                    template: Template.TitlePill,
+                    //noMatchTemplate: Template.notFoundPill
                 },
             ]
         };
@@ -181,6 +185,7 @@ Template.ActivityFlows.helpers({
 Template.ActivityFlows.onCreated(function() {});
 
 Template.ActivityFlows.onRendered(function() {
+    // Make the table responsive
     $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
     // Hide the divs that enable the edit, view, delete and create of flows by default
     $("#showFlowDiv").hide();

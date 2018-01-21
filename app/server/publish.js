@@ -1,10 +1,13 @@
 import { Projects } from '../lib/collections/projects.js';
 import { Settings } from '../lib/collections/settings.js';
 
+
+// Publish users
 Meteor.publish('projects', function(userId) {
     return Projects.find();
 });
 
+// Publish users
 Meteor.publish('usersList', function() {
     return Meteor.users.find({}, {
         fields: {
@@ -17,6 +20,7 @@ Meteor.publish('usersList', function() {
     });
 });
 
+// Publish users, for the tabular
 Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
   check(tableName, String);
   check(ids, Array);
@@ -42,12 +46,25 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
   };
 });
 
-
+// Publish settings for the whole app
 Meteor.publish('settings', function () {
   return Settings.find();
 });
 
+// Publish projects for autocomplete forms
 Meteor.publish("autocompleteProjects", function(selector, options) {
   Autocomplete.publishCursor(Projects.find(selector, options), this);
+  this.ready();
+});
+
+// Publish activities for autocomplete forms
+Meteor.publish("autocompleteActivities", function(selector, options) {
+  Autocomplete.publishCursor(Activities.find(selector, options), this);
+  this.ready();
+});
+
+// Publish activity elements for autocomplete forms
+Meteor.publish("autocompleteActivityElements", function(selector, options) {
+  Autocomplete.publishCursor(ActivityElements.find(selector, options), this);
   this.ready();
 });
