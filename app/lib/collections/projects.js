@@ -145,19 +145,6 @@ DiscussionSchema = new SimpleSchema({
     },
 });
 
-// A schema for an activity element
-ActivityElementSchema = new SimpleSchema({
-    id: {
-        type: String,
-        autoValue: function() {
-            return Random.id();
-        }
-    },
-    name: {
-        type: String
-    }
-});
-
 // A schema for a contradiction
 ContradictionSchema = new SimpleSchema({
     id: {
@@ -241,6 +228,22 @@ FlowSchema = new SimpleSchema({
     discussion: {
         type: DiscussionSchema,
         optional: true
+    }
+});
+
+// A schema for an activity element
+ActivityElementSchema = new SimpleSchema({
+    id: {
+        type: String,
+        autoValue: function() {
+            return Random.id();
+        }
+    },
+    title: {
+        type: String
+    },
+    description: {
+        type: String
     }
 });
 

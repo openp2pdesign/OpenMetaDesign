@@ -38,13 +38,13 @@ Template.ActivityEdit.events({
         activityData = {
             "title": newTitle,
             "description": newDescription,
-            "subject": newSubject,
-            "object": newObject,
-            "outcome": newOutcome,
-            "tools": newTools,
-            "rules": newRules,
-            "roles": newRoles,
-            "community": newCommunity,
+            "subject": {"title": "subject", "description": newSubject},
+            "object": {"title": "object", "description": newObject},
+            "outcome": {"title": "outcome", "description": newOutcome},
+            "tools": {"title": "tools", "description": newTools},
+            "rules": {"title": "rules", "description": newRules},
+            "roles": {"title": "roles", "description": newRoles},
+            "community": {"title": "community", "description": newCommunity},
             "time": {
                 "start": newTimeStart,
                 "end": newTimeEnd
@@ -73,7 +73,6 @@ Template.ActivityEdit.events({
                             sticker: false
                         }
                     });
-
                     errorNotice.get().click(function() {
                         errorNotice.remove();
                     });
