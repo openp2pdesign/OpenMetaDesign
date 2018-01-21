@@ -1,3 +1,9 @@
+import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
+import ActivityElementSchema from './projects.js';
+
+SimpleSchema.debug = true;
+
 // Collection of Activity Elements, for the autocomplete
 export const ActivityElements = new Mongo.Collection('activityelements');
 
@@ -47,11 +53,8 @@ ActivityElementAutocompleteSchema = new SimpleSchema({
     projectId: {
         type: String,
     },
-    title: {
-        type: String
-    },
-    description: {
-        type: String
+    activityElementData: {
+        type: ActivityElementSchema
     }
 });
 

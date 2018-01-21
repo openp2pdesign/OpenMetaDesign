@@ -1,3 +1,9 @@
+import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
+import ActivitySchema from './projects.js';
+
+SimpleSchema.debug = true;
+
 // Collection of Activities, for the autocomplete
 export const Activities = new Mongo.Collection('activities');
 
@@ -43,56 +49,8 @@ ActivityAutocompleteSchema = new SimpleSchema({
     projectId: {
         type: String,
     },
-    number: {
-        type: Number
-    },
-    title: {
-        type: String,
-        max: 100,
-    },
-    description: {
-        type: String,
-    },
-    subject: {
-        type: ActivityElementSchema,
-    },
-    object: {
-        type: ActivityElementSchema,
-    },
-    outcome: {
-        type: ActivityElementSchema,
-    },
-    tools: {
-        type: ActivityElementSchema,
-    },
-    rules: {
-        type: ActivityElementSchema,
-    },
-    roles: {
-        type: ActivityElementSchema,
-    },
-    community: {
-        type: ActivityElementSchema,
-    },
-    time: {
-        type: TimeIntervalSchema
-    },
-    location: {
-        type: LocationSchema,
-        optional: true
-    },
-    discussion: {
-        type: DiscussionSchema,
-        optional: true
-    },
-    participation: {
-        type: String,
-        allowedValues: ["No participation",
-            "Indirect participation",
-            "Consultative participation",
-            "Shared control",
-            "Full control"
-        ]
+    activityData: {
+        type: ActivitySchema
     }
 });
 
