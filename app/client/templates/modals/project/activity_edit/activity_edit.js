@@ -225,9 +225,7 @@ Template.ActivityEdit.helpers({
                         "participation": "Full control"
                     }
                 }
-
                 return thisActivity;
-
             },
             "mode": this.mode
         }
@@ -263,7 +261,6 @@ Template.ActivityEdit.onRendered(function() {
     });
     // Select2 for participation level
     $("#new-participation").select2({
-        dropdownParent: $('#activity-add'),
         data: ["No participation",
             "Indirect participation",
             "Consultative participation",
