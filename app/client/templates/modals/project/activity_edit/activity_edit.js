@@ -108,7 +108,7 @@ Template.ActivityEdit.events({
                     var errorNotice = new PNotify({
                         type: 'error',
                         title: 'Error',
-                        text: 'There was an error in adding the activity',
+                        text: 'There was an error in editing the activity',
                         icon: 'fa fa-cubes',
                         addclass: 'pnotify stack-topright',
                         animate: {
@@ -129,7 +129,7 @@ Template.ActivityEdit.events({
                     var successNotice = new PNotify({
                         type: 'success',
                         title: 'Success',
-                        text: 'Activity successfully added.',
+                        text: 'Activity successfully editded.',
                         icon: 'fa fa-cubes',
                         addclass: 'pnotify stack-topright',
                         animate: {

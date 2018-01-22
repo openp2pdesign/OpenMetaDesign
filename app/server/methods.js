@@ -225,18 +225,17 @@ Meteor.methods({
         });
         // TODO Add data to activity elements collection
         // TODO cycle for all the elements
-        console.log("DATAFEBUG",activityData);
-        ActivityElements.insert({
-            activityElementId: {
-                type: String,
-            },
-            activityId: activityId,
-            processId: processId,
-            projectId: projectId,
-            activityElementData: {
-                type: ActivityElementSchema
-            }
-        });
+        // ActivityElements.insert({
+        //     activityElementId: {
+        //         type: String,
+        //     },
+        //     activityId: activityId,
+        //     processId: processId,
+        //     projectId: projectId,
+        //     activityElementData: {
+        //         type: ActivityElementSchema
+        //     }
+        // });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
