@@ -6,7 +6,7 @@ PNotify.prototype.options.styling = "fontawesome";
 // jquery
 import { $ } from 'meteor/jquery';
 // Random id
-import { Random } from 'meteor/random';
+import {  Random } from 'meteor/random';
 // Load Projects and Settings
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
@@ -36,13 +36,34 @@ Template.ActivityEdit.events({
         activityData = {
             "title": newTitle,
             "description": newDescription,
-            "subject": {"title": "subject", "description": newSubject},
-            "object": {"title": "object", "description": newObject},
-            "outcome": {"title": "outcome", "description": newOutcome},
-            "tools": {"title": "tools", "description": newTools},
-            "rules": {"title": "rules", "description": newRules},
-            "roles": {"title": "roles", "description": newRoles},
-            "community": {"title": "community", "description": newCommunity},
+            "subject": {
+                "title": "subject",
+                "description": newSubject
+            },
+            "object": {
+                "title": "object",
+                "description": newObject
+            },
+            "outcome": {
+                "title": "outcome",
+                "description": newOutcome
+            },
+            "tools": {
+                "title": "tools",
+                "description": newTools
+            },
+            "rules": {
+                "title": "rules",
+                "description": newRules
+            },
+            "roles": {
+                "title": "roles",
+                "description": newRoles
+            },
+            "community": {
+                "title": "community",
+                "description": newCommunity
+            },
             "time": {
                 "start": newTimeStart,
                 "end": newTimeEnd
@@ -162,7 +183,52 @@ Template.ActivityEdit.helpers({
         return {
             "project": thisProject,
             "process": thisProcess,
-            "activity": thisActivity,
+            "activity": function() {
+                if (this.mode == "edit") {
+                    return thisActivity;
+                } else {
+                    thisActivity = {
+                        "title": "A new activity",
+                        "description": "Write here a description of the activity.",
+                        "subject": {
+                            "title": "subject",
+                            "description": "Who is doing the activity?"
+                        },
+                        "object": {
+                            "title": "object",
+                            "description": "What is the object of the activity?"
+                        },
+                        "outcome": {
+                            "title": "outcome",
+                            "description": "What is the outcome of the activity?"
+                        },
+                        "tools": {
+                            "title": "tools",
+                            "description": "Which are the tools, knowledge and systems used in the activity?"
+                        },
+                        "rules": {
+                            "title": "rules",
+                            "description": "Which are the rules followed in the activity?"
+                        },
+                        "roles": {
+                            "title": "roles",
+                            "description": "How is the work in the activity organized into roles?"
+                        },
+                        "community": {
+                            "title": "community",
+                            "description": "Which is the greater community where the activity takes place?"
+                        },
+                        "time": {
+                            "start": new Date(),
+                            "end": new Date()
+                        },
+                        "participation": "Full control"
+                    }
+                }
+
+                return thisActivity;
+
+            },
             "mode": this.mode
         }
     }
