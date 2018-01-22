@@ -3,7 +3,10 @@
 /*****************************************************************************/
 
 import { Projects } from '../lib/collections/projects.js';
+import { Activities } from '../lib/collections/activities.js';
+import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Settings } from '../lib/collections/settings.js';
+
 let diff = require('deep-diff');
 
 Meteor.methods({
@@ -123,6 +126,7 @@ Meteor.methods({
         Projects.remove({
             _id: projectId
         });
+        // TODO Remove all activities and activityelements associated
     },
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project
@@ -212,6 +216,27 @@ Meteor.methods({
                 'activitiesCount': activityData.number
             }
         });
+        // Add data to activities collection
+        Activities.insert({
+            activityId: activityId,
+            processId: processId,
+            projectId: projectId,
+            activityData: activityData
+        });
+        // TODO Add data to activity elements collection
+        // TODO cycle for all the elements
+        console.log("DATAFEBUG",activityData);
+        ActivityElements.insert({
+            activityElementId: {
+                type: String,
+            },
+            activityId: activityId,
+            processId: processId,
+            projectId: projectId,
+            activityElementData: {
+                type: ActivityElementSchema
+            }
+        });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
@@ -249,6 +274,8 @@ Meteor.methods({
                             }
                         }
                 });
+                // TODO Update activities collection
+                // TODO Update activity elements collection
                 return "success";
             }
         });
@@ -291,6 +318,8 @@ Meteor.methods({
                             }
                         }
                 });
+                // TODO Delete related activities in collection
+                // TODO Delete related activity elements in collection
                 return "success";
             }
         });
