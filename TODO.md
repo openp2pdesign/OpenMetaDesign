@@ -1,0 +1,6 @@
+- Add template for an empty table __TODO__ [app/client/templates/modals/project/activity_flows/activity_flows.js](app/client/templates/modals/project/activity_flows/activity_flows.js)
+- Delete related activities in collection __TODO__ [app/server/methods.js](app/server/methods.js)
+- Delete related activity elements in collection __TODO__ [app/server/methods.js](app/server/methods.js)
+- Remove all activities and activityelements associated __TODO__ [app/server/methods.js](app/server/methods.js)
+- Update activities collection __TODO__ [app/server/methods.js](app/server/methods.js)
+- Update activity elements collection __TODO__ [app/server/methods.js](app/server/methods.js)
