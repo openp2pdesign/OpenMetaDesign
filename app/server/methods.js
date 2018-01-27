@@ -2,18 +2,10 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import {
-    Projects
-} from '../lib/collections/projects.js';
-import {
-    Activities
-} from '../lib/collections/activities.js';
-import {
-    ActivityElements
-} from '../lib/collections/activity_elements.js';
-import {
-    Settings
-} from '../lib/collections/settings.js';
+import { Projects } from '../lib/collections/projects.js';
+import { Activities } from '../lib/collections/activities.js';
+import { ActivityElements } from '../lib/collections/activity_elements.js';
+import { Settings } from '../lib/collections/settings.js';
 
 let diff = require('deep-diff');
 
