@@ -61,7 +61,7 @@ if (Meteor.isClient) {
 // Elaborated from https://gist.github.com/openp2pdesign/dba8cdfa0c4293b2d5e93f6a0835a755
 
 // A schema for a location
-LocationSchema = new SimpleSchema({
+export const LocationSchema = new SimpleSchema({
     street: {
         type: String,
         max: 100
@@ -99,7 +99,7 @@ LocationSchema = new SimpleSchema({
 
 
 // A schema for a time interval
-TimeIntervalSchema = new SimpleSchema({
+export const TimeIntervalSchema = new SimpleSchema({
     start: {
         type: Date
     },
@@ -118,7 +118,7 @@ TimeIntervalSchema = new SimpleSchema({
 
 
 // A schema for a discussion
-DiscussionSchema = new SimpleSchema({
+export const DiscussionSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -147,7 +147,7 @@ DiscussionSchema = new SimpleSchema({
 });
 
 // A schema for a contradiction
-ContradictionSchema = new SimpleSchema({
+export const ContradictionSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -187,7 +187,7 @@ ContradictionSchema = new SimpleSchema({
 });
 
 // A schema for a flow
-FlowSchema = new SimpleSchema({
+export const FlowSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -311,7 +311,7 @@ export const ActivitySchema = new SimpleSchema({
 });
 
 // A schema for a process
-ProcessSchema = new SimpleSchema({
+export const ProcessSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -334,7 +334,7 @@ ProcessSchema = new SimpleSchema({
 });
 
 // A schema for the separator lines between the processes
-SeparatorSchema = new SimpleSchema({
+export const SeparatorSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -354,7 +354,7 @@ SeparatorSchema = new SimpleSchema({
 });
 
 // A schema for a license
-LicenseSchema = new SimpleSchema({
+export const LicenseSchema = new SimpleSchema({
     title: {
         type: String,
         max: 100
@@ -370,7 +370,7 @@ LicenseSchema = new SimpleSchema({
 });
 
 // A schema for versioning the project
-VersionSchema = new SimpleSchema({
+export const VersionSchema = new SimpleSchema({
     number: {
         type: Number,
         defaultValue: 0
@@ -410,7 +410,7 @@ VersionSchema = new SimpleSchema({
 });
 
 // A schema for a meta-design project
-ProjectSchema = new SimpleSchema({
+export const ProjectSchema = new SimpleSchema({
     title: {
         type: String,
         max: 200

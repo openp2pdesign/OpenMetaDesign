@@ -78,24 +78,16 @@ Meteor.methods({
             "designers": "Describe the designers participate in this project.",
             "processes": [{
                 "title": "Customer processes",
-                "activities": [],
-                "flows": [],
-                "contradictions": []
+                "activities": []
             }, {
                 "title": "Front-Office processes",
-                "activities": [],
-                "flows": [],
-                "contradictions": []
+                "activities": []
             }, {
                 "title": "Back-Office processes",
-                "activities": [],
-                "flows": [],
-                "contradictions": []
+                "activities": []
             }, {
                 "title": "Support processes",
-                "activities": [],
-                "flows": [],
-                "contradictions": []
+                "activities": []
             }],
             "separators": [{
                 "first": "Customer processes",
