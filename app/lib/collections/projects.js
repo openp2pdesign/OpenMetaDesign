@@ -248,10 +248,7 @@ export const ActivityElementSchema = new SimpleSchema({
 // A schema for an activity
 export const ActivitySchema = new SimpleSchema({
     id: {
-        type: String,
-        autoValue: function() {
-            return Random.id();
-        }
+        type: String
     },
     number: {
         type: Number,

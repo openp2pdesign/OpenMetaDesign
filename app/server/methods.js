@@ -168,6 +168,8 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
+        // Add the activity ID to the activity data
+        activityData.id = activityId;
         // Add activity number
         activityData.number = thisProject.activitiesCount + 1;
         // Apply changes by updating the Project
