@@ -41,14 +41,14 @@ if (Meteor.isClient) {
 }
 
 // A schema for an activity for the autocomplete
-ActivityAutocompleteSchema = new SimpleSchema({
-    activityId: {
+ActivitySeparateSchema = new SimpleSchema({
+    projectId: {
         type: String,
     },
     processId: {
         type: String,
     },
-    projectId: {
+    activityId: {
         type: String,
     },
     activityData: {
@@ -56,5 +56,5 @@ ActivityAutocompleteSchema = new SimpleSchema({
     }
 });
 
-// Attach the ActivityAutocompleteSchema to the Activities collection
-Activities.attachSchema(ActivityAutocompleteSchema);
+// Attach the ActivitySeparateSchema to the Activities collection
+Activities.attachSchema(ActivitySeparateSchema);

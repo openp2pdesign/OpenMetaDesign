@@ -40,18 +40,18 @@ if (Meteor.isClient) {
     });
 }
 
-// A schema for an activity element, for the autocomplete
-ActivityElementAutocompleteSchema = new SimpleSchema({
-    activityElementId: {
-        type: String,
-    },
-    activityId: {
+// A schema for an activity element
+ActivityElementSeparateSchema = new SimpleSchema({
+    projectId: {
         type: String,
     },
     processId: {
         type: String,
     },
-    projectId: {
+    activityId: {
+        type: String,
+    },
+    activityElementId: {
         type: String,
     },
     activityElementData: {
@@ -59,5 +59,5 @@ ActivityElementAutocompleteSchema = new SimpleSchema({
     }
 });
 
-// Attach the ActivityElementAutocompleteSchema to the ActivityElements collection
-ActivityElements.attachSchema(ActivityElementAutocompleteSchema);
+// Attach the ActivityElementSeparateSchema to the ActivityElements collection
+ActivityElements.attachSchema(ActivityElementSeparateSchema);
