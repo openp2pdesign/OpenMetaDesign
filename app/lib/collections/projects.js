@@ -189,10 +189,7 @@ export const ContradictionSchema = new SimpleSchema({
 // A schema for a flow
 export const FlowSchema = new SimpleSchema({
     id: {
-        type: String,
-        autoValue: function() {
-            return Random.id();
-        }
+        type: String
     },
     title: {
         type: String,
