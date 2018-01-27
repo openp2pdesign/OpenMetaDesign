@@ -10,6 +10,7 @@ import { Random } from 'meteor/random';
 // Load Projects and Settings
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
+import { Activities } from '../../../../../lib/collections/activities.js';
 
 // Client only collection for the autocomplete
 LocalActivityElements = new Mongo.Collection(null);
@@ -125,6 +126,10 @@ Template.ActivityFlows.events({
 /* ActivityFlows: Helpers */
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
+    activities: function() {
+        Meteor.subscribe('activities');
+        return Activities.find({}).fetch();
+    },
     autocompleteSettingsNode: function() {
         return {
             position: "bottom",

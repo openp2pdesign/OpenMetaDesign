@@ -53,6 +53,10 @@ Meteor.publish('settings', function () {
   return Settings.find();
 });
 
+Meteor.publish('activities', function(userId) {
+    return Activities.find();
+});
+
 // Publish projects for autocomplete forms
 Meteor.publish("autocompleteProjects", function(selector, options) {
   Autocomplete.publishCursor(Projects.find(selector, options), this);
