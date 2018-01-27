@@ -121,7 +121,7 @@ Meteor.methods({
         Projects.remove({
             _id: projectId
         });
-        // TODO:40 Remove all activities and activityelements associated
+        // TODO: Remove all activities and activityelements and flows and contradictions associated
     },
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project
@@ -200,36 +200,37 @@ Meteor.methods({
                         }
                     }
                 });
-                return "success";
-            }
-        });
-        // Update activities count
-        Projects.update({
-            '_id': projectId
-        }, {
-            $set: {
-                'activitiesCount': activityData.number
-            }
-        });
-        // Add data to activities collection
-        Activities.insert({
-            "activityId": activityId,
-            "processId": processId,
-            "projectId": projectId,
-            "activityData": activityData,
-        });
-        // Add data to activity elements collection
-        for (element in activityData) {
-            if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
-                ActivityElements.insert({
-                    "activityElementId": activityData[element].id,
+                // Update activities count
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'activitiesCount': activityData.number
+                    }
+                });
+                // Add data to activities collection
+                Activities.insert({
                     "activityId": activityId,
                     "processId": processId,
                     "projectId": projectId,
-                    "activityElementData": activityData[element]
+                    "activityData": activityData,
                 });
+                // Add data to activity elements collection
+                for (element in activityData) {
+                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+                        ActivityElements.insert({
+                            "activityElementId": activityData[element].id,
+                            "activityId": activityId,
+                            "processId": processId,
+                            "projectId": projectId,
+                            "activityElementData": activityData[element]
+                        });
+                    }
+                }
+                // Return success
+                return "success";
             }
-        }
+        });
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
@@ -336,7 +337,7 @@ Meteor.methods({
                 console.log("Error", error.reason, "while adding", flowData.id, "to project", projectId, ".");
                 return "error";
             } else {
-                console.log("Flow", flowData.id, "added to prooject", projectId, "successfully.");
+                console.log("Flow", flowData.id, "added to project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
                     _id: projectId
@@ -352,6 +353,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add data to flows collection
+                Flows.insert({
+                    "projectId": projectId,
+                    "flowId": flowData.id,
+                    "flowData": flowData,
+                });
+                // Return success
                 return "success";
             }
         });
@@ -362,8 +370,9 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // TODO Apply changes by updating the Project
         // ...
+        // TODO Update flow in its own collection
     },
     'deleteFlow': function(projectId, flowId, flowData) {
         // Load the Project
@@ -371,8 +380,9 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // TODO Apply changes by updating the Project
         // ...
+        // TODO Delete flow in its own collection
     },
     'addContradiction': function(projectId, contradictionData) {
         // Load the Project
@@ -380,8 +390,9 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // TODO Apply changes by updating the Project
         // ...
+        // TODO Add contradiction in its own collection
     },
     'updateContradiction': function(projectId, contradictionId, contradictionData) {
         // Load the Project
@@ -389,8 +400,9 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // TODO Apply changes by updating the Project
         // ...
+        // TODO Update contradiction in its own collection
     },
     'deleteContradiction': function(projectId, contradictionId, contradictionData) {
         // Load the Project
@@ -398,7 +410,8 @@ Meteor.methods({
             _id: projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // TODO Apply changes by updating the Project
         // ...
+        // TODO Delete contradiction in its own collection
     },
 });

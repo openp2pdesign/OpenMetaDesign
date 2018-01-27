@@ -2,6 +2,7 @@ import { Projects } from '../lib/collections/projects.js';
 import { Settings } from '../lib/collections/settings.js';
 import { Activities } from '../lib/collections/activities.js';
 import { ActivityElements } from '../lib/collections/activity_elements.js';
+import { Flows } from '../lib/collections/flows.js';
 
 
 // Publish users
@@ -54,13 +55,18 @@ Meteor.publish('settings', function () {
 });
 
 // Publish activities for the whole app
-Meteor.publish('activities', function(userId) {
+Meteor.publish('activities', function() {
     return Activities.find();
 });
 
 // Publish activity elements for the whole app
-Meteor.publish('activityElements', function(userId) {
+Meteor.publish('activityElements', function() {
     return ActivityElements.find();
+});
+
+// Publish flows for the whole app
+Meteor.publish('flows', function() {
+    return Flows.find();
 });
 
 // Publish projects for autocomplete forms
