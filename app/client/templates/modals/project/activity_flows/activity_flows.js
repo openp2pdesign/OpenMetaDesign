@@ -135,7 +135,7 @@ Template.ActivityFlows.helpers({
                     collection: 'Activities',
                     //collection: "autocompleteActivityElements",
                     field: 'activityData.title',
-                    template: Template.TitlePill,
+                    template: Template.ActivityPill,
                     noMatchTemplate: Template.NotFoundPill
                 },
             ]

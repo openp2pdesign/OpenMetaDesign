@@ -1,23 +1,23 @@
 /*****************************************************************************/
-/* TitlePill: Event Handlers */
+/* ActivityElementPill: Event Handlers */
 /*****************************************************************************/
-Template.TitlePill.events({
+Template.ActivityElementPill.events({
 });
 
 /*****************************************************************************/
-/* TitlePill: Helpers */
+/* ActivityElementPill: Helpers */
 /*****************************************************************************/
-Template.TitlePill.helpers({
+Template.ActivityElementPill.helpers({
 });
 
 /*****************************************************************************/
-/* TitlePill: Lifecycle Hooks */
+/* ActivityElementPill: Lifecycle Hooks */
 /*****************************************************************************/
-Template.TitlePill.onCreated(function () {
+Template.ActivityElementPill.onCreated(function () {
 });
 
-Template.TitlePill.onRendered(function () {
+Template.ActivityElementPill.onRendered(function () {
 });
 
-Template.TitlePill.onDestroyed(function () {
+Template.ActivityElementPill.onDestroyed(function () {
 });
