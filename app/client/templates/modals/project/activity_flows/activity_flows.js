@@ -114,6 +114,10 @@ Template.ActivityFlows.events({
         event.preventDefault();
         $("#deleteFlowDiv").hide();
     },
+    // Autocomplete of first node
+    "autocompleteselect #new-flow-first-node": function(e, t, doc) {
+        console.log("selected ", doc);
+    }
 
 });
 
@@ -130,7 +134,7 @@ Template.ActivityFlows.helpers({
                     subscription: 'autocompleteActivities',
                     collection: 'Activities',
                     //collection: "autocompleteActivityElements",
-                    field: 'title',
+                    field: 'activityData.title',
                     template: Template.TitlePill,
                     noMatchTemplate: Template.NotFoundPill
                 },

@@ -1,5 +1,7 @@
 import { Projects } from '../lib/collections/projects.js';
 import { Settings } from '../lib/collections/settings.js';
+import { Activities } from '../lib/collections/activities.js';
+import { ActivityElements } from '../lib/collections/activity_elements.js';
 
 
 // Publish users
@@ -54,6 +56,12 @@ Meteor.publish('settings', function () {
 // Publish projects for autocomplete forms
 Meteor.publish("autocompleteProjects", function(selector, options) {
   Autocomplete.publishCursor(Projects.find(selector, options), this);
+  this.ready();
+});
+
+// Publish users for autocomplete forms
+Meteor.publish("autocompleteUsers", function(selector, options) {
+  Autocomplete.publishCursor(Meteor.users.find(selector, options), this);
   this.ready();
 });
 
