@@ -179,7 +179,7 @@ Template.ProjectsViz.onRendered(function() {
     var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
 
     // Debug: see the border of the svg
-    // TODO: to be removed
+    // TODO:70 to be removed
     svg.attr("style", "outline: thin solid black;");
 
     // Filters
@@ -667,7 +667,7 @@ Template.ProjectsViz.onRendered(function() {
         // Organize sections
         // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
-        // TODO Each section should be wide enough to avoid have overlapping activities
+        // TODO:30 Each section should be wide enough to avoid have overlapping activities
 
         sectionsWidth = []
 

@@ -121,7 +121,7 @@ Meteor.methods({
         Projects.remove({
             _id: projectId
         });
-        // TODO Remove all activities and activityelements associated
+        // TODO:40 Remove all activities and activityelements associated
     },
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project
@@ -267,8 +267,8 @@ Meteor.methods({
                         }
                     }
                 });
-                // TODO Update activities collection
-                // TODO Update activity elements collection
+                // TODO:50 Update activities collection
+                // TODO:60 Update activity elements collection
                 return "success";
             }
         });
@@ -311,8 +311,8 @@ Meteor.methods({
                         }
                     }
                 });
-                // TODO Delete related activities in collection
-                // TODO Delete related activity elements in collection
+                // TODO:10 Delete related activities in collection
+                // TODO:20 Delete related activity elements in collection
                 return "success";
             }
         });

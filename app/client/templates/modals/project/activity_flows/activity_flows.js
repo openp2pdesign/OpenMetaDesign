@@ -36,8 +36,8 @@ Template.ActivityFlows.events({
         var newResource = $('#new-flow-resource').val();
         var newType = $('#new-flow-type').val();
         var newWeight = parseInt($('#new-flow-weight').val());
-        var newFirstNode = $('#new-flow-first-node').val();
-        var newSecondNode = $('#new-flow-second-node').val();
+        var newFirstNode = $('#new-flow-first-node option:selected').data('option');
+        var newSecondNode = $('#new-flow-second-node option:selected').data('option');
         var newDirection = $('input[name=flow_direction]:checked').val();
         // Format data from the form as an object
         flowData = {
@@ -76,6 +76,8 @@ Template.ActivityFlows.events({
                     errorNotice.remove();
                 });
             } else {
+                // Hide the form before the notification
+                $("#createFlowDiv").hide();
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
@@ -115,18 +117,6 @@ Template.ActivityFlows.events({
     'click #cancel-delete-flow-button': function(event, template) {
         event.preventDefault();
         $("#deleteFlowDiv").hide();
-    },
-    // Select2 of first node
-    'change #new-flow-first-node': function(event, template, doc) {
-        var activitySelectedId = $('#new-flow-first-node option:selected').data('option');
-
-        console.log(activitySelectedId);
-    },
-    // Select2 of second node
-    'change #new-flow-second-node': function(event, template, doc) {
-        var activitySelectedId = $('#new-flow-second-node option:selected').data('option');
-
-        console.log(activitySelectedId);
     }
 
 });
@@ -177,7 +167,7 @@ Template.ActivityFlows.helpers({
             useFontAwesome: true,
             showFilter: true,
             class: "table table-bordered table-hover",
-            //noDataTmpl: ",,," // TODO Add template for an empty table
+            //noDataTmpl: ",,," // ISSUES:0 Add template for an empty table
             fields: [{
                     key: 'id',
                     label: function() {
