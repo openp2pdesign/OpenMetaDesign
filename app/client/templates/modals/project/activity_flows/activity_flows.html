@@ -104,7 +104,9 @@
                             <select class="select2-dropdown" name="state" id="new-flow-second-node">
                                 <option></option>
                                 {{#each activities}}
-                                    <option>{{activityData.title}}</option>
+                                    <option data-option={{activityId}}>
+                                        {{activityData.title}}
+                                    </option>
                                 {{/each}}
                             </select>
                         </div>

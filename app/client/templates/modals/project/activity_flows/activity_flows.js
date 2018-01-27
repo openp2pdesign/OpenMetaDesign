@@ -116,8 +116,13 @@ Template.ActivityFlows.events({
         $("#deleteFlowDiv").hide();
     },
     // Autocomplete of first node
-    "autocompleteselect #new-flow-first-node": function(e, t, doc) {
+    'autocompleteselect #new-flow-first-node': function(event, template, doc) {
         console.log("selected ", doc);
+    },
+    'change #new-flow-second-node': function(event, template, doc) {
+        var activitySelectedId = $('#new-flow-second-node option:selected').data('option');
+
+        console.log(activitySelectedId);
     }
 
 });
@@ -128,7 +133,8 @@ Template.ActivityFlows.events({
 Template.ActivityFlows.helpers({
     activities: function() {
         Meteor.subscribe('activities');
-        return Activities.find({}).fetch();
+        // Return only the activities in the current project
+        return Activities.find({ projectId: this.project._id }).fetch();
     },
     autocompleteSettingsNode: function() {
         return {
