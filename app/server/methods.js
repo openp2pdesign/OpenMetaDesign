@@ -2,10 +2,18 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import { Projects } from '../lib/collections/projects.js';
-import { Activities } from '../lib/collections/activities.js';
-import { ActivityElements } from '../lib/collections/activity_elements.js';
-import { Settings } from '../lib/collections/settings.js';
+import {
+    Projects
+} from '../lib/collections/projects.js';
+import {
+    Activities
+} from '../lib/collections/activities.js';
+import {
+    ActivityElements
+} from '../lib/collections/activity_elements.js';
+import {
+    Settings
+} from '../lib/collections/settings.js';
 
 let diff = require('deep-diff');
 
@@ -68,7 +76,10 @@ Meteor.methods({
         // Default empty project, without version diff
         var newProject = {
             "title": "Title...",
-            "license": {"title": "CC-BY", "url": "https://creativecommons.org/licenses/by/4.0/"},
+            "license": {
+                "title": "CC-BY",
+                "url": "https://creativecommons.org/licenses/by/4.0/"
+            },
             "description": "Description...",
             "release": "0.1",
             "community": "Describe the community that will be affected by this project or for which this project is developed for.",
@@ -154,14 +165,14 @@ Meteor.methods({
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
+                    }
                 });
                 return "success";
             }
@@ -196,14 +207,14 @@ Meteor.methods({
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
+                    }
                 });
                 return "success";
             }
@@ -218,24 +229,23 @@ Meteor.methods({
         });
         // Add data to activities collection
         Activities.insert({
-            activityId: activityId,
-            processId: processId,
-            projectId: projectId,
-            activityData: activityData
+            "activityId": activityId,
+            "processId": processId,
+            "projectId": projectId,
+            "activityData": activityData,
         });
-        // TODO Add data to activity elements collection
-        // TODO cycle for all the elements
-        // ActivityElements.insert({
-        //     activityElementId: {
-        //         type: String,
-        //     },
-        //     activityId: activityId,
-        //     processId: processId,
-        //     projectId: projectId,
-        //     activityElementData: {
-        //         type: ActivityElementSchema
-        //     }
-        // });
+        // Add data to activity elements collection
+        for (element in activityData) {
+            if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+                ActivityElements.insert({
+                    "activityElementId": activityData[element].id,
+                    "activityId": activityId,
+                    "processId": processId,
+                    "projectId": projectId,
+                    "activityElementData": activityData[element]
+                });
+            }
+        }
     },
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
@@ -264,14 +274,14 @@ Meteor.methods({
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
+                    }
                 });
                 // TODO Update activities collection
                 // TODO Update activity elements collection
@@ -308,14 +318,14 @@ Meteor.methods({
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
+                    }
                 });
                 // TODO Delete related activities in collection
                 // TODO Delete related activity elements in collection
@@ -331,11 +341,11 @@ Meteor.methods({
         oldVersion = thisProject;
         // Apply changes by updating the Project
         Projects.update({
-                '_id': projectId
-            }, {
-                $push: {
-                    "flows": flowData
-                }
+            '_id': projectId
+        }, {
+            $push: {
+                "flows": flowData
+            }
         }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
@@ -349,14 +359,14 @@ Meteor.methods({
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
+                    }
                 });
                 return "success";
             }

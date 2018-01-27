@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import ActivityElementSchema from './projects.js';
+import { ActivityElementSchema } from './projects';
 
 SimpleSchema.debug = true;
 

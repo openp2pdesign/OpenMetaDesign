@@ -233,7 +233,7 @@ FlowSchema = new SimpleSchema({
 });
 
 // A schema for an activity element
-ActivityElementSchema = new SimpleSchema({
+export const ActivityElementSchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
@@ -249,7 +249,7 @@ ActivityElementSchema = new SimpleSchema({
 });
 
 // A schema for an activity
-ActivitySchema = new SimpleSchema({
+export const ActivitySchema = new SimpleSchema({
     id: {
         type: String,
         autoValue: function() {
