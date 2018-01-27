@@ -127,11 +127,12 @@ Template.ActivityFlows.helpers({
             limit: 8,
             rules: [{
                     token: '',
-                    collection: 'autocompleteActivities',
+                    subscription: 'autocompleteActivities',
+                    collection: 'Activities',
                     //collection: "autocompleteActivityElements",
                     field: 'title',
                     template: Template.TitlePill,
-                    //noMatchTemplate: Template.notFoundPill
+                    noMatchTemplate: Template.NotFoundPill
                 },
             ]
         };
