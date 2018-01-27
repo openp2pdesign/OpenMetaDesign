@@ -72,3 +72,8 @@ body
 {
     margin-bottom: 20px;
 }
+
+/* Fix a select2 width issue */
+.select2-dropdown {
+    width: 100px !important;
+}

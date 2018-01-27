@@ -53,8 +53,14 @@ Meteor.publish('settings', function () {
   return Settings.find();
 });
 
+// Publish activities for the whole app
 Meteor.publish('activities', function(userId) {
     return Activities.find();
+});
+
+// Publish activity elements for the whole app
+Meteor.publish('activityElements', function(userId) {
+    return ActivityElements.find();
 });
 
 // Publish projects for autocomplete forms

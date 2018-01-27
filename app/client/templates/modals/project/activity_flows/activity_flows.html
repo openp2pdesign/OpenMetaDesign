@@ -61,19 +61,19 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{activity.title}} id="new-flow-title">
+                            <input class="form-control" type="text" value={{_ "flow_title_form"}} id="new-flow-title">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{activity.description}} id="new-flow-description">
+                            <input class="form-control" type="text" value={{_ "flow_description_form"}} id="new-flow-description">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{activity.subject}} id="new-flow-resource">
+                            <input class="form-control" type="text" value={{_ "flow_resource_form"}} id="new-flow-resource">
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,13 +89,20 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" type="number" value={{activity.outcome}} id="new-flow-weight">
+                            <input class="form-control" type="number" value="0" id="new-flow-weight">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                         <div class="col-lg-8">
-                            {{> inputAutocomplete settings=autocompleteSettingsNode id="new-flow-first-node" class="form-control" placeholder="..."}}
+                            <select class="select2-dropdown" name="state" id="new-flow-first-node">
+                                <option></option>
+                                {{#each activityElements}}
+                                    <option data-option={{activityElementId}}>
+                                        {{activityElementData.description}}
+                                    </option>
+                                {{/each}}
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -103,9 +110,9 @@
                         <div class="col-lg-8">
                             <select class="select2-dropdown" name="state" id="new-flow-second-node">
                                 <option></option>
-                                {{#each activities}}
-                                    <option data-option={{activityId}}>
-                                        {{activityData.title}}
+                                {{#each activityElements}}
+                                    <option data-option={{activityElementId}}>
+                                        {{activityElementData.description}}
                                     </option>
                                 {{/each}}
                             </select>

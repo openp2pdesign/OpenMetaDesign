@@ -11,6 +11,7 @@ import { Random } from 'meteor/random';
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 import { Activities } from '../../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
 
 // Client only collection for the autocomplete
 LocalActivityElements = new Mongo.Collection(null);
@@ -115,10 +116,13 @@ Template.ActivityFlows.events({
         event.preventDefault();
         $("#deleteFlowDiv").hide();
     },
-    // Autocomplete of first node
-    'autocompleteselect #new-flow-first-node': function(event, template, doc) {
-        console.log("selected ", doc);
+    // Select2 of first node
+    'change #new-flow-first-node': function(event, template, doc) {
+        var activitySelectedId = $('#new-flow-first-node option:selected').data('option');
+
+        console.log(activitySelectedId);
     },
+    // Select2 of second node
     'change #new-flow-second-node': function(event, template, doc) {
         var activitySelectedId = $('#new-flow-second-node option:selected').data('option');
 
@@ -135,6 +139,11 @@ Template.ActivityFlows.helpers({
         Meteor.subscribe('activities');
         // Return only the activities in the current project
         return Activities.find({ projectId: this.project._id }).fetch();
+    },
+    activityElements: function() {
+        Meteor.subscribe('activityElements');
+        // Return only the activity elements in the current project
+        return ActivityElements.find({ projectId: this.project._id }).fetch();
     },
     autocompleteSettingsNode: function() {
         return {
