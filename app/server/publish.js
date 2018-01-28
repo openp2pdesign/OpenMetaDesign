@@ -2,7 +2,8 @@ import { Projects } from '../lib/collections/projects.js';
 import { Settings } from '../lib/collections/settings.js';
 import { Activities } from '../lib/collections/activities.js';
 import { ActivityElements } from '../lib/collections/activity_elements.js';
-import { Flows } from '../lib/collections/flows.js';
+// Keep this commented, or flows won't be found in Tabular
+//import { Flows } from '../lib/collections/flows.js';
 
 
 // Publish users
@@ -43,6 +44,28 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
                 'profile.firstName': 1,
                 'profile.lastName': 1,
                 'profile.bio': 1
+            }
+        });
+    },
+  };
+});
+
+// Publish flows, for the tabular
+Meteor.publishComposite("tabular_flows", function (tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  this.unblock(); // requires meteorhacks:unblock package
+
+  return {
+    find: function () {
+      this.unblock(); // requires meteorhacks:unblock package
+
+      return Flows.find({}, {
+            fields: {
+                'id': 1,
+                'flowData.title': 1
             }
         });
     },

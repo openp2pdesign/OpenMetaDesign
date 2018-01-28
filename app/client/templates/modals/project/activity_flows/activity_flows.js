@@ -160,38 +160,6 @@ Template.ActivityFlows.helpers({
     editFlowData: function() {
         return Session.get('flowToEditData');
     },
-    reactiveTableFlowsSettings: function() {
-        return {
-            collection: this.project.flows,
-            rowsPerPage: 5,
-            useFontAwesome: true,
-            showFilter: true,
-            class: "table table-bordered table-hover",
-            //noDataTmpl: ",,," // ISSUES:0 Add template for an empty table
-            fields: [{
-                    key: 'id',
-                    label: function() {
-                        return new Spacebars.SafeString('<span><i class="fa fa-key" aria-hidden="true"></i> ID</span>');
-                    },
-                    sortable: false
-                },
-                {
-                    key: 'title',
-                    label: function() {
-                        return new Spacebars.SafeString('<span><i class="fa fa-book" aria-hidden="true"></i> Title</span>');
-                    },
-                    sortable: false
-                },
-                {
-                    label: function() {
-                        return new Spacebars.SafeString('<span><i class="fa fa-tasks" aria-hidden="true"></i> Actions</span>');
-                    },
-                    tmpl: Template.FlowButtons,
-                    sortable: false
-                }
-            ]
-        };
-    },
 });
 
 /*****************************************************************************/
