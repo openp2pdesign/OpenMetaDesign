@@ -99,7 +99,8 @@
                                 <option></option>
                                 {{#each activityElements}}
                                     <option data-option={{activityElementId}}>
-                                        {{activityElementData.description}}
+                                        #{{activityData.number}} -
+                                        {{activityElementData.title}} - {{activityElementData.description}}
                                     </option>
                                 {{/each}}
                             </select>

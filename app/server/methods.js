@@ -223,6 +223,7 @@ Meteor.methods({
                         ActivityElements.insert({
                             "activityElementId": activityData[element].id,
                             "activityId": activityId,
+                            "activityData": activityData,
                             "processId": processId,
                             "projectId": projectId,
                             "activityElementData": activityData[element]

@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import { ActivitySchema } from './projects';
 import { ActivityElementSchema } from './projects';
 
 SimpleSchema.debug = true;
@@ -50,6 +51,9 @@ ActivityElementSeparateSchema = new SimpleSchema({
     },
     activityId: {
         type: String,
+    },
+    activityData: {
+        type: ActivitySchema
     },
     activityElementId: {
         type: String,
