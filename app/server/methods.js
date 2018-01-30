@@ -123,7 +123,6 @@ Meteor.methods({
         Projects.remove({
             _id: projectId
         });
-        // TODO: Remove all activities and activityelements and flows and contradictions associated
         Activities.remove({
             "projectId": projectId
         });
@@ -400,6 +399,9 @@ Meteor.methods({
         // TODO Apply changes by updating the Project
         // ...
         // TODO Delete flow in its own collection
+        Flows.remove({
+            "flowId": flowId
+        });
     },
     'addContradiction': function(projectId, contradictionData) {
         // Load the Project
@@ -430,5 +432,8 @@ Meteor.methods({
         // TODO Apply changes by updating the Project
         // ...
         // TODO Delete contradiction in its own collection
+        Contradictions.remove({
+            "contradictionId": contradictionId
+        });
     },
 });
