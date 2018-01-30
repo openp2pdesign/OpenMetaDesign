@@ -6,6 +6,8 @@ import { Projects } from '../lib/collections/projects.js';
 import { Activities } from '../lib/collections/activities.js';
 import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Settings } from '../lib/collections/settings.js';
+import { Flows } from '../lib/collections/flows.js';
+import { Contradictions } from '../lib/collections/activities.js';
 
 let diff = require('deep-diff');
 
@@ -122,6 +124,18 @@ Meteor.methods({
             _id: projectId
         });
         // TODO: Remove all activities and activityelements and flows and contradictions associated
+        Activities.remove({
+            "projectId": projectId
+        });
+        ActivityElements.remove({
+            "projectId": projectId
+        });
+        Flows.remove({
+            "projectId": projectId
+        });
+        Contradictions.remove({
+            "projectId": projectId
+        });
     },
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project
