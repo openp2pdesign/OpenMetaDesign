@@ -284,8 +284,35 @@ Meteor.methods({
                         }
                     }
                 });
-                // TODO:50 Update activities collection
-                // TODO:60 Update activity elements collection
+                // Update activities collection
+                Activities.update({
+                    'activityId': activityId
+                }, {
+                    $set: {
+                        'activityData': activityData
+                    }
+                });
+                // Add data to activities collection
+                Activities.insert({
+                    "activityId": activityId,
+                    "processId": processId,
+                    "projectId": projectId,
+                    "activityData": activityData,
+                });
+                // Update activity elements collection
+                for (element in activityData) {
+                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+                        ActivityElements.update({
+                            "activityId": activityId,
+                            "activityElementId": activityData[element].id,
+                        }, {
+                            $set: {
+                                'activityElementData': activityData[element]
+                            }
+                        });
+                    }
+                }
+                // Return success
                 return "success";
             }
         });

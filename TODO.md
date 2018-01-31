@@ -5,7 +5,5 @@
 - Apply changes by updating the Project __TODO__ [app/server/methods.js](app/server/methods.js)
 - Each section should be wide enough to avoid have overlapping activities __TODO__ [app/client/templates/projects/viz/viz.js](app/client/templates/projects/viz/viz.js)
 - to be removed __TODO__ [app/client/templates/projects/viz/viz.js](app/client/templates/projects/viz/viz.js)
-- Update activities collection __TODO__ [app/server/methods.js](app/server/methods.js)
-- Update activity elements collection __TODO__ [app/server/methods.js](app/server/methods.js)
 - Update contradiction in its own collection __TODO__ [app/server/methods.js](app/server/methods.js)
 - Update flow in its own collection __TODO__ [app/server/methods.js](app/server/methods.js)
