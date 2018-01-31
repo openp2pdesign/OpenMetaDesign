@@ -417,7 +417,12 @@ Meteor.methods({
         oldVersion = thisProject;
         // TODO Apply changes by updating the Project
         // ...
-        // TODO Add contradiction in its own collection
+        // Add contradiction in its own collection
+        Contradictions.insert({
+            "projectId": projectId,
+            "contradictionId": contradictionData.id,
+            "flowData": contradictionData,
+        });
     },
     'updateContradiction': function(projectId, contradictionId, contradictionData) {
         // Load the Project
