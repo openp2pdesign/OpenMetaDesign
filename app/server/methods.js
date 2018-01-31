@@ -328,8 +328,14 @@ Meteor.methods({
                         }
                     }
                 });
-                // TODO:10 Delete related activities in collection
-                // TODO:20 Delete related activity elements in collection
+                // Delete activities and activity elements
+                Activities.remove({
+                    "activityId": activityId
+                });
+                ActivityElements.remove({
+                    "activityId": activityId
+                });
+                // Return success
                 return "success";
             }
         });
