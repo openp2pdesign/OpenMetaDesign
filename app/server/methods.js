@@ -404,7 +404,7 @@ Meteor.methods({
         oldVersion = thisProject;
         // TODO Apply changes by updating the Project
         // ...
-        // TODO Delete flow in its own collection
+        // Delete flow in its own collection
         Flows.remove({
             "flowId": flowId
         });
@@ -442,7 +442,7 @@ Meteor.methods({
         oldVersion = thisProject;
         // TODO Apply changes by updating the Project
         // ...
-        // TODO Delete contradiction in its own collection
+        // Delete contradiction in its own collection
         Contradictions.remove({
             "contradictionId": contradictionId
         });
