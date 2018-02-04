@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { ContradictionSchema } from './projects';
 
-Contradictions = new Mongo.Collection('contradictions');
+export const Contradictions = new Mongo.Collection('contradictions');
 
 
 if (Meteor.isServer) {

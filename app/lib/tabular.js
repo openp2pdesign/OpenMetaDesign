@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
 import { Projects } from './collections/projects.js'
+import { Flows } from './collections/flows.js'
 
 export const TabularTables = {};
 

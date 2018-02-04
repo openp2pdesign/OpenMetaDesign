@@ -12,6 +12,7 @@ import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 import { Activities } from '../../../../../lib/collections/activities.js';
 import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
+import { Flows } from '../../../../../lib/collections/flows.js';
 
 // Client only collection for the autocomplete
 LocalActivityElements = new Mongo.Collection(null);

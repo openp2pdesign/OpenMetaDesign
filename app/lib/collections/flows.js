@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { FlowSchema } from './projects';
 
-Flows = new Mongo.Collection('flows');
+export const Flows = new Mongo.Collection('flows');
 
 
 if (Meteor.isServer) {

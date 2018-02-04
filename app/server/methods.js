@@ -2,24 +2,12 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import {
-    Projects
-} from '../lib/collections/projects.js';
-import {
-    Activities
-} from '../lib/collections/activities.js';
-import {
-    ActivityElements
-} from '../lib/collections/activity_elements.js';
-import {
-    Settings
-} from '../lib/collections/settings.js';
-import {
-    Flows
-} from '../lib/collections/flows.js';
-import {
-    Contradictions
-} from '../lib/collections/activities.js';
+import { Projects } from '../lib/collections/projects.js';
+import { Activities } from '../lib/collections/activities.js';
+import { ActivityElements } from '../lib/collections/activity_elements.js';
+import { Settings } from '../lib/collections/settings.js';
+import { Flows } from '../lib/collections/flows.js';
+import { Contradictions } from '../lib/collections/activities.js';
 
 let diff = require('deep-diff');
 
@@ -116,6 +104,8 @@ Meteor.methods({
                 "second": "Support processes",
                 "text": "Line of ..."
             }],
+            "flows": [],
+            "contradictions": [],
             "versions": [{
                 "number": 1,
                 "diff": "First version"
@@ -342,7 +332,7 @@ Meteor.methods({
         }, {
             $pull: {
                 'processes.$.activities': {
-                    id: activityId
+                    'id': activityId
                 }
             }
         }, function(error) {
@@ -390,7 +380,7 @@ Meteor.methods({
             '_id': projectId
         }, {
             $push: {
-                "flows": flowData
+                'flows': flowData
             }
         }, function(error) {
             if (error) {
@@ -486,7 +476,9 @@ Meteor.methods({
             '_id': projectId
         }, {
             $pull: {
-                'flowId': flowId
+                'flows': {
+                    'flowId': flowId
+                }
             }
         }, function(error) {
             if (error) {
@@ -497,7 +489,7 @@ Meteor.methods({
                 console.log("Flow", flowId, "deleted from project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
