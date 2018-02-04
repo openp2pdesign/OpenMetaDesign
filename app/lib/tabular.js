@@ -79,7 +79,7 @@ TabularTables.Flows = new Tabular.Table({
     collection: Flows,
     pub: "tabular_flows",
     columns: [{
-        data: "flowId",
+        data: "_id",
         title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }, {
         data: "flowData.title",

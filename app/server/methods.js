@@ -375,6 +375,12 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Add a flow, and add its _id to the project
+        var newFlowId = Flows.insert({
+            "projectId": projectId,
+            "flowData": flowData,
+        });
+        flowData.id = newFlowId;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId
@@ -403,12 +409,6 @@ Meteor.methods({
                             "diff": JSON.stringify(differences)
                         }
                     }
-                });
-                // Add data to flows collection
-                Flows.insert({
-                    "projectId": projectId,
-                    "flowId": flowData.id,
-                    "flowData": flowData,
                 });
                 // Return success
                 return "success";
@@ -472,12 +472,13 @@ Meteor.methods({
         });
         oldVersion = thisProject;
         // Apply changes by updating the Project
+        console.log(flowId);
         Projects.update({
             '_id': projectId
         }, {
             $pull: {
                 'flows': {
-                    'id': Flows.findOne(flowId).flowId
+                    'id': flowId
                 }
             }
         }, function(error) {

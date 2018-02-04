@@ -29,8 +29,6 @@ Template.ActivityFlows.events({
     // Save the flow and hide the form
     'click #create-save-flow-button': function(event, template) {
         event.preventDefault();
-        // Create a random id for the new flow
-        newID = Random.id();
         // Get the data from the form
         var newTitle = $('#new-flow-title').val();
         var newDescription = $('#new-flow-description').val();
@@ -42,7 +40,6 @@ Template.ActivityFlows.events({
         var newDirection = $('input[name=flow_direction]:checked').val();
         // Format data from the form as an object
         flowData = {
-            "id": newID,
             "title": newTitle,
             "description": newDescription,
             "resource": newResource,

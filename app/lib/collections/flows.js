@@ -42,9 +42,6 @@ FlowsSeparateSchema = new SimpleSchema({
     projectId: {
         type: String,
     },
-    flowId: {
-        type: String,
-    },
     flowData: {
         type: FlowSchema
     }
