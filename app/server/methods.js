@@ -477,7 +477,7 @@ Meteor.methods({
         }, {
             $pull: {
                 'flows': {
-                    'flowId': flowId
+                    'id': Flows.findOne(flowId).flowId
                 }
             }
         }, function(error) {
@@ -503,9 +503,7 @@ Meteor.methods({
                     }
                 });
                 // Delete flow in its own collection
-                Flows.remove({
-                    "flowId": flowId
-                });
+                Flows.remove(flowId);
                 // Return success
                 return "success";
             }
