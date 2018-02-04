@@ -515,6 +515,12 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Add a flow, and add its _id to the project
+        var newContradictionId = Contradictions.insert({
+            "projectId": projectId,
+            "contradictionData": contradictionData,
+        });
+        contradictionData.id = newContradictionId;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId
@@ -543,12 +549,6 @@ Meteor.methods({
                             "diff": JSON.stringify(differences)
                         }
                     }
-                });
-                // Add data to flows collection
-                Contradictions.insert({
-                    "projectId": projectId,
-                    "contradictionId": contradictionData.id,
-                    "contradictionData": contradictionData,
                 });
                 // Return success
                 return "success";
@@ -605,7 +605,7 @@ Meteor.methods({
             return "success";
         });
     },
-    'deleteContradiction': function(projectId, contradictionId, contradictionData) {
+    'deleteContradiction': function(contradictionId, projectId) {
         // Load the Project
         var thisProject = Projects.findOne({
             '_id': projectId
@@ -616,9 +616,11 @@ Meteor.methods({
             '_id': projectId
         }, {
             $pull: {
-                'contradictionId': contradictionId
+                'contradictions': {
+                    'id': contradictionId
+                }
             }
-        }, function(error) {
+        }, {getAutoValues: false}, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting contradiction", contradictionId, "of project", projectId, ".");

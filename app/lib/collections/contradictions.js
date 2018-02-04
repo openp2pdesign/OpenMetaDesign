@@ -42,9 +42,6 @@ ContradictionsSeparateSchema = new SimpleSchema({
     projectId: {
         type: String,
     },
-    contradictionId: {
-        type: String,
-    },
     contradictionData: {
         type: ContradictionSchema
     }

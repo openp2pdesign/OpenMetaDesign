@@ -150,9 +150,7 @@ export const DiscussionSchema = new SimpleSchema({
 export const ContradictionSchema = new SimpleSchema({
     id: {
         type: String,
-        autoValue: function() {
-            return Random.id();
-        }
+        optional: true
     },
     title: {
         type: String,
@@ -233,10 +231,7 @@ export const FlowSchema = new SimpleSchema({
 // A schema for an activity element
 export const ActivityElementSchema = new SimpleSchema({
     id: {
-        type: String,
-        autoValue: function() {
-            return Random.id();
-        }
+        type: String
     },
     title: {
         type: String
