@@ -202,7 +202,7 @@ Template.ActivityFlows.helpers({
         Session.get('flowToDeleteData');
     },
     showFlowData: function() {
-        return Flows.findOne({ flowId: Session.get('flowToShowData') });
+        return Flows.findOne({ _id: Session.get('flowToShowData') });
     },
     editFlowData: function() {
         return Session.get('flowToEditData');

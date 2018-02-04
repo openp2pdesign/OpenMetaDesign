@@ -44,11 +44,16 @@
                 <h3>{{_ "flow_show"}}</h3>
             </div>
             <div class="col-md-12">
-                prova
                 {{#with showFlowData}}
-                    {{_id}}
-                    1{{flowId}}
-                    2{{flowData}}
+                    <i class="fa fa-random"></i> {{_id}}
+                    {{flowData.title}}
+                    {{flowData.description}}
+                    {{flowData.resource}}
+                    {{flowData.type}}
+                    {{flowData.weight}}
+                    {{flowData.firstNode}} <!-- TODO Get value for this -->
+                    {{flowData.secondNode}} <!-- TODO Get value for this -->
+                    {{flowData.direction}}
                 {{/with}}
             </div>
             <div class="col-md-12">
