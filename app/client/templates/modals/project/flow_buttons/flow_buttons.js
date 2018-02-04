@@ -10,7 +10,7 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").show();
         $("#createFlowDiv").hide();
         // Pass the flow id to Sessions
-        Session.set('flowToDeleteData', this);
+        Session.set('flowToDeleteData', this._id);
     },
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
@@ -20,7 +20,7 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
         // Pass the flow id to Sessions
-        Session.set('flowToEditData', this);
+        Session.set('flowToEditData', this._id);
     },
     // Show the div that enable the edit of flows
     'click .show-flow': function(event, template) {
@@ -30,7 +30,7 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
         // Pass the flow id to Sessions
-        Session.set('flowToShowData', this);
+        Session.set('flowToShowData', this._id);
     },
     // Show the div that enable the edit of flows
     'click .create-flow': function(event, template) {
@@ -40,24 +40,20 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").show();
         // Pass the flow id to Sessions
-        Session.set('flowToEditData', this);
+        Session.set('flowToEditData', this._id);
     },
 });
 
 /*****************************************************************************/
 /* FlowButtons: Helpers */
 /*****************************************************************************/
-Template.FlowButtons.helpers({
-});
+Template.FlowButtons.helpers({});
 
 /*****************************************************************************/
 /* FlowButtons: Lifecycle Hooks */
 /*****************************************************************************/
-Template.FlowButtons.onCreated(function () {
-});
+Template.FlowButtons.onCreated(function() {});
 
-Template.FlowButtons.onRendered(function () {
-});
+Template.FlowButtons.onRendered(function() {});
 
-Template.FlowButtons.onDestroyed(function () {
-});
+Template.FlowButtons.onDestroyed(function() {});

@@ -2,12 +2,24 @@
 /*  Server Methods */
 /*****************************************************************************/
 
-import { Projects } from '../lib/collections/projects.js';
-import { Activities } from '../lib/collections/activities.js';
-import { ActivityElements } from '../lib/collections/activity_elements.js';
-import { Settings } from '../lib/collections/settings.js';
-import { Flows } from '../lib/collections/flows.js';
-import { Contradictions } from '../lib/collections/activities.js';
+import {
+    Projects
+} from '../lib/collections/projects.js';
+import {
+    Activities
+} from '../lib/collections/activities.js';
+import {
+    ActivityElements
+} from '../lib/collections/activity_elements.js';
+import {
+    Settings
+} from '../lib/collections/settings.js';
+import {
+    Flows
+} from '../lib/collections/flows.js';
+import {
+    Contradictions
+} from '../lib/collections/activities.js';
 
 let diff = require('deep-diff');
 
@@ -139,7 +151,7 @@ Meteor.methods({
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
         // Set up the changes to be implemented
@@ -178,7 +190,7 @@ Meteor.methods({
     'addActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
         // Add the activity ID to the activity data
@@ -251,7 +263,7 @@ Meteor.methods({
     'editActivity': function(projectId, processId, activityId, activityData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
         // Apply changes by updating the Project
@@ -320,7 +332,7 @@ Meteor.methods({
     'deleteActivity': function(projectId, processId, activityId) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
         // Apply changes by updating the Project
@@ -370,7 +382,7 @@ Meteor.methods({
     'addFlow': function(projectId, flowData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
         // Apply changes by updating the Project
@@ -416,62 +428,235 @@ Meteor.methods({
     'updateFlow': function(projectId, flowId, flowData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
-        // TODO Apply changes by updating the Project
-        // ...
-        // TODO Update flow in its own collection
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId,
+            'flowId': flowId
+        }, {
+            $set: {
+                'flowData': flowData
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while editing flow", flowId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Flow", flowId, "edited in project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Update flow in its own collection
+                Flows.update({
+                    'projectId': projectId,
+                    'flowId': flowId
+                }, {
+                    $push: {
+                        "flowData": flowData
+                    }
+                });
+            }
+            // Return success
+            return "success";
+        });
     },
-    'deleteFlow': function(projectId, flowId, flowData) {
+    'deleteFlow': function(flowId, projectId) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
-        // TODO Apply changes by updating the Project
-        // ...
-        // Delete flow in its own collection
-        Flows.remove({
-            "flowId": flowId
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId
+        }, {
+            $pull: {
+                'flowId': flowId
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while deleting flow", flowId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Flow", flowId, "deleted from project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Delete flow in its own collection
+                Flows.remove({
+                    "flowId": flowId
+                });
+                // Return success
+                return "success";
+            }
         });
     },
     'addContradiction': function(projectId, contradictionData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
-        // TODO Apply changes by updating the Project
-        // ...
-        // Add contradiction in its own collection
-        Contradictions.insert({
-            "projectId": projectId,
-            "contradictionId": contradictionData.id,
-            "flowData": contradictionData,
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId
+        }, {
+            $push: {
+                "contradictions": contradictionData
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while adding contradiction", contradictionData.id, "to project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Contradiction", contradictionData.id, "added to project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add data to flows collection
+                Contradictions.insert({
+                    "projectId": projectId,
+                    "contradictionId": contradictionData.id,
+                    "contradictionData": contradictionData,
+                });
+                // Return success
+                return "success";
+            }
         });
     },
     'updateContradiction': function(projectId, contradictionId, contradictionData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
-        // TODO Apply changes by updating the Project
-        // ...
-        // TODO Update contradiction in its own collection
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId,
+            'contradictionId': contradictionId
+        }, {
+            $set: {
+                'contradictionData': contradictionData
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while editing contradiction", contradictionId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Contradiction", contradictionId, "edited in project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Update flow in its own collection
+                Contradictions.update({
+                    'projectId': projectId,
+                    'contradictionId': contradictionId
+                }, {
+                    $push: {
+                        "contradictionData": contradictionData
+                    }
+                });
+            }
+            // Return success
+            return "success";
+        });
     },
     'deleteContradiction': function(projectId, contradictionId, contradictionData) {
         // Load the Project
         var thisProject = Projects.findOne({
-            _id: projectId
+            '_id': projectId
         });
         oldVersion = thisProject;
-        // TODO Apply changes by updating the Project
-        // ...
-        // Delete contradiction in its own collection
-        Contradictions.remove({
-            "contradictionId": contradictionId
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId
+        }, {
+            $pull: {
+                'contradictionId': contradictionId
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while deleting contradiction", contradictionId, "of project", projectId, ".");
+                return "error";
+            } else {
+                console.log("Contradiction", contradictionId, "deleted from project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Delete contradiction in its own collection
+                Contradictions.remove({
+                    "contradictionId": contradictionId
+                });
+                // Return success
+                return "success";
+            }
         });
     },
 });

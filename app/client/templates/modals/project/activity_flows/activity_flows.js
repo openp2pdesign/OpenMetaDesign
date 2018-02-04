@@ -117,6 +117,57 @@ Template.ActivityFlows.events({
     'click #cancel-delete-flow-button': function(event, template) {
         event.preventDefault();
         $("#deleteFlowDiv").hide();
+    },
+    // Delete the flow
+    'click #delete-flow-button': function(event, template) {
+        event.preventDefault();
+        Meteor.call('deleteFlow', Session.get('flowToDeleteData'), Flows.findOne({ _id: Session.get('flowToDeleteData') }).projectId, function(error, result) {
+            if (error) {
+                var errorNotice = new PNotify({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'There was an error in deleting the flow',
+                    icon: 'fa fa-random',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                errorNotice.get().click(function() {
+                    errorNotice.remove();
+                });
+            } else {
+                // Hide the buttons
+                $("#deleteFlowDiv").hide();
+                var successNotice = new PNotify({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Flow successfully deleted.',
+                    icon: 'fa fa-randoms',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                successNotice.get().click(function() {
+                    successNotice.remove();
+                });
+            }
+        });
     }
 
 });
@@ -126,12 +177,10 @@ Template.ActivityFlows.events({
 /*****************************************************************************/
 Template.ActivityFlows.helpers({
     activities: function() {
-        Meteor.subscribe('activities');
         // Return only the activities in the current project
         return Activities.find({ projectId: this.project._id }).fetch();
     },
     activityElements: function() {
-        Meteor.subscribe('activityElements');
         // Return only the activity elements in the current project
         return ActivityElements.find({ projectId: this.project._id }).fetch();
     },
@@ -155,7 +204,7 @@ Template.ActivityFlows.helpers({
         return Session.get('flowToDeleteData');
     },
     showFlowData: function() {
-        return Session.get('flowToShowData');
+        return Flows.findOne({ flowId: Session.get('flowToShowData') });
     },
     editFlowData: function() {
         return Session.get('flowToEditData');
@@ -165,7 +214,12 @@ Template.ActivityFlows.helpers({
 /*****************************************************************************/
 /* ActivityFlows: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ActivityFlows.onCreated(function() {});
+Template.ActivityFlows.onCreated(function() {
+    Meteor.subscribe('projects');
+    Meteor.subscribe('activities');
+    Meteor.subscribe('activityElements');
+    Meteor.subscribe('flows');
+});
 
 Template.ActivityFlows.onRendered(function() {
     // Make the table responsive
