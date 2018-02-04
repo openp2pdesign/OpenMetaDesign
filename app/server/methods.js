@@ -472,7 +472,6 @@ Meteor.methods({
         });
         oldVersion = thisProject;
         // Apply changes by updating the Project
-        console.log(flowId);
         Projects.update({
             '_id': projectId
         }, {
@@ -481,7 +480,7 @@ Meteor.methods({
                     'id': flowId
                 }
             }
-        }, function(error) {
+        }, {getAutoValues: false}, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting flow", flowId, "of project", projectId, ".");

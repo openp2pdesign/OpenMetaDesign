@@ -199,7 +199,7 @@ Template.ActivityFlows.helpers({
         };
     },
     deleteFlowData: function() {
-        return Flows.findOne(Session.get('flowToDeleteData'));
+        Session.get('flowToDeleteData');
     },
     showFlowData: function() {
         return Flows.findOne({ flowId: Session.get('flowToShowData') });
