@@ -3,3 +3,12 @@
 /*****************************************************************************/
 .activity-view {
 }
+
+.activity-view .row {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.activity-view .col-svg {
+    padding: 10px;
+}

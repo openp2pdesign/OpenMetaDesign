@@ -7,32 +7,83 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <p>{{activity.description}}</p>
+                <div class="col-md-2">
+                    <img class="svg" src="../as_activity_label.svg">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-9">
-                    <img class="svg" src="../as.svg">
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-10">
                     <p>
-                        Explanation
+                        {{activity.description}}
                     </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                            <img class="svg" src="../as_subject.svg">
-                            <img class="svg" src="../as_object.svg">
-
+                <div class="col-md-2">
+                    <img class="svg" src="../as_subject_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.subject.title}}:</strong> {{activity.subject.description}}
+                    </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <p>{{activity.subject.title}}</p> <p>{{activity.subject.description}}</p>
-                    <p>{{activity.object.title}}</p> <p>{{activity.object.description}}</p>
-                    <p>{{activity.outcome.title}}</p> <p>{{activity.outcome.description}}</p>
+                <div class="col-md-2">
+                    <img class="svg" src="../as_object_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.object.title}}:</strong> {{activity.object.description}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="svg" src="../as_outcome_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.outcome.title}}:</strong> {{activity.outcome.description}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="svg" src="../as_tools_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.tools.title}}:</strong> {{activity.tools.description}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="svg" src="../as_community_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.community.title}}:</strong> {{activity.community.description}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="svg" src="../as_roles_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.roles.title}}:</strong> {{activity.roles.description}}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="svg" src="../as_rules_label.svg">
+                </div>
+                <div class="col-md-10">
+                    <p>
+                        <strong>{{activity.rules.title}}:</strong> {{activity.rules.description}}
+                    </p>
                 </div>
             </div>
         {{/with}}

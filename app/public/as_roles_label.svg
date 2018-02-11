@@ -10,13 +10,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="600"
-   height="1122.5197"
-   viewBox="0 0 562.49999 1052.3622"
+   width="80"
+   height="92"
+   viewBox="0 0 74.999999 86.250002"
    id="svg2"
    version="1.1"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
-   sodipodi:docname="as_roles.svg"
+   sodipodi:docname="as_roles_label.svg"
    inkscape:export-filename="/Volumes/estremo/Google Drive/Copy/openp2pdesign.org/2017/SERVDES18/images/even_newer_viz/viz-sketch_09.png"
    inkscape:export-xdpi="200.05524"
    inkscape:export-ydpi="200.05524"
@@ -652,8 +652,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3379691"
-     inkscape:cx="113.09115"
-     inkscape:cy="887.08476"
+     inkscape:cx="-24.430711"
+     inkscape:cy="139.68334"
      inkscape:document-units="px"
      inkscape:current-layer="layer11"
      showgrid="false"
@@ -694,10 +694,10 @@
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="NUMEROS"
-     transform="translate(0,2.9736617e-5)">
+     transform="translate(0,-966.11215)">
     <g
        id="g1145"
-       transform="translate(-156.66563,-180.90195)">
+       transform="matrix(1.0364493,0,0,1.0364493,-162.37598,778.61648)">
       <path
          inkscape:connector-curvature="0"
          id="path3130"
