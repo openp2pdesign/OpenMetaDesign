@@ -10,7 +10,7 @@ PNotify.prototype.options.styling = "fontawesome";
 
 Template.ConfirmUserDelete.events({
     'click #confirm': function() {
-        Meteor.call('removeUser', this._id);
+        Meteor.call('deleteUser', this._id);
 
         var successNotice = new PNotify({
             type: 'success',

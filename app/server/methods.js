@@ -12,13 +12,13 @@ import { Contradictions } from '../lib/collections/activities.js';
 let diff = require('deep-diff');
 
 Meteor.methods({
-    'removeAdmin': function(userId) {
+    'deleteAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
     },
     'addAdmin': function(userId) {
         Roles.addUsersToRoles(userId, 'admin');
     },
-    'removeUser': function(userId) {
+    'deleteUser': function(userId) {
         Meteor.users.remove({
             _id: userId
         });
@@ -121,22 +121,29 @@ Meteor.methods({
         console.log("Project created with id", projectId, "successfully.");
         return projectId;
     },
-    'removeProject': function(projectId) {
-        Projects.remove({
-            _id: projectId
-        });
-        Activities.remove({
-            "projectId": projectId
-        });
-        ActivityElements.remove({
-            "projectId": projectId
-        });
-        Flows.remove({
-            "projectId": projectId
-        });
-        Contradictions.remove({
-            "projectId": projectId
-        });
+    'deleteProject': function(projectId) {
+        // First check if it exists...
+        let projectFoundId = Projects.findOne({_id: projectId});
+        if (projectFoundId) {
+            Projects.remove({
+                _id: projectId
+            });
+            Activities.remove({
+                "projectId": projectId
+            });
+            ActivityElements.remove({
+                "projectId": projectId
+            });
+            Flows.remove({
+                "projectId": projectId
+            });
+            // TODO: add after implementing contradictions
+            // Contradictions.remove({
+            //     "projectId": projectId
+            // });
+        } else {
+            console.log("Cannot found project with ID", projectId);
+        }
     },
     'editProjectField': function(projectId, field, fieldData) {
         // Load the Project

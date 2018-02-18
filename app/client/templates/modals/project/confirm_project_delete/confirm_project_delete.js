@@ -10,30 +10,50 @@ PNotify.prototype.options.styling = "fontawesome";
 
 Template.ConfirmProjectDelete.events({
     'click #confirm': function() {
-        Meteor.call('removeProject', this._id);
-
-        var successNotice = new PNotify({
-            type: 'success',
-            title: 'Success',
-            text: 'The project was deleted.',
-            icon: 'fa fa-user',
-            addclass: 'pnotify stack-topright',
-            animate: {
-                animate: true,
-                in_class: 'slideInDown',
-                out_class: 'slideOutUp'
-            },
-            buttons: {
-                closer: true,
-                sticker: false
+        Meteor.call('deleteProject', this._id, function(error, result) {
+            if (error) {
+                var errorNotice = new PNotify({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'There was an error in deleting the project',
+                    icon: 'fa fa-cube',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+                errorNotice.get().click(function() {
+                    errorNotice.remove();
+                });
+            } else {
+                var successNotice = new PNotify({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Project successfully deleted.',
+                    icon: 'fa fa-cube',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+                successNotice.get().click(function() {
+                    successNotice.remove();
+                });
             }
         });
-        successNotice.get().click(function() {
-            successNotice.remove();
-        });
-
     }
-
 });
 
 /*****************************************************************************/
@@ -48,11 +68,8 @@ Template.ConfirmProjectDelete.helpers({
 /*****************************************************************************/
 /* ConfirmProjectDelete: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ConfirmProjectDelete.onCreated(function () {
-});
+Template.ConfirmProjectDelete.onCreated(function() {});
 
-Template.ConfirmProjectDelete.onRendered(function () {
-});
+Template.ConfirmProjectDelete.onRendered(function() {});
 
-Template.ConfirmProjectDelete.onDestroyed(function () {
-});
+Template.ConfirmProjectDelete.onDestroyed(function() {});

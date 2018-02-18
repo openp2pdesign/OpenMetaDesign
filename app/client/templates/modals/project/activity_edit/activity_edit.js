@@ -77,6 +77,8 @@ Template.ActivityEdit.events({
             var newID = Random.id();
             // Validate and save new data
             Meteor.call('addActivity', this.project._id, this.process.id, newID, activityData, function(error, result) {
+                console.log(error);
+                console.log(result);
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
