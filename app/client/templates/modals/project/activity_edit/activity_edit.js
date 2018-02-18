@@ -22,13 +22,19 @@ Template.ActivityEdit.events({
         var newTitle = $('#new-title').val();
         var newDescription = $('#new-description').val();
         var newSubject = $('#new-subject').val();
+        var newSubjectId = $('#new-subject').data('id');
         var newObject = $('#new-object').val();
+        var newObjectId = $('#new-object').data('id');
         var newOutcome = $('#new-outcome').val();
+        var newOutcomeId = $('#new-outcome').data('id');
         var newTools = $('#new-tools').val();
-        var newSubject = $('#new-subject').val();
+        var newToolsId = $('#new-tools').data('id');
         var newRoles = $('#new-roles').val();
+        var newRolesId = $('#new-roles').data('id');
         var newRules = $('#new-rules').val();
+        var newRulesId = $('#new-rules').data('id');
         var newCommunity = $('#new-community').val();
+        var newCommunityId = $('#new-community').data('id');
         var newParticipation = $('#new-participation').val();
         var newTimeStart = $("#new-time-start").data("DateTimePicker").date().toDate();
         var newTimeEnd = $("#new-time-end").data("DateTimePicker").date().toDate();
@@ -38,31 +44,38 @@ Template.ActivityEdit.events({
             "description": newDescription,
             "subject": {
                 "title": "subject",
-                "description": newSubject
+                "description": newSubject,
+                "id": newSubjectId
             },
             "object": {
                 "title": "object",
-                "description": newObject
+                "description": newObject,
+                "id": newObjectId
             },
             "outcome": {
                 "title": "outcome",
-                "description": newOutcome
+                "description": newOutcome,
+                "id": newOutcomeId
             },
             "tools": {
                 "title": "tools",
-                "description": newTools
+                "description": newTools,
+                "id": newToolsId
             },
             "rules": {
                 "title": "rules",
-                "description": newRules
+                "description": newRules,
+                "id": newRulesId
             },
             "roles": {
                 "title": "roles",
-                "description": newRoles
+                "description": newRoles,
+                "id": newRolesId
             },
             "community": {
                 "title": "community",
-                "description": newCommunity
+                "description": newCommunity,
+                "id": newCommunityId
             },
             "time": {
                 "start": newTimeStart,
@@ -77,8 +90,6 @@ Template.ActivityEdit.events({
             var newID = Random.id();
             // Validate and save new data
             Meteor.call('addActivity', this.project._id, this.process.id, newID, activityData, function(error, result) {
-                console.log(error);
-                console.log(result);
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -116,7 +127,6 @@ Template.ActivityEdit.events({
                             sticker: false
                         }
                     });
-
                     successNotice.get().click(function() {
                         successNotice.remove();
                     });
@@ -144,7 +154,6 @@ Template.ActivityEdit.events({
                             sticker: false
                         }
                     });
-
                     errorNotice.get().click(function() {
                         errorNotice.remove();
                     });
@@ -152,7 +161,7 @@ Template.ActivityEdit.events({
                     var successNotice = new PNotify({
                         type: 'success',
                         title: 'Success',
-                        text: 'Activity successfully editded.',
+                        text: 'Activity successfully edited.',
                         icon: 'fa fa-cubes',
                         addclass: 'pnotify stack-topright',
                         animate: {
@@ -165,7 +174,6 @@ Template.ActivityEdit.events({
                             sticker: false
                         }
                     });
-
                     successNotice.get().click(function() {
                         successNotice.remove();
                     });
@@ -194,31 +202,38 @@ Template.ActivityEdit.helpers({
                         "description": "Write here a description of the activity.",
                         "subject": {
                             "title": "subject",
-                            "description": "Who is doing the activity?"
+                            "description": "Who is doing the activity?",
+                            "id": Random.id()
                         },
                         "object": {
                             "title": "object",
-                            "description": "What is the object of the activity?"
+                            "description": "What is the object of the activity?",
+                            "id": Random.id()
                         },
                         "outcome": {
                             "title": "outcome",
-                            "description": "What is the outcome of the activity?"
+                            "description": "What is the outcome of the activity?",
+                            "id": Random.id()
                         },
                         "tools": {
                             "title": "tools",
-                            "description": "Which are the tools, knowledge and systems used in the activity?"
+                            "description": "Which are the tools, knowledge and systems used in the activity?",
+                            "id": Random.id()
                         },
                         "rules": {
                             "title": "rules",
-                            "description": "Which are the rules followed in the activity?"
+                            "description": "Which are the rules followed in the activity?",
+                            "id": Random.id()
                         },
                         "roles": {
                             "title": "roles",
-                            "description": "How is the work in the activity organized into roles?"
+                            "description": "How is the work in the activity organized into roles?",
+                            "id": Random.id()
                         },
                         "community": {
                             "title": "community",
-                            "description": "Which is the greater community where the activity takes place?"
+                            "description": "Which is the greater community where the activity takes place?",
+                            "id": Random.id()
                         },
                         "time": {
                             "start": new Date(),

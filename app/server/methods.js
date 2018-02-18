@@ -265,6 +265,8 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Add the activity ID to the activity data
+        activityData.id = activityId;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
@@ -335,6 +337,8 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Add the activity ID to the activity data
+        activityData.id = activityId;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
