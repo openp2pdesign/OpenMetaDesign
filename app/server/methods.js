@@ -211,7 +211,7 @@ Meteor.methods({
         for (element in activityData) {
             if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
                 ActivityElements.insert({
-                    "activityElementId": activityData[element].id,
+                    "activityElementId": "newIdToBeReplaced",
                     "activityId": activityId,
                     "activityData": activityData,
                     "processId": processId,
@@ -219,6 +219,20 @@ Meteor.methods({
                     "activityElementData": activityData[element]
                 });
             }
+        }
+        // Add the real activity ID to the activity data, update
+        var activityElementsAdded = ActivityElements.find({
+            'activityId': activityId
+        }).fetch();
+        for (document in activityElementsAdded) {
+            ActivityElements.update({
+                'activityId': activityId,
+            }, {
+                    $set: {
+                        "activityElementData.id": document._id,
+                        "activityElementId": document._id,
+                    }
+            });
         }
         // Add activity number
         activityData.number = thisProject.activitiesCount + 1;
