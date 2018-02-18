@@ -93,7 +93,7 @@ Template.ActivityEdit.events({
                         type: 'error',
                         title: 'Error',
                         text: 'There was an error in adding the activity',
-                        icon: 'fa fa-cubes',
+                        icon: 'icomoon-activity',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -113,7 +113,7 @@ Template.ActivityEdit.events({
                         type: 'success',
                         title: 'Success',
                         text: 'Activity successfully added.',
-                        icon: 'fa fa-cubes',
+                        icon: 'icomoon-activity',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -140,7 +140,7 @@ Template.ActivityEdit.events({
                         type: 'error',
                         title: 'Error',
                         text: 'There was an error in editing the activity',
-                        icon: 'fa fa-cubes',
+                        icon: 'icomoon-activity',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -160,7 +160,7 @@ Template.ActivityEdit.events({
                         type: 'success',
                         title: 'Success',
                         text: 'Activity successfully edited.',
-                        icon: 'fa fa-cubes',
+                        icon: 'icomoon-activity',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,

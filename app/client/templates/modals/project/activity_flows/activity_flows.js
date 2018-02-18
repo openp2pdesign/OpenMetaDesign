@@ -80,7 +80,7 @@ Template.ActivityFlows.events({
                     type: 'success',
                     title: 'Success',
                     text: 'Flow successfully added.',
-                    icon: 'fa fa-randoms',
+                    icon: 'fa fa-random',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -153,7 +153,7 @@ Template.ActivityFlows.events({
                     type: 'success',
                     title: 'Success',
                     text: 'Flow successfully deleted.',
-                    icon: 'fa fa-randoms',
+                    icon: 'fa fa-random',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
