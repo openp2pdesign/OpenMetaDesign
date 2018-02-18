@@ -13,9 +13,14 @@ Template.ActivityView.helpers({
         return {
             "project": thisProject,
             "process": this.process,
-            "activity": thisActivity
+            "activity": thisActivity,
+            "mode": this.mode
         }
-    }
+    },
+    equals: function(a, b) {
+        // Compare variables, for if section in Blaze template
+        return a == b;
+    },
 });
 
 /*****************************************************************************/

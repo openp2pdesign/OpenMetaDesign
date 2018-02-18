@@ -1,115 +1,130 @@
 <template name="ActivityView">
     <div class="activity-view">
         {{#with data}}
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>{{activity.title}}</h2>
+            {{#if equals mode 'edit'}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>{{activity.title}}</h2>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_activity_label.svg">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_activity_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{_ "activity"}}</strong>
+                        </p>
+                        <p>
+                            {{activity.description}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{_ "activity"}}</strong>
-                    </p>
-                    <p>
-                        {{activity.description}}
-                    </p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_subject_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.subject.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.subject.description}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_subject_label.svg">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_object_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.object.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.object.description}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.subject.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.subject.description}}
-                    </p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_outcome_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.outcome.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.outcome.description}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_object_label.svg">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_tools_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.tools.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.tools.description}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.object.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.object.description}}
-                    </p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_community_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.community.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.community.description}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_outcome_label.svg">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_roles_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.roles.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.roles.description}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.outcome.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.outcome.description}}
-                    </p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="svg" src="../as_rules_label.svg">
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>{{activity.rules.title}}:</strong>
+                        </p>
+                        <p>
+                            {{activity.rules.description}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_tools_label.svg">
+            {{else}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2>{{_ "empty_activity"}}</h2>
+                            </div>
+                        </div>
+                        <p>
+                            {{_ "empty_activity_description"}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.tools.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.tools.description}}
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_community_label.svg">
-                </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.community.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.community.description}}
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_roles_label.svg">
-                </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.roles.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.roles.description}}
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="svg" src="../as_rules_label.svg">
-                </div>
-                <div class="col-md-10">
-                    <p>
-                        <strong>{{activity.rules.title}}:</strong>
-                    </p>
-                    <p>
-                        {{activity.rules.description}}
-                    </p>
-                </div>
-            </div>
+            {{/if}}
         {{/with}}
     </div>
 </template>
