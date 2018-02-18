@@ -291,10 +291,11 @@ Meteor.methods({
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
-            'processes.id': processId
+            //'processes.id': processId,
+            'processes.activities.id': activityId
         }, {
             $set: {
-                'processes.$.activities': activityData
+                'processes.activities.$': activityData
             }
         }, function(error) {
             if (error) {
@@ -326,13 +327,6 @@ Meteor.methods({
                     $set: {
                         'activityData': activityData
                     }
-                });
-                // Add data to activities collection
-                Activities.insert({
-                    "activityId": activityId,
-                    "processId": processId,
-                    "projectId": projectId,
-                    "activityData": activityData,
                 });
                 // Update activity elements collection
                 for (element in activityData) {

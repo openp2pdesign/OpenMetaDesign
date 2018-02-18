@@ -19,6 +19,7 @@ Template.ActivityEdit.events({
         event.preventDefault();
         // Load data from the form
         var thisActivityId = $('#activity-id').data('id');
+        var thisActivityNumber = $('#activity-number').data('id');
         var newTitle = $('#new-title').val();
         var newDescription = $('#new-description').val();
         var newSubject = $('#new-subject').val();
@@ -42,6 +43,8 @@ Template.ActivityEdit.events({
         activityData = {
             "title": newTitle,
             "description": newDescription,
+            "id": thisActivityId,
+            "number": thisActivityNumber,
             "subject": {
                 "title": "subject",
                 "description": newSubject,
@@ -198,6 +201,7 @@ Template.ActivityEdit.helpers({
                     thisActivity = {
                         "title": "A new activity",
                         "description": "Write here a description of the activity.",
+                        "number": "",
                         "subject": {
                             "title": "subject",
                             "description": "Who is doing the activity?",
