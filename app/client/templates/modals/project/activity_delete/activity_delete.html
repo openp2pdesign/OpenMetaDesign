@@ -1,5 +1,28 @@
 <template name="ActivityDelete">
   <div class="activity-delete">
-    <h1>Find me in app/client/templates/modals/project/activity_delete/activity_delete</h1>
+      <div class="row">
+          <div class="col-md-12">
+              <h2>{{_ "activity_delete"}}</h2>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <p>
+                  {{_ "activity_delete_message"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <button class="btn btn-warning" id="cancel-delete-activity-button">
+                  <i class="fa fa-ban"></i>
+                  Cancel
+              </button>
+              <button class="btn btn-danger" id="delete-activity-button">
+                  <i class="fa fa-minus"></i>
+                  Delete the activity
+              </button>
+          </div>
+      </div>
   </div>
 </template>
