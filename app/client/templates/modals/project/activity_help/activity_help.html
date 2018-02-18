@@ -1,5 +1,123 @@
 <template name="ActivityHelp">
   <div class="activity-help">
-    Help
+      <div class="row">
+          <div class="col-md-12">
+              <h2>{{_ "activity_help"}}</h2>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-7">
+              <img class="svg" src="../as_full_label.svg">
+          </div>
+          <div class="col-md-5">
+              <p>
+                  {{_ "activity_help"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_activity_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{_ "activity"}}</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_description"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_subject_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.subject.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_subject"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_object_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.object.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_object"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_outcome_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.outcome.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_outcome"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_tools_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.tools.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_tools"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_community_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.community.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_community"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_roles_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.roles.title}}:</strong>
+              </p>
+              <p>
+                  {{_ "activity_help_roles"}}
+              </p>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-2">
+              <img class="svg" src="../as_rules_label.svg">
+          </div>
+          <div class="col-md-10">
+              <p>
+                  <strong>{{activity.rules.title}}:</strong>
+              </p>
+              <p>
+                   {{_ "activity_help_rules"}}
+              </p>
+          </div>
+      </div>
   </div>
 </template>
