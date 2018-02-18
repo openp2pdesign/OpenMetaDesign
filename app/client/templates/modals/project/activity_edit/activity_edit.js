@@ -86,10 +86,8 @@ Template.ActivityEdit.events({
 
         // Add a new activity
         if (this.mode == "add") {
-            // Create a random id for a new activity
-            var newID = Random.id();
             // Validate and save new data
-            Meteor.call('addActivity', this.project._id, this.process.id, newID, activityData, function(error, result) {
+            Meteor.call('addActivity', this.project._id, this.process.id, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',

@@ -48,9 +48,6 @@ ActivitySeparateSchema = new SimpleSchema({
     processId: {
         type: String,
     },
-    activityId: {
-        type: String,
-    },
     activityData: {
         type: ActivitySchema
     }

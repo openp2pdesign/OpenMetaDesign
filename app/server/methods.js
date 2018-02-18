@@ -185,14 +185,41 @@ Meteor.methods({
             }
         });
     },
-    'addActivity': function(projectId, processId, activityId, activityData) {
+    'addActivity': function(projectId, processId, activityData) {
         // Load the Project
         var thisProject = Projects.findOne({
             '_id': projectId
         });
         oldVersion = thisProject;
-        // Add the activity ID to the activity data
+        // Add data to activities collection
+        activityData.id = "newIdToBeReplaced";
+        var activityId = Activities.insert({
+            "processId": processId,
+            "projectId": projectId,
+            "activityData": activityData,
+        });
+        // Add the real activity ID to the activity data, update
         activityData.id = activityId;
+        Activities.update({
+            '_id': activityId
+        }, {
+                $set: {
+                    "activityData": activityData
+                }
+        });
+        // Add data to activity elements collection
+        for (element in activityData) {
+            if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+                ActivityElements.insert({
+                    "activityElementId": activityData[element].id,
+                    "activityId": activityId,
+                    "activityData": activityData,
+                    "processId": processId,
+                    "projectId": projectId,
+                    "activityElementData": activityData[element]
+                });
+            }
+        }
         // Add activity number
         activityData.number = thisProject.activitiesCount + 1;
         // Apply changes by updating the Project
@@ -234,26 +261,6 @@ Meteor.methods({
                         'activitiesCount': activityData.number
                     }
                 });
-                // Add data to activities collection
-                Activities.insert({
-                    "activityId": activityId,
-                    "processId": processId,
-                    "projectId": projectId,
-                    "activityData": activityData,
-                });
-                // Add data to activity elements collection
-                for (element in activityData) {
-                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
-                        ActivityElements.insert({
-                            "activityElementId": activityData[element].id,
-                            "activityId": activityId,
-                            "activityData": activityData,
-                            "processId": processId,
-                            "projectId": projectId,
-                            "activityElementData": activityData[element]
-                        });
-                    }
-                }
                 // Return success
                 return "success";
             }
