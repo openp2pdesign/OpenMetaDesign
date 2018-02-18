@@ -29,6 +29,10 @@ Template.Activity.helpers({
             "mode": this.mode
         }
     },
+    equals: function(a, b) {
+        // Compare variables, for if section in Blaze template
+        return a == b;
+    },
 });
 
 /*****************************************************************************/

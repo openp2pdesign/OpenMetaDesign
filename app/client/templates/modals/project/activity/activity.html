@@ -4,13 +4,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     {{#with data}}
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </button>
-                        <h2 class="modal-title">Activity #{{activity.number}}</h2>
-                    </div>
-                    <div class="modal-body row-fluid">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                            <h2 class="modal-title">Activity #{{activity.number}}</h2>
+                        </div>
+                        <div class="modal-body row-fluid">
                             <!-- Tabs -->
                             <ul class="nav nav-tabs">
                                 <li class="active">
@@ -61,14 +61,16 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#activity-delete-tab" data-toggle="tab" title="Delete this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="fa fa-minus fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
+                                {{#if equals mode 'edit'}}
+                                    <li>
+                                        <a href="#activity-delete-tab" data-toggle="tab" title="Delete this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-minus fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                {{/if}}
                                 <li>
                                     <a href="#activity-help-tab" data-toggle="tab" title="Help">
                                         <span class="fa-stack fa-1x">
@@ -105,7 +107,7 @@
                                     {{> ActivityHelp}}
                                 </div>
                             </div>
-                    </div>
+                        </div>
                     {{/with}}
                 </div>
             </div>
