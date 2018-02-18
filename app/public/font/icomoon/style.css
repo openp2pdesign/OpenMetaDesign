@@ -9,10 +9,11 @@
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icomoon-"], [class*="icomoon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
+  font-size: 1.5em;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -24,27 +25,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-tools:before {
+.icomoon-tools:before {
   content: "\e900";
 }
-.icon-subject:before {
+.icomoon-subject:before {
   content: "\e901";
 }
-.icon-rules:before {
+.icomoon-rules:before {
   content: "\e902";
 }
-.icon-roles:before {
+.icomoon-roles:before {
   content: "\e903";
 }
-.icon-outcome:before {
+.icomoon-outcome:before {
   content: "\e904";
 }
-.icon-object:before {
+.icomoon.icon-object:before {
   content: "\e905";
 }
-.icon-community:before {
+.icomoon-community:before {
   content: "\e906";
 }
-.icon-activity:before {
+.icomoon-activity:before {
   content: "\e907";
 }
