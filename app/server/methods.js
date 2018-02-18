@@ -118,7 +118,7 @@ Meteor.methods({
         // Get back the value with: JSON.parse()
         // Save the the first version of the project
         projectId = Projects.insert(newProject);
-        console.log("Project created with id", projectId, "successfully.");
+        console.log("Project", projectId, "created successfully.");
         return projectId;
     },
     'deleteProject': function(projectId) {
@@ -142,7 +142,7 @@ Meteor.methods({
             //     "projectId": projectId
             // });
         } else {
-            console.log("Cannot found project with ID", projectId);
+            console.log("Cannot found project", projectId);
         }
     },
     'editProjectField': function(projectId, field, fieldData) {
@@ -162,6 +162,7 @@ Meteor.methods({
         }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", "Error", error.reason, "while editing the", field, "field in project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Field", field, "edited in project", projectId, "successfully.");
@@ -202,10 +203,11 @@ Meteor.methods({
             $push: {
                 'processes.$.activities': activityData
             }
-        }, function(error) {
+        }, function(error, result) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while adding", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
@@ -275,6 +277,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Activity", activityId, "edited in process", processId, "of project", projectId, "successfully.");
@@ -346,6 +349,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Activity", activityId, "deleted from process", processId, "of project", projectId, "successfully.");
@@ -399,6 +403,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while adding", flowData.id, "to project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Flow", flowData.id, "added to project", projectId, "successfully.");
@@ -440,6 +445,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while editing flow", flowId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Flow", flowId, "edited in project", projectId, "successfully.");
@@ -491,6 +497,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting flow", flowId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Flow", flowId, "deleted from project", projectId, "successfully.");
@@ -539,6 +546,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while adding contradiction", contradictionData.id, "to project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Contradiction", contradictionData.id, "added to project", projectId, "successfully.");
@@ -580,6 +588,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while editing contradiction", contradictionId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Contradiction", contradictionId, "edited in project", projectId, "successfully.");
@@ -631,6 +640,7 @@ Meteor.methods({
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting contradiction", contradictionId, "of project", projectId, ".");
+                console.log(error);
                 return "error";
             } else {
                 console.log("Contradiction", contradictionId, "deleted from project", projectId, "successfully.");
