@@ -285,20 +285,30 @@ Meteor.methods({
         var thisProject = Projects.findOne({
             '_id': projectId
         });
+        var thisProjectNewProcess = _.clone(thisProject);
         oldVersion = thisProject;
         // Add the activity ID to the activity data
         activityData.id = activityId;
-        // Apply changes by updating the Project
+        var thisProcess = "";
+        // Update the whole document with an updated process
+        var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
+        var thisActivity = _.find(thisProcess.activities, function (obj) { return obj.id === activityId; });
+        for (activity in thisProcess.activities) {
+            if (thisProcess.activities[activity].id == activityId) {
+                thisProcess.activities[activity] = activityData;
+            }
+        }
+        // Apply changes by updating the whole Project
         Projects.update({
             '_id': projectId,
-            //'processes.id': processId,
-            'processes.activities.id': activityId
+            'processes.id': processId
         }, {
             $set: {
-                'processes.activities.$': activityData
+                'processes.$.activities': thisProcess.activities
             }
         }, function(error) {
             if (error) {
+                console.log(error);
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
                 console.log(error);
