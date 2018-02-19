@@ -289,8 +289,8 @@ Meteor.methods({
         oldVersion = thisProject;
         // Add the activity ID to the activity data
         activityData.id = activityId;
-        var thisProcess = "";
         // Update the whole document with an updated process
+        var thisProcess = "";
         var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
         var thisActivity = _.find(thisProcess.activities, function (obj) { return obj.id === activityId; });
         for (activity in thisProcess.activities) {
@@ -362,15 +362,19 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
-        // Apply changes by updating the Project
+        // Update the whole document with an updated process
+        var thisProcess = "";
+        thisProcess = _.find(thisProject.processes, function (obj) { return obj.id === processId; });
+        var thisNewActivities = thisProcess.activities.filter(function( obj ) {
+            return obj.id !== activityId;
+        });
+        // Apply changes by updating the whole Project
         Projects.update({
             '_id': projectId,
             'processes.id': processId
         }, {
-            $pull: {
-                'processes.$.activities': {
-                    'id': activityId
-                }
+            $set: {
+                'processes.$.activities': thisNewActivities
             }
         }, function(error) {
             if (error) {
@@ -397,7 +401,7 @@ Meteor.methods({
                 });
                 // Delete activities and activity elements
                 Activities.remove({
-                    "activityId": activityId
+                    "_id": activityId
                 });
                 ActivityElements.remove({
                     "activityId": activityId
