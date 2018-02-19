@@ -7,7 +7,7 @@ import { Activities } from '../lib/collections/activities.js';
 import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Settings } from '../lib/collections/settings.js';
 import { Flows } from '../lib/collections/flows.js';
-import { Contradictions } from '../lib/collections/activities.js';
+import { Contradictions } from '../lib/collections/contradictions.js';
 
 let diff = require('deep-diff');
 

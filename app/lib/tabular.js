@@ -4,6 +4,7 @@ import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
 import { Projects } from './collections/projects.js'
 import { Flows } from './collections/flows.js'
+import { Contradictions } from './collections/contradictions.js'
 
 export const TabularTables = {};
 
@@ -87,6 +88,26 @@ TabularTables.Flows = new Tabular.Table({
     }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.FlowButtons
+    }],
+    responsive: true,
+    autoWidth: false
+});
+
+
+// Table of contradictions
+TabularTables.Contradictions = new Tabular.Table({
+    name: "Contradictions",
+    collection: Contradictions,
+    pub: "tabular_contradictions",
+    columns: [{
+        data: "_id",
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+    }, {
+        data: "contradictionData.title",
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+    }, {
+        title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
+        tmpl: Meteor.isClient && Template.ContradictionButtons
     }],
     responsive: true,
     autoWidth: false

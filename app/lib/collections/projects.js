@@ -159,7 +159,7 @@ export const ContradictionSchema = new SimpleSchema({
     description: {
         type: String,
     },
-    kind: {
+    type: {
         type: Array,
         allowedValues: [
             'primary',
@@ -168,7 +168,7 @@ export const ContradictionSchema = new SimpleSchema({
             'quaternary'
         ]
     },
-    'kind.$': String,
+    'type.$': String,
     firstNode: {
         type: String
     },
