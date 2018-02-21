@@ -32,19 +32,21 @@ Template.ActivityContradictions.events({
         // Get the data from the form
         var newTitle = $('#new-contradiction-title').val();
         var newDescription = $('#new-contradiction-description').val();
-        var newType = $('#new-contradiction-type').val();
-        var newFirstNode = $('#new-contradiction-first-node option:selected').data('option');
+
+        var newFirstNode = $('#new-contradiction-first-node option:selected').attr('data-option');
+
         var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
         var newDirection = $('input[name=contradiction_direction]:checked').val();
         // Format data from the form as an object
         contradictionData = {
             "title": newTitle,
             "description": newDescription,
-            "type": newType,
+            "type": "TBD",
             "firstNode": newFirstNode,
             "secondNode": newSecondNode,
             "direction": newDirection
         }
+        console.log("DATA", contradictionData);
         // Save the contradiction
         // Validate and save new data
         Meteor.call('addContradiction', this.project._id, contradictionData, function(error, result) {

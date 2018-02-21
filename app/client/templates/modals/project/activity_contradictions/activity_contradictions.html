@@ -84,7 +84,7 @@
                             <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
                                 <option></option>
                                 {{#each activityElements}}
-                                    <option data-option={{activityElementId}}>
+                                    <option data-option={{activityElementData.id}}>
                                         #{{activityData.number}}
                                         -
                                         {{activityElementData.title}}
@@ -101,7 +101,7 @@
                             <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
                                 <option></option>
                                 {{#each activityElements}}
-                                    <option data-option={{activityElementId}}>
+                                    <option data-option={{activityElementData.id}}>
                                         #{{activityData.number}}
                                         -
                                         {{activityElementData.title}}

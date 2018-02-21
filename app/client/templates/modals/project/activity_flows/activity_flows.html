@@ -107,7 +107,7 @@
                             <select class="select2-dropdown" name="state" id="new-flow-first-node">
                                 <option></option>
                                 {{#each activityElements}}
-                                    <option data-option={{activityElementId}}>
+                                    <option data-option={{activityElementData.id}}>
                                         #{{activityData.number}}
                                         -
                                         {{activityElementData.title}}
@@ -124,7 +124,7 @@
                             <select class="select2-dropdown" name="state" id="new-flow-second-node">
                                 <option></option>
                                 {{#each activityElements}}
-                                    <option data-option={{activityElementId}}>
+                                    <option data-option={{activityElementData.id}}>
                                         #{{activityData.number}}
                                         -
                                         {{activityElementData.title}}
