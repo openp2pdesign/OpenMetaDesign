@@ -8,9 +8,9 @@
       <div class="row">
           <div class="col-md-12">
               <p>
-                  <!-- {{#with data}}
-                  {{>SimpleChatWindow roomId=activity.id username=username}}
-                  {{/with}} -->
+                  {{#with data}}
+                  {{>SimpleChatWindow roomId=activity.id username=username button="Send" template="Testinput"}}
+                  {{/with}}
               </p>
           </div>
       </div>

@@ -50,7 +50,6 @@
                     {{contradictionData.description}}
                     {{contradictionData.resource}}
                     {{contradictionData.type}}
-                    {{contradictionData.weight}}
                     {{contradictionData.firstNode}} <!-- TODO Get value for this -->
                     {{contradictionData.secondNode}} <!-- TODO Get value for this -->
                     {{contradictionData.direction}}
@@ -77,28 +76,6 @@
                         <label class="col-lg-3 control-label">{{_ "contradiction_description"}}:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" value={{_ "contradiction_description_form"}} id="new-contradiction-description">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "contradiction_resource"}}:</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="text" value={{_ "contradiction_resource_form"}} id="new-contradiction-resource">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "contradiction_type"}}:</label>
-                        <div class="col-lg-8">
-                            <select class="select2-dropdown" name="state" id="new-contradiction-type">
-                                <option value={{_ "information_contradiction_value"}}>{{_ "information_contradiction"}}</option>
-                                <option value={{_ "financial_contradiction_value"}}>{{_ "financial_contradiction"}}</option>
-                                <option value={{_ "material_contradiction_value"}}>{{_ "material_contradiction"}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "contradiction_weight"}}:</label>
-                        <div class="col-lg-8">
-                            <input class="form-control" type="number" value="0" id="new-contradiction-weight">
                         </div>
                     </div>
                     <div class="form-group">

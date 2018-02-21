@@ -5,11 +5,11 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.38",
+    "@babel/runtime": "^7.0.0-beta.40",
     "babel-runtime": "^6.23.0",
     "bcrypt": "^0.8.7",
-    "buffer": "^5.0.8",
-    "d3": "^4.12.2",
+    "buffer": "^5.1.0",
+    "d3": "^4.13.0",
     "d3plus-text": "^0.9.25",
     "datatables.net-bs": "^1.10.16",
     "deep-diff": "^0.3.8",

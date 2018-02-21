@@ -24,6 +24,7 @@ boilerplate-generator@1.4.0
 caching-compiler@1.1.11
 caching-html-compiler@1.1.2
 callback-hook@1.1.0
+cesarve:simple-chat2@0.4.2
 cfs:http-methods@0.0.32
 check@1.3.0
 coffeescript@1.0.17
@@ -74,7 +75,7 @@ meteorspark:util@0.2.0
 meteortoys:toggle@4.0.0
 meteortoys:toykit@4.0.1
 minifier-css@1.3.1
-minifier-js@2.3.2
+minifier-js@2.3.3
 minimongo@1.4.3
 mizzao:autocomplete@0.5.1
 mobile-experience@1.0.5
@@ -82,7 +83,7 @@ mobile-status-bar@1.0.14
 modules@0.11.4
 modules-runtime@0.9.2
 momentjs:moment@2.20.1
-mongo@1.4.3
+mongo@1.4.4
 mongo-dev-server@1.1.0
 mongo-id@1.0.6
 msavin:mongol@4.0.1

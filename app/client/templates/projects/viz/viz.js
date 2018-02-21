@@ -604,7 +604,7 @@ Template.ProjectsViz.onRendered(function() {
         let yAxis = d3.axisLeft().scale(yScale)
             .ticks(16)
             .tickSize(10);
-        timeG.transition().duration(1000).call(yAxis);
+        //timeG.transition().duration(1000).call(yAxis);
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);

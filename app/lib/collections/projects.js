@@ -175,8 +175,8 @@ export const ContradictionSchema = new SimpleSchema({
     secondNode: {
         type: String
     },
-    reciprocal: {
-        type: Boolean
+    direction: {
+        type: String
     },
     discussion: {
         type: DiscussionSchema,

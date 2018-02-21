@@ -10,5 +10,14 @@
   "reciprocal": "",
   "second_node": "Second Node",
   "type": "Type",
-  "weight": "Weight"
+  "weight": "Weight",
+  "financial_contradiction": "",
+  "financial_contradiction_value": "",
+  "information_contradiction": "",
+  "information_contradiction_value": "",
+  "material_contradiction": "",
+  "material_contradiction_value": "",
+  "contradiction_weight": "",
+  "contradiction_resource": "",
+  "contradiction_resource_form": ""
 }
