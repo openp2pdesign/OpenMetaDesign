@@ -20,7 +20,7 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
         // Pass the contradiction id to Sessions
-        Session.set('contradictionToEditData', this._id);
+        Session.set('contradictionToShowData', this._id);
     },
     // Show the div that enable the edit of contradictions
     'click .show-contradiction': function(event, template) {
@@ -39,8 +39,6 @@ Template.ContradictionButtons.events({
         $("#editContradictionDiv").hide();
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").show();
-        // Pass the contradiction id to Sessions
-        Session.set('contradictionToEditData', this._id);
     },
 });
 

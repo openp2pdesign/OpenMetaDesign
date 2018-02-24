@@ -23,10 +23,8 @@
                 <h3>{{_ "contradiction_delete"}}</h3>
             </div>
             <div class="col-md-12">
-                {{#with deleteContradictionData}}
-                    {{_ "contradiction_delete_question"}}
-                    <em>{{deleteContradictionData._id}}</em>?
-                {{/with}}
+                {{_ "contradiction_delete_question"}}
+                <em>{{deleteContradictionData._id}}</em>?
             </div>
             <div class="col-md-12">
                 <button class="btn btn-warning" id="cancel-delete-contradiction-button">
@@ -44,16 +42,11 @@
                 <h3>{{_ "contradiction_show"}}</h3>
             </div>
             <div class="col-md-12">
-                {{#with showContradictionData}}
                     <i class="fa fa-random"></i> {{_id}}
-                    {{contradictionData.title}}
-                    {{contradictionData.description}}
-                    {{contradictionData.resource}}
-                    {{contradictionData.type}}
-                    {{contradictionData.firstNode}} <!-- TODO Get value for this -->
-                    {{contradictionData.secondNode}} <!-- TODO Get value for this -->
-                    {{contradictionData.direction}}
-                {{/with}}
+                    {{showContradictionData.contradictionData.title}}
+                    {{showContradictionData.contradictionData.description}}
+                    {{showContradictionData.contradictionData.firstNode}} <!-- TODO Get value for this -->
+                    {{showContradictionData.contradictionData.secondNode}}
             </div>
             <div class="col-md-12">
                 <button class="btn btn-warning" id="close-contradiction-button">
@@ -112,29 +105,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "contradiction_reciprocal"}}:</label>
-                        <div class="col-lg-8">
-                            <div class="pretty p-default p-curve radio-div">
-                                <input type="radio" name="contradiction_direction" value="bi">
-                                <div class="state p-primary-o">
-                                    <label>
-                                        <i class="fa fa-arrows-h" aria-hidden="true"></i>
-                                        {{_ "contradiction_bidirectional"}}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="pretty p-default p-curve radio-div">
-                                <input type="radio" name="contradiction_direction" value="mono" checked="checked">
-                                <div class="state p-primary-o">
-                                    <label>
-                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                        {{_ "contradiction_monodirectional"}}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="col-md-12">
@@ -151,68 +121,54 @@
         <div class="row" id="editContradictionDiv">
             <div class="col-md-12">
                 <h3>{{_ "contradiction_edit"}}</h3>
-                {{#with editContradictionData}}
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_title"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{contradiction.title}} id="new-contradiction-title">
+                                <input class="form-control" type="text" value={{showContradictionData.contradictionData.contradiction.title}} id="new-contradiction-title">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_description"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{contradiction.description}} id="new-contradiction-description">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{_ "contradiction_type"}}:</label>
-                            <div class="col-lg-8">
-                                <select class="select2-dropdown" name="state" id="new-contradiction-type">
-                                    <option value={{_ "primary_contradiction_value"}}>{{_ "primary_contradiction"}}</option>
-                                    <option value={{_ "secondary_contradiction_value"}}>{{_ "secondary_contradiction"}}</option>
-                                    <option value={{_ "tertiary_contradiction_value"}}>{{_ "tertiary_contradiction"}}</option>
-                                    <option value={{_ "quaternary_contradiction_value"}}>{{_ "quaternary_contradiction"}}</option>
-                                </select>
+                                <input class="form-control" type="text" value={{_ "contradiction_description_form"}} id="new-contradiction-description">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{activity.outcome}} id="new-contradiction-first-node">
+                                <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
+                                    <option></option>
+                                    {{#each activityElements}}
+                                        <option data-option={{activityElementData.id}}>
+                                            #{{activityData.number}}
+                                            -
+                                            {{activityElementData.title}}
+                                            -
+                                            {{activityElementData.description}}
+                                        </option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{activity.outcome}} id="new-contradiction-second-node">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">{{_ "contradiction_reciprocal"}}:</label>
-                            <div class="col-lg-8">
-                                <div class="pretty p-default p-curve radio-div">
-                                    <input type="radio" name="contradiction_direction" value="bi">
-                                    <div class="state p-primary-o">
-                                        <label>
-                                            <i class="fa fa-arrows-h" aria-hidden="true"></i>
-                                            {{_ "contradiction_bidirectional"}}
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="pretty p-default p-curve radio-div">
-                                    <input type="radio" name="contradiction_direction" value="mono">
-                                    <div class="state p-primary-o">
-                                        <label>
-                                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                            {{_ "contradiction_monodirectional"}}
-                                        </label>
-                                    </div>
-                                </div>
+                                <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
+                                    <option></option>
+                                    {{#each activityElements}}
+                                        <option data-option={{activityElementData.id}}>
+                                            #{{activityData.number}}
+                                            -
+                                            {{activityElementData.title}}
+                                            -
+                                            {{activityElementData.description}}
+                                        </option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                     </form>
-                {{/with}}
             </div>
             <div class="col-md-12">
                 <button class="btn btn-warning" id="cancel-edit-save-contradiction-button">

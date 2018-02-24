@@ -208,10 +208,7 @@ Template.ActivityFlows.helpers({
     },
     showFlowData: function() {
         return Flows.findOne({ _id: Session.get('flowToShowData') });
-    },
-    editFlowData: function() {
-        return Session.get('flowToEditData');
-    },
+    }
 });
 
 /*****************************************************************************/
