@@ -560,6 +560,22 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Compute the type of contradiction
+        console.log("Calculating the type of contradiction..", contradictionData.firstNode, contradictionData.secondNode);
+        // if id is == then 1
+        if (contradictionData.firstNode == contradictionData.secondNode) {
+            contradictionData.level = "primary";
+        }
+        // if id is != but activity is == then 2
+        var soundgarden1 = ActivityElements.findOne({ _id: contradictionData.firstNode })
+        var soundgarden2 = ActivityElements.findOne({ _id: contradictionData.secondNode })
+        console.log("1",soundgarden1);
+        console.log("2",soundgarden2);
+        // if id is != and activity is != then:
+        // if the second is a more advanced version of this activity = 3
+        // otherwise 4
+        console.log(contradictionData);
+
         // Add a flow, and add its _id to the project
         var newContradictionId = Contradictions.insert({
             "projectId": projectId,
@@ -692,7 +708,7 @@ Meteor.methods({
                 });
                 // Delete contradiction in its own collection
                 Contradictions.remove({
-                    "contradictionId": contradictionId
+                    "_id": contradictionId
                 });
                 // Return success
                 return "success";
