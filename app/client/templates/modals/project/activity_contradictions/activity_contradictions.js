@@ -302,6 +302,7 @@ Template.ActivityContradictions.onRendered(function() {
     $("#editContradictionDiv").hide();
     $("#createContradictionDiv").hide();
     $("#deleteContradictionDiv").hide();
+    $("#discussContradictionDiv").hide();
     // Enable select2
     $('.select2-dropdown').select2({
         dropdownAutoWidth: true,

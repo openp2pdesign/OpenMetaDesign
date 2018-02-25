@@ -9,6 +9,7 @@ Template.ContradictionButtons.events({
         $("#editContradictionDiv").hide();
         $("#deleteContradictionDiv").show();
         $("#createContradictionDiv").hide();
+        $("#discussContradictionDiv").hide();
         // Pass the contradiction id to Sessions
         Session.set('contradictionToDeleteData', this._id);
     },
@@ -19,6 +20,7 @@ Template.ContradictionButtons.events({
         $("#editContradictionDiv").show();
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
+        $("#discussContradictionDiv").hide();
         // Pass the contradiction id to Sessions
         Session.set('contradictionToShowData', this._id);
     },
@@ -29,6 +31,7 @@ Template.ContradictionButtons.events({
         $("#editContradictionDiv").hide();
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
+        $("#discussContradictionDiv").hide();
         // Pass the contradiction id to Sessions
         Session.set('contradictionToShowData', this._id);
     },
@@ -39,7 +42,17 @@ Template.ContradictionButtons.events({
         $("#editContradictionDiv").hide();
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").show();
+        $("#discussContradictionDiv").hide();
     },
+    // Show the div that enable the discussions of contradictions
+    'click .discuss-contradiction': function(event, template) {
+        event.preventDefault();
+        $("#showContradictionDiv").hide();
+        $("#editContradictionDiv").hide();
+        $("#deleteContradictionDiv").hide();
+        $("#createContradictionDiv").hide();
+        $("#discussContradictionDiv").show();
+    }
 });
 
 /*****************************************************************************/

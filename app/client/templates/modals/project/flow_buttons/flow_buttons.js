@@ -9,6 +9,7 @@ Template.FlowButtons.events({
         $("#editFlowDiv").hide();
         $("#deleteFlowDiv").show();
         $("#createFlowDiv").hide();
+        $("#discussFlowDiv").hide();
         // Pass the flow id to Sessions
         Session.set('flowToDeleteData', this._id);
     },
@@ -19,6 +20,7 @@ Template.FlowButtons.events({
         $("#editFlowDiv").show();
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
+        $("#discussFlowDiv").hide();
         // Pass the flow id to Sessions
         Session.set('flowToShowData', this._id);
     },
@@ -29,6 +31,7 @@ Template.FlowButtons.events({
         $("#editFlowDiv").hide();
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
+        $("#discussFlowDiv").hide();
         // Pass the flow id to Sessions
         Session.set('flowToShowData', this._id);
     },
@@ -39,7 +42,17 @@ Template.FlowButtons.events({
         $("#editFlowDiv").hide();
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").show();
+        $("#discussFlowDiv").hide();
     },
+    // Show the div that enable the discussions of flows
+    'click .discuss-flow': function(event, template) {
+        event.preventDefault();
+        $("#showFlowDiv").hide();
+        $("#editFlowDiv").hide();
+        $("#deleteFlowDiv").hide();
+        $("#createFlowDiv").hide();
+        $("#discussFlowDiv").show();
+    }
 });
 
 /*****************************************************************************/

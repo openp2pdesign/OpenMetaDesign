@@ -259,6 +259,7 @@ Template.ActivityFlows.onRendered(function() {
     $("#editFlowDiv").hide();
     $("#createFlowDiv").hide();
     $("#deleteFlowDiv").hide();
+    $("#discussFlowDiv").hide();
     // Enable select2
     $('.select2-dropdown').select2({
         dropdownAutoWidth: true,
