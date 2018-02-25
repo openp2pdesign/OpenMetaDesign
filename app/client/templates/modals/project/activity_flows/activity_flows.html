@@ -212,7 +212,7 @@
                             <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-flow-first-node">
-                                    <option>
+                                    <option data-option={{showFlowData.flowData.firstNode}}>
                                         {{showFlowData.flowData.firstNode}}
                                     </option>
                                     {{#each activityElements}}
@@ -231,7 +231,7 @@
                             <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-flow-second-node">
-                                    <option>
+                                    <option data-option={{showFlowData.flowData.secondNode}}>
                                         {{showFlowData.flowData.secondNode}}
                                     </option>
                                     {{#each activityElements}}

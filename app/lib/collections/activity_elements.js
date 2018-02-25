@@ -52,12 +52,6 @@ ActivityElementSeparateSchema = new SimpleSchema({
     activityId: {
         type: String,
     },
-    activityData: {
-        type: ActivitySchema
-    },
-    activityElementId: {
-        type: String,
-    },
     activityElementData: {
         type: ActivityElementSchema
     }

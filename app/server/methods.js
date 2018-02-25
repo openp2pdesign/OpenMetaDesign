@@ -201,7 +201,7 @@ Meteor.methods({
         // Add the real activity ID to the activity data, update
         activityData.id = activityId;
         Activities.update({
-            '_id': activityId
+            _id: activityId
         }, {
                 $set: {
                     "activityData": activityData
@@ -211,29 +211,39 @@ Meteor.methods({
         for (element in activityData) {
             if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
                 ActivityElements.insert({
-                    "activityElementId": "newIdToBeReplaced",
                     "activityId": activityId,
-                    "activityData": activityData,
                     "processId": processId,
                     "projectId": projectId,
                     "activityElementData": activityData[element]
                 });
             }
         }
-        // Add the real activity ID to the activity data, update
+        // Add the real activity element ID to the activity data, update
         var activityElementsAdded = ActivityElements.find({
             'activityId': activityId
         }).fetch();
         for (document in activityElementsAdded) {
+            // Update the main activity data with new ids
+            activityData[activityElementsAdded[document].activityElementData.title].id = activityElementsAdded[document]._id;
+            // Update activity elements with new ids
             ActivityElements.update({
                 'activityId': activityId,
+                _id: activityElementsAdded[document]._id
             }, {
                     $set: {
-                        "activityElementData.id": document._id,
-                        "activityElementId": document._id,
+                        "activityElementData.id": activityElementsAdded[document]._id
                     }
             });
+
         }
+        // Add the real activity element ID to the activity data, update
+        Activities.update({
+            _id: activityId
+        }, {
+                $set: {
+                    "activityData": activityData
+                }
+        });
         // Add activity number
         activityData.number = thisProject.activitiesCount + 1;
         // Apply changes by updating the Project

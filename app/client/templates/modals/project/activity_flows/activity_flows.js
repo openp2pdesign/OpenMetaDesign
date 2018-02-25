@@ -210,11 +210,27 @@ Template.ActivityFlows.helpers({
     },
     showFlowData: function() {
         if (typeof Session.get('flowToShowData') !== "undefined") {
-            return Flows.findOne({ _id: Session.get('flowToShowData') });
+            var thisFlowData = Flows.findOne({
+                _id: Session.get('flowToShowData')
+            });
+            console.log("1", thisFlowData);
+            var firstNodeData = ActivityElements.findOne({
+                    _id: thisFlowData.flowData.firstNode
+            });
+            var secondNodeData = ActivityElements.findOne({
+                _id: thisFlowData.flowData.secondNode
+            });
+            thisFlowData.firstNodeData = firstNodeData;
+            thisFlowData.secondNodeData = secondNodeData;
+            console.log(thisFlowData.flowData.firstNode);
+            console.log(firstNodeData);
+            console.log("2",thisFlowData);
+            return thisFlowData;
         }
     },
     isMonoDirectional: function() {
         if (typeof Session.get('flowToShowData') !== "undefined") {
+            console.log("DDDD", Session.get('flowToShowData') );
             var thisFlow = Flows.findOne({ _id: Session.get('flowToShowData') });
             if (thisFlow.flowData.direction == "mono") {
                 return true;

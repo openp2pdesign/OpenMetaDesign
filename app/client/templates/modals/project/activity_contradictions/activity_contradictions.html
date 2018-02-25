@@ -138,7 +138,7 @@
                             <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
-                                    <option>
+                                    <option data-option={{showContradictionData.contradictionData.firstNode}}>
                                         {{showContradictionData.contradictionData.firstNode}}
                                     </option>
                                     {{#each activityElements}}
@@ -157,7 +157,7 @@
                             <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
-                                    <option>
+                                    <option data-option={{showContradictionData.contradictionData.secondNode}}>
                                         {{showContradictionData.contradictionData.secondNode}}
                                     </option>
                                     {{#each activityElements}}
