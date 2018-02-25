@@ -223,7 +223,7 @@ Template.ActivityFlows.helpers({
             thisFlowData.firstNodeData = firstNodeData;
             thisFlowData.secondNodeData = secondNodeData;
             console.log(thisFlowData.flowData.firstNode);
-            console.log(firstNodeData);
+            console.log("FIRST NODE NDATA", firstNodeData);
             console.log("2",thisFlowData);
             return thisFlowData;
         }
@@ -238,7 +238,7 @@ Template.ActivityFlows.helpers({
                 return false;
             }
         }
-  }
+    }
 });
 
 /*****************************************************************************/

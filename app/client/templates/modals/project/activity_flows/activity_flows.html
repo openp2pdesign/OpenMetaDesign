@@ -217,6 +217,7 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                             <div class="col-lg-8">
+                                {{showFlowData.flowData.firstNodeData.title}}
                                 <select class="select2-dropdown" name="state" id="new-flow-first-node">
                                     <option data-option={{showFlowData.flowData.firstNode}}>
                                         {{showFlowData.flowData.firstNode}}
@@ -224,7 +225,7 @@
                                     {{#each activityElements}}
                                         <option data-option={{activityElementData.id}}>
                                             #{{activityNumber}}
-                                            -
+                                            - {{activityElementData.id}} ...
                                             {{activityElementData.title}}
                                             -
                                             {{activityElementData.description}}
