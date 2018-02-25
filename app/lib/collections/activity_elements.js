@@ -54,6 +54,9 @@ ActivityElementSeparateSchema = new SimpleSchema({
     },
     activityElementData: {
         type: ActivityElementSchema
+    },
+    activityNumber: {
+        type: Number
     }
 });
 

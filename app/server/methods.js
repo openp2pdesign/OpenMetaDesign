@@ -191,6 +191,8 @@ Meteor.methods({
             '_id': projectId
         });
         oldVersion = thisProject;
+        // Add activity number
+        activityData.number = thisProject.activitiesCount + 1;
         // Add data to activities collection
         activityData.id = "newIdToBeReplaced";
         var activityId = Activities.insert({
@@ -214,6 +216,7 @@ Meteor.methods({
                     "activityId": activityId,
                     "processId": processId,
                     "projectId": projectId,
+                    "activityNumber": activityData.number,
                     "activityElementData": activityData[element]
                 });
             }
@@ -244,8 +247,6 @@ Meteor.methods({
                     "activityData": activityData
                 }
         });
-        // Add activity number
-        activityData.number = thisProject.activitiesCount + 1;
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
