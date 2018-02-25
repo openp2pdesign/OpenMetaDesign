@@ -159,23 +159,13 @@ export const ContradictionSchema = new SimpleSchema({
     description: {
         type: String,
     },
-    type: {
-        type: Array,
-        allowedValues: [
-            'primary',
-            'secondary',
-            'tertiary',
-            'quaternary'
-        ]
+    level: {
+        type: String
     },
-    'type.$': String,
     firstNode: {
         type: String
     },
     secondNode: {
-        type: String
-    },
-    direction: {
         type: String
     },
     discussion: {

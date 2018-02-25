@@ -174,25 +174,28 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showFlowData.flow.title}} id="new-flow-title">
+                                <input class="form-control" type="text" value={{showFlowData.flowData.title}} id="new-flow-title">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showFlowData.flow.description}} id="new-flow-description">
+                                <input class="form-control" type="text" value={{showFlowData.flowData.description}} id="new-flow-description">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showFlowData.flow.resource}} id="new-flow-resource">
+                                <input class="form-control" type="text" value={{showFlowData.flowData.resource}} id="new-flow-resource">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_type"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-flow-type">
+                                    <option>
+                                        {{showFlowData.flowData.type}}
+                                    </option>
                                     <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
                                     <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
                                     <option value={{_ "material_flow_value"}}>{{_ "material_flow"}}</option>
@@ -202,24 +205,53 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="number" value={{showFlowData.flow.weight}} id="new-flow-weight">
+                                <input class="form-control" type="number" value={{showFlowData.flowData.weight}} id="new-flow-weight">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showFlowData.flow.firstNode}} id="new-flow-first-node">
+                                <select class="select2-dropdown" name="state" id="new-flow-first-node">
+                                    <option>
+                                        {{showFlowData.flowData.firstNode}}
+                                    </option>
+                                    {{#each activityElements}}
+                                        <option data-option={{activityElementData.id}}>
+                                            #{{activityData.number}}
+                                            -
+                                            {{activityElementData.title}}
+                                            -
+                                            {{activityElementData.description}}
+                                        </option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showFlowData.flow.secondNode}} id="new-flow-second-node">
+                                <select class="select2-dropdown" name="state" id="new-flow-second-node">
+                                    <option>
+                                        {{showFlowData.flowData.secondNode}}
+                                    </option>
+                                    {{#each activityElements}}
+                                        <option data-option={{activityElementData.id}}>
+                                            #{{activityData.number}}
+                                            -
+                                            {{activityElementData.title}}
+                                            -
+                                            {{activityElementData.description}}
+                                        </option>
+                                    {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "flow_reciprocal"}}:</label>
                             <div class="col-lg-8">
+                                <!-- {{#if showFlowData.flowData.direction=="mono"}}
+                                mono
+                                {{/if}} -->
                                 <div class="pretty p-default p-curve radio-div">
                                     <input type="radio" name="flow_direction" value="bi">
                                     <div class="state p-primary-o">

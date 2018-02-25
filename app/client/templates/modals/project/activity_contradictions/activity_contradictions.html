@@ -125,20 +125,22 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_title"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{showContradictionData.contradictionData.contradiction.title}} id="new-contradiction-title">
+                                <input class="form-control" type="text" value={{showContradictionData.contradictionData.title}} id="new-contradiction-title">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_description"}}:</label>
                             <div class="col-lg-8">
-                                <input class="form-control" type="text" value={{_ "contradiction_description_form"}} id="new-contradiction-description">
+                                <input class="form-control" type="text" value={{showContradictionData.contradictionData.description}} id="new-contradiction-description">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
-                                    <option></option>
+                                    <option>
+                                        {{showContradictionData.contradictionData.firstNode}}
+                                    </option>
                                     {{#each activityElements}}
                                         <option data-option={{activityElementData.id}}>
                                             #{{activityData.number}}
@@ -155,7 +157,9 @@
                             <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
                             <div class="col-lg-8">
                                 <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
-                                    <option></option>
+                                    <option>
+                                        {{showContradictionData.contradictionData.secondNode}}
+                                    </option>
                                     {{#each activityElements}}
                                         <option data-option={{activityElementData.id}}>
                                             #{{activityData.number}}
