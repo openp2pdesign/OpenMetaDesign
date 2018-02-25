@@ -287,6 +287,7 @@ Template.ActivityEdit.onRendered(function() {
             "Full control"
         ],
         allowClear: false,
+        dropdownAutoWidth : true
     });
 });
 
