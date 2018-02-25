@@ -273,10 +273,14 @@ Template.ActivityContradictions.helpers({
         };
     },
     deleteContradictionData: function() {
-        return Session.get('contradictionToDeleteData');
+        if (typeof Session.get('contradictionToDeleteData') !== "undefined") {
+            return Session.get('contradictionToDeleteData');
+        }
     },
     showContradictionData: function() {
-        return Contradictions.findOne({ _id: Session.get('contradictionToShowData') });
+        if (typeof Session.get('contradictionToShowData') !== "undefined") {
+            return Contradictions.findOne({ _id: Session.get('contradictionToShowData') });
+        }
     }
 });
 

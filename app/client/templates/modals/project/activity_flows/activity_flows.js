@@ -204,11 +204,25 @@ Template.ActivityFlows.helpers({
         };
     },
     deleteFlowData: function() {
-        Session.get('flowToDeleteData');
+        if (typeof Session.get('flowToDeleteData') !== "undefined") {
+            return Session.get('flowToDeleteData');
+        }
     },
     showFlowData: function() {
-        return Flows.findOne({ _id: Session.get('flowToShowData') });
-    }
+        if (typeof Session.get('flowToShowData') !== "undefined") {
+            return Flows.findOne({ _id: Session.get('flowToShowData') });
+        }
+    },
+    isMonoDirectional: function() {
+        if (typeof Session.get('flowToShowData') !== "undefined") {
+            var thisFlow = Flows.findOne({ _id: Session.get('flowToShowData') });
+            if (thisFlow.flowData.direction == "mono") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+  }
 });
 
 /*****************************************************************************/
