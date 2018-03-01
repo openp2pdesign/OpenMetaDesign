@@ -34,7 +34,6 @@ Template.ActivityContradictions.events({
         var newDescription = $('#new-contradiction-description').val();
 
         var newFirstNode = $('#new-contradiction-first-node option:selected').attr('data-option');
-
         var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
         var newDirection = $('input[name=contradiction_direction]:checked').val();
         // Format data from the form as an object
@@ -54,7 +53,7 @@ Template.ActivityContradictions.events({
                     type: 'error',
                     title: 'Error',
                     text: 'There was an error in adding the contradiction',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -77,7 +76,7 @@ Template.ActivityContradictions.events({
                     type: 'success',
                     title: 'Success',
                     text: 'Contradiction successfully added.',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -131,7 +130,7 @@ Template.ActivityContradictions.events({
                     type: 'error',
                     title: 'Error',
                     text: 'There was an error in adding the contradiction',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -154,7 +153,7 @@ Template.ActivityContradictions.events({
                     type: 'success',
                     title: 'Success',
                     text: 'Contradiction successfully added.',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -199,7 +198,7 @@ Template.ActivityContradictions.events({
                     type: 'error',
                     title: 'Error',
                     text: 'There was an error in deleting the contradiction',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -222,7 +221,7 @@ Template.ActivityContradictions.events({
                     type: 'success',
                     title: 'Success',
                     text: 'Contradiction successfully deleted.',
-                    icon: 'fa fa-random',
+                    icon: 'fa fa-exclamation-triangle',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -279,7 +278,13 @@ Template.ActivityContradictions.helpers({
     },
     showContradictionData: function() {
         if (typeof Session.get('contradictionToShowData') !== "undefined") {
-            return Contradictions.findOne({ _id: Session.get('contradictionToShowData') });
+            // Get the contradiction data
+            var thisData = Contradictions.findOne({ _id: Session.get('contradictionToShowData') });
+            // Add the data for the nodes
+            thisData.firstNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.firstNode });
+            thisData.secondNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.secondNode });
+            // Return the data
+            return thisData;
         }
     }
 });

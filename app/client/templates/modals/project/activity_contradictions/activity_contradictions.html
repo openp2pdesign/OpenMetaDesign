@@ -40,13 +40,28 @@
         <div class="row" id="showContradictionDiv">
             <div class="col-md-12">
                 <h3>{{_ "contradiction_show"}}</h3>
-            </div>
-            <div class="col-md-12">
-                    <i class="fa fa-random"></i> {{_id}}
-                    {{showContradictionData.contradictionData.title}}
+                <h4>{{showContradictionData.contradictionData.title}}</h4>
+                <p>
                     {{showContradictionData.contradictionData.description}}
-                    {{showContradictionData.contradictionData.firstNode}} <!-- TODO Get value for this -->
-                    {{showContradictionData.contradictionData.secondNode}}
+                </p>
+            </div>
+            <div class="col-md-6">
+                    <i class="fa fa-random"></i>
+                    <p>
+                        ID: {{showContradictionData.contradictionData.firstNode}}
+                    </p>
+                    <p>
+                        Activity n. {{showContradictionData.firstNodeData.activityNumber}}
+                    </p>
+                    <p>
+                        {{showContradictionData.firstNodeData.activityElementData.title}}
+                    </p>
+                    <p>
+                        {{showContradictionData.firstNodeData.activityElementData.description}}
+                    </p>
+            </div>
+            <div class="col-md-6">
+                    ...
             </div>
             <div class="col-md-12">
                 <button class="btn btn-warning" id="close-contradiction-button">
