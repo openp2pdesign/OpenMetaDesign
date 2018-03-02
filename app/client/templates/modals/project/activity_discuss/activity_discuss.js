@@ -17,7 +17,18 @@ Template.ActivityDiscuss.helpers({
         }
     },
     thisUsername: function() {
-        return Meteor.user().profile.name;
+        return Meteor.user().username;
+    },
+    thisName: function() {
+        var name = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+        return name;
+    },
+    thisGravatar: function() {
+        var url = Gravatar.imageUrl(Meteor.user().emails[0].address, {
+            size: 34,
+            default: 'mm'
+        });
+        return url;
     }
 });
 
