@@ -9,7 +9,7 @@ Template.ActivityDiscuss.events({
 /*****************************************************************************/
 Template.ActivityDiscuss.helpers({
     thisRoomId: function() {
-        return this.project + '-' + thisActivity.id;
+        return thisProject._id + '-' + thisActivity.id;
     },
     thisUsername: function() {
         return Meteor.user().username;
