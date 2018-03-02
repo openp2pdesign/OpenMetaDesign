@@ -51,6 +51,9 @@ Template.FlowButtons.events({
             left: 0
         };
 
+        // The container for the viz
+        var d3Container = document.getElementById("showFlowDivSVG");
+
         // Get dimensions of the container on window resize
         window.addEventListener("resize", function(d) {
             width = d3Container.clientWidth;
@@ -59,10 +62,10 @@ Template.FlowButtons.events({
         });
 
         // Remove previous SVG
-        d3.select('#showFlowDiv').select('svg').remove();
+        d3.select('#showFlowDivSVG').select('svg').remove();
 
         // Add the visualization SVG to the container
-        var svg = d3.select('#showFlowDiv').append("svg")
+        var svg = d3.select('#showFlowDivSVG').append("svg")
             .attr("width", "100%")
             .attr("height", "100%")
             .append("g")
