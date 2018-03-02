@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { SimpleChat } from 'meteor/cesarve:simple-chat2/config'
+import { CommentSchema } from './projects';
+import { DiscussionSchema } from './projects';
 
 SimpleSchema.debug = true;
 
@@ -39,38 +41,7 @@ if (Meteor.isServer) {
   });
 }
 
-// A schema for a comment
-export const CommentSchema = new SimpleSchema({
-    id: {
-        type: String
-    },
-    body: {
-        type: String
-    },
-    createdBy: {
-        type: String
-    },
-    createdByID: {
-        type: String
-    },
-    createdAt: {
-        type: Date
-    },
-    roomId: {
-        type: String
-    }
-});
 
-// A schema for discussions
-export const DiscussionSchema = new SimpleSchema({
-    attachedTo: {
-        type: String
-    },
-    comments: {
-        type: Array,
-    },
-    'comments.$': CommentSchema
-});
 
 // Attach the DiscussionSchema to the Discussion collection
 Discussions.attachSchema(DiscussionSchema);

@@ -124,33 +124,37 @@ export const TimeIntervalSchema = new SimpleSchema({
 });
 
 
-// A schema for a discussion
-export const DiscussionSchema = new SimpleSchema({
+// A schema for a comment
+export const CommentSchema = new SimpleSchema({
     id: {
-        type: String,
-        autoValue: function() {
-            return Random.id();
-        }
+        type: String
     },
-    title: {
-        type: String,
-        max: 100,
-        optional: true
+    body: {
+        type: String
     },
-    labels: {
+    createdBy: {
+        type: String
+    },
+    createdByID: {
+        type: String
+    },
+    createdAt: {
+        type: Date
+    },
+    roomId: {
+        type: String
+    }
+});
+
+// A schema for discussions
+export const DiscussionSchema = new SimpleSchema({
+    attachedTo: {
+        type: String
+    },
+    comments: {
         type: Array,
-        max: 50,
-        optional: true
     },
-    'labels.$': String,
-    start: {
-        type: Date,
-        optional: true
-    },
-    url: {
-        type: String,
-        optional: true
-    },
+    'comments.$': CommentSchema
 });
 
 // A schema for a contradiction
@@ -504,6 +508,10 @@ export const ProjectSchema = new SimpleSchema({
         type: Number,
         defaultValue: 0
     },
+    discussions: {
+        type: Array,
+    },
+    'discussions.$': DiscussionSchema,
 });
 
 // Attach the ProjectSchema to the projects collection
