@@ -15,6 +15,9 @@ Template.ActivityDiscuss.helpers({
             "process": this.process,
             "activity": thisActivity
         }
+    },
+    thisUsername: function() {
+        return Meteor.user().profile.name;
     }
 });
 
