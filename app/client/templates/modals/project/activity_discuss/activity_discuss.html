@@ -9,7 +9,7 @@
           <div class="col-md-12">
               <p>
                   {{#with data}}
-                    {{>SimpleChatWindow roomId=activity.id username=thisUsername avatar=thisGravatar button="Send"}}
+                    {{>SimpleChatWindow roomId=thisRoomId username=thisUsername avatar=thisGravatar button="Send"}}
                   {{/with}}
               </p>
           </div>

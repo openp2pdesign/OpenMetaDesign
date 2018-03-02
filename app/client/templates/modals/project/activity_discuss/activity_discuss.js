@@ -13,8 +13,12 @@ Template.ActivityDiscuss.helpers({
         return {
             "project": thisProject,
             "process": this.process,
-            "activity": thisActivity
+            "activity": thisActivity,
+            "mode": this.mode
         }
+    },
+    thisRoomId: function() {
+        return this.project + '-' + thisActivity.id;
     },
     thisUsername: function() {
         return Meteor.user().username;

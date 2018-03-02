@@ -7,13 +7,16 @@
                       <button type="button" class="close" data-dismiss="modal">
                           <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
-                      <h2 class="modal-title">{{_ "discuss_html"}}</h2>
+                      <h2 class="modal-title">{{_ "discuss_html"}} {{thisField}}</h2>
                   </div>
                   <div class="modal-body">
-                          Embed here the discussion for this element.
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "close"}}</button>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <p>
+                                {{>SimpleChatWindow roomId=thisRoomId username=thisUsername avatar=thisGravatar button="Send"}}
+                              </p>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
