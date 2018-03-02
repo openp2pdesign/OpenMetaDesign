@@ -35,8 +35,34 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>{{_ "processes"}}</h2>
-                    <div id="d3-container"></div>
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#view-project" data-toggle="tab" title="View this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-line-chart fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#view-discussions" data-toggle="tab" title="View all the discussions in this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="view-project">
+                            <h2>{{_ "processes"}}</h2>
+                            <div id="d3-container"></div>
+                        </div>
+                        <div class="tab-pane fade in" id="view-discussions">
+                            <h2>{{_ "discussions"}}</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         {{/with}}
