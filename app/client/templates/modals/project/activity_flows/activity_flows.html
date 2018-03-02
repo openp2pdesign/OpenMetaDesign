@@ -39,29 +39,29 @@
         </div>
         <div class="row" id="showFlowDiv">
             <div class="col-md-12">
-                <h3>{{_ "flow_show"}}</h3>
-                <h4>{{showFlowData.flowData.title}}</h4>
+                <h3>{{showFlowData.flowData.title}}</h3>
                 <p>
                     {{showFlowData.flowData.description}}
                 </p>
             </div>
-            <div class="col-md-6">
-                    <i class="fa fa-random"></i>
+            <div class="col-md-4">
+                    <img class="svg" src="../as_activity_nolabel.svg">
                     <p>
-                        ID: {{showFlowData.flowData.firstNode}}
-                    </p>
-                    <p>
-                        Activity n. {{showFlowData.firstNodeData.activityNumber}}
-                    </p>
-                    <p>
-                        {{showFlowData.firstNodeData.activityElementData.title}}
-                    </p>
-                    <p>
-                        {{showFlowData.firstNodeData.activityElementData.description}}
+                        <strong>
+                            #{{showFlowData.firstNodeData.activityData.number}} {{showFlowData.firstNodeData.activityData.title}}
+                        </strong>
                     </p>
             </div>
-            <div class="col-md-6">
-                    ...
+            <div class="col-md-4">
+                here the flow
+            </div>
+            <div class="col-md-4">
+                    <img class="svg" src="../as_activity_nolabel.svg">
+                    <p>
+                        <strong>
+                            #{{showFlowData.secondNodeData.activityData.number}} {{showFlowData.secondNodeData.activityData.title}}
+                        </strong>
+                    </p>
             </div>
             <div class="col-md-12">
                 <button class="btn btn-warning" id="close-flow-button">
