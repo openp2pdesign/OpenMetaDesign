@@ -119,13 +119,9 @@
                         <div class="col-lg-8">
                             <select class="select2-dropdown" name="state" id="new-flow-first-node">
                                 <option></option>
-                                {{#each activityElements}}
-                                    <option data-option={{activityElementData.id}}>
-                                        #{{activityNumber}}
-                                        -
-                                        {{activityElementData.title}}
-                                        -
-                                        {{activityElementData.description}}
+                                {{#each activities}}
+                                    <option data-option={{_id}}>
+                                        <span class="icon-activity"></span> #{{activityData.number}} - {{activityData.title}}
                                     </option>
                                 {{/each}}
                             </select>
@@ -136,39 +132,12 @@
                         <div class="col-lg-8">
                             <select class="select2-dropdown" name="state" id="new-flow-second-node">
                                 <option></option>
-                                {{#each activityElements}}
-                                    <option data-option={{activityElementData.id}}>
-                                        #{{activityNumber}}
-                                        -
-                                        {{activityElementData.title}}
-                                        -
-                                        {{activityElementData.description}}
+                                {{#each activities}}
+                                    <option data-option={{_id}}>
+                                        <span class="icon-activity"></span> #{{activityData.number}} - {{activityData.title}}
                                     </option>
                                 {{/each}}
                             </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">{{_ "flow_reciprocal"}}:</label>
-                        <div class="col-lg-8">
-                            <div class="pretty p-default p-curve radio-div">
-                                <input type="radio" name="flow_direction" value="bi">
-                                <div class="state p-primary-o">
-                                    <label>
-                                        <i class="fa fa-arrows-h" aria-hidden="true"></i>
-                                        {{_ "flow_bidirectional"}}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="pretty p-default p-curve radio-div">
-                                <input type="radio" name="flow_direction" value="mono" checked="checked">
-                                <div class="state p-primary-o">
-                                    <label>
-                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                        {{_ "flow_monodirectional"}}
-                                    </label>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>

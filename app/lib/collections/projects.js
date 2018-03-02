@@ -209,9 +209,6 @@ export const FlowSchema = new SimpleSchema({
     secondNode: {
         type: String
     },
-    direction: {
-        type: String
-    },
     discussion: {
         type: DiscussionSchema,
         optional: true

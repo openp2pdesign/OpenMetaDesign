@@ -37,7 +37,6 @@ Template.ActivityFlows.events({
         var newWeight = parseInt($('#new-flow-weight').val());
         var newFirstNode = $('#new-flow-first-node option:selected').data('option');
         var newSecondNode = $('#new-flow-second-node option:selected').data('option');
-        var newDirection = $('input[name=flow_direction]:checked').val();
         // Format data from the form as an object
         flowData = {
             "title": newTitle,
@@ -46,8 +45,7 @@ Template.ActivityFlows.events({
             "type": newType,
             "weight": newWeight,
             "firstNode": newFirstNode,
-            "secondNode": newSecondNode,
-            "direction": newDirection
+            "secondNode": newSecondNode
         }
         // Save the flow
         // Validate and save new data
@@ -217,17 +215,6 @@ Template.ActivityFlows.helpers({
             thisData.secondNodeData = ActivityElements.findOne({ _id: thisData.flowData.secondNode });
             // Return the data
             return thisData;
-        }
-    },
-    isMonoDirectional: function() {
-        if (typeof Session.get('flowToShowData') !== "undefined") {
-            console.log("DDDD", Session.get('flowToShowData') );
-            var thisFlow = Flows.findOne({ _id: Session.get('flowToShowData') });
-            if (thisFlow.flowData.direction == "mono") {
-                return true;
-            } else {
-                return false;
-            }
         }
     }
 });
