@@ -210,22 +210,13 @@ Template.ActivityFlows.helpers({
     },
     showFlowData: function() {
         if (typeof Session.get('flowToShowData') !== "undefined") {
-            var thisFlowData = Flows.findOne({
-                _id: Session.get('flowToShowData')
-            });
-            console.log("1", thisFlowData);
-            var firstNodeData = ActivityElements.findOne({
-                    _id: thisFlowData.flowData.firstNode
-            });
-            var secondNodeData = ActivityElements.findOne({
-                _id: thisFlowData.flowData.secondNode
-            });
-            thisFlowData.firstNodeData = firstNodeData;
-            thisFlowData.secondNodeData = secondNodeData;
-            console.log(thisFlowData.flowData.firstNode);
-            console.log("FIRST NODE NDATA", firstNodeData);
-            console.log("2",thisFlowData);
-            return thisFlowData;
+            // Get the flow data
+            var thisData = Flows.findOne({ _id: Session.get('flowToShowData') });
+            // Add the data for the nodes
+            thisData.firstNodeData = ActivityElements.findOne({ _id: thisData.flowData.firstNode });
+            thisData.secondNodeData = ActivityElements.findOne({ _id: thisData.flowData.secondNode });
+            // Return the data
+            return thisData;
         }
     },
     isMonoDirectional: function() {
