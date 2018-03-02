@@ -210,11 +210,14 @@ Template.ActivityFlows.helpers({
         if (typeof Session.get('flowToShowData') !== "undefined") {
             // Get the flow data
             var thisData = Flows.findOne({ _id: Session.get('flowToShowData') });
-            // Add the data for the nodes
-            thisData.firstNodeData = Activities.findOne({ _id: thisData.flowData.firstNode });
-            thisData.secondNodeData = Activities.findOne({ _id: thisData.flowData.secondNode });
-            // Return the data
-            return thisData;
+            // If there is data... then return it
+            if (thisData) {
+                // Add the data for the nodes
+                thisData.firstNodeData = Activities.findOne({ _id: thisData.flowData.firstNode });
+                thisData.secondNodeData = Activities.findOne({ _id: thisData.flowData.secondNode });
+                // Return the data
+                return thisData;
+            }
         }
     }
 });

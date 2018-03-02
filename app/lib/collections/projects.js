@@ -64,22 +64,27 @@ if (Meteor.isClient) {
 export const LocationSchema = new SimpleSchema({
     street: {
         type: String,
-        max: 100
+        max: 100,
+        optional: true
     },
     number: {
-        type: Number
+        type: Number,
+        optional: true
     },
     city: {
         type: String,
-        max: 50
+        max: 100,
+        optional: true
     },
     postalcode: {
         type: String,
-        max: 50
+        max: 50,
+        optional: true
     },
     country: {
         type: String,
-        max: 50
+        max: 50,
+        optional: true
     },
     url: {
         type: Array,
@@ -89,10 +94,12 @@ export const LocationSchema = new SimpleSchema({
     },
     'url.$': String,
     latitude: {
-        type: Number
+        type: Number,
+        optional: true
     },
     longitude: {
-        type: Number
+        type: Number,
+        optional: true
     }
 
 });

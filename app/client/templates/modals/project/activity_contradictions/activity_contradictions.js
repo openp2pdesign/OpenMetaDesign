@@ -280,11 +280,14 @@ Template.ActivityContradictions.helpers({
         if (typeof Session.get('contradictionToShowData') !== "undefined") {
             // Get the contradiction data
             var thisData = Contradictions.findOne({ _id: Session.get('contradictionToShowData') });
-            // Add the data for the nodes
-            thisData.firstNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.firstNode });
-            thisData.secondNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.secondNode });
-            // Return the data
-            return thisData;
+            // If there is data... then return it
+            if (thisData) {
+                // Add the data for the nodes
+                thisData.firstNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.firstNode });
+                thisData.secondNodeData = ActivityElements.findOne({ _id: thisData.contradictionData.secondNode });
+                // Return the data
+                return thisData;
+            }
         }
     }
 });
