@@ -8,15 +8,6 @@ Template.ActivityDiscuss.events({
 /* ActivityDiscuss: Helpers */
 /*****************************************************************************/
 Template.ActivityDiscuss.helpers({
-    data: function() {
-        // Return helper values for the template
-        return {
-            "project": thisProject,
-            "process": this.process,
-            "activity": thisActivity,
-            "mode": this.mode
-        }
-    },
     thisRoomId: function() {
         return this.project + '-' + thisActivity.id;
     },
