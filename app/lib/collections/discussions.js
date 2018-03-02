@@ -70,6 +70,8 @@ SimpleChat.configure ({
             "createdAt": msg.date,
             "roomId": msg.roomId
         }
-        console.log(newMessage);
+        // Get the project and the element commented from the roomId
+        var thisProjectId = msg.roomId.split("-")[0];
+        var thisElementId = msg.roomId.split("-")[1];
     }
 });
