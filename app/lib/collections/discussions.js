@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import { SimpleChat } from 'meteor/cesarve:simple-chat2/config'
+import { SimpleChat } from 'meteor/openp2pdesign:simple-chat/config'
 import { CommentSchema } from './projects';
 import { DiscussionSchema } from './projects';
 
@@ -52,6 +52,9 @@ SimpleChat.configure ({
         loadMore: 'Load More',
         placeholder: '...',
         button: '+',
+        join: 'Join to',
+        left: 'Left the',
+        room: 'room at'
     },
     beep: true,
     showViewed: true,
@@ -73,5 +76,10 @@ SimpleChat.configure ({
         // Get the project and the element commented from the roomId
         var thisProjectId = msg.roomId.split("-")[0];
         var thisElementId = msg.roomId.split("-")[1];
-    }
+    },
+    onJoin:function(roomId, username, name,date){  //server
+    },
+    onLeft:function(roomId, username, name,date) { //server
+    },
+
 });

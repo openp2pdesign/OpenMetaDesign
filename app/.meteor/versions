@@ -24,7 +24,6 @@ boilerplate-generator@1.4.0
 caching-compiler@1.1.11
 caching-html-compiler@1.1.2
 callback-hook@1.1.0
-cesarve:simple-chat2@0.4.2
 cfs:http-methods@0.0.32
 check@1.3.0
 coffeescript@1.0.17
@@ -95,6 +94,7 @@ natestrauser:select2@4.0.3
 npm-bcrypt@0.9.3
 npm-mongo@2.2.34
 observe-sequence@1.0.16
+openp2pdesign:simple-chat@0.4.7
 ordered-dict@1.1.0
 peppelg:bootstrap-3-modal@1.0.4
 promise@0.10.2
