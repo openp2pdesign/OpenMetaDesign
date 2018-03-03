@@ -185,22 +185,6 @@ Template.ActivityFlows.helpers({
         // Return only the activity elements in the current project
         return ActivityElements.find({ projectId: this.project._id }).fetch();
     },
-    autocompleteSettingsNode: function() {
-        return {
-            position: "bottom",
-            limit: 8,
-            rules: [{
-                    token: '',
-                    subscription: 'autocompleteActivities',
-                    collection: 'Activities',
-                    //collection: "autocompleteActivityElements",
-                    field: 'activityData.title',
-                    template: Template.ActivityPill,
-                    noMatchTemplate: Template.NotFoundPill
-                },
-            ]
-        };
-    },
     deleteFlowData: function() {
         if (typeof Session.get('flowToDeleteData') !== "undefined") {
             return Session.get('flowToDeleteData');

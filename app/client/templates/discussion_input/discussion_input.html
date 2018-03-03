@@ -1,0 +1,13 @@
+<template name="DiscussionInput">
+    <div class="discussion-input">
+        <div class="input-group">
+            {{> inputAutocomplete settings=autocompleteSettingsUser id="simple-chat-message" class="input-xlarge form-control" placeholder="..." }}
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-primary btn-flat" id="message-send">
+                    <i class="fa fa-comment"></i>
+                    {{_ "send"}}
+                </button>
+            </span>
+        </div>
+    </div>
+</template>
