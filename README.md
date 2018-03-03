@@ -37,7 +37,6 @@ Open a browser to [http://localhost:3000/](http://localhost:3000/)
 ## Docker Compose
 The compose file is only for production at the moment, for local development only Meteor is needed.
 
-The key issue for using Docker is for the integration with a discussion service. The integration with Rocket.Chat is almost ready but it still has some issues, it might be replaced by Discourse (see [this compose](https://github.com/leopku/discourse-compose)).
 
 ## Research
 Menichinelli, M., & Valsecchi, F. (2016). The meta-design of systems: how design, data and software enable the organizing of open, distributed, and collaborative processes. In *6th IFDP - Systems & Design: Beyond Processes and Thinking* (pp. 518–537). Valencia: Editorial Universitat Politècnica de València. [https://doi.org/10.4995/IFDP.2016.3301](https://doi.org/10.4995/IFDP.2016.3301)
