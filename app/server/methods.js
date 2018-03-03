@@ -8,6 +8,7 @@ import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Settings } from '../lib/collections/settings.js';
 import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
+import { Discussions } from '../lib/collections/discussions.js';
 
 let diff = require('deep-diff');
 
@@ -665,7 +666,7 @@ Meteor.methods({
                         }
                     }
                 });
-                // Update flow in its own collection
+                // Update contradiction in its own collection
                 Contradictions.update({
                     'projectId': projectId,
                     'contradictionId': contradictionId
@@ -724,6 +725,74 @@ Meteor.methods({
                 // Return success
                 return "success";
             }
+        });
+    },
+    'addDiscussion': function(projectId, attachedTo) {
+        // Load the Project
+        var thisProject = Projects.findOne({
+            '_id': projectId
+        });
+        oldVersion = thisProject;
+        // Add a flow, and add its _id to the project
+        var newDiscussionId = Discussions.insert({
+            "projectId": projectId,
+            "contradictionData": contradictionData,
+        });
+        contradictionData.id = newContradictionId;
+        // Apply changes by updating the Project
+        Projects.update({
+            '_id': projectId
+        }, {
+            $push: {
+                "discussions": contradictionData
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while adding contradiction", contradictionData.id, "to project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Contradiction", contradictionData.id, "added to project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    _id: projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Return success
+                return "success";
+            }
+        });
+    },
+    'updateDiscussion': function(projectId, discussionId, discussionData) {
+        // Update discussion in its own collection
+        Discussions.update({
+            '_id': discussionId
+        }, {
+            $push: {
+                'discussionData': discussionData
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while editing discussion", discussionId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Discussion", discussionId, "edited in project", projectId, "successfully.");
+            }
+            // Return success
+            return "success";
         });
     },
 });

@@ -12,10 +12,13 @@
                         Another discussion
                         <span class="badge">14 comments</span>
                     </button>
+                    {{#each discussion in data.discussions}}
+                        prova {{discussion}}
+                    {{/each}}
                 </div>
             </div>
             <div class="col-sm-8 col-md-8">
-                ...
+                {{> Template.dynamic template=template data=data }}
             </div>
         </div>
     </div>
