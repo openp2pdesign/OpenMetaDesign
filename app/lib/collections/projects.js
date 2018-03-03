@@ -126,7 +126,7 @@ export const TimeIntervalSchema = new SimpleSchema({
 
 // A schema for a comment
 export const CommentSchema = new SimpleSchema({
-    id: {
+    commentId: {
         type: String
     },
     body: {
@@ -148,6 +148,9 @@ export const CommentSchema = new SimpleSchema({
 
 // A schema for discussions
 export const DiscussionSchema = new SimpleSchema({
+    roomId: {
+        type: String
+    },
     attachedTo: {
         type: String
     },

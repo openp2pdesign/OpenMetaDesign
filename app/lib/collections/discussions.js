@@ -64,6 +64,7 @@ SimpleChat.configure ({
         return true;
     },
     onNewMessage: function(msg) {
+        console.log(msg);
         // Format a message as a comment
         var newComment = {
             "id": msg._id,
