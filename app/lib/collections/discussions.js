@@ -80,7 +80,7 @@ SimpleChat.configure ({
         Meteor.call('updateDiscussion', this.project._id, contradictionData, function(error, result) {
             if (error) {
             }
-        }
+        });
     },
     onJoin:function(roomId, username, name,date){  //server
     },

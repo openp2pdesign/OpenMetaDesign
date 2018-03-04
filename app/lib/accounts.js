@@ -34,7 +34,36 @@ AccountsTemplates.addFields([{
     _id: 'bio',
     type: 'text',
     displayName: "Bio"
+}, {
+    _id: 'avatar',
+    type: 'text',
+    displayName: "Avatar",
+    type: 'hidden'
 }]);
+
+var onSubmitFunc = function(error, state) {
+  if (!error) {
+    if (state === "signIn") {
+      // Successfully logged in
+      // ...
+    }
+    if (state === "signUp") {
+      // Successfully registered
+      // Add the avatar as a Gravatar from the main e-mail
+      var avatarUrl = Gravatar.imageUrl(Meteor.user().emails[0].address, {
+          size: 34,
+          default: 'mm'
+      });
+      Meteor.users.update({
+          _id: Meteor.user()._id
+      }, {
+          $set: {
+              "profile.avatar": avatarUrl
+          }
+      });
+    }
+  }
+};
 
 
 AccountsTemplates.configure({
@@ -62,9 +91,12 @@ AccountsTemplates.configure({
     positiveFeedback: true,
     showValidating: true,
 
+    // On Submit Function
+    onSubmitHook: onSubmitFunc,
+
     // Privacy Policy and Terms of Use
     privacyUrl: 'privacy',
-    termsUrl: 'http://www.google.com',
+    termsUrl: 'http://www.google.com', // TODO configure terms url
 
     // Redirects
     homeRoutePath: '/',

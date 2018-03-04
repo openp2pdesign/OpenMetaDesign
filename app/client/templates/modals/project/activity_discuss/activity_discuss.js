@@ -19,11 +19,7 @@ Template.ActivityDiscuss.helpers({
         return name;
     },
     thisGravatar: function() {
-        var url = Gravatar.imageUrl(Meteor.user().emails[0].address, {
-            size: 34,
-            default: 'mm'
-        });
-        return url;
+        return Meteor.user().profile.avatar;
     }
 });
 
