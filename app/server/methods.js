@@ -21,12 +21,12 @@ Meteor.methods({
     },
     'deleteUser': function(userId) {
         Meteor.users.remove({
-            _id: userId
+            '_id': userId
         });
     },
     'updateUserFirstName': function(userId, newFirstName) {
         Meteor.users.update({
-            _id: userId
+            '_id': userId
         }, {
             $set: {
                 "profile.firstName": newFirstName
@@ -35,7 +35,7 @@ Meteor.methods({
     },
     'updateUserLastName': function(userId, newLasttName) {
         Meteor.users.update({
-            _id: userId
+            '_id': userId
         }, {
             $set: {
                 "profile.lastName": newLastName
@@ -44,7 +44,7 @@ Meteor.methods({
     },
     'updateUserBio': function(userId, newBio) {
         Meteor.users.update({
-            _id: userId
+            '_id': userId
         }, {
             $set: {
                 "profile.bio": newBio
@@ -53,7 +53,7 @@ Meteor.methods({
     },
     'updateUserEmail': function(userId, newEmail) {
         Meteor.users.update({
-            _id: userId
+            '_id': userId
         }, {
             $set: {
                 "emails.0.address": newEmail
@@ -124,10 +124,10 @@ Meteor.methods({
     },
     'deleteProject': function(projectId) {
         // First check if it exists...
-        let projectFoundId = Projects.findOne({_id: projectId});
+        let projectFoundId = Projects.findOne({'_id': projectId});
         if (projectFoundId) {
             Projects.remove({
-                _id: projectId
+                '_id': projectId
             });
             Activities.remove({
                 "projectId": projectId
@@ -162,14 +162,14 @@ Meteor.methods({
             $set: fields
         }, function(error) {
             if (error) {
-                throw new Meteor.Error("method_error", "Error", error.reason, "while editing the", field, "field in project", projectId, ".");
+                throw new Meteor.Error("method_error", "Error", error.reason, "while updating the", field, "field in project", projectId, ".");
                 console.log(error);
                 return "error";
             } else {
-                console.log("Field", field, "edited in project", projectId, "successfully.");
+                console.log("Field", field, "updated in project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -204,7 +204,7 @@ Meteor.methods({
         // Add the real activity ID to the activity data, update
         activityData.id = activityId;
         Activities.update({
-            _id: activityId
+            '_id': activityId
         }, {
                 $set: {
                     "activityData": activityData
@@ -232,7 +232,7 @@ Meteor.methods({
             // Update activity elements with new ids
             ActivityElements.update({
                 'activityId': activityId,
-                _id: activityElementsAdded[document]._id
+                '_id': activityElementsAdded[document]._id
             }, {
                     $set: {
                         "activityElementData.id": activityElementsAdded[document]._id
@@ -242,7 +242,7 @@ Meteor.methods({
         }
         // Add the real activity element ID to the activity data, update
         Activities.update({
-            _id: activityId
+            '_id': activityId
         }, {
                 $set: {
                     "activityData": activityData
@@ -266,7 +266,7 @@ Meteor.methods({
                 console.log("Activity", activityId, "added to process", processId, "of project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -322,14 +322,14 @@ Meteor.methods({
             if (error) {
                 console.log(error);
                 throw new Meteor.Error("method_error", error.reason);
-                console.log("Error", error.reason, "while editing", activityId, "to process", processId, "of project", projectId, ".");
+                console.log("Error", error.reason, "while updating", activityId, "to process", processId, "of project", projectId, ".");
                 console.log(error);
                 return "error";
             } else {
-                console.log("Activity", activityId, "edited in process", processId, "of project", projectId, "successfully.");
+                console.log("Activity", activityId, "updated in process", processId, "of project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -398,7 +398,7 @@ Meteor.methods({
                 console.log("Activity", activityId, "deleted from process", processId, "of project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -413,7 +413,7 @@ Meteor.methods({
                 });
                 // Delete activities and activity elements
                 Activities.remove({
-                    "_id": activityId
+                    '_id': activityId
                 });
                 ActivityElements.remove({
                     "activityId": activityId
@@ -431,8 +431,8 @@ Meteor.methods({
         oldVersion = thisProject;
         // Add a flow, and add its _id to the project
         var newFlowId = Flows.insert({
-            "projectId": projectId,
-            "flowData": flowData,
+            'projectId': projectId,
+            'flowData': flowData,
         });
         flowData.id = newFlowId;
         // Apply changes by updating the Project
@@ -452,7 +452,7 @@ Meteor.methods({
                 console.log("Flow", flowData.id, "added to project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -487,14 +487,14 @@ Meteor.methods({
         }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
-                console.log("Error", error.reason, "while editing flow", flowId, "of project", projectId, ".");
+                console.log("Error", error.reason, "while updating flow", flowId, "of project", projectId, ".");
                 console.log(error);
                 return "error";
             } else {
-                console.log("Flow", flowId, "edited in project", projectId, "successfully.");
+                console.log("Flow", flowId, "updated in project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -579,8 +579,8 @@ Meteor.methods({
             contradictionData.level = "primary";
         }
         // if id is != but activity is == then 2
-        var soundgarden1 = ActivityElements.findOne({ _id: contradictionData.firstNode })
-        var soundgarden2 = ActivityElements.findOne({ _id: contradictionData.secondNode })
+        var soundgarden1 = ActivityElements.findOne({ '_id': contradictionData.firstNode })
+        var soundgarden2 = ActivityElements.findOne({ '_id': contradictionData.secondNode })
         console.log("1",soundgarden1);
         console.log("2",soundgarden2);
         // if id is != and activity is != then:
@@ -611,7 +611,7 @@ Meteor.methods({
                 console.log("Contradiction", contradictionData.id, "added to project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -646,14 +646,14 @@ Meteor.methods({
         }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
-                console.log("Error", error.reason, "while editing contradiction", contradictionId, "of project", projectId, ".");
+                console.log("Error", error.reason, "while updating contradiction", contradictionId, "of project", projectId, ".");
                 console.log(error);
                 return "error";
             } else {
-                console.log("Contradiction", contradictionId, "edited in project", projectId, "successfully.");
+                console.log("Contradiction", contradictionId, "updated in project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -705,7 +705,7 @@ Meteor.methods({
                 console.log("Contradiction", contradictionId, "deleted from project", projectId, "successfully.");
                 // Save the version of the changes in the Project
                 var newVersion = Projects.findOne({
-                    _id: projectId
+                    '_id': projectId
                 });
                 var differences = diff(oldVersion, newVersion);
                 Projects.update({
@@ -720,79 +720,120 @@ Meteor.methods({
                 });
                 // Delete contradiction in its own collection
                 Contradictions.remove({
-                    "_id": contradictionId
+                    '_id': contradictionId
                 });
                 // Return success
                 return "success";
             }
         });
     },
-    'addDiscussion': function(projectId, attachedTo) {
-        // Load the Project
-        var thisProject = Projects.findOne({
-            '_id': projectId
-        });
-        oldVersion = thisProject;
-        // Add a flow, and add its _id to the project
-        var newDiscussionId = Discussions.insert({
-            "projectId": projectId,
-            "contradictionData": contradictionData,
-        });
-        contradictionData.id = newContradictionId;
-        // Apply changes by updating the Project
-        Projects.update({
-            '_id': projectId
-        }, {
-            $push: {
-                "discussions": contradictionData
-            }
-        }, function(error) {
-            if (error) {
-                throw new Meteor.Error("method_error", error.reason);
-                console.log("Error", error.reason, "while adding contradiction", contradictionData.id, "to project", projectId, ".");
-                console.log(error);
-                return "error";
-            } else {
-                console.log("Contradiction", contradictionData.id, "added to project", projectId, "successfully.");
-                // Save the version of the changes in the Project
-                var newVersion = Projects.findOne({
-                    _id: projectId
-                });
-                var differences = diff(oldVersion, newVersion);
+    'updateDiscussion': function(roomId, discussionData) {
+        // Get the project id from the roomId
+        var projectId = roomId.split("-")[0];
+        // Look for existing discussions
+        var thisDiscussion = Discussions.findOne({'roomId': roomId});
+        if (typeof thisDiscussion !== "undefined") {
+            // If the discussion exists, update it
+            Discussions.update({
+                '_id': thisDiscussion._id
+            }, {
+                $push: {
+                    'comments': discussionData
+                }
+            }, function(error) {
+                if (error) {
+                    throw new Meteor.Error("method_error", error.reason);
+                    console.log("Error", error.reason, "while updating discussion in room", roomId, "of project", projectId, ".");
+                    console.log(error);
+                    return "error";
+                } else {
+                    console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
+                }
+                // Return success
+                return "success";
+            });
+        } else {
+            // Create the discussion and add the data
+            var thisNewDiscussion = Discussions.insert({
+                "roomId": roomId,
+                "projectId": projectId,
+                "attachedTo": roomId.split("-")[1],
+                "comments": [discussionData],
+            }, function(error) {
+                if (error) {
+                    throw new Meteor.Error("method_error", error.reason);
+                    console.log("Error", error.reason, "while updating discussion in room", roomId, "of project", projectId, ".");
+                    console.log(error);
+                    return "error";
+                } else {
+                    console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
+                }
+                // Return success
+                return "success";
+            });
+        }
+        // Save the id of the new discussion in the element
+        var thisDiscussion = Discussions.findOne({'roomId': roomId});
+        if (typeof thisDiscussion !== "undefined") {
+            var thisElement = roomId.split("-")[1];
+            // TODO discussion of processes
+            if (thisElement == "title") {
                 Projects.update({
                     '_id': projectId
                 }, {
-                    $push: {
-                        "versions": {
-                            "number": thisProject.versionsCount + 1,
-                            "diff": JSON.stringify(differences)
-                        }
+                    $set: {
+                        'titleDiscussion': thisDiscussion._id
                     }
                 });
-                // Return success
-                return "success";
-            }
-        });
-    },
-    'updateDiscussion': function(projectId, discussionId, discussionData) {
-        // Update discussion in its own collection
-        Discussions.update({
-            '_id': discussionId
-        }, {
-            $push: {
-                'discussionData': discussionData
-            }
-        }, function(error) {
-            if (error) {
-                throw new Meteor.Error("method_error", error.reason);
-                console.log("Error", error.reason, "while editing discussion", discussionId, "of project", projectId, ".");
-                console.log(error);
-                return "error";
+            } else if (thisElement == "description") {
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'descriptionDiscussion': thisDiscussion._id
+                    }
+                });
+            } else if (thisElement == "release") {
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'releaseDiscussion': thisDiscussion._id
+                    }
+                });
+            } else if (thisElement == "designers") {
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'designersDiscussion': thisDiscussion._id
+                    }
+                });
+            } else if (thisElement == "community") {
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'communityDiscussion': thisDiscussion._id
+                    }
+                });
+            } else if (thisElement == "license") {
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $set: {
+                        'license.discussion': thisDiscussion._id
+                    }
+                });
             } else {
-                console.log("Discussion", discussionId, "edited in project", projectId, "successfully.");
+                // Contradictions, flows or activities
             }
-            // Return success
-            return "success";
-        });
+            // titleDiscussion
+            // descriptionDiscussion
+            // releaseDiscussion
+            // designersDiscussion
+            // communityDiscussion
+        }
+
     },
 });

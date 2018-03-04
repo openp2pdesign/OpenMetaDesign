@@ -64,23 +64,16 @@ SimpleChat.configure ({
         return true;
     },
     onNewMessage: function(msg) {
-        // Get the project and the element commented from the roomId
-        var thisProjectId = msg.roomId.split("-")[0];
-        var thisElementId = msg.roomId.split("-")[1];
         // Format a message as a comment
         var newComment = {
             "commentId": msg._id,
             "body": msg.message,
             "createdBy": msg.username,
             "createdByID": msg.userId,
-            "createdAt": msg.date,
-            "roomId": msg.roomId
+            "createdAt": msg.date
         }
         // Save the comment into the discussion
-        Meteor.call('updateDiscussion', this.project._id, contradictionData, function(error, result) {
-            if (error) {
-            }
-        });
+        Meteor.call('updateDiscussion', msg.roomId, newComment);
     },
     onJoin:function(roomId, username, name,date){  //server
     },

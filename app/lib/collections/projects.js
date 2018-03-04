@@ -140,14 +140,14 @@ export const CommentSchema = new SimpleSchema({
     },
     createdAt: {
         type: Date
-    },
-    roomId: {
-        type: String
     }
 });
 
 // A schema for discussions
 export const DiscussionSchema = new SimpleSchema({
+    projectId: {
+        type: String
+    },
     roomId: {
         type: String
     },
@@ -183,7 +183,7 @@ export const ContradictionSchema = new SimpleSchema({
         type: String
     },
     discussion: {
-        type: DiscussionSchema,
+        type: String,
         optional: true
     }
 });
@@ -224,7 +224,7 @@ export const FlowSchema = new SimpleSchema({
         type: String
     },
     discussion: {
-        type: DiscussionSchema,
+        type: String,
         optional: true
     }
 });
@@ -287,7 +287,7 @@ export const ActivitySchema = new SimpleSchema({
         optional: true
     },
     discussion: {
-        type: DiscussionSchema,
+        type: String,
         optional: true
     },
     participation: {
@@ -319,7 +319,7 @@ export const ProcessSchema = new SimpleSchema({
     },
     'activities.$': ActivitySchema,
     discussion: {
-        type: DiscussionSchema,
+        type: String,
         optional: true
     }
 });
@@ -355,7 +355,7 @@ export const LicenseSchema = new SimpleSchema({
         regEx: SimpleSchema.RegEx.Url
     },
     discussion: {
-        type: DiscussionSchema,
+        type: String,
         optional: true
     }
 });
@@ -406,9 +406,17 @@ export const ProjectSchema = new SimpleSchema({
         type: String,
         max: 200
     },
+    titleDiscussion: {
+        type: String,
+        optional: true
+    },
     description: {
         type: String,
         max: 1024
+    },
+    descriptionDiscussion: {
+        type: String,
+        optional: true
     },
     license: {
         type: LicenseSchema
@@ -416,6 +424,10 @@ export const ProjectSchema = new SimpleSchema({
     release: {
         type: String,
         max: 10
+    },
+    releaseDiscussion: {
+        type: String,
+        optional: true
     },
     createdBy: {
         type: String,
@@ -481,9 +493,17 @@ export const ProjectSchema = new SimpleSchema({
     designers: {
         type: String
     },
+    designersDiscussion: {
+        type: String,
+        optional: true
+    },
     community: {
         type: String,
         max: 1024
+    },
+    communityDiscussion: {
+        type: String,
+        optional: true
     },
     processes: {
         type: Array,

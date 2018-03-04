@@ -2,7 +2,7 @@
 /* ProjectDiscussions: Event Handlers */
 /*****************************************************************************/
 Template.ProjectDiscussions.events({
-    'click .open-discussion': function(event, template) {
+    'click .list-group-item': function(event, template) {
         event.preventDefault();
         console.log("DISCU", this);
         // var newFirstNode = $('#new-contradiction-first-node option:selected').attr('data-option');
