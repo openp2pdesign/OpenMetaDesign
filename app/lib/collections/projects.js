@@ -501,7 +501,7 @@ export const ProjectSchema = new SimpleSchema({
         type: String,
         max: 1024
     },
-    communityDiscussion: {
+    titleDiscussion: {
         type: String,
         optional: true
     },
@@ -535,7 +535,7 @@ export const ProjectSchema = new SimpleSchema({
         type: Array,
         optional: true
     },
-    'discussions.$': DiscussionSchema,
+    'discussions.$': String,
 });
 
 // Attach the ProjectSchema to the projects collection

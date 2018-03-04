@@ -774,10 +774,18 @@ Meteor.methods({
                 return "success";
             });
         }
-        // Save the id of the new discussion in the element
+        // Save the id of the new discussion in the project and specific element
         var thisDiscussion = Discussions.findOne({'roomId': roomId});
         if (typeof thisDiscussion !== "undefined") {
             var thisElement = roomId.split("-")[1];
+            // Add it to the list of discussions
+            Projects.update({
+                '_id': projectId
+            }, {
+                $push: {
+                    'discussions': thisDiscussion._id
+                }
+            });
             // TODO Add (or remove in projects.js) the discussion of processes
             if (thisElement == "title") {
                 // Title
