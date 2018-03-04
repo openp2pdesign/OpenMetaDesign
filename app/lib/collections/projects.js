@@ -513,6 +513,7 @@ export const ProjectSchema = new SimpleSchema({
     },
     discussions: {
         type: Array,
+        optional: true
     },
     'discussions.$': DiscussionSchema,
 });

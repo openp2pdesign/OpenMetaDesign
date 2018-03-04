@@ -12,12 +12,6 @@ Router.route('projects/list', {
     where: 'client'
 });
 
-Router.route('projects/edit', {
-    name: 'projectsVizEdit',
-    controller: 'VizController',
-    where: 'client'
-});
-
 Router.route('projects/:_id', {
     name: 'projectsViz',
     controller: 'VizController',

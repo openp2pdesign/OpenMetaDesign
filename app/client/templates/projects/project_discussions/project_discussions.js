@@ -4,7 +4,8 @@
 Template.ProjectDiscussions.events({
     'click .open-discussion': function(event, template) {
         event.preventDefault();
-        console.log(this);
+        console.log("DISCU", this);
+        // var newFirstNode = $('#new-contradiction-first-node option:selected').attr('data-option');
         // Pass the discussion id to Sessions
         Session.set('discussionToShow', this._id);
     },
