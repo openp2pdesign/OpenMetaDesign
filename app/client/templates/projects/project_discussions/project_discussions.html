@@ -4,21 +4,16 @@
         <div class="row">
             <div class="col-sm-4 col-md-4">
                 <div class="list-group">
-                    <button type="button" class="list-group-item">
-                        A discussion
-                        <span class="badge">14 comments</span>
-                    </button>
-                    <button type="button" class="list-group-item">
-                        Another discussion
-                        <span class="badge">14 comments</span>
-                    </button>
                     {{#each discussion in data.discussions}}
-                        prova {{discussion}}
+                        <button type="button" class="list-group-item" data-room={{discussion.roomId}} id={{discussion.roomId}}>
+                            <i class="fa fa-comments"></i> {{discussion.roomId}}
+                            <span class="badge">{{discussion.numberOfComments}} {{_ "comments"}}</span>
+                        </button>
                     {{/each}}
                 </div>
             </div>
             <div class="col-sm-8 col-md-8">
-                {{> Template.dynamic template=template data=data }}
+                {{> ProjectDiscussionViz}}
             </div>
         </div>
     </div>

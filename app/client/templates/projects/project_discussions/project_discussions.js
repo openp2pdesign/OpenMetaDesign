@@ -1,13 +1,16 @@
+import { Projects } from '../../../../lib/collections/projects.js';
+import { Discussions } from '../../../../lib/collections/discussions.js';
+// jquery
+import { $ } from 'meteor/jquery';
+
 /*****************************************************************************/
 /* ProjectDiscussions: Event Handlers */
 /*****************************************************************************/
 Template.ProjectDiscussions.events({
     'click .list-group-item': function(event, template) {
         event.preventDefault();
-        console.log("DISCU", this);
-        // var newFirstNode = $('#new-contradiction-first-node option:selected').attr('data-option');
         // Pass the discussion id to Sessions
-        Session.set('discussionToShow', this._id);
+        Session.set('discussionToShow', event.currentTarget.id);
     },
 });
 
@@ -18,10 +21,10 @@ Template.ProjectDiscussions.helpers({
     data: function() {
         return {
             "project": this._id,
-            "discussions": this.discussions
+            "discussions": Discussions.find({'projectId': this._id}).fetch()
         }
     },
-    thisDiscussion: function() {
+    selectedDiscussion: function() {
         if (typeof Session.get('discussionToShow') !== "undefined") {
             return Session.get('discussionToShow');
         }
@@ -45,6 +48,8 @@ Template.ProjectDiscussions.helpers({
 /* ProjectDiscussions: Lifecycle Hooks */
 /*****************************************************************************/
 Template.ProjectDiscussions.onCreated(function () {
+    self.subscription = Meteor.subscribe('projects');
+    self.subscription = Meteor.subscribe('discussions');
 });
 
 Template.ProjectDiscussions.onRendered(function () {
