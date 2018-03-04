@@ -138,10 +138,12 @@ Meteor.methods({
             Flows.remove({
                 "projectId": projectId
             });
-            // TODO: add after implementing contradictions
-            // Contradictions.remove({
-            //     "projectId": projectId
-            // });
+            Contradictions.remove({
+                "projectId": projectId
+            });
+            Discussions.remove({
+                "projectId": projectId
+            });
         } else {
             console.log("Cannot found project", projectId);
         }
