@@ -4,6 +4,7 @@ import { Activities } from '../lib/collections/activities.js';
 import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
+import { Discussions } from '../lib/collections/discussions.js';
 
 
 // Publish users
@@ -94,6 +95,28 @@ Meteor.publishComposite("tabular_contradictions", function (tableName, ids, fiel
   };
 });
 
+// Publish discussions, for the tabular
+Meteor.publishComposite("tabular_discussions", function (tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  this.unblock(); // requires meteorhacks:unblock package
+
+  return {
+    find: function () {
+      this.unblock(); // requires meteorhacks:unblock package
+
+      return Discussions.find({}, {
+            fields: {
+                'id': 1,
+                'contradictionData.title': 1
+            }
+        });
+    },
+  };
+});
+
 // Publish settings for the whole app
 Meteor.publish('settings', function () {
   return Settings.find();
@@ -117,6 +140,11 @@ Meteor.publish('flows', function() {
 // Publish contradictions for the whole app
 Meteor.publish('contradictions', function() {
     return Contradictions.find();
+});
+
+// Publish discussions for the whole app
+Meteor.publish('discussions', function() {
+    return Discussions.find();
 });
 
 // Publish projects for autocomplete forms
