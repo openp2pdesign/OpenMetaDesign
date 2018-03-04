@@ -776,8 +776,9 @@ Meteor.methods({
         var thisDiscussion = Discussions.findOne({'roomId': roomId});
         if (typeof thisDiscussion !== "undefined") {
             var thisElement = roomId.split("-")[1];
-            // TODO discussion of processes
+            // TODO Add (or remove in projects.js) the discussion of processes
             if (thisElement == "title") {
+                // Title
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -786,6 +787,7 @@ Meteor.methods({
                     }
                 });
             } else if (thisElement == "description") {
+                // Description
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -794,6 +796,7 @@ Meteor.methods({
                     }
                 });
             } else if (thisElement == "release") {
+                // Release
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -802,6 +805,7 @@ Meteor.methods({
                     }
                 });
             } else if (thisElement == "designers") {
+                // Designers
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -810,6 +814,7 @@ Meteor.methods({
                     }
                 });
             } else if (thisElement == "community") {
+                // Community
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -818,6 +823,7 @@ Meteor.methods({
                     }
                 });
             } else if (thisElement == "license") {
+                // License
                 Projects.update({
                     '_id': projectId
                 }, {
@@ -827,12 +833,49 @@ Meteor.methods({
                 });
             } else {
                 // Contradictions, flows or activities
+                // Contradictions
+                var thisDocument = Contradictions.findOne({
+                    '_id': thisElement
+                });
+                if (typeof thisDocument !== "undefined") {
+                    // Update the data
+                    Contradictions.update({
+                        '_id': thisDocument
+                    }, {
+                        $set: {
+                            'contradictionData.discussion': thisDiscussion._id
+                        }
+                    });
+                }
+                // Flows
+                var thisDocument = Flows.findOne({
+                    '_id': thisElement
+                });
+                if (typeof thisDocument !== "undefined") {
+                    // Update the data
+                    Flows.update({
+                        '_id': thisDocument
+                    }, {
+                        $set: {
+                            'flowData.discussion': thisDiscussion._id
+                        }
+                    });
+                }
+                // Activities
+                var thisDocument = Activities.findOne({
+                    '_id': thisElement
+                });
+                if (typeof thisDocument !== "undefined") {
+                    // Update the data
+                    Activities.update({
+                        '_id': thisDocument
+                    }, {
+                        $set: {
+                            'activityData.discussion': thisDiscussion._id
+                        }
+                    });
+                }
             }
-            // titleDiscussion
-            // descriptionDiscussion
-            // releaseDiscussion
-            // designersDiscussion
-            // communityDiscussion
         }
 
     },
