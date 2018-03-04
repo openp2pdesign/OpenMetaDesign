@@ -754,6 +754,14 @@ Meteor.methods({
                 // Return success
                 return "success";
             });
+            // Update the number of comments in the discussion
+            Discussions.update({
+                '_id': thisDiscussion._id
+            }, {
+                $set: {
+                    'numberOfComments': thisDiscussion.numberOfComments + 1
+                }
+            });
         } else {
             // Create the discussion and add the data
             var thisNewDiscussion = Discussions.insert({
@@ -761,6 +769,7 @@ Meteor.methods({
                 "projectId": projectId,
                 "attachedTo": roomId.split("-")[1],
                 "comments": [discussionData],
+                "numberOfComments": 1,
             }, function(error) {
                 if (error) {
                     throw new Meteor.Error("method_error", error.reason);

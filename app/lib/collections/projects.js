@@ -157,7 +157,11 @@ export const DiscussionSchema = new SimpleSchema({
     comments: {
         type: Array,
     },
-    'comments.$': CommentSchema
+    'comments.$': CommentSchema,
+    numberOfComments: {
+        type: Number,
+        defaultValue: 0
+    }
 });
 
 // A schema for a contradiction
@@ -501,7 +505,7 @@ export const ProjectSchema = new SimpleSchema({
         type: String,
         max: 1024
     },
-    titleDiscussion: {
+    communityDiscussion: {
         type: String,
         optional: true
     },
