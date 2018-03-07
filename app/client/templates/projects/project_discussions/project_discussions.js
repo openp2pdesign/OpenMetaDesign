@@ -55,6 +55,8 @@ Template.ProjectDiscussions.onCreated(function () {
 });
 
 Template.ProjectDiscussions.onRendered(function () {
+    // Empty the div, default
+    $("#selectedDiscussion").empty();
 });
 
 Template.ProjectDiscussions.onDestroyed(function () {
