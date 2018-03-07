@@ -1,13 +1,13 @@
 /*****************************************************************************/
-/* ProjectDiscussionViz: Event Handlers */
+/* Discuss: Event Handlers */
 /*****************************************************************************/
-Template.ProjectDiscussionViz.events({
+Template.Discuss.events({
 });
 
 /*****************************************************************************/
-/* ProjectDiscussionViz: Helpers */
+/* Discuss: Helpers */
 /*****************************************************************************/
-Template.ProjectDiscussionViz.helpers({
+Template.Discuss.helpers({
     thisRoomId: function() {
         if (typeof Session.get('discussionToShow') !== "undefined") {
             return Session.get('discussionToShow');
@@ -26,13 +26,13 @@ Template.ProjectDiscussionViz.helpers({
 });
 
 /*****************************************************************************/
-/* ProjectDiscussionViz: Lifecycle Hooks */
+/* Discuss: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ProjectDiscussionViz.onCreated(function () {
+Template.Discuss.onCreated(function () {
 });
 
-Template.ProjectDiscussionViz.onRendered(function () {
+Template.Discuss.onRendered(function () {
 });
 
-Template.ProjectDiscussionViz.onDestroyed(function () {
+Template.Discuss.onDestroyed(function () {
 });

@@ -91,7 +91,9 @@ Template.FlowButtons.events({
         $("#editFlowDiv").hide();
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
+        $("#discussFlowDiv").hide();
         $("#discussFlowDiv").show();
+        Session.set('discussionToShow', this._id);
     }
 });
 
@@ -103,7 +105,9 @@ Template.FlowButtons.helpers({});
 /*****************************************************************************/
 /* FlowButtons: Lifecycle Hooks */
 /*****************************************************************************/
-Template.FlowButtons.onCreated(function() {});
+Template.FlowButtons.onCreated(function() {
+    Session.set('discussionToShow', null);
+});
 
 Template.FlowButtons.onRendered(function() {});
 

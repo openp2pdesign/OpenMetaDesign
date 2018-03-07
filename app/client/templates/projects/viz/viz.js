@@ -29,6 +29,8 @@ Template.ProjectsViz.events({
                     }
                 });
             } else if (dataFieldMode == "discuss") {
+                // Set the session variable for the discussion
+                Session.set('discussionToShow', thisProject._id + "-" + dataFieldID);
                 // Discuss button
                 Modal.show('DiscussHtml', function() {
                     return {

@@ -11,6 +11,10 @@ Template.ProjectDiscussions.events({
         event.preventDefault();
         // Pass the discussion id to Sessions
         Session.set('discussionToShow', event.currentTarget.id);
+        // Empty the div
+        $("#selectedDiscussion").empty();
+        // Reload template with new data
+        Blaze.render(Template.Discuss, document.getElementById('selectedDiscussion'));
     },
 });
 
@@ -24,13 +28,10 @@ Template.ProjectDiscussions.helpers({
             "discussions": Discussions.find({'projectId': this._id}).fetch()
         }
     },
-    selectedDiscussion: function() {
+    thisRoomId: function() {
         if (typeof Session.get('discussionToShow') !== "undefined") {
             return Session.get('discussionToShow');
         }
-    },
-    thisRoomId: function() {
-        return this.project + '-' + this.field;
     },
     thisUsername: function() {
         return Meteor.user().username;
@@ -50,6 +51,7 @@ Template.ProjectDiscussions.helpers({
 Template.ProjectDiscussions.onCreated(function () {
     self.subscription = Meteor.subscribe('projects');
     self.subscription = Meteor.subscribe('discussions');
+    Session.set('discussionToShow', null);
 });
 
 Template.ProjectDiscussions.onRendered(function () {

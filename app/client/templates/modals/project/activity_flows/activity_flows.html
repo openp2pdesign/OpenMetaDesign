@@ -75,7 +75,15 @@
             <div class="col-md-12">
                 <h3>{{_ "flow_discuss"}}</h3>
             </div>
-            Discussion here...
+            <div class="col-md-12">
+                {{>SimpleChatWindow roomId=thisRoomId username=thisUsername name=thisName template="DiscussionInput" avatar=thisGravatar}}
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-warning" id="close-flow-discussion-button">
+                    <i class="fa fa-close"></i>
+                    {{_ "flow_close_button"}}
+                </button>
+            </div>
         </div>
         <div class="row" id="createFlowDiv">
             <div class="col-md-12">

@@ -119,6 +119,11 @@ Template.ActivityFlows.events({
         event.preventDefault();
         $("#showFlowDiv").hide();
     },
+    // Close discuss the flow
+    'click #close-flow-discussion-button': function(event, template) {
+        event.preventDefault();
+        $("#discussFlowDiv").hide();
+    },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
         event.preventDefault();
@@ -170,7 +175,6 @@ Template.ActivityFlows.events({
             }
         });
     }
-
 });
 
 /*****************************************************************************/
@@ -202,6 +206,21 @@ Template.ActivityFlows.helpers({
                 // Return the data
                 return thisData;
             }
+        }
+    },
+    thisUsername: function() {
+        return Meteor.user().username;
+    },
+    thisName: function() {
+        var name = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+        return name;
+    },
+    thisGravatar: function() {
+        return Meteor.user().profile.avatar;
+    },
+    thisRoomId: function() {
+        if (typeof Session.get('discussionToShow') !== "undefined") {
+            return this.project._id + "-" + Session.get('discussionToShow');
         }
     }
 });

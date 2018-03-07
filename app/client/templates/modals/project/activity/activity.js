@@ -14,7 +14,8 @@ import { Settings } from '../../../../../lib/collections/settings.js';
 /*****************************************************************************/
 /* Activity: Event Handlers */
 /*****************************************************************************/
-Template.Activity.events({});
+Template.Activity.events({
+});
 
 /*****************************************************************************/
 /* Activity: Helpers */
@@ -52,6 +53,8 @@ Template.Activity.onCreated(function() {
     thisProjectID = this.data.project;
     thisProcessID = this.data.process;
     thisActivityID = this.data.activity;
+    // Set the discussion session
+    Session.set('discussionToShow', thisProjectID+"-"+thisActivityID);
     // Load the current project
     thisProject = Projects.findOne({
         '_id': thisProjectID
