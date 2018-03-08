@@ -52,6 +52,7 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
         $("#discussContradictionDiv").show();
+        Session.set('discussionToShow', this._id);
     }
 });
 
@@ -63,7 +64,9 @@ Template.ContradictionButtons.helpers({});
 /*****************************************************************************/
 /* ContradictionButtons: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ContradictionButtons.onCreated(function() {});
+Template.ContradictionButtons.onCreated(function() {
+    Session.set('discussionToShow', null);
+});
 
 Template.ContradictionButtons.onRendered(function() {});
 

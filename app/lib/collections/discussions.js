@@ -48,14 +48,6 @@ Discussions.attachSchema(DiscussionSchema);
 
 // Configure Simple Chat
 SimpleChat.configure ({
-    texts:{
-        loadMore: 'Load More',
-        placeholder: '...',
-        button: '+',
-        join: 'Join to',
-        left: 'Left the',
-        room: 'room at'
-    },
     beep: true,
     showViewed: true,
     showReceived: true,
@@ -75,9 +67,4 @@ SimpleChat.configure ({
         // Save the comment into the discussion
         Meteor.call('updateDiscussion', msg.roomId, newComment);
     },
-    onJoin:function(roomId, username, name,date){  //server
-    },
-    onLeft:function(roomId, username, name,date) { //server
-    },
-
 });

@@ -123,6 +123,7 @@ Template.ActivityFlows.events({
     'click #close-flow-discussion-button': function(event, template) {
         event.preventDefault();
         $("#discussFlowDiv").hide();
+        Session.set('discussionToShow', null);
     },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
