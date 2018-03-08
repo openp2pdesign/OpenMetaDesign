@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
-import { SimpleChat } from 'meteor/openp2pdesign:simple-chat/config'
+import { SimpleChat } from 'meteor/cesarve:simple-chat/config'
 import { CommentSchema } from './projects';
 import { DiscussionSchema } from './projects';
 
