@@ -763,11 +763,25 @@ Meteor.methods({
                 }
             });
         } else {
+            var attachedTo = roomId.split("-")[1];
+            var attachedToType = "";
+            // Get the type of the element to which the discussion is attached
+            if (typeof Flows.findOne({ '_id': attachedTo }) !== "undefined") {
+                attachedToType = "Flow:" + Flows.findOne({ '_id': attachedTo }).title;
+            } else if (typeof Contradictions.findOne({ '_id': attachedTo }) !== "undefined") {
+                attachedToType = "Contradiction:" + Contradictions.findOne({ '_id': attachedTo }).title;
+            } else if (typeof Activities.findOne({ '_id': attachedTo }) !== "undefined") {
+                var thisActivityDiscussed = Activities.findOne({ '_id': attachedTo });
+                attachedToType = "Activity #" + thisActivityDiscussed.activityData.number + ": " + thisActivityDiscussed.activityData.title;
+            } else {
+                attachedToType = attachedTo.charAt(0).toUpperCase() + attachedTo.substr(1);;
+            }
             // Create the discussion and add the data
             var thisNewDiscussion = Discussions.insert({
                 "roomId": roomId,
                 "projectId": projectId,
-                "attachedTo": roomId.split("-")[1],
+                "attachedTo": attachedTo,
+                "attachedToType": attachedToType,
                 "comments": [discussionData],
                 "numberOfComments": 1,
             }, function(error) {

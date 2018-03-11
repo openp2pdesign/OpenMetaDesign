@@ -6,14 +6,14 @@
                 <div class="list-group">
                     {{#each discussion in data.discussions}}
                         <button type="button" class="list-group-item" data-room={{discussion.roomId}} id={{discussion.roomId}}>
-                            <i class="fa fa-comments"></i> {{discussion.roomId}}
+                            <i class="fa fa-comments"></i> {{discussion.attachedToType}}
                             <span class="badge">{{discussion.numberOfComments}} {{_ "comments"}}</span>
                         </button>
                     {{/each}}
                 </div>
             </div>
             <div class="col-sm-8 col-md-8">
-                <h2>{{thisRoomId}}</h2>
+                <h3>{{thisRoomTitle}}</h3>
                 <div id="selectedDiscussion">
                     {{>Discuss}}
                 </div>

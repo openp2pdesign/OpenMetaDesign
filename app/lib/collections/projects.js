@@ -154,6 +154,9 @@ export const DiscussionSchema = new SimpleSchema({
     attachedTo: {
         type: String
     },
+    attachedToType: {
+        type: String
+    },
     comments: {
         type: Array,
     },
