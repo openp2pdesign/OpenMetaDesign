@@ -74,7 +74,17 @@
             <div class="col-md-12">
                 <h3>{{_ "contradiction_discuss"}}</h3>
             </div>
-            {{>Discuss}}
+            <div class="col-md-12">
+                <div id="contradictionDiscussDiv">
+                    {{>Discuss}}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-warning" id="close-contradiction-discussion-button">
+                    <i class="fa fa-close"></i>
+                    {{_ "contradiction_close_button"}}
+                </button>
+            </div>
         </div>
         <div class="row" id="createContradictionDiv">
             <div class="col-md-12">

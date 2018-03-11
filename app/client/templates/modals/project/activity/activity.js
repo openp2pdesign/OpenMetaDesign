@@ -15,6 +15,11 @@ import { Settings } from '../../../../../lib/collections/settings.js';
 /* Activity: Event Handlers */
 /*****************************************************************************/
 Template.Activity.events({
+    'click #discuss-tab-li': function(event, template) {
+        event.preventDefault();
+        // Set the discussion session
+        Session.set('discussionToShow', thisProject._id + "-" + thisActivity.id);
+    },
 });
 
 /*****************************************************************************/
@@ -53,8 +58,9 @@ Template.Activity.onCreated(function() {
     thisProjectID = this.data.project;
     thisProcessID = this.data.process;
     thisActivityID = this.data.activity;
-    // Set the discussion session
-    Session.set('discussionToShow', thisProjectID+"-"+thisActivityID);
+    Session.set('thisProject', thisProjectID);
+    Session.set('thisActivity', thisActivityID);
+    Session.set('discussionToShow', thisProjectID + "-" + thisActivityID);
     // Load the current project
     thisProject = Projects.findOne({
         '_id': thisProjectID

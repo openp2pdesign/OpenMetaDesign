@@ -189,6 +189,12 @@ Template.ActivityContradictions.events({
         event.preventDefault();
         $("#showContradictionDiv").hide();
     },
+    // Close discuss the contradiction
+    'click #close-contradiction-discussion-button': function(event, template) {
+        event.preventDefault();
+        $("#discussContradictionDiv").hide();
+        Session.set('discussionToShow', this.project._id + "-" + thisActivity.id);
+    },
     // Delete the contradiction
     'click #delete-contradiction-button': function(event, template) {
         event.preventDefault();

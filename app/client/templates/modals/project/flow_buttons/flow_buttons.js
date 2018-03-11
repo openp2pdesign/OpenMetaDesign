@@ -15,6 +15,8 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").show();
         $("#createFlowDiv").hide();
         $("#discussFlowDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the flow id to Sessions
         Session.set('flowToDeleteData', this._id);
     },
@@ -26,6 +28,8 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
         $("#discussFlowDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the flow id to Sessions
         Session.set('flowToShowData', this._id);
     },
@@ -37,6 +41,8 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").hide();
         $("#discussFlowDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the flow id to Sessions
         Session.set('flowToShowData', this._id);
 
@@ -83,6 +89,8 @@ Template.FlowButtons.events({
         $("#deleteFlowDiv").hide();
         $("#createFlowDiv").show();
         $("#discussFlowDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
     },
     // Show the div that enable the discussions of flows
     'click .discuss-flow': function(event, template) {
@@ -93,7 +101,13 @@ Template.FlowButtons.events({
         $("#createFlowDiv").hide();
         $("#discussFlowDiv").hide();
         $("#discussFlowDiv").show();
-        Session.set('discussionToShow', this._id);
+        // Set the discuss to show to the flow
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + this._id);
+        // Reload the discussion
+        // Empty the div
+        $("#flowDiscussDiv").empty();
+        // Reload template with new data
+        Blaze.render(Template.Discuss, document.getElementById('flowDiscussDiv'));
     }
 });
 
@@ -105,9 +119,7 @@ Template.FlowButtons.helpers({});
 /*****************************************************************************/
 /* FlowButtons: Lifecycle Hooks */
 /*****************************************************************************/
-Template.FlowButtons.onCreated(function() {
-    Session.set('discussionToShow', null);
-});
+Template.FlowButtons.onCreated(function() {});
 
 Template.FlowButtons.onRendered(function() {});
 

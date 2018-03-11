@@ -10,6 +10,8 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").show();
         $("#createContradictionDiv").hide();
         $("#discussContradictionDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the contradiction id to Sessions
         Session.set('contradictionToDeleteData', this._id);
     },
@@ -21,6 +23,8 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
         $("#discussContradictionDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the contradiction id to Sessions
         Session.set('contradictionToShowData', this._id);
     },
@@ -32,6 +36,8 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
         $("#discussContradictionDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
         // Pass the contradiction id to Sessions
         Session.set('contradictionToShowData', this._id);
     },
@@ -43,6 +49,8 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").show();
         $("#discussContradictionDiv").hide();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
     },
     // Show the div that enable the discussions of contradictions
     'click .discuss-contradiction': function(event, template) {
@@ -52,7 +60,13 @@ Template.ContradictionButtons.events({
         $("#deleteContradictionDiv").hide();
         $("#createContradictionDiv").hide();
         $("#discussContradictionDiv").show();
-        Session.set('discussionToShow', this._id);
+        // Set the discuss to show to the contradiction
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + this._id);
+        // Reload the discussion
+        // Empty the div
+        $("#contradictionDiscussDiv").empty();
+        // Reload template with new data
+        Blaze.render(Template.Discuss, document.getElementById('contradictionDiscussDiv'));
     }
 });
 
@@ -64,9 +78,7 @@ Template.ContradictionButtons.helpers({});
 /*****************************************************************************/
 /* ContradictionButtons: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ContradictionButtons.onCreated(function() {
-    Session.set('discussionToShow', null);
-});
+Template.ContradictionButtons.onCreated(function() {});
 
 Template.ContradictionButtons.onRendered(function() {});
 

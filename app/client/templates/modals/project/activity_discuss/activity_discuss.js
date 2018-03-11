@@ -14,7 +14,6 @@ Template.ActivityDiscuss.helpers({
 /* ActivityDiscuss: Lifecycle Hooks */
 /*****************************************************************************/
 Template.ActivityDiscuss.onCreated(function () {
-    Session.get('discussionToShow');
 });
 
 Template.ActivityDiscuss.onRendered(function () {

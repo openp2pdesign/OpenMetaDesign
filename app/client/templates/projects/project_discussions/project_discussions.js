@@ -11,6 +11,7 @@ Template.ProjectDiscussions.events({
         event.preventDefault();
         // Pass the discussion id to Sessions
         Session.set('discussionToShow', event.currentTarget.id);
+        // Reload the discussion
         // Empty the div
         $("#selectedDiscussion").empty();
         // Reload template with new data
@@ -32,16 +33,6 @@ Template.ProjectDiscussions.helpers({
         if (typeof Session.get('discussionToShow') !== "undefined") {
             return Session.get('discussionToShow');
         }
-    },
-    thisUsername: function() {
-        return Meteor.user().username;
-    },
-    thisName: function() {
-        var name = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
-        return name;
-    },
-    thisGravatar: function() {
-        return Meteor.user().profile.avatar;
     },
 });
 

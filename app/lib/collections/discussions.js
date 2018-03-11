@@ -51,7 +51,7 @@ SimpleChat.configure ({
     beep: true,
     showViewed: true,
     showReceived: true,
-    showJoined: true,
+    showJoined: false,
     publishChats: function (roomId, limit) {
         return true;
     },

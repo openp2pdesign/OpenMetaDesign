@@ -123,7 +123,7 @@ Template.ActivityFlows.events({
     'click #close-flow-discussion-button': function(event, template) {
         event.preventDefault();
         $("#discussFlowDiv").hide();
-        Session.set('discussionToShow', null);
+        Session.set('discussionToShow', this.project._id + "-" + thisActivity.id);
     },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
@@ -209,21 +209,6 @@ Template.ActivityFlows.helpers({
             }
         }
     },
-    thisUsername: function() {
-        return Meteor.user().username;
-    },
-    thisName: function() {
-        var name = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
-        return name;
-    },
-    thisGravatar: function() {
-        return Meteor.user().profile.avatar;
-    },
-    thisRoomId: function() {
-        if (typeof Session.get('discussionToShow') !== "undefined") {
-            return this.project._id + "-" + Session.get('discussionToShow');
-        }
-    }
 });
 
 /*****************************************************************************/
