@@ -764,26 +764,32 @@ Meteor.methods({
             });
         } else {
             var attachedTo = roomId.split("-")[1];
-            var attachedToType = "";
+            var attachedToDescription = "";
+            var icon = "";
             // Get the type of the element to which the discussion is attached
             if (typeof Flows.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToType = "Flow:" + Flows.findOne({ '_id': attachedTo }).title;
+                attachedToDescription = "Flow:" + Flows.findOne({ '_id': attachedTo }).title;
+                icon = "fa fa-random";
             } else if (typeof Contradictions.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToType = "Contradiction:" + Contradictions.findOne({ '_id': attachedTo }).title;
+                attachedToDescription = "Contradiction:" + Contradictions.findOne({ '_id': attachedTo }).title;
+                icon = "fa fa-exclamation-triangle";
             } else if (typeof Activities.findOne({ '_id': attachedTo }) !== "undefined") {
                 var thisActivityDiscussed = Activities.findOne({ '_id': attachedTo });
-                attachedToType = "Activity #" + thisActivityDiscussed.activityData.number + ": " + thisActivityDiscussed.activityData.title;
+                attachedToDescription = "Activity #" + thisActivityDiscussed.activityData.number + ": " + thisActivityDiscussed.activityData.title;
+                icon = "icomoon-activity";
             } else {
-                attachedToType = attachedTo.charAt(0).toUpperCase() + attachedTo.substr(1);;
+                attachedToDescription = attachedTo.charAt(0).toUpperCase() + attachedTo.substr(1);
+                icon = "fa fa-book";
             }
             // Create the discussion and add the data
             var thisNewDiscussion = Discussions.insert({
                 "roomId": roomId,
                 "projectId": projectId,
                 "attachedTo": attachedTo,
-                "attachedToType": attachedToType,
+                "attachedToDescription": attachedToDescription,
                 "comments": [discussionData],
                 "numberOfComments": 1,
+                "icon": icon,
             }, function(error) {
                 if (error) {
                     throw new Meteor.Error("method_error", error.reason);

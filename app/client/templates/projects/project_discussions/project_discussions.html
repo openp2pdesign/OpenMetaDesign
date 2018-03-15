@@ -6,12 +6,13 @@
                 <div class="list-group">
                     {{#each discussion in data.discussions}}
                         <button type="button" class="list-group-item" data-room={{discussion.roomId}} id={{discussion.roomId}}>
-                            <i class="fa fa-comments"></i>
-                            <!-- TODO Add icon -->
-                            {{discussion.attachedToType}}
+                            <i class={{discussion.icon}}></i>
+                            {{discussion.attachedToDescription}}
                             <span class="badge">
-                                {{discussion.numberOfComments}} {{_ "comments"}}
+                                {{discussion.numberOfComments}}
+                                {{_ "comments"}}
                             </span>
+                            <i class={{thisIcon}}></i>
                         </button>
                     {{/each}}
                 </div>
