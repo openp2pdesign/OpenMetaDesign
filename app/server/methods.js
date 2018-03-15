@@ -768,10 +768,10 @@ Meteor.methods({
             var icon = "";
             // Get the type of the element to which the discussion is attached
             if (typeof Flows.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToDescription = "Flow:" + Flows.findOne({ '_id': attachedTo }).title;
+                attachedToDescription = "Flow: " + Flows.findOne({ '_id': attachedTo }).flowData.title;
                 icon = "fa fa-random";
             } else if (typeof Contradictions.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToDescription = "Contradiction:" + Contradictions.findOne({ '_id': attachedTo }).title;
+                attachedToDescription = "Contradiction: " + Contradictions.findOne({ '_id': attachedTo }).contradictionData.title;
                 icon = "fa fa-exclamation-triangle";
             } else if (typeof Activities.findOne({ '_id': attachedTo }) !== "undefined") {
                 var thisActivityDiscussed = Activities.findOne({ '_id': attachedTo });
