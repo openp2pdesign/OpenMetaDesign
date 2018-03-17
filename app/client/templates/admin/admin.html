@@ -16,19 +16,17 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>{{_ "settings"}}</h2>
-                {{#with settingsData}}
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Google Maps API Key:</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" value={{GoogleMapsAPIkey}} id="new-google-maps-api-key">
+                                <input class="form-control" type="text" value={{settingsData.GoogleMapsAPIkey}} id="new-google-maps-api-key">
                             </div>
                         </div>
                     </form>
                     <div>
                         <button type="button" class="btn btn-default" data-dismiss="modal" id="google-maps-api-key-confirm">{{_ "save_changes"}}</button>
                     </div>
-                {{/with}}
             </div>
         </div>
     </div>

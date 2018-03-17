@@ -105,7 +105,8 @@ export const LocationSchema = new SimpleSchema({
     },
     geocodedData: {
         type: Object,
-        optional: true
+        optional: true,
+        blackbox: true
     }
 });
 

@@ -153,11 +153,22 @@ Template.ProjectsViz.onRendered(function() {
 		attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
 	}).addTo(locationsMapLeaflet);
 
+    // Add markers
+
+    //var marker = L.marker([51.5, -0.09]).addTo(mymap);
+    var markers = [];
+
     // Fix the Locations map size when the tab is shown
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href") // activated tab
         if (target === '#view-locations') {
             locationsMapLeaflet.invalidateSize();
+            // ...
+            var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
+            for (activity in activitiesToMap) {
+                console.log(activitiesToMap[activity].activityData.location);
+                markers.push(L.marker([activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude]).addTo(locationsMapLeaflet));
+            }
         }
     });
 
