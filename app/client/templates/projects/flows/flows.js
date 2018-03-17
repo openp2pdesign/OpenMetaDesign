@@ -49,7 +49,7 @@ Template.Flows.events({
         }
         // Save the flow
         // Validate and save new data
-        Meteor.call('addFlow', this.project._id, flowData, function(error, result) {
+        Meteor.call('addFlow', this._id, flowData, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
@@ -123,7 +123,7 @@ Template.Flows.events({
     'click #close-flow-discussion-button': function(event, template) {
         event.preventDefault();
         $("#discussFlowDiv").hide();
-        Session.set('discussionToShow', this.project._id + "-" + thisActivity.id);
+        Session.set('discussionToShow', this._id + "-" + thisActivity.id);
     },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
@@ -184,11 +184,11 @@ Template.Flows.events({
 Template.Flows.helpers({
     activities: function() {
         // Return only the activities in the current project
-        return Activities.find({ projectId: this.project._id }).fetch();
+        return Activities.find({ 'projectId': this._id }).fetch();
     },
     activityElements: function() {
         // Return only the activity elements in the current project
-        return ActivityElements.find({ projectId: this.project._id }).fetch();
+        return ActivityElements.find({ 'projectId': this._id }).fetch();
     },
     deleteFlowData: function() {
         if (typeof Session.get('flowToDeleteData') !== "undefined") {
@@ -198,7 +198,7 @@ Template.Flows.helpers({
     showFlowData: function() {
         if (typeof Session.get('flowToShowData') !== "undefined") {
             // Get the flow data
-            var thisData = Flows.findOne({ _id: Session.get('flowToShowData') });
+            var thisData = Flows.findOne({ '_id': Session.get('flowToShowData') });
             // If there is data... then return it
             if (thisData) {
                 // Add the data for the nodes

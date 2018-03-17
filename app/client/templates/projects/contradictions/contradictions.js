@@ -47,7 +47,7 @@ Template.Contradictions.events({
         }
         // Save the contradiction
         // Validate and save new data
-        Meteor.call('addContradiction', this.project._id, contradictionData, function(error, result) {
+        Meteor.call('addContradiction', this._id, contradictionData, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
@@ -124,7 +124,7 @@ Template.Contradictions.events({
         }
         // Save the contradiction
         // Validate and save new data
-        Meteor.call('addContradiction', this.project._id, contradictionData, function(error, result) {
+        Meteor.call('addContradiction', this._id, contradictionData, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
@@ -193,12 +193,12 @@ Template.Contradictions.events({
     'click #close-contradiction-discussion-button': function(event, template) {
         event.preventDefault();
         $("#discussContradictionDiv").hide();
-        Session.set('discussionToShow', this.project._id + "-" + thisActivity.id);
+        Session.set('discussionToShow', this._id + "-" + thisActivity.id);
     },
     // Delete the contradiction
     'click #delete-contradiction-button': function(event, template) {
         event.preventDefault();
-        Meteor.call('deleteContradiction', Session.get('contradictionToDeleteData'), this.project._id, function(error, result) {
+        Meteor.call('deleteContradiction', Session.get('contradictionToDeleteData'), this._id, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
@@ -255,11 +255,11 @@ Template.Contradictions.events({
 Template.Contradictions.helpers({
     activities: function() {
         // Return only the activities in the current project
-        return Activities.find({ projectId: this.project._id }).fetch();
+        return Activities.find({ projectId: this._id }).fetch();
     },
     activityElements: function() {
         // Return only the activity elements in the current project
-        return ActivityElements.find({ projectId: this.project._id }).fetch();
+        return ActivityElements.find({ projectId: this._id }).fetch();
     },
     deleteContradictionData: function() {
         if (typeof Session.get('contradictionToDeleteData') !== "undefined") {

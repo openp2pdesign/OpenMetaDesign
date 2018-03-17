@@ -50,8 +50,8 @@ Template.ProjectDiscussions.helpers({
 /* ProjectDiscussions: Lifecycle Hooks */
 /*****************************************************************************/
 Template.ProjectDiscussions.onCreated(function () {
-    self.subscription = Meteor.subscribe('projects');
-    self.subscription = Meteor.subscribe('discussions');
+    Meteor.subscribe('projects');
+    Meteor.subscribe('discussions');
     Session.set('discussionToShow', null);
 });
 
