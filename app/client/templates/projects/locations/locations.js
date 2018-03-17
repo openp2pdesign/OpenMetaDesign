@@ -33,7 +33,6 @@ Template.Locations.onRendered(function () {
 		maxZoom: 16,
 		attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
 	}).addTo(mymap);
-    map.invalidateSize();
 });
 
 Template.Locations.onDestroyed(function () {
