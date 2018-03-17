@@ -69,6 +69,14 @@
                                 </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="#view-locations" data-toggle="tab" title="View all the Locations of this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-globe fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="view-project">
@@ -83,6 +91,9 @@
                         </div>
                         <div class="tab-pane fade in" id="view-contradictions">
                             {{> Contradictions}}
+                        </div>
+                        <div class="tab-pane fade in" id="view-locations">
+                            {{> Locations}}
                         </div>
                     </div>
                 </div>
