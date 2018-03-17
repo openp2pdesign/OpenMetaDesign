@@ -346,7 +346,7 @@ Meteor.methods({
                 });
                 // Update activities collection
                 Activities.update({
-                    'activityId': activityId
+                    '_id': activityId
                 }, {
                     $set: {
                         'activityData': activityData
@@ -365,6 +365,71 @@ Meteor.methods({
                         });
                     }
                 }
+                // Return success
+                return "success";
+            }
+        });
+    },
+    'editActivityLocation': function(projectId, processId, activityId, activityLocationData) {
+        // Load the Project
+        var thisProject = Projects.findOne({
+            '_id': projectId
+        });
+        var thisProjectNewProcess = _.clone(thisProject);
+        oldVersion = thisProject;
+        // Get all the data of the activity
+        var activityData = Activities.findOne({ '_id': activityId }).activityData;
+        // Add the activity location to the activity data
+        activityData.location = activityLocationData;
+        // Update the whole document with an updated process
+        var thisProcess = "";
+        var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
+        var thisActivity = _.find(thisProcess.activities, function (obj) { return obj.id === activityId; });
+        for (activity in thisProcess.activities) {
+            if (thisProcess.activities[activity].id == activityId) {
+                thisProcess.activities[activity] = activityData;
+            }
+        }
+        // Apply changes by updating the whole Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': processId
+        }, {
+            $set: {
+                'processes.$.activities': thisProcess.activities
+            }
+        }, function(error) {
+            if (error) {
+                console.log(error);
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while updating", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "updated in process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Update activities collection
+                Activities.update({
+                    '_id': activityId
+                }, {
+                    $set: {
+                        'activityData.location': activityLocationData
+                    }
+                });
                 // Return success
                 return "success";
             }

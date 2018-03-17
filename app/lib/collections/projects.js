@@ -87,12 +87,10 @@ export const LocationSchema = new SimpleSchema({
         optional: true
     },
     url: {
-        type: Array,
+        type: String,
         regEx: SimpleSchema.RegEx.Url,
-        max: 5,
         optional: true
     },
-    'url.$': String,
     latitude: {
         type: Number,
         optional: true
