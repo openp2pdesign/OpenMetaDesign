@@ -38,7 +38,10 @@ Template.ProjectDiscussions.helpers({
     thisRoomTitle: function() {
         var thisDiscussion = Session.get('discussionToShow');
         if (typeof thisDiscussion !== "undefined") {
-            return Discussions.findOne({ 'roomId': thisDiscussion }).attachedToDescription;
+            var thisData = Discussions.findOne({ 'roomId': thisDiscussion });
+            if (typeof thisData !== "undefined") {
+                return thisData.attachedToDescription;
+            }
         }
     },
 });

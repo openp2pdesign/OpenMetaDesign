@@ -8,19 +8,19 @@ import { $ } from 'meteor/jquery';
 // Random id
 import { Random } from 'meteor/random';
 // Load Projects and Settings
-import { Projects } from '../../../../../lib/collections/projects.js';
-import { Settings } from '../../../../../lib/collections/settings.js';
-import { Activities } from '../../../../../lib/collections/activities.js';
-import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
-import { Flows } from '../../../../../lib/collections/flows.js';
+import { Projects } from '../../../../lib/collections/projects.js';
+import { Settings } from '../../../../lib/collections/settings.js';
+import { Activities } from '../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../lib/collections/activity_elements.js';
+import { Flows } from '../../../../lib/collections/flows.js';
 
 // Client only collection for the autocomplete
 LocalActivityElements = new Mongo.Collection(null);
 
 /*****************************************************************************/
-/* ActivityFlows: Event Handlers */
+/* Flows: Event Handlers */
 /*****************************************************************************/
-Template.ActivityFlows.events({
+Template.Flows.events({
     // Show the div that enable the creation of flows
     'click #create-flow-button': function(event, template) {
         event.preventDefault();
@@ -179,9 +179,9 @@ Template.ActivityFlows.events({
 });
 
 /*****************************************************************************/
-/* ActivityFlows: Helpers */
+/* Flows: Helpers */
 /*****************************************************************************/
-Template.ActivityFlows.helpers({
+Template.Flows.helpers({
     activities: function() {
         // Return only the activities in the current project
         return Activities.find({ projectId: this.project._id }).fetch();
@@ -212,16 +212,16 @@ Template.ActivityFlows.helpers({
 });
 
 /*****************************************************************************/
-/* ActivityFlows: Lifecycle Hooks */
+/* Flows: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ActivityFlows.onCreated(function() {
+Template.Flows.onCreated(function() {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
     Meteor.subscribe('activityElements');
     Meteor.subscribe('flows');
 });
 
-Template.ActivityFlows.onRendered(function() {
+Template.Flows.onRendered(function() {
     // Make the table responsive
     $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
     // Hide the divs that enable the edit, view, delete and create of flows by default
@@ -237,4 +237,4 @@ Template.ActivityFlows.onRendered(function() {
     });
 });
 
-Template.ActivityFlows.onDestroyed(function() {});
+Template.Flows.onDestroyed(function() {});

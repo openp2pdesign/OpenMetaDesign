@@ -1,5 +1,5 @@
-import { Activities } from '../../../../../lib/collections/activities.js';
-import { Flows } from '../../../../../lib/collections/flows.js';
+import { Activities } from '../../../../lib/collections/activities.js';
+import { Flows } from '../../../../lib/collections/flows.js';
 // Viz
 import d3 from 'd3';
 

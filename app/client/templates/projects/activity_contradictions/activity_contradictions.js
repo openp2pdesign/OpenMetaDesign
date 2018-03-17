@@ -8,19 +8,19 @@ import { $ } from 'meteor/jquery';
 // Random id
 import { Random } from 'meteor/random';
 // Load Projects and Settings
-import { Projects } from '../../../../../lib/collections/projects.js';
-import { Settings } from '../../../../../lib/collections/settings.js';
-import { Activities } from '../../../../../lib/collections/activities.js';
-import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
-import { Contradictions } from '../../../../../lib/collections/contradictions.js';
+import { Projects } from '../../../../lib/collections/projects.js';
+import { Settings } from '../../../../lib/collections/settings.js';
+import { Activities } from '../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../lib/collections/activity_elements.js';
+import { Contradictions } from '../../../../lib/collections/contradictions.js';
 
 // Client only collection for the autocomplete
 LocalActivityElements = new Mongo.Collection(null);
 
 /*****************************************************************************/
-/* ActivityContradictions: Event Handlers */
+/* Contradictions: Event Handlers */
 /*****************************************************************************/
-Template.ActivityContradictions.events({
+Template.Contradictions.events({
     // Show the div that enable the creation of contradictions
     'click #create-contradiction-button': function(event, template) {
         event.preventDefault();
@@ -250,9 +250,9 @@ Template.ActivityContradictions.events({
 });
 
 /*****************************************************************************/
-/* ActivityContradictions: Helpers */
+/* Contradictions: Helpers */
 /*****************************************************************************/
-Template.ActivityContradictions.helpers({
+Template.Contradictions.helpers({
     activities: function() {
         // Return only the activities in the current project
         return Activities.find({ projectId: this.project._id }).fetch();
@@ -283,16 +283,16 @@ Template.ActivityContradictions.helpers({
 });
 
 /*****************************************************************************/
-/* ActivityContradictions: Lifecycle Hooks */
+/* Contradictions: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ActivityContradictions.onCreated(function() {
+Template.Contradictions.onCreated(function() {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
     Meteor.subscribe('activityElements');
     Meteor.subscribe('contradictions');
 });
 
-Template.ActivityContradictions.onRendered(function() {
+Template.Contradictions.onRendered(function() {
     // Make the table responsive
     $("table.reactive-table").wrap("<div class='table table-responsive'></div>");
     // Hide the divs that enable the edit, view, delete and create of contradictions by default
@@ -308,4 +308,4 @@ Template.ActivityContradictions.onRendered(function() {
     });
 });
 
-Template.ActivityContradictions.onDestroyed(function() {});
+Template.Contradictions.onDestroyed(function() {});
