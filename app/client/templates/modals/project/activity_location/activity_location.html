@@ -15,37 +15,37 @@
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "street"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.title}} id="new-street">
+                          <input class="form-control" type="text" value={{activity.location.street}} id="new-street">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "street_number"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.description}} id="new-number">
+                          <input class="form-control" type="text" value={{activity.location.number}} id="new-number">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "postal_code"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.object.description}} id="new-postalcode" data-id={{activity.object.id}}>
+                          <input class="form-control" type="text" value={{activity.location.postalcode}} id="new-postalcode">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "city"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.subject.description}} id="new-city" data-id={{activity.subject.id}}>
+                          <input class="form-control" type="text" value={{activity.location.city}} id="new-city">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "country"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.outcome.description}} id="new-country" data-id={{activity.outcome.id}}>
+                          <input class="form-control" type="text" value={{activity.outcome.description}} id="activity.location.country">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "link"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{activity.tools.description}} id="new-link" data-id={{activity.tools.id}}>
+                          <input class="form-control" type="text" value={{activity.location.url}} id="new-link">
                       </div>
                   </div>
               </form>

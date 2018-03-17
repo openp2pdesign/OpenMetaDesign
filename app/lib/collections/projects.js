@@ -98,8 +98,15 @@ export const LocationSchema = new SimpleSchema({
     longitude: {
         type: Number,
         optional: true
+    },
+    address: {
+        type: String,
+        optional: true
+    },
+    geocodedData: {
+        type: Object,
+        optional: true
     }
-
 });
 
 

@@ -11,6 +11,7 @@ import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
 
 let diff = require('deep-diff');
+let NodeGeocoder = require('node-geocoder');
 
 Meteor.methods({
     'deleteAdmin': function(userId) {
@@ -381,6 +382,20 @@ Meteor.methods({
         var activityData = Activities.findOne({ '_id': activityId }).activityData;
         // Add the activity location to the activity data
         activityData.location = activityLocationData;
+        // Geocode the coordinates, add them
+        var activityAddress = activityLocationData.street+" "+activityLocationData.number+" "+activityLocationData.postalcode+" "+activityLocationData.city+" "+activityLocationData.country;
+        var options = {
+            provider: 'google',
+            // Optional depending on the providers
+            //apiKey: 'YOUR_API_KEY', // for Mapquest, OpenCage, Google Premier
+            formatter: null         // 'gpx', 'string', ...
+        };
+        var geocoder = NodeGeocoder(options);
+        geocoder.geocode(activityAddress, function(error, result) {
+            activityData.location.latitude = result[0].latitude;
+            activityData.location.longitude = result[0].longitude;
+            activityData.location.fullAddress = result[0].formattedAddress;
+        });
         // Update the whole document with an updated process
         var thisProcess = "";
         var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
