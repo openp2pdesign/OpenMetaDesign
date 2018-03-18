@@ -32,7 +32,7 @@ reywood:publish-composite
 dynamic-import@0.3.0
 alanning:roles
 aldeed:template-extension
-npm-bcrypt@0.9.3
+npm-bcrypt@0.8.7
 tap:i18n
 tap:i18n-ui
 fourseven:scss
@@ -50,3 +50,4 @@ mizzao:autocomplete
 check@1.3.0
 jparker:gravatar
 cesarve:simple-chat
+aldeed:geocoder

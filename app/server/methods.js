@@ -11,8 +11,6 @@ import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
 
 let diff = require('deep-diff');
-let NodeGeocoder = require('node-geocoder');
-
 Meteor.methods({
     'deleteAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
@@ -66,7 +64,7 @@ Meteor.methods({
         var onlySettingsDoc = Settings.findOne();
         Settings.update({
             '_id': onlySettingsDoc._id
-        },  {
+        }, {
             $set: {
                 'GoogleMapsAPIkey': newkey
             }
@@ -129,7 +127,9 @@ Meteor.methods({
     },
     'deleteProject': function(projectId) {
         // First check if it exists...
-        let projectFoundId = Projects.findOne({'_id': projectId});
+        let projectFoundId = Projects.findOne({
+            '_id': projectId
+        });
         if (projectFoundId) {
             Projects.remove({
                 '_id': projectId
@@ -213,9 +213,9 @@ Meteor.methods({
         Activities.update({
             '_id': activityId
         }, {
-                $set: {
-                    "activityData": activityData
-                }
+            $set: {
+                "activityData": activityData
+            }
         });
         // Add data to activity elements collection
         for (element in activityData) {
@@ -241,9 +241,9 @@ Meteor.methods({
                 'activityId': activityId,
                 '_id': activityElementsAdded[document]._id
             }, {
-                    $set: {
-                        "activityElementData.id": activityElementsAdded[document]._id
-                    }
+                $set: {
+                    "activityElementData.id": activityElementsAdded[document]._id
+                }
             });
 
         }
@@ -251,9 +251,9 @@ Meteor.methods({
         Activities.update({
             '_id': activityId
         }, {
-                $set: {
-                    "activityData": activityData
-                }
+            $set: {
+                "activityData": activityData
+            }
         });
         // Apply changes by updating the Project
         Projects.update({
@@ -310,8 +310,12 @@ Meteor.methods({
         activityData.id = activityId;
         // Update the whole document with an updated process
         var thisProcess = "";
-        var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
-        var thisActivity = _.find(thisProcess.activities, function (obj) { return obj.id === activityId; });
+        var thisProcess = _.find(thisProjectNewProcess.processes, function(obj) {
+            return obj.id === processId;
+        });
+        var thisActivity = _.find(thisProcess.activities, function(obj) {
+            return obj.id === activityId;
+        });
         for (activity in thisProcess.activities) {
             if (thisProcess.activities[activity].id == activityId) {
                 thisProcess.activities[activity] = activityData;
@@ -383,86 +387,92 @@ Meteor.methods({
         var thisProjectNewProcess = _.clone(thisProject);
         oldVersion = thisProject;
         // Get all the data of the activity
-        var activityData = Activities.findOne({ '_id': activityId }).activityData;
+        var activityData = Activities.findOne({
+            '_id': activityId
+        }).activityData;
         // Geocode the coordinates, add them
-        var activityAddress = activityLocationData.street+" "+activityLocationData.number+" "+activityLocationData.postalcode+" "+activityLocationData.city+" "+activityLocationData.country;
+        var activityAddress = activityLocationData.street + " " + activityLocationData.number + " " + activityLocationData.postalcode + " " + activityLocationData.city + " " + activityLocationData.country;
         var options = {
             provider: 'google',
             // Optional depending on the providers
             //apiKey: 'YOUR_API_KEY', // for Mapquest, OpenCage, Google Premier
-            formatter: null         // 'gpx', 'string', ...
+            formatter: null // 'gpx', 'string', ...
         };
         // Add Google Maps API key, if it is stored in Settings
         var onlySettingsDoc = Settings.findOne();
         if (onlySettingsDoc.GoogleMapsAPIkey) {
-            options.apiKey = onlySettingsDoc.GoogleMapsAPIkey;
+            var geo = new GeoCoder({
+                geocoderProvider: "google",
+                httpAdapter: "https",
+                apiKey: onlySettingsDoc.GoogleMapsAPIkey
+            });
+        } else {
+            var geo = new GeoCoder();
         }
         // Geocode request
-        var geocoder = NodeGeocoder(options);
-        geocoder.geocode(activityAddress, function(error, result) {
+        var result = geo.geocode(activityAddress);
+        activityLocationData.latitude = result[0].latitude;
+        activityLocationData.longitude = result[0].longitude;
+        activityLocationData.address = result[0].formattedAddress;
+        activityLocationData.geocodedData = result[0];
+        // Add the activity location to the activity data
+        activityData.location = activityLocationData;
+        // Update the whole document with an updated process
+        var thisProcess = "";
+        var thisProcess = _.find(thisProjectNewProcess.processes, function(obj) {
+            return obj.id === processId;
+        });
+        var thisActivity = _.find(thisProcess.activities, function(obj) {
+            return obj.id === activityId;
+        });
+        for (activity in thisProcess.activities) {
+            if (thisProcess.activities[activity].id == activityId) {
+                thisProcess.activities[activity] = activityData;
+            }
+        }
+        // Apply changes by updating the whole Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': processId
+        }, {
+            $set: {
+                'processes.$.activities': thisProcess.activities
+            }
+        }, function(error) {
             if (error) {
-                console.log("Error while geocoding activity", activityId, ":", error);
+                console.log(error);
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while updating", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
             } else {
-                activityLocationData.latitude = result[0].latitude;
-                activityLocationData.longitude = result[0].longitude;
-                activityLocationData.address = result[0].formattedAddress;
-                activityLocationData.geocodedData = result[0];
-            }
-            // Add the activity location to the activity data
-            activityData.location = activityLocationData;
-            // Update the whole document with an updated process
-            var thisProcess = "";
-            var thisProcess = _.find(thisProjectNewProcess.processes, function (obj) { return obj.id === processId; });
-            var thisActivity = _.find(thisProcess.activities, function (obj) { return obj.id === activityId; });
-            for (activity in thisProcess.activities) {
-                if (thisProcess.activities[activity].id == activityId) {
-                    thisProcess.activities[activity] = activityData;
-                }
-            }
-            // Apply changes by updating the whole Project
-            Projects.update({
-                '_id': projectId,
-                'processes.id': processId
-            }, {
-                $set: {
-                    'processes.$.activities': thisProcess.activities
-                }
-            }, function(error) {
-                if (error) {
-                    console.log(error);
-                    throw new Meteor.Error("method_error", error.reason);
-                    console.log("Error", error.reason, "while updating", activityId, "to process", processId, "of project", projectId, ".");
-                    console.log(error);
-                    return "error";
-                } else {
-                    console.log("Activity", activityId, "updated in process", processId, "of project", projectId, "successfully.");
-                    // Save the version of the changes in the Project
-                    var newVersion = Projects.findOne({
-                        '_id': projectId
-                    });
-                    var differences = diff(oldVersion, newVersion);
-                    Projects.update({
-                        '_id': projectId
-                    }, {
-                        $push: {
-                            "versions": {
-                                "number": thisProject.versionsCount + 1,
-                                "diff": JSON.stringify(differences)
-                            }
+                console.log("Activity", activityId, "updated in process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
                         }
-                    });
-                    // Update activities collection
-                    Activities.update({
-                        '_id': activityId
-                    }, {
-                        $set: {
-                            'activityData.location': activityLocationData
-                        }
-                    });
-                    // Return success
-                    return "success";
-                }
-            });
+                    }
+                });
+                // Update activities collection
+                Activities.update({
+                    '_id': activityId
+                }, {
+                    $set: {
+                        'activityData.location': activityLocationData
+                    }
+                });
+                // Return success
+                return "success";
+            }
         });
     },
     'deleteActivity': function(projectId, processId, activityId) {
@@ -473,8 +483,10 @@ Meteor.methods({
         oldVersion = thisProject;
         // Update the whole document with an updated process
         var thisProcess = "";
-        thisProcess = _.find(thisProject.processes, function (obj) { return obj.id === processId; });
-        var thisNewActivities = thisProcess.activities.filter(function( obj ) {
+        thisProcess = _.find(thisProject.processes, function(obj) {
+            return obj.id === processId;
+        });
+        var thisNewActivities = thisProcess.activities.filter(function(obj) {
             return obj.id !== activityId;
         });
         // Apply changes by updating the whole Project
@@ -633,7 +645,9 @@ Meteor.methods({
                     'id': flowId
                 }
             }
-        }, {getAutoValues: false}, function(error) {
+        }, {
+            getAutoValues: false
+        }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting flow", flowId, "of project", projectId, ".");
@@ -676,10 +690,14 @@ Meteor.methods({
             contradictionData.level = "primary";
         }
         // if id is != but activity is == then 2
-        var soundgarden1 = ActivityElements.findOne({ '_id': contradictionData.firstNode })
-        var soundgarden2 = ActivityElements.findOne({ '_id': contradictionData.secondNode })
-        console.log("1",soundgarden1);
-        console.log("2",soundgarden2);
+        var soundgarden1 = ActivityElements.findOne({
+            '_id': contradictionData.firstNode
+        })
+        var soundgarden2 = ActivityElements.findOne({
+            '_id': contradictionData.secondNode
+        })
+        console.log("1", soundgarden1);
+        console.log("2", soundgarden2);
         // if id is != and activity is != then:
         // if the second is a more advanced version of this activity = 3
         // otherwise 4
@@ -792,7 +810,9 @@ Meteor.methods({
                     'id': contradictionId
                 }
             }
-        }, {getAutoValues: false}, function(error) {
+        }, {
+            getAutoValues: false
+        }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", error.reason);
                 console.log("Error", error.reason, "while deleting contradiction", contradictionId, "of project", projectId, ".");
@@ -828,7 +848,9 @@ Meteor.methods({
         // Get the project id from the roomId
         var projectId = roomId.split("-")[0];
         // Look for existing discussions
-        var thisDiscussion = Discussions.findOne({'roomId': roomId});
+        var thisDiscussion = Discussions.findOne({
+            'roomId': roomId
+        });
         if (typeof thisDiscussion !== "undefined") {
             // If the discussion exists, update it
             Discussions.update({
@@ -862,14 +884,26 @@ Meteor.methods({
             var attachedToDescription = "";
             var icon = "";
             // Get the type of the element to which the discussion is attached
-            if (typeof Flows.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToDescription = "Flow: " + Flows.findOne({ '_id': attachedTo }).flowData.title;
+            if (typeof Flows.findOne({
+                    '_id': attachedTo
+                }) !== "undefined") {
+                attachedToDescription = "Flow: " + Flows.findOne({
+                    '_id': attachedTo
+                }).flowData.title;
                 icon = "fa fa-random";
-            } else if (typeof Contradictions.findOne({ '_id': attachedTo }) !== "undefined") {
-                attachedToDescription = "Contradiction: " + Contradictions.findOne({ '_id': attachedTo }).contradictionData.title;
+            } else if (typeof Contradictions.findOne({
+                    '_id': attachedTo
+                }) !== "undefined") {
+                attachedToDescription = "Contradiction: " + Contradictions.findOne({
+                    '_id': attachedTo
+                }).contradictionData.title;
                 icon = "fa fa-exclamation-triangle";
-            } else if (typeof Activities.findOne({ '_id': attachedTo }) !== "undefined") {
-                var thisActivityDiscussed = Activities.findOne({ '_id': attachedTo });
+            } else if (typeof Activities.findOne({
+                    '_id': attachedTo
+                }) !== "undefined") {
+                var thisActivityDiscussed = Activities.findOne({
+                    '_id': attachedTo
+                });
                 attachedToDescription = "Activity #" + thisActivityDiscussed.activityData.number + ": " + thisActivityDiscussed.activityData.title;
                 icon = "icomoon-activity";
             } else {
@@ -899,7 +933,9 @@ Meteor.methods({
             });
         }
         // Save the id of the new discussion in the project and specific element
-        var thisDiscussion = Discussions.findOne({'roomId': roomId});
+        var thisDiscussion = Discussions.findOne({
+            'roomId': roomId
+        });
         if (typeof thisDiscussion !== "undefined") {
             var thisElement = roomId.split("-")[1];
             // Add it to the list of discussions

@@ -5,6 +5,7 @@ accounts-ui-unstyled@1.4.0
 alanning:roles@1.2.16
 aldeed:collection2-core@2.1.2
 aldeed:delete-button@2.0.0
+aldeed:geocoder@0.3.8
 aldeed:schema-index@2.1.2
 aldeed:simple-schema@1.5.4
 aldeed:tabular@2.1.1
