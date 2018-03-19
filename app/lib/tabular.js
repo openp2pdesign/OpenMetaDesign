@@ -88,7 +88,7 @@ TabularTables.Activities = new Tabular.Table({
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
     }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
-        tmpl: Meteor.isClient && Template.ContradictionButtons
+        tmpl: Meteor.isClient && Template.ActivitiesButtons
     }],
     responsive: true,
     autoWidth: false
