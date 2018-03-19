@@ -1,5 +1,4 @@
 // Import Leaflet
-import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 // Import D3
 import d3 from 'd3';
@@ -119,7 +118,19 @@ Template.ProjectsViz.helpers({
         return Projects.findOne({
             _id: thisProject._id
         });
-    }
+    },
+    activitiesWithoutLocation: function() {
+        var activitiesWithoutLocation = [];
+        var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
+        for (activity in activitiesToMap) {
+            // If the activity hasn't a location
+            if (typeof activitiesToMap[activity].activityData.location == "undefined") {
+                activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
+            }
+        }
+        return activitiesWithoutLocation;
+    },
+
 });
 
 /*****************************************************************************/
@@ -129,45 +140,50 @@ Template.ProjectsViz.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
-
-    // Access settings
-    // Subscriptions take time, so check when it's ready
-    self.subscription = Meteor.subscribe('settings');
-    Tracker.autorun(function() {
-        if (self.subscription.ready()) {
-            var myset = Settings.findOne();
-            GoogleMaps.load({
-                key: myset.GoogleMapsAPIkey,
-                libraries: 'places'
-            });
-        }
-    });
 });
 
 Template.ProjectsViz.onRendered(function() {
     // Add the Locations map
-    var locationsMapLeaflet = L.map('locationsMap').setView([51.505, -0.09], 13);
+    var locationsMap = L.map('locationsMap').setView([51.505, -0.09], 13);
     // Tiles: http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri.WorldGrayCanvas
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 16,
 		attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-	}).addTo(locationsMapLeaflet);
+	}).addTo(locationsMap);
 
     // Add markers
-
-    //var marker = L.marker([51.5, -0.09]).addTo(mymap);
     var markers = [];
+    var activitiesWithoutLocation = [];
 
     // Fix the Locations map size when the tab is shown
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href") // activated tab
         if (target === '#view-locations') {
-            locationsMapLeaflet.invalidateSize();
-            // ...
+            locationsMap.invalidateSize();
+            // Cycle through the activities
             var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
             for (activity in activitiesToMap) {
-                console.log(activitiesToMap[activity].activityData.location);
-                markers.push(L.marker([activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude]).addTo(locationsMapLeaflet));
+                // If the activity has a location
+                if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
+                    var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, activitiesToMap[activity].activityData.title];
+                    markers.push(marker);
+                } else {
+                    activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
+                }
+            }
+
+            for (var i=0; i<markers.length; i++) {
+                var lon = markers[i][0];
+                var lat = markers[i][1];
+                var popupText = markers[i][2];
+                var markerLocation = new L.LatLng(lat, lon);
+                var marker = new L.Marker(markerLocation);
+                locationsMap.addLayer(marker);
+                marker.bindPopup(popupText);
+            }
+
+            for (activity in activitiesWithoutLocation) {
+
             }
         }
     });
