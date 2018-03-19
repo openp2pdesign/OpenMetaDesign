@@ -279,7 +279,10 @@ Template.Contradictions.helpers({
                 return thisData;
             }
         }
-    }
+    },
+    tabularSelector: function() {
+        return {'projectId': this._id};
+    },
 });
 
 /*****************************************************************************/

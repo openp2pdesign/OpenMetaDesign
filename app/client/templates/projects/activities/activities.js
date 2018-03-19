@@ -8,6 +8,9 @@ Template.Activities.events({
 /* Activities: Helpers */
 /*****************************************************************************/
 Template.Activities.helpers({
+    tabularSelector: function() {
+        return {'projectId': this._id};
+    },
 });
 
 /*****************************************************************************/
