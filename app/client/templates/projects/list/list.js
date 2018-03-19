@@ -68,6 +68,12 @@ Template.ProjectsList.helpers({
     projects: function() {
         return Projects.find();
     },
+    tabularSelector: function() {
+        // TODO: Define here how the projects will be listed
+        // All projects are open?
+        // Or each project has a list of participants?
+        //return {'projectId': this._id};
+    },
 });
 
 /*****************************************************************************/
