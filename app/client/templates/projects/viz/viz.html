@@ -46,6 +46,14 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#view-activities" data-toggle="tab" title="View all the activities in this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="icomoon-activity fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#view-discussions" data-toggle="tab" title="View all the discussions in this project">
                                 <span class="fa-stack fa-1x">
                                     <i class="fa fa-circle fa-stack-2x icon-background"></i>
@@ -82,6 +90,9 @@
                         <div class="tab-pane fade in active" id="view-project">
                             <h2>{{_ "processes"}}</h2>
                             <div id="d3-container"></div>
+                        </div>
+                        <div class="tab-pane fade in" id="view-activities">
+                            {{> Activities}}
                         </div>
                         <div class="tab-pane fade in" id="view-discussions">
                             {{> ProjectDiscussions}}

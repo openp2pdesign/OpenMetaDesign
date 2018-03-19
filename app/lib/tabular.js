@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
 import { Meteor } from 'meteor/meteor';
 import { Projects } from './collections/projects.js'
+import { Activities } from './collections/activities.js'
 import { Flows } from './collections/flows.js'
 import { Contradictions } from './collections/contradictions.js'
 
@@ -68,6 +69,26 @@ TabularTables.Projects = new Tabular.Table({
     }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.EditProject
+    }],
+    responsive: true,
+    autoWidth: false
+});
+
+
+// Table of activities
+TabularTables.Activities = new Tabular.Table({
+    name: "Activities",
+    collection: Activities,
+    pub: "tabular_activities",
+    columns: [{
+        data: "_id",
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+    }, {
+        data: "activityData.title",
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+    }, {
+        title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
+        tmpl: Meteor.isClient && Template.ContradictionButtons
     }],
     responsive: true,
     autoWidth: false

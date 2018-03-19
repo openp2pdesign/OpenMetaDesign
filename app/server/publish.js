@@ -51,6 +51,28 @@ Meteor.publishComposite("tabular_users", function (tableName, ids, fields) {
   };
 });
 
+// Publish activities, for the tabular
+Meteor.publishComposite("tabular_activities", function (tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  this.unblock(); // requires meteorhacks:unblock package
+
+  return {
+    find: function () {
+      this.unblock(); // requires meteorhacks:unblock package
+
+      return Activities.find({}, {
+            fields: {
+                'id': 1,
+                'contradictionData.title': 1
+            }
+        });
+    },
+  };
+});
+
 // Publish flows, for the tabular
 Meteor.publishComposite("tabular_flows", function (tableName, ids, fields) {
   check(tableName, String);
