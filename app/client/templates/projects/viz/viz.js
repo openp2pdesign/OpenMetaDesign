@@ -143,6 +143,11 @@ Template.ProjectsViz.onCreated(function() {
 });
 
 Template.ProjectsViz.onRendered(function() {
+    // Add tooltip to the tabs
+    $('[data-toggle="tab"]').tooltip({
+        trigger: 'hover',
+        placement: 'top'
+    });
     // Add the Locations map
     var locationsMap = L.map('locationsMap').setView([51.505, -0.09], 13);
     // Tiles: http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri.WorldGrayCanvas
