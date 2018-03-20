@@ -1,4 +1,5 @@
 // Import Leaflet
+import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 // Import D3
 import d3 from 'd3';
@@ -148,49 +149,92 @@ Template.ProjectsViz.onRendered(function() {
         trigger: 'hover',
         placement: 'top'
     });
+
     // Add the Locations map
-    var locationsMap = L.map('locationsMap').setView([51.505, -0.09], 13);
+    var locationsMap = L.map('locationsMap').setView([441.385064, 2.173403], 10);
     // Tiles: http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri.WorldGrayCanvas
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 16,
 		attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
 	}).addTo(locationsMap);
-
-    // Add markers
-    var markers = [];
+    // Add markers: setup
+    var markersData = [];
     var activitiesWithoutLocation = [];
-
+    var activityIcon = L.icon({
+        iconUrl: '/map/activityIcon.svg',
+        iconSize: [38, 95],
+        popupAnchor:  [0, -7]
+    });
     // Fix the Locations map size when the tab is shown
+    // Add the markers
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href") // activated tab
         if (target === '#view-locations') {
             locationsMap.invalidateSize();
-            // Cycle through the activities
+            // Cycle through the activities to get the location data
             var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
             for (activity in activitiesToMap) {
                 // If the activity has a location
                 if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
-                    var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, activitiesToMap[activity].activityData.title];
-                    markers.push(marker);
+                    var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, "<strong>#"+activitiesToMap[activity].activityData.number+"</strong> "+activitiesToMap[activity].activityData.title,
+                    activitiesToMap[activity].activityData
+                ];
+                    markersData.push(marker);
                 } else {
                     activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
                 }
             }
-
-            for (var i=0; i<markers.length; i++) {
-                var lon = markers[i][0];
-                var lat = markers[i][1];
-                var popupText = markers[i][2];
-                var markerLocation = new L.LatLng(lat, lon);
-                var marker = new L.Marker(markerLocation);
-                locationsMap.addLayer(marker);
-                marker.bindPopup(popupText);
+            // Create the markers from the data
+            var markersArray = [];
+            for (var i=0; i<markersData.length; i++) {
+                var lon = markersData[i][0];
+                var lat = markersData[i][1];
+                var tooltipText = markersData[i][2];
+                var activityData = markersData[i][3];
+                // Leaflet has flipped coordinates...
+                var markerLocation = new L.LatLng(lon, lat);
+                var marker = new L.Marker(markerLocation, {icon: activityIcon});
+                marker.activityData = activityData;
+                // Add a permanent tooltup
+                var tooltip = new L.Tooltip({
+                    direction: 'bottom',
+                    permanent: true,
+                    noWrap: true,
+                    opacity: 0.9
+                });
+                tooltip.setContent(tooltipText);
+                marker.bindTooltip(tooltip, {className: 'leaflet-activity-tooltip'}).openTooltip();
+                markersArray.push(marker);
             }
-
-            for (activity in activitiesWithoutLocation) {
-
-            }
+            // Add the markers to a group and set the view to contain all markers
+            var markersGroup = L.featureGroup(markersArray).addTo(locationsMap);
+            setTimeout(function () {
+                locationsMap.fitBounds(markersGroup.getBounds());
+            }, 1000);
         }
+        // Add the modal
+        for (var i=0; i<markersArray.length; i++) {
+            markersArray[i].on('click', function() {
+                var thisActivityData = this.activityData;
+                var thisProcess = "";
+                Modal.show('Activity', function() {
+                    for (process in thisProject.processes) {
+                        // Check which process has this activity
+                        // Learnt from https://www.linkedin.com/pulse/javascript-find-object-array-based-objects-property-rafael/
+                        var checkProcess = $.grep(thisProject.processes[process].activities, function(obj){return obj.id === thisActivityData.id;})[0];
+                        if (typeof checkProcess !== "undefined") {
+                            thisProcess = thisProject.processes[process].id;
+                        }
+                    }
+                    return {
+                        "project": thisProject._id,
+                        "process": thisProcess,
+                        "activity": thisActivityData,
+                        "mode": "edit"
+                    }
+                });
+            });
+    }
     });
 
     // Set up visualization

@@ -6,13 +6,19 @@ $font-color-viz: #545151;
 $line-color-viz: #999999;
 
 /* Leaflet map */
+
 #locationsMap{
     height: 100%;
     min-height: 480px;
     z-index: 0;
 }
 
-@import "../../../../../node_modules/leaflet/dist/leaflet.css";
+.leaflet-activity-tooltip {
+    font-family: "Fira Sans", sans-serif;
+    top: 15px;
+    // background-color: #e8336d;
+    // color: #fff;
+}
 
 /* D3 Processes viz */
 svg {
