@@ -13,12 +13,19 @@ $line-color-viz: #999999;
     z-index: 0;
 }
 
-.leaflet-activity-tooltip {
+.leaflet-activity-tooltip  {
     font-family: "Fira Sans", sans-serif;
     top: 15px;
     // background-color: #e8336d;
     // color: #fff;
+    // background-color: #000;
+    // color: #fff;
+    // border-color: #000;
 }
+//
+// .leaflet-activity-tooltip::before {
+//     border-bottom-color: #000;
+// }
 
 #activities-without-location-list {
     padding: 0px;
@@ -28,10 +35,6 @@ $line-color-viz: #999999;
     float: left;
     list-style-type: none;
     margin-right: 10px;
-}
-
-.boh {
-    border: 1px solid red;
 }
 
 /* D3 Processes viz */

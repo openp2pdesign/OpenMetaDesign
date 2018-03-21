@@ -161,10 +161,6 @@ Template.ProjectsViz.onRendered(function() {
         trigger: 'hover',
         placement: 'top'
     });
-    $('[data-toggle="modal"]').popover({
-        trigger: 'hover',
-        placement: 'top'
-    });
 
     // Add the Locations map
     var locationsMap = L.map('locationsMap').setView([441.385064, 2.173403], 10);
@@ -221,7 +217,7 @@ Template.ProjectsViz.onRendered(function() {
                     opacity: 0.9
                 });
                 tooltip.setContent(tooltipText);
-                marker.bindTooltip(tooltip, {className: 'leaflet-activity-tooltip'}).openTooltip();
+                //marker.bindTooltip(tooltip, {className: 'leaflet-activity-tooltip'}).openTooltip();
                 markersArray.push(marker);
             }
             // Add the markers to a group and set the view to contain all markers
