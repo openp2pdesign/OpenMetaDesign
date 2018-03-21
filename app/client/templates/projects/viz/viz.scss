@@ -20,9 +20,17 @@ $line-color-viz: #999999;
     // color: #fff;
 }
 
+.activities-without-location {
+    padding: 0px;
+}
+
 .activities-without-location li {
     float: left;
     list-style-type: none;
+}
+
+.boh {
+    border: 1px solid red;
 }
 
 /* D3 Processes viz */

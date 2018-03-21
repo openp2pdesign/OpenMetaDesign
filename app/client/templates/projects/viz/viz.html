@@ -112,9 +112,9 @@
                                         <ul class="activities-without-location">
                                             {{#each activity in activitiesWithoutLocation}}
                                             <li>
-                                                <a href="#" data-toggle="modal" data-id={{activity.id}}>
-                                                    <img src="../map/activityIconNoLocation.svg" />
-                                                    <span class="label label-default">#{{activity.number}} {{activity.title}}</span>
+                                                <a href="#" data-toggle="modal" data-id={{activity.id}} title="hkw">
+                                                    <img src="../map/activityIconNoLocation.svg" data-id={{activity.id}}/>
+                                                    <span class="label label-default" data-id={{activity.id}}>#{{activity.number}} {{activity.title}}</span>
                                                 </a>
                                             </li>
                                             {{/each}}

@@ -110,7 +110,7 @@ Template.ProjectsViz.events({
         Modal.show('ActivityAdd');
     },
     'click .activities-without-location li a': function() {
-        var thisActivityId= $('.activities-without-location li a').data('id');
+        var thisActivityId= event.target.getAttribute('data-id');
         var thisActivityData = Activities.findOne({ '_id': thisActivityId });
         Modal.show('Activity', function() {
             return {
