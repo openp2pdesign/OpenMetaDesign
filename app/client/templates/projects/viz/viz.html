@@ -109,12 +109,11 @@
                                 <h3>{{_ "activities_without_location"}}</h3>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <ul class="activities-without-location">
+                                        <ul id="activities-without-location-list">
                                             {{#each activity in activitiesWithoutLocation}}
                                             <li>
-                                                <a href="#" data-toggle="modal" data-id={{activity.id}} title="hkw">
-                                                    <img src="../map/activityIconNoLocation.svg" data-id={{activity.id}}/>
-                                                    <span class="label label-default" data-id={{activity.id}}>#{{activity.number}} {{activity.title}}</span>
+                                                <a href="#">
+                                                    <img src="../map/activityIconNoLocation.svg" data-toggle="modal" data-id={{activity.id}} class="activities-without-location"  title="vi"/>
                                                 </a>
                                             </li>
                                             {{/each}}

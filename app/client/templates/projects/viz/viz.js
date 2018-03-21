@@ -109,7 +109,7 @@ Template.ProjectsViz.events({
     'click .svg-emoji': function() {
         Modal.show('ActivityAdd');
     },
-    'click .activities-without-location li a': function() {
+    'click .activities-without-location': function() {
         var thisActivityId= event.target.getAttribute('data-id');
         var thisActivityData = Activities.findOne({ '_id': thisActivityId });
         Modal.show('Activity', function() {
@@ -158,6 +158,10 @@ Template.ProjectsViz.onCreated(function() {
 Template.ProjectsViz.onRendered(function() {
     // Add tooltip to the tabs
     $('[data-toggle="tab"]').tooltip({
+        trigger: 'hover',
+        placement: 'top'
+    });
+    $('[data-toggle="modal"]').popover({
         trigger: 'hover',
         placement: 'top'
     });

@@ -20,13 +20,14 @@ $line-color-viz: #999999;
     // color: #fff;
 }
 
-.activities-without-location {
+#activities-without-location-list {
     padding: 0px;
 }
 
-.activities-without-location li {
+#activities-without-location-list li {
     float: left;
     list-style-type: none;
+    margin-right: 10px;
 }
 
 .boh {
