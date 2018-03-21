@@ -229,7 +229,7 @@ Template.ProjectsViz.onRendered(function() {
                     return {
                         "project": thisProject._id,
                         "process": thisProcess,
-                        "activity": thisActivityData,
+                        "activity": thisActivityData.id,
                         "mode": "edit"
                     }
                 });
