@@ -109,6 +109,18 @@ Template.ProjectsViz.events({
     'click .svg-emoji': function() {
         Modal.show('ActivityAdd');
     },
+    'click .activities-without-location li a': function() {
+        var thisActivityId= $('.activities-without-location li a').data('id');
+        var thisActivityData = Activities.findOne({ '_id': thisActivityId });
+        Modal.show('Activity', function() {
+            return {
+                "project": thisProject._id,
+                "process": thisActivityData.processId,
+                "activity": thisActivityData.activityData.id,
+                "mode": "edit"
+            }
+        });
+    }
 });
 
 /*****************************************************************************/
@@ -161,7 +173,7 @@ Template.ProjectsViz.onRendered(function() {
     var markersData = [];
     var activitiesWithoutLocation = [];
     var activityIcon = L.icon({
-        iconUrl: '/map/activityIcon.svg',
+        iconUrl: '/map/activityIconShadow.svg',
         iconSize: [38, 95],
         popupAnchor:  [0, -7]
     });
@@ -177,7 +189,7 @@ Template.ProjectsViz.onRendered(function() {
                 // If the activity has a location
                 if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
                     var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, "<strong>#"+activitiesToMap[activity].activityData.number+"</strong> "+activitiesToMap[activity].activityData.title,
-                    activitiesToMap[activity].activityData
+                    activitiesToMap[activity]
                 ];
                     markersData.push(marker);
                 } else {
@@ -190,11 +202,13 @@ Template.ProjectsViz.onRendered(function() {
                 var lon = markersData[i][0];
                 var lat = markersData[i][1];
                 var tooltipText = markersData[i][2];
-                var activityData = markersData[i][3];
+                var activityProcessId = markersData[i][3].processId;
+                var activityData = markersData[i][3].activityData;
                 // Leaflet has flipped coordinates...
                 var markerLocation = new L.LatLng(lon, lat);
                 var marker = new L.Marker(markerLocation, {icon: activityIcon});
                 marker.activityData = activityData;
+                marker.processId = activityProcessId;
                 // Add a permanent tooltup
                 var tooltip = new L.Tooltip({
                     direction: 'bottom',
@@ -215,21 +229,13 @@ Template.ProjectsViz.onRendered(function() {
         // Add the modal
         for (var i=0; i<markersArray.length; i++) {
             markersArray[i].on('click', function() {
-                var thisActivityData = this.activityData;
-                var thisProcess = "";
+                var thisActivityId = this.activityData.id;
+                var thisProcessId = this.processId;
                 Modal.show('Activity', function() {
-                    for (process in thisProject.processes) {
-                        // Check which process has this activity
-                        // Learnt from https://www.linkedin.com/pulse/javascript-find-object-array-based-objects-property-rafael/
-                        var checkProcess = $.grep(thisProject.processes[process].activities, function(obj){return obj.id === thisActivityData.id;})[0];
-                        if (typeof checkProcess !== "undefined") {
-                            thisProcess = thisProject.processes[process].id;
-                        }
-                    }
                     return {
                         "project": thisProject._id,
-                        "process": thisProcess,
-                        "activity": thisActivityData.id,
+                        "process": thisProcessId,
+                        "activity": thisActivityId,
                         "mode": "edit"
                     }
                 });

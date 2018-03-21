@@ -20,6 +20,11 @@ $line-color-viz: #999999;
     // color: #fff;
 }
 
+.activities-without-location li {
+    float: left;
+    list-style-type: none;
+}
+
 /* D3 Processes viz */
 svg {
     font-family: $font-viz;

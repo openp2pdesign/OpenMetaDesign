@@ -107,14 +107,29 @@
                             <h2>{{_ "locations"}}</h2>
                             <div id="activities-without-location">
                                 <h3>{{_ "activities_without_location"}}</h3>
-                                {{#each activity in activitiesWithoutLocation}}
-                                <p>
-                                    {{activity.title}}
-                                </p>
-                                {{/each}}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="activities-without-location">
+                                            {{#each activity in activitiesWithoutLocation}}
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-id={{activity.id}}>
+                                                    <img src="../map/activityIconNoLocation.svg" />
+                                                    <span class="label label-default">#{{activity.number}} {{activity.title}}</span>
+                                                </a>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <h3>{{_ "activities_with_location"}}</h3>
-                            <div id="locationsMap"></div>
+                            <div>
+                                <h3>{{_ "activities_with_location"}}</h3>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="locationsMap"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
