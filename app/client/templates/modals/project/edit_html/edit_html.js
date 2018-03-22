@@ -92,7 +92,6 @@ Template.EditHtml.helpers({
 Template.EditHtml.onCreated(function() {
     // Set the discuss to show to the element
     Session.set('discussionToShow', thisProject._id + "-" + this.data.field);
-    console.log(Session.get('discussionToShow'));
 });
 
 Template.EditHtml.onRendered(function() {});
