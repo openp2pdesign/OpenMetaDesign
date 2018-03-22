@@ -1,0 +1,219 @@
+<template name="Flow">
+    <div class="flow">
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                        <h2 class="modal-title">
+                            Flow
+                        </h2>
+                    </div>
+                    <div class="modal-body row-fluid">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#flow-view-tab" data-toggle="tab" title="View this flow">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-random fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#flow-edit-tab" data-toggle="tab" title="Edit this flow">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#flow-discuss-tab" data-toggle="tab" title="Discuss this flow">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#flow-delete-tab" data-toggle="tab" title="Delete this flow">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-trash fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="flow-view-tab">
+                                <div class="col-md-12">
+                                    <h3>{{showFlowData.flowData.title}}</h3>
+                                    <p>
+                                        {{showFlowData.flowData.description}}
+                                    </p>
+                                </div>
+                                <div class="col-md-12" id="showFlowDivSVG"></div>
+                                <div class="col-md-4">
+                                        <img class="svg" src="../as_activity_nolabel.svg">
+                                        <p>
+                                            <strong>
+                                                #{{showFlowData.firstNodeData.activityData.number}} {{showFlowData.firstNodeData.activityData.title}}
+                                            </strong>
+                                        </p>
+                                </div>
+                                <div class="col-md-4">
+                                    here the flow
+                                </div>
+                                <div class="col-md-4">
+                                        <img class="svg" src="../as_activity_nolabel.svg">
+                                        <p>
+                                            <strong>
+                                                #{{showFlowData.secondNodeData.activityData.number}} {{showFlowData.secondNodeData.activityData.title}}
+                                            </strong>
+                                        </p>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning" id="close-flow-button">
+                                        <i class="fa fa-close"></i>
+                                        {{_ "flow_close_button"}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="flow-edit-tab">
+                                <div class="col-md-12">
+                                    <h3>{{_ "flow_edit"}}</h3>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{showFlowData.flowData.title}} id="new-flow-title">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{showFlowData.flowData.description}} id="new-flow-description">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{showFlowData.flowData.resource}} id="new-flow-resource">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_type"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <select class="select2-dropdown" name="state" id="new-flow-type">
+                                                        <option>
+                                                            {{showFlowData.flowData.type}}
+                                                        </option>
+                                                        <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
+                                                        <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
+                                                        <option value={{_ "material_flow_value"}}>{{_ "material_flow"}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="number" value={{showFlowData.flowData.weight}} id="new-flow-weight">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
+                                                <div class="col-lg-8">
+                                                    {{showFlowData.flowData.firstNodeData.title}}
+                                                    <select class="select2-dropdown" name="state" id="new-flow-first-node">
+                                                        <option data-option={{showFlowData.flowData.firstNode}}>
+                                                            {{showFlowData.flowData.firstNode}}
+                                                        </option>
+                                                        {{#each activityElements}}
+                                                            <option data-option={{activityElementData.id}}>
+                                                                #{{activityNumber}}
+                                                                - {{activityElementData.id}} ...
+                                                                {{activityElementData.title}}
+                                                                -
+                                                                {{activityElementData.description}}
+                                                            </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <select class="select2-dropdown" name="state" id="new-flow-second-node">
+                                                        <option data-option={{showFlowData.flowData.secondNode}}>
+                                                            {{showFlowData.flowData.secondNode}}
+                                                        </option>
+                                                        {{#each activityElements}}
+                                                            <option data-option={{activityElementData.id}}>
+                                                                #{{activityNumber}}
+                                                                -
+                                                                {{activityElementData.title}}
+                                                                -
+                                                                {{activityElementData.description}}
+                                                            </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning" id="cancel-edit-save-flow-button">
+                                        <i class="fa fa-close"></i>
+                                        {{_ "flow_cancel_save_button"}}
+                                    </button>
+                                    <button class="btn btn-info" id="edit-save-flow-button">
+                                        <i class="fa fa-floppy-o"></i>
+                                        {{_ "flow_save_button"}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="flow-discuss-tab">
+                                <div class="col-md-12">
+                                    <h3>{{_ "flow_discuss"}}</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="flowDiscussDiv">
+                                        {{>Discuss}}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning" id="close-flow-discussion-button">
+                                        <i class="fa fa-close"></i>
+                                        {{_ "flow_close_button"}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="flow-delete-tab">
+                                <div class="col-md-12">
+                                    <h3>{{_ "flow_delete"}}</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    {{_ "flow_delete_question"}}
+                                    <em>{{deleteFlowData._id}}</em>?
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-warning" id="cancel-delete-flow-button">
+                                        <i class="fa fa-close"></i>
+                                        {{_ "flow_cancel_save_button"}}
+                                    </button>
+                                    <button class="btn btn-info" id="delete-flow-button">
+                                        <i class="fa fa-trash"></i>
+                                        {{_ "flow_delete_button"}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -7,22 +7,14 @@ import d3 from 'd3';
 /* FlowButtons: Event Handlers */
 /*****************************************************************************/
 Template.FlowButtons.events({
-    // Show the div that enable the delete of flows
-    'click .delete-flow': function(event, template) {
-        event.preventDefault();
-        $("#showFlowDiv").hide();
-        $("#editFlowDiv").hide();
-        $("#deleteFlowDiv").show();
-        $("#createFlowDiv").hide();
-        $("#discussFlowDiv").hide();
-        // Set the discuss to show to the main activity
-        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
-        // Pass the flow id to Sessions
-        Session.set('flowToDeleteData', this._id);
-    },
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
         event.preventDefault();
+        Modal.show('Flow', function() {
+            return {
+                "mode": "edit"
+            }
+        });
         $("#showFlowDiv").hide();
         $("#editFlowDiv").show();
         $("#deleteFlowDiv").hide();
@@ -81,34 +73,6 @@ Template.FlowButtons.events({
         svg.append("circle").attr("cx", 30).attr("cy", 30).attr("r", 20);
 
     },
-    // Show the div that enable the edit of flows
-    'click .create-flow': function(event, template) {
-        event.preventDefault();
-        $("#showFlowDiv").hide();
-        $("#editFlowDiv").hide();
-        $("#deleteFlowDiv").hide();
-        $("#createFlowDiv").show();
-        $("#discussFlowDiv").hide();
-        // Set the discuss to show to the main activity
-        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
-    },
-    // Show the div that enable the discussions of flows
-    'click .discuss-flow': function(event, template) {
-        event.preventDefault();
-        $("#showFlowDiv").hide();
-        $("#editFlowDiv").hide();
-        $("#deleteFlowDiv").hide();
-        $("#createFlowDiv").hide();
-        $("#discussFlowDiv").hide();
-        $("#discussFlowDiv").show();
-        // Set the discuss to show to the flow
-        Session.set('discussionToShow', Session.get('thisProject') + "-" + this._id);
-        // Reload the discussion
-        // Empty the div
-        $("#flowDiscussDiv").empty();
-        // Reload template with new data
-        Blaze.render(Template.Discuss, document.getElementById('flowDiscussDiv'));
-    }
 });
 
 /*****************************************************************************/
