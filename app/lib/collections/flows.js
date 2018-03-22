@@ -44,7 +44,51 @@ FlowsSeparateSchema = new SimpleSchema({
     },
     flowData: {
         type: FlowSchema
-    }
+    },
+    createdBy: {
+        type: String,
+        autoValue: function() {
+            var createdByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return createdByUser.username;
+        }
+    },
+    createdByID: {
+        type: String,
+        autoValue: function() {
+            return this.userId;
+        }
+    },
+    createdAt: {
+        type: Date,
+        autoValue: function() {
+            if (this.isInsert) {
+                return new Date();
+            }
+        }
+    },
+    lastUpdatedAt: {
+        type: Date,
+        autoValue: function() {
+            return new Date();
+        }
+    },
+    lastUpdatedBy: {
+        type: String,
+        autoValue: function() {
+            var updatedByUser = Meteor.users.findOne({
+                _id: this.userId
+            });
+            return updatedByUser.username;
+        }
+    },
+    lastUpdatedByID: {
+        type: String,
+        autoValue: function() {
+            return this.userId;
+        }
+    },
 });
 
 // Attach the FlowSeparateSchema to the Flows collection

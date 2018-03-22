@@ -87,6 +87,19 @@ TabularTables.Activities = new Tabular.Table({
         data: "activityData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
     }, {
+        data: "createdBy",
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
+    }, {
+        data: "createdAt",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar() + " -- " + val;
+            } else {
+                return "Never";
+            }
+        }
+    }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.ActivitiesButtons
     }],
@@ -107,6 +120,19 @@ TabularTables.Flows = new Tabular.Table({
         data: "flowData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
     }, {
+        data: "createdBy",
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
+    }, {
+        data: "createdAt",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar() + " -- " + val;
+            } else {
+                return "Never";
+            }
+        }
+    }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.FlowButtons
     }],
@@ -126,6 +152,19 @@ TabularTables.Contradictions = new Tabular.Table({
     }, {
         data: "contradictionData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+    }, {
+        data: "createdBy",
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
+    }, {
+        data: "createdAt",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar() + " -- " + val;
+            } else {
+                return "Never";
+            }
+        }
     }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.ContradictionButtons
