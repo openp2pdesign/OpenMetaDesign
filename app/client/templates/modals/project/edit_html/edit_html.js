@@ -4,20 +4,12 @@ import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 // jquery
-import {
-    $
-} from 'meteor/jquery';
+import { $ } from 'meteor/jquery';
 // Random id
-import {
-    Random
-} from 'meteor/random';
+import { Random } from 'meteor/random';
 // Load Projects and Settings
-import { 
-    Projects
-} from '../../../../../lib/collections/projects.js';
-import { 
-    Settings
-} from '../../../../../lib/collections/settings.js';
+import { Projects } from '../../../../../lib/collections/projects.js';
+import { Settings } from '../../../../../lib/collections/settings.js';
 
 /*****************************************************************************/
 /* EditHtml: Event Handlers */
@@ -85,7 +77,7 @@ Template.EditHtml.events({
 Template.EditHtml.helpers({
     data: function() {
         // Return helper values for the template
-        thisProject = Projects.findOne({_id: thisProject._id });
+        thisProject = Projects.findOne({'_id': thisProject._id });
         return {
             "project": thisProject,
             "id": this.field,
@@ -97,7 +89,11 @@ Template.EditHtml.helpers({
 /*****************************************************************************/
 /* EditHtml: Lifecycle Hooks */
 /*****************************************************************************/
-Template.EditHtml.onCreated(function() {});
+Template.EditHtml.onCreated(function() {
+    // Set the discuss to show to the element
+    Session.set('discussionToShow', thisProject._id + "-" + this.data.field);
+    console.log(Session.get('discussionToShow'));
+});
 
 Template.EditHtml.onRendered(function() {});
 

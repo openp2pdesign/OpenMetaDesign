@@ -616,14 +616,6 @@ Template.ProjectsViz.onRendered(function() {
             .attr("data-id", projectField)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
-        // Discuss this field button
-        var discussThisButton = addButton(32, 10, 10, thisGroup, '\uf074');
-        discussThisButton.attr("data-toggle", "modal")
-            .attr("title", "Discuss this")
-            .attr("data-mode", "discuss")
-            .attr("data-id", projectField)
-            .classed("button-tooltip", true)
-            .attr("data-toggle", "tooltip");
     }
 
     Tracker.autorun(function() {

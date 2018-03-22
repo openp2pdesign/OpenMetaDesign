@@ -9,21 +9,47 @@
                         </button>
                         <h2 class="modal-title">{{_ "edit_html"}}</h2>
                     </div>
-                    <div class="modal-body">
-                        {{#with data}}
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">{{_ "new_html_field"}}: {{id}}</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
-                                    </div>
+                    <div class="modal-body row-fluid">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#html-edit-tab" data-toggle="tab" title="Edit this element">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#html-discuss-tab" data-toggle="tab" title="Discuss this element">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- Tabs contents -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="html-edit-tab">
+                                {{#with data}}
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">{{_ "new_html_field"}}: {{id}}</label>
+                                            <div class="col-lg-8">
+                                                <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {{/with}}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">{{_ "save_changes"}}</button>
                                 </div>
-                            </form>
-                        {{/with}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" id="confirm">{{_ "save_changes"}}</button>
+                            </div>
+                            <div class="tab-pane fade in" id="html-discuss-tab">
+                                {{>Discuss}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

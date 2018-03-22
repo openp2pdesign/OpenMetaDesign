@@ -3,3 +3,11 @@
 /*****************************************************************************/
 .edit-html {
 }
+
+.edit-html .nav-tabs i {
+    color: #fff;
+}
+
+.icon-background {
+    color: #f57f2a !important;
+}
