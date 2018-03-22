@@ -49,3 +49,7 @@
 .icomoon-activity:before {
   content: "\e907";
 }
+.icomoon-activity-negative:before {
+  content: "\e908";
+  font-size: 1.3em;
+}
