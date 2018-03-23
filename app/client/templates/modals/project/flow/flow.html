@@ -8,7 +8,7 @@
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </button>
                         <h2 class="modal-title">
-                            Flow
+                            {{_ "flow"}}
                         </h2>
                     </div>
                     <div class="modal-body row-fluid">
@@ -74,12 +74,6 @@
                                                 #{{showFlowData.secondNodeData.activityData.number}} {{showFlowData.secondNodeData.activityData.title}}
                                             </strong>
                                         </p>
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn btn-warning" id="close-flow-button">
-                                        <i class="fa fa-close"></i>
-                                        {{_ "flow_close_button"}}
-                                    </button>
                                 </div>
                             </div>
                             <div class="tab-pane fade in" id="flow-edit-tab">
@@ -183,12 +177,6 @@
                                     <div id="flowDiscussDiv">
                                         {{>Discuss}}
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <button class="btn btn-warning" id="close-flow-discussion-button">
-                                        <i class="fa fa-close"></i>
-                                        {{_ "flow_close_button"}}
-                                    </button>
                                 </div>
                             </div>
                             <div class="tab-pane fade in" id="flow-delete-tab">
