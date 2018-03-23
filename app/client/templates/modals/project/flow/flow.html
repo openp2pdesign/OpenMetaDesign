@@ -50,9 +50,9 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="flow-view-tab">
                                 <div class="col-md-12">
-                                    <h3>{{showFlowData.flowData.title}}</h3>
+                                    <h3>{{flowData.flowData.title}}</h3>
                                     <p>
-                                        {{showFlowData.flowData.description}}
+                                        {{flowData.flowData.description}}
                                     </p>
                                 </div>
                                 <div class="col-md-12" id="showFlowDivSVG"></div>
@@ -60,7 +60,7 @@
                                         <img class="svg" src="../as_activity_nolabel.svg">
                                         <p>
                                             <strong>
-                                                #{{showFlowData.firstNodeData.activityData.number}} {{showFlowData.firstNodeData.activityData.title}}
+                                                #{{flowData.firstNodeData.activityData.number}} {{flowData.firstNodeData.activityData.title}}
                                             </strong>
                                         </p>
                                 </div>
@@ -71,7 +71,7 @@
                                         <img class="svg" src="../as_activity_nolabel.svg">
                                         <p>
                                             <strong>
-                                                #{{showFlowData.secondNodeData.activityData.number}} {{showFlowData.secondNodeData.activityData.title}}
+                                                #{{flowData.secondNodeData.activityData.number}} {{flowData.secondNodeData.activityData.title}}
                                             </strong>
                                         </p>
                                 </div>
@@ -83,19 +83,19 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value={{showFlowData.flowData.title}} id="new-flow-title">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.title}} id="new-flow-title">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value={{showFlowData.flowData.description}} id="new-flow-description">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.description}} id="new-flow-description">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value={{showFlowData.flowData.resource}} id="new-flow-resource">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.resource}} id="new-flow-resource">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -103,7 +103,7 @@
                                                 <div class="col-lg-8">
                                                     <select class="select2-dropdown" name="state" id="new-flow-type">
                                                         <option>
-                                                            {{showFlowData.flowData.type}}
+                                                            {{flowData.flowData.type}}
                                                         </option>
                                                         <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
                                                         <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
@@ -114,16 +114,16 @@
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
                                                 <div class="col-lg-8">
-                                                    <input class="form-control" type="number" value={{showFlowData.flowData.weight}} id="new-flow-weight">
+                                                    <input class="form-control" type="number" value={{flowData.flowData.weight}} id="new-flow-weight">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                                                 <div class="col-lg-8">
-                                                    {{showFlowData.flowData.firstNodeData.title}}
+                                                    {{flowData.flowData.firstNodeData.title}}
                                                     <select class="select2-dropdown" name="state" id="new-flow-first-node">
-                                                        <option data-option={{showFlowData.flowData.firstNode}}>
-                                                            {{showFlowData.flowData.firstNode}}
+                                                        <option data-option={{flowData.flowData.firstNode}}>
+                                                            {{flowData.flowData.firstNode}}
                                                         </option>
                                                         {{#each activityElements}}
                                                             <option data-option={{activityElementData.id}}>
@@ -141,8 +141,8 @@
                                                 <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                                                 <div class="col-lg-8">
                                                     <select class="select2-dropdown" name="state" id="new-flow-second-node">
-                                                        <option data-option={{showFlowData.flowData.secondNode}}>
-                                                            {{showFlowData.flowData.secondNode}}
+                                                        <option data-option={{flowData.flowData.secondNode}}>
+                                                            {{flowData.flowData.secondNode}}
                                                         </option>
                                                         {{#each activityElements}}
                                                             <option data-option={{activityElementData.id}}>
@@ -185,7 +185,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     {{_ "flow_delete_question"}}
-                                    <em>{{deleteFlowData._id}}</em>?
+                                    <em>{{flowData._id}}</em>?
                                 </div>
                                 <div class="col-md-12">
                                     <button class="btn btn-warning" id="cancel-delete-flow-button">

@@ -5,20 +5,14 @@ Template.ContradictionButtons.events({
     // Show the div that enable the edit of contradictions
     'click .edit-contradiction': function(event, template) {
         event.preventDefault();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + template.data._id);
+        // Launch modal
         Modal.show('Contradiction', function() {
             return {
-                "mode": "edit"
+                "contradictionId": template.data._id
             }
         });
-        $("#showContradictionDiv").hide();
-        $("#editContradictionDiv").show();
-        $("#deleteContradictionDiv").hide();
-        $("#createContradictionDiv").hide();
-        $("#discussContradictionDiv").hide();
-        // Set the discuss to show to the main activity
-        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
-        // Pass the contradiction id to Sessions
-        Session.set('contradictionToShowData', this._id);
     },
 });
 

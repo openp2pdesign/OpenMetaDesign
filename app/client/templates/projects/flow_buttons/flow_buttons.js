@@ -10,20 +10,14 @@ Template.FlowButtons.events({
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
         event.preventDefault();
+        // Set the discuss to show to the main activity
+        Session.set('discussionToShow', Session.get('thisProject') + "-" + template.data._id);
+        // Launch modal
         Modal.show('Flow', function() {
             return {
-                "mode": "edit"
+                "flowId": template.data._id
             }
         });
-        $("#showFlowDiv").hide();
-        $("#editFlowDiv").show();
-        $("#deleteFlowDiv").hide();
-        $("#createFlowDiv").hide();
-        $("#discussFlowDiv").hide();
-        // Set the discuss to show to the main activity
-        Session.set('discussionToShow', Session.get('thisProject') + "-" + Session.get('thisActivity'));
-        // Pass the flow id to Sessions
-        Session.set('flowToShowData', this._id);
     },
     // Show the div that enable the edit of flows
     'click .show-flow': function(event, template) {

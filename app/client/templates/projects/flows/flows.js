@@ -220,7 +220,6 @@ Template.Flows.helpers({
 Template.Flows.onCreated(function() {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
-    Meteor.subscribe('activityElements');
     Meteor.subscribe('flows');
 });
 
