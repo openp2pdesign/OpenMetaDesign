@@ -47,8 +47,9 @@ Template.Contradiction.events({
                     errorNotice.remove();
                 });
             } else {
-                // Hide the buttons
-                $("#deleteContradictionDiv").hide();
+                // Close the modal, since there is no activity any longer
+                Modal.hide('Contradiction');
+                // Add notification
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',

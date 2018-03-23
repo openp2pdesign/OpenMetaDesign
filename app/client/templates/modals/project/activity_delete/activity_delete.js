@@ -34,6 +34,7 @@ Template.ActivityDelete.events({
             } else {
                 // Close the modal, since there is no activity any longer
                 Modal.hide('Activity');
+                // Add notification
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',

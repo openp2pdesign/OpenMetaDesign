@@ -45,8 +45,9 @@ Template.Flow.events({
                     errorNotice.remove();
                 });
             } else {
-                // Hide the buttons
-                $("#deleteFlowDiv").hide();
+                // Close the modal, since there is no activity any longer
+                Modal.hide('Flow');
+                // Add notification
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
