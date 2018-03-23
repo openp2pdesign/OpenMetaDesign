@@ -6,6 +6,7 @@ import { Projects } from './collections/projects.js'
 import { Activities } from './collections/activities.js'
 import { Flows } from './collections/flows.js'
 import { Contradictions } from './collections/contradictions.js'
+import { Discussions} from './collections/discussions.js'
 
 export const TabularTables = {};
 
@@ -168,6 +169,41 @@ TabularTables.Contradictions = new Tabular.Table({
     }, {
         title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
         tmpl: Meteor.isClient && Template.ContradictionButtons
+    }],
+    responsive: true,
+    autoWidth: false
+});
+
+// Table of discussions
+TabularTables.Discussions = new Tabular.Table({
+    name: "Discussions",
+    collection: Discussions,
+    pub: "tabular_discussions",
+    columns: [{
+        data: "_id",
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+    }, {
+        data: "attachedToDescription",
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+    }, {
+        data: "numberOfComments",
+        title: '<i class="fa fa-comments" aria-hidden="true"></i> Comments'
+    }, {
+        data: "createdBy",
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
+    }, {
+        data: "createdAt",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar() + " -- " + val;
+            } else {
+                return "Never";
+            }
+        }
+    }, {
+        title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
+        tmpl: Meteor.isClient && Template.DiscussionButtons
     }],
     responsive: true,
     autoWidth: false
