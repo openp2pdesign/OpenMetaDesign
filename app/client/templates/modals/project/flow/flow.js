@@ -7,6 +7,8 @@ PNotify.prototype.options.styling = "fontawesome";
 import { $ } from 'meteor/jquery';
 // Random id
 import { Random } from 'meteor/random';
+// Viz
+import d3 from 'd3';
 // Load Projects and Settings
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
@@ -74,6 +76,40 @@ Template.Flow.onRendered(function() {
         dropdownAutoWidth: true,
         width: '100%'
     });
+
+    // Visualize the Flow with D3
+
+    // Margins
+    // https://bl.ocks.org/mbostock/3019563
+    var margin = {
+        top: 15,
+        right: 0,
+        bottom: 0,
+        left: 0
+    };
+
+    // The container for the viz
+    var d3Container = document.getElementById("showFlowDivSVG");
+
+    // Get dimensions of the container on window resize
+    window.addEventListener("resize", function(d) {
+        width = d3Container.clientWidth;
+        height = d3Container.clientHeight;
+        console.log(width, height);
+    });
+
+    // Remove previous SVG
+    d3.select('#showFlowDivSVG').select('svg').remove();
+
+    // Add the visualization SVG to the container
+    var svg = d3.select('#showFlowDivSVG').append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Visualize the flow in the SVG
+    svg.append("circle").attr("cx", 30).attr("cy", 30).attr("r", 20);
 });
 
 Template.Flow.onDestroyed(function() {});
