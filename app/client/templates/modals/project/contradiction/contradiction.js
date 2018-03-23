@@ -21,6 +21,57 @@ LocalActivityElements = new Mongo.Collection(null);
 /* Contradiction: Event Handlers */
 /*****************************************************************************/
 Template.Contradiction.events({
+    // Delete the contradiction
+    'click #delete-contradiction-button': function(event, template) {
+        event.preventDefault();
+        Meteor.call('deleteContradiction', template.data.contradictionId, Session.get('thisProject'), function(error, result) {
+            if (error) {
+                var errorNotice = new PNotify({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'There was an error in deleting the contradiction',
+                    icon: 'fa fa-exclamation-triangle',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                errorNotice.get().click(function() {
+                    errorNotice.remove();
+                });
+            } else {
+                // Hide the buttons
+                $("#deleteContradictionDiv").hide();
+                var successNotice = new PNotify({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Contradiction successfully deleted.',
+                    icon: 'fa fa-exclamation-triangle',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                successNotice.get().click(function() {
+                    successNotice.remove();
+                });
+            }
+        });
+    }
 });
 
 /*****************************************************************************/
@@ -63,6 +114,12 @@ Template.Contradiction.onCreated(function () {
     Meteor.subscribe('activities');
     Meteor.subscribe('activityElements');
     Meteor.subscribe('contradictions');
+    // Load variables
+    thisContradictionID = this.data.contradictionId;
+    thisProjectID = Contradictions.findOne({ '_id': thisContradictionID }).projectId;
+    // Set variables
+    Session.set('thisProject', thisProjectID);
+    Session.set('discussionToShow', thisProjectID + "-" + thisContradictionID);
 });
 
 Template.Contradiction.onRendered(function () {

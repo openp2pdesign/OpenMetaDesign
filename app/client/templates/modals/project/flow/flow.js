@@ -19,6 +19,57 @@ import { Flows } from '../../../../../lib/collections/flows.js';
 /* Flow: Event Handlers */
 /*****************************************************************************/
 Template.Flow.events({
+    // Delete the flow
+    'click #delete-flow-button': function(event, template) {
+        event.preventDefault();
+        Meteor.call('deleteFlow', template.data.flowId, Session.get('thisProject'), function(error, result) {
+            if (error) {
+                var errorNotice = new PNotify({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'There was an error in deleting the flow',
+                    icon: 'fa fa-random',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                errorNotice.get().click(function() {
+                    errorNotice.remove();
+                });
+            } else {
+                // Hide the buttons
+                $("#deleteFlowDiv").hide();
+                var successNotice = new PNotify({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Flow successfully deleted.',
+                    icon: 'fa fa-random',
+                    addclass: 'pnotify stack-topright',
+                    animate: {
+                        animate: true,
+                        in_class: 'slideInDown',
+                        out_class: 'slideOutUp'
+                    },
+                    buttons: {
+                        closer: true,
+                        sticker: false
+                    }
+                });
+
+                successNotice.get().click(function() {
+                    successNotice.remove();
+                });
+            }
+        });
+    }
 });
 /*****************************************************************************/
 /* Flow: Helpers */
@@ -63,6 +114,12 @@ Template.Flow.onCreated(function() {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
     Meteor.subscribe('flows');
+    // Load variables
+    thisFlowID = this.data.flowId;
+    thisProjectID = Flows.findOne({ '_id': thisFlowID }).projectId;
+    // Set variables
+    Session.set('thisProject', thisProjectID);
+    Session.set('discussionToShow', thisProjectID + "-" + thisFlowID);
 });
 
 Template.Flow.onRendered(function() {
