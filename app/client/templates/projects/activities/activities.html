@@ -10,5 +10,24 @@
               {{> tabular table=TabularTables.Activities class="table table-striped table-bordered table-condensed" selector=tabularSelector}}
           </div>
       </div>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="input-group">
+                  <select class="form-control select2-dropdown" id="new-process">
+                      {{#each processes}}
+                          <option data-option={{id}}>
+                              {{title}}
+                          </option>
+                      {{/each}}
+                  </select>
+                  <span class="input-group-btn">
+                      <button class="btn btn-primary" id="create-activity-button">
+                          <i class="fa fa-plus"></i>
+                          {{_ "activity_add_button"}}
+                      </button>
+                  </span>
+                </div>
+          </div>
+      </div>
   </div>
 </template>
