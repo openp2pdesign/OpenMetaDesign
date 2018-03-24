@@ -14,17 +14,13 @@ import { Settings } from '../../../../lib/collections/settings.js';
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 Template.ProjectsViz.events({
-    'click .html-edit-button': function(event, template) {
+    'click .html-edit-button': function() {
         event.preventDefault();
-        console.log(event.target);
-        console.log(template);
 
         event.path.map(function(item) {
             // Check the data embedded in the button
             dataFieldMode = $(item).attr("data-mode");
             dataFieldID = $(item).attr("data-id");
-            console.log("IT",item);
-            console.log("QMCELP",dataFieldID);
 
             if (dataFieldMode == "edit") {
                 // Edit button
