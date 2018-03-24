@@ -82,12 +82,6 @@ Template.Flow.helpers({
             'projectId': this._id
         }).fetch();
     },
-    activityElements: function() {
-        // Return only the activity elements in the current project
-        return ActivityElements.find({
-            'projectId': this._id
-        }).fetch();
-    },
     flowData: function() {
         // Get the flow data
         var thisData = Flows.findOne({
