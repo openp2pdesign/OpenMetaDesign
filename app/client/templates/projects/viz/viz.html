@@ -1,10 +1,22 @@
 <template name="ProjectsViz">
     <div class="viz">
         {{#with data}}
-            <h1>
-                {{title}}<span class="html-edit-button" id="html-edit-button-title"></span>
-                <span class="label label-primary">{{release}}</span><span class="html-edit-button" id="html-edit-button-release"></span>
-            </h1>
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1>
+                        {{title}}
+                        <span class="html-edit-button" id="html-edit-button-title"></span>
+                    </h1>
+                </div>
+                <div class="col-sm-2">
+                    <h1>
+                        <span class="html-edit-button" id="html-edit-button-release"></span>
+                        <span class="label label-primary">
+                            {{release}}
+                        </span>
+                    </h1>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <h2>{{_ "project_description"}}</h2><span class="html-edit-button" id="html-edit-button-description"></span>
@@ -12,12 +24,16 @@
                         {{description}}
                     </p>
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="col-xs-4 col-sm4 col-md-4 col-lg-4">
+                    <h2>Community</h2><span class="html-edit-button" id="html-edit-button-community"></span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
+                </div>
+                <!-- <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     Created at {{createdAt}} by {{createdBy}}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     Last updated at {{lastUpdatedAt}} by {{lastUpdatedBy}}
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

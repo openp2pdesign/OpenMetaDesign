@@ -32,14 +32,18 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="html-edit-tab">
                                 {{#with data}}
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label class="col-lg-3 control-label">{{_ "new_html_field"}}: {{id}}</label>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "new_html_field"}}: {{id}}</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+                                </div>
                                 {{/with}}
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
