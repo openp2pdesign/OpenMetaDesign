@@ -14,13 +14,17 @@ import { Settings } from '../../../../lib/collections/settings.js';
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 Template.ProjectsViz.events({
-    'click .html-edit-button': function() {
+    'click .html-edit-button': function(event, template) {
         event.preventDefault();
+        console.log(event.target);
+        console.log(template);
 
         event.path.map(function(item) {
             // Check the data embedded in the button
             dataFieldMode = $(item).attr("data-mode");
             dataFieldID = $(item).attr("data-id");
+            console.log("IT",item);
+            console.log("QMCELP",dataFieldID);
 
             if (dataFieldMode == "edit") {
                 // Edit button
@@ -145,7 +149,6 @@ Template.ProjectsViz.helpers({
     },
 
 });
-
 /*****************************************************************************/
 /* ProjectsViz: Lifecycle Hooks */
 /*****************************************************************************/
@@ -166,81 +169,90 @@ Template.ProjectsViz.onRendered(function() {
     var locationsMap = L.map('locationsMap').setView([441.385064, 2.173403], 10);
     // Tiles: http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri.WorldGrayCanvas
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-		maxZoom: 16,
-		attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-	}).addTo(locationsMap);
+        maxZoom: 16,
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+    }).addTo(locationsMap);
     // Add markers: setup
     var markersData = [];
     var activitiesWithoutLocation = [];
     var activityIcon = L.icon({
         iconUrl: '/map/activityIconShadow.svg',
         iconSize: [38, 95],
-        popupAnchor:  [0, -7]
+        popupAnchor: [0, -7]
     });
     // Fix the Locations map size when the tab is shown
     // Add the markers
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        var target = $(e.target).attr("href") // activated tab
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(event) {
+        var target = $(event.target).attr("href") // activated tab
         if (target === '#view-locations') {
             locationsMap.invalidateSize();
             // Cycle through the activities to get the location data
-            var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
-            for (activity in activitiesToMap) {
-                // If the activity has a location
-                if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
-                    var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, "<strong>#"+activitiesToMap[activity].activityData.number+"</strong> "+activitiesToMap[activity].activityData.title,
-                    activitiesToMap[activity]
-                ];
-                    markersData.push(marker);
-                } else {
-                    activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
+            var activitiesToMap = Activities.find({
+                'projectId': thisProject._id
+            }).fetch();
+            if (activitiesToMap.length > 0) {
+                for (activity in activitiesToMap) {
+                    // If the activity has a location
+                    if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
+                        var marker = [activitiesToMap[activity].activityData.location.latitude, activitiesToMap[activity].activityData.location.longitude, "<strong>#" + activitiesToMap[activity].activityData.number + "</strong> " + activitiesToMap[activity].activityData.title,
+                            activitiesToMap[activity]
+                        ];
+                        markersData.push(marker);
+                    } else {
+                        activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
+                    }
+                }
+                // Create the markers from the data
+                var markersArray = [];
+                for (var i = 0; i < markersData.length; i++) {
+                    var lon = markersData[i][0];
+                    var lat = markersData[i][1];
+                    var tooltipText = markersData[i][2];
+                    var activityProcessId = markersData[i][3].processId;
+                    var activityData = markersData[i][3].activityData;
+                    // Leaflet has flipped coordinates...
+                    var markerLocation = new L.LatLng(lon, lat);
+                    var marker = new L.Marker(markerLocation, {
+                        icon: activityIcon
+                    });
+                    marker.activityData = activityData;
+                    marker.processId = activityProcessId;
+                    // Add a permanent tooltup
+                    var tooltip = new L.Tooltip({
+                        direction: 'bottom',
+                        permanent: true,
+                        noWrap: true,
+                        opacity: 0.9
+                    });
+                    tooltip.setContent(tooltipText);
+                    //marker.bindTooltip(tooltip, {className: 'leaflet-activity-tooltip'}).openTooltip();
+                    markersArray.push(marker);
+                }
+                // Add the markers to a group and set the view to contain all markers
+                var markersGroup = L.featureGroup(markersArray).addTo(locationsMap);
+                setTimeout(function() {
+                    locationsMap.fitBounds(markersGroup.getBounds());
+                }, 1000);
+
+                // Add the modal
+                for (var i = 0; i < markersArray.length; i++) {
+                    markersArray[i].on('click', function() {
+                        var thisActivityId = this.activityData.id;
+                        var thisProcessId = this.processId;
+                        Modal.show('Activity', function() {
+                            return {
+                                "project": thisProject._id,
+                                "process": thisProcessId,
+                                "activity": thisActivityId,
+                                "mode": "edit"
+                            }
+                        });
+                    });
                 }
             }
-            // Create the markers from the data
-            var markersArray = [];
-            for (var i=0; i<markersData.length; i++) {
-                var lon = markersData[i][0];
-                var lat = markersData[i][1];
-                var tooltipText = markersData[i][2];
-                var activityProcessId = markersData[i][3].processId;
-                var activityData = markersData[i][3].activityData;
-                // Leaflet has flipped coordinates...
-                var markerLocation = new L.LatLng(lon, lat);
-                var marker = new L.Marker(markerLocation, {icon: activityIcon});
-                marker.activityData = activityData;
-                marker.processId = activityProcessId;
-                // Add a permanent tooltup
-                var tooltip = new L.Tooltip({
-                    direction: 'bottom',
-                    permanent: true,
-                    noWrap: true,
-                    opacity: 0.9
-                });
-                tooltip.setContent(tooltipText);
-                //marker.bindTooltip(tooltip, {className: 'leaflet-activity-tooltip'}).openTooltip();
-                markersArray.push(marker);
-            }
-            // Add the markers to a group and set the view to contain all markers
-            var markersGroup = L.featureGroup(markersArray).addTo(locationsMap);
-            setTimeout(function () {
-                locationsMap.fitBounds(markersGroup.getBounds());
-            }, 1000);
+
         }
-        // Add the modal
-        for (var i=0; i<markersArray.length; i++) {
-            markersArray[i].on('click', function() {
-                var thisActivityId = this.activityData.id;
-                var thisProcessId = this.processId;
-                Modal.show('Activity', function() {
-                    return {
-                        "project": thisProject._id,
-                        "process": thisProcessId,
-                        "activity": thisActivityId,
-                        "mode": "edit"
-                    }
-                });
-            });
-    }
+
     });
 
     // Set up visualization
@@ -656,7 +668,10 @@ Template.ProjectsViz.onRendered(function() {
                         // If they overlaps...
                         if (firstRange.overlaps(secondRange)) {
                             overlapsCount += 1;
-                            overlapRanges.push({"first":firstRange, "second":secondRange});
+                            overlapRanges.push({
+                                "first": firstRange,
+                                "second": secondRange
+                            });
                         }
                     }
                 }
@@ -665,7 +680,10 @@ Template.ProjectsViz.onRendered(function() {
             if (overlapsCount > 0) {
                 console.log(overlapRanges);
             }
-            overlaps.push({process: thisUpdatedProject.processes[process]["title"], overlaps: overlapsCount});
+            overlaps.push({
+                process: thisUpdatedProject.processes[process]["title"],
+                overlaps: overlapsCount
+            });
             activitiesRanges = [];
             overlapsCount = 0;
             overlapRanges = []
@@ -738,13 +756,13 @@ Template.ProjectsViz.onRendered(function() {
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
-                // Add separator lines from the project data
-                for (separator in thisUpdatedProject.separators) {
-                    thisSeparator = thisUpdatedProject.separators[separator]
-                    if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
-                        addSectionLine(thisSeparator.text, sectionsGroups[j]);
-                    }
+            // Add separator lines from the project data
+            for (separator in thisUpdatedProject.separators) {
+                thisSeparator = thisUpdatedProject.separators[separator]
+                if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
+                    addSectionLine(thisSeparator.text, sectionsGroups[j]);
                 }
+            }
 
         }
 
@@ -769,7 +787,10 @@ Template.ProjectsViz.onRendered(function() {
         // Translate timeG according to the label width
         var GX = d3.select("#yAxisG").node().getBBox().width + 20;
         timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
-        sectionsWidth.push({"section": "Time", "x": GX});
+        sectionsWidth.push({
+            "section": "Time",
+            "x": GX
+        });
 
         for (var j in thisProject.processes) {
             if (j == 0) {
@@ -777,7 +798,10 @@ Template.ProjectsViz.onRendered(function() {
             } else {
                 GX = GX + sectionsGroups[j - 1].node().getBBox().width + gutter;
             }
-            sectionsWidth.push({"section": thisProject.processes[j].title, "x": GX});
+            sectionsWidth.push({
+                "section": thisProject.processes[j].title,
+                "x": GX
+            });
             sectionsGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
 
         }
