@@ -192,7 +192,7 @@ TabularTables.Discussions = new Tabular.Table({
         data: "attachedToDescription",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Element',
         render: function(val, type, doc) {
-            return "<i class="+doc.icon+"></i> "+val;
+            return '<i class="'+doc.icon+'"></i> '+val;
         }
     }, {
         data: "numberOfComments",
