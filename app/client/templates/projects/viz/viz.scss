@@ -37,6 +37,9 @@ $line-color-viz: #999999;
     margin-right: 10px;
 }
 
+pre {border: 0; background-color: transparent;font-family: monospace;white-space: pre-wrap;
+  word-break: normal;}
+
 /* D3 Processes viz */
 svg {
     font-family: $font-viz;

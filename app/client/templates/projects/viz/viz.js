@@ -1,6 +1,9 @@
 // Import Leaflet
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+// Import Highlight.js
+import 'highlight.js/styles/github.css';
+import hljs from 'highlight.js';
 // Import D3
 import d3 from 'd3';
 import { TextBox } from 'd3plus-text';
@@ -143,7 +146,21 @@ Template.ProjectsViz.helpers({
         }
         return activitiesWithoutLocation;
     },
-
+    versions: function() {
+        var prettifiedData = [];
+        for (version in thisProject.versions) {
+            var thisData = {
+                "id": thisProject.versions[version].id,
+                "number": thisProject.versions[version].number,
+                "updatedAtBy": thisProject.versions[version].updatedAtBy,
+                "updatedAt": thisProject.versions[version].updatedAt,
+                "diff": thisProject.versions[version].diff,
+            };
+            prettifiedData.push(thisData);
+        }
+        console.log(prettifiedData);
+        return prettifiedData;
+    },
 });
 /*****************************************************************************/
 /* ProjectsViz: Lifecycle Hooks */
@@ -159,6 +176,10 @@ Template.ProjectsViz.onRendered(function() {
     $('[data-toggle="tab"]').tooltip({
         trigger: 'hover',
         placement: 'top'
+    });
+    // Highlight.js
+    $("code").each(function(i, block) {
+        hljs.highlightBlock(block);
     });
 
     // Add the Locations map

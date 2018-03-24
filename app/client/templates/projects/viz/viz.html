@@ -31,13 +31,13 @@
             </div>
             <div class="row">
                 <div class="col-xs-2">
-                    <i class="fa fa-clock-o" aria-hidden="true"></i> <strong>Created at</strong> {{createdAt}} by {{createdBy}}
+                    <i class="fa fa-clock-o"></i> <strong>Created at</strong> {{createdAt}} by {{createdBy}}
                 </div>
                 <div class="col-xs-8">
                     Visualization of the activity of users...
                 </div>
                 <div class="col-xs-2">
-                    <i class="fa fa-clock-o" aria-hidden="true"></i> <strong>Last updated at</strong> {{lastUpdatedAt}} by {{lastUpdatedBy}}
+                    <i class="fa fa-clock-o"></i> <strong>Last updated at</strong> {{lastUpdatedAt}} by {{lastUpdatedBy}}
                 </div>
             </div>
             <div class="row">
@@ -92,6 +92,14 @@
                                 </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="#view-versions" data-toggle="tab" title="View all the Versions of this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-history fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="view-project">
@@ -136,6 +144,25 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade in" id="view-versions">
+                            <h2>{{_ "versions"}}</h2>
+                            {{#each versions}}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <i class="fa fa-history"></i>
+                                        <strong>{{number}}</strong> <em>{{id}}</em>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <i class="fa fa-user"></i>  {{updatedAtBy}} - <i class="fa fa-clock-o"></i> {{updatedAt}}
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <pre>
+                                            <code class="json">{{diff}}</code>
+                                        </pre>
+                                    </div>
+                                </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
