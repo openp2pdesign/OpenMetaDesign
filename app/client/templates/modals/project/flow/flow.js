@@ -19,6 +19,29 @@ import { Flows } from '../../../../../lib/collections/flows.js';
 /* Flow: Event Handlers */
 /*****************************************************************************/
 Template.Flow.events({
+    // Edit the flow
+    'click #edit-save-flow-button': function(event, template) {
+        event.preventDefault();
+        // Get the data from the form
+        var newTitle = $('#new-flow-title').val();
+        var newDescription = $('#new-flow-description').val();
+        var newResource = $('#new-flow-resource').val();
+        var newType = $('#new-flow-type').val();
+        var newWeight = parseInt($('#new-flow-weight').val());
+        var newFirstNode = $('#new-flow-first-node option:selected').data('option');
+        var newSecondNode = $('#new-flow-second-node option:selected').data('option');
+        // Format data from the form as an object
+        flowData = {
+            "title": newTitle,
+            "description": newDescription,
+            "resource": newResource,
+            "type": newType,
+            "weight": newWeight,
+            "firstNode": newFirstNode,
+            "secondNode": newSecondNode
+        }
+        console.log(flowData);
+    },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
         event.preventDefault();
