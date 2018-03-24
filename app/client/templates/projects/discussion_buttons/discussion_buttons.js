@@ -8,14 +8,17 @@ Template.DiscussionButtons.events({
     // Open the modal that enable the discussion
     'click .open-discussion': function(event, template) {
         event.preventDefault();
+        // Get IDs of project and discussion
+        var thisDiscussionID = this._id;
+        var thisDiscussionData = Discussions.findOne({ '_id': thisDiscussionID });
+        var thisAttachedTo = thisDiscussionData.attachedTo;
+        var thisProjectID = thisDiscussionData.projectId;
+        Session.set('thisProject', thisProjectID);
+        Session.set('discussionToShow', thisProjectID + "-" + thisAttachedTo);
         // Launch modal
         Modal.show('DiscussModal', function() {
-            var thisProjectID = Projects.findOne({ 'discussions': {'$in': [template.data._id]} })._id;
-            var thisDiscussion = Discussions.findOne({ '_id': template.data._id});
-            Session.set('thisProject', thisProjectID);
-            Session.set('discussionToShow', thisProjectID + "-" + thisDiscussion.attachedTo);
             return {
-                "discussionId": template.data._id
+                "discussionId": thisDiscussionID
             }
         });
     },

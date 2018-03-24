@@ -133,7 +133,8 @@ Meteor.publishComposite("tabular_discussions", function (tableName, ids, fields)
             fields: {
                 'id': 1,
                 'attachedToDescription': 1,
-                'numberOfComments': 1
+                'numberOfComments': 1,
+                'icon': 1
             }
         });
     },

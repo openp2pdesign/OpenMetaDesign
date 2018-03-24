@@ -179,15 +179,27 @@ TabularTables.Discussions = new Tabular.Table({
     name: "Discussions",
     collection: Discussions,
     pub: "tabular_discussions",
+    extraFields: ['icon'],
+    columnDefs: [{
+        "targets": 2,
+        "className": "text-center",
+        "width": "50px"
+    }],
     columns: [{
         data: "_id",
         title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
     }, {
         data: "attachedToDescription",
-        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Element',
+        render: function(val, type, doc) {
+            return "<i class="+doc.icon+"></i>"+val;
+        }
     }, {
         data: "numberOfComments",
-        title: '<i class="fa fa-comments" aria-hidden="true"></i> Comments'
+        title: '<i class="fa fa-comments" aria-hidden="true"></i>',
+        render: function(val, type, doc) {
+            return '<span class="badge">'+val+'</span>';
+        }
     }, {
         data: "createdBy",
         title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'

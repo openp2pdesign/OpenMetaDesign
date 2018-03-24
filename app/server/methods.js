@@ -938,115 +938,61 @@ Meteor.methods({
         });
         if (typeof thisDiscussion !== "undefined") {
             var thisElement = roomId.split("-")[1];
+            var thisDiscussionData = {
+                "attachedTo": thisElement,
+                "discussion": thisDiscussion._id
+            }
             // Add it to the list of discussions
             Projects.update({
                 '_id': projectId
             }, {
                 $push: {
-                    'discussions': thisDiscussion._id
+                    'discussions': thisDiscussionData
                 }
             });
-            // TODO Add (or remove in projects.js) the discussion of processes
-            if (thisElement == "title") {
-                // Title
-                Projects.update({
-                    '_id': projectId
+            // Add the discussion id to contradictions, flows or activities
+            // Contradictions
+            var thisDocument = Contradictions.findOne({
+                '_id': thisElement
+            });
+            if (typeof thisDocument !== "undefined") {
+                // Update the data
+                Contradictions.update({
+                    '_id': thisDocument
                 }, {
                     $set: {
-                        'titleDiscussion': thisDiscussion._id
+                        'contradictionData.discussion': thisDiscussion._id
                     }
                 });
-            } else if (thisElement == "description") {
-                // Description
-                Projects.update({
-                    '_id': projectId
+            }
+            // Flows
+            var thisDocument = Flows.findOne({
+                '_id': thisElement
+            });
+            if (typeof thisDocument !== "undefined") {
+                // Update the data
+                Flows.update({
+                    '_id': thisDocument
                 }, {
                     $set: {
-                        'descriptionDiscussion': thisDiscussion._id
+                        'flowData.discussion': thisDiscussion._id
                     }
                 });
-            } else if (thisElement == "release") {
-                // Release
-                Projects.update({
-                    '_id': projectId
+            }
+            // Activities
+            var thisDocument = Activities.findOne({
+                '_id': thisElement
+            });
+            if (typeof thisDocument !== "undefined") {
+                // Update the data
+                Activities.update({
+                    '_id': thisDocument
                 }, {
                     $set: {
-                        'releaseDiscussion': thisDiscussion._id
+                        'activityData.discussion': thisDiscussion._id
                     }
                 });
-            } else if (thisElement == "designers") {
-                // Designers
-                Projects.update({
-                    '_id': projectId
-                }, {
-                    $set: {
-                        'designersDiscussion': thisDiscussion._id
-                    }
-                });
-            } else if (thisElement == "community") {
-                // Community
-                Projects.update({
-                    '_id': projectId
-                }, {
-                    $set: {
-                        'communityDiscussion': thisDiscussion._id
-                    }
-                });
-            } else if (thisElement == "license") {
-                // License
-                Projects.update({
-                    '_id': projectId
-                }, {
-                    $set: {
-                        'license.discussion': thisDiscussion._id
-                    }
-                });
-            } else {
-                // Contradictions, flows or activities
-                // Contradictions
-                var thisDocument = Contradictions.findOne({
-                    '_id': thisElement
-                });
-                if (typeof thisDocument !== "undefined") {
-                    // Update the data
-                    Contradictions.update({
-                        '_id': thisDocument
-                    }, {
-                        $set: {
-                            'contradictionData.discussion': thisDiscussion._id
-                        }
-                    });
-                }
-                // Flows
-                var thisDocument = Flows.findOne({
-                    '_id': thisElement
-                });
-                if (typeof thisDocument !== "undefined") {
-                    // Update the data
-                    Flows.update({
-                        '_id': thisDocument
-                    }, {
-                        $set: {
-                            'flowData.discussion': thisDiscussion._id
-                        }
-                    });
-                }
-                // Activities
-                var thisDocument = Activities.findOne({
-                    '_id': thisElement
-                });
-                if (typeof thisDocument !== "undefined") {
-                    // Update the data
-                    Activities.update({
-                        '_id': thisDocument
-                    }, {
-                        $set: {
-                            'activityData.discussion': thisDiscussion._id
-                        }
-                    });
-                }
             }
         }
-
     },
 });

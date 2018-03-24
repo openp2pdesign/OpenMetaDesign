@@ -466,17 +466,9 @@ export const ProjectSchema = new SimpleSchema({
         type: String,
         max: 200
     },
-    titleDiscussion: {
-        type: String,
-        optional: true
-    },
     description: {
         type: String,
         max: 1024
-    },
-    descriptionDiscussion: {
-        type: String,
-        optional: true
     },
     license: {
         type: LicenseSchema
@@ -484,10 +476,6 @@ export const ProjectSchema = new SimpleSchema({
     release: {
         type: String,
         max: 10
-    },
-    releaseDiscussion: {
-        type: String,
-        optional: true
     },
     createdBy: {
         type: String,
@@ -553,17 +541,9 @@ export const ProjectSchema = new SimpleSchema({
     designers: {
         type: String
     },
-    designersDiscussion: {
-        type: String,
-        optional: true
-    },
     community: {
         type: String,
         max: 1024
-    },
-    communityDiscussion: {
-        type: String,
-        optional: true
     },
     processes: {
         type: Array,
@@ -595,7 +575,10 @@ export const ProjectSchema = new SimpleSchema({
         type: Array,
         optional: true
     },
-    'discussions.$': String,
+    'discussions.$': {
+        type: Object,
+        blackbox: true
+    },
 });
 
 // Attach the ProjectSchema to the projects collection
