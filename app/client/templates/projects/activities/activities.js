@@ -4,19 +4,18 @@
 Template.Activities.events({
     'click #create-activity-button': function(event, template) {
         event.preventDefault();
-
-        var thisProcess = $('#new-process option:selected').data('option');
-
-        // Edit button
+        // Get project and process IDs
+        var thisProcessID = $('#new-process option:selected').data('process-id');
+        var thisProjectID = this._id;
+        // Launch the modal
         Modal.show('Activity', function() {
             return {
-                "project": this._id,
-                "process": thisProcess,
+                "project": thisProjectID,
+                "process": thisProcessID,
                 "activity": 'new activity',
                 "mode": "add"
             }
         });
-
     },
 });
 
