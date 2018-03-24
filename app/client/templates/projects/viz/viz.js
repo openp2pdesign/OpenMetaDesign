@@ -4,6 +4,8 @@ import L from 'leaflet';
 // Import Highlight.js
 import 'highlight.js/styles/github.css';
 import hljs from 'highlight.js';
+// Import Moment
+import { moment } from 'meteor/momentjs:moment';
 // Import D3
 import d3 from 'd3';
 import { TextBox } from 'd3plus-text';
@@ -154,11 +156,11 @@ Template.ProjectsViz.helpers({
                 "number": thisProject.versions[version].number,
                 "updatedAtBy": thisProject.versions[version].updatedAtBy,
                 "updatedAt": thisProject.versions[version].updatedAt,
+                "updatedAtRelative": moment(thisProject.versions[version].updatedAt).calendar(),
                 "diff": thisProject.versions[version].diff,
             };
             prettifiedData.push(thisData);
         }
-        console.log(prettifiedData);
         return prettifiedData;
     },
 });

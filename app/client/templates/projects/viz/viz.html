@@ -150,11 +150,12 @@
                             {{#each versions}}
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <i class="fa fa-history"></i>
-                                        <strong>{{number}}</strong> <em>{{id}}</em>
+                                        <span class="badge"><i class="fa fa-history"></i>
+                                        <strong>{{number}}</strong></span>
+                                         <em>{{id}}</em>
                                     </div>
                                     <div class="col-sm-12">
-                                        <i class="fa fa-user"></i>  {{updatedAtBy}} - <i class="fa fa-clock-o"></i> {{updatedAt}}
+                                        <i class="fa fa-user"></i>  {{updatedAtBy}} - <i class="fa fa-clock-o"></i> {{updatedAtRelative}} - {{updatedAt}}
                                     </div>
                                     <div class="col-sm-12">
                                         <pre>
