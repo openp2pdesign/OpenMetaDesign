@@ -2,28 +2,5 @@
     <div class="project-discussions">
         <h2>{{_ "discussions"}}</h2>
         {{> tabular table=TabularTables.Discussions class="table table-striped table-bordered table-condensed" selector=tabularSelector}}
-        <div class="row">
-            <div class="col-sm-4 col-md-4">
-                <div class="list-group">
-                    {{#each discussion in data.discussions}}
-                        <button type="button" class="list-group-item" data-room={{discussion.roomId}} id={{discussion.roomId}}>
-                            <i class={{discussion.icon}}></i>
-                            {{discussion.attachedToDescription}}
-                            <span class="badge">
-                                {{discussion.numberOfComments}}
-                                {{_ "comments"}}
-                            </span>
-                            <i class={{thisIcon}}></i>
-                        </button>
-                    {{/each}}
-                </div>
-            </div>
-            <div class="col-sm-8 col-md-8">
-                <h3>{{thisRoomTitle}}</h3>
-                <div id="selectedDiscussion">
-                    {{>Discuss}}
-                </div>
-            </div>
-        </div>
     </div>
 </template>

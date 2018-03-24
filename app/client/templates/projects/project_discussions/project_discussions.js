@@ -7,16 +7,6 @@ import { $ } from 'meteor/jquery';
 /* ProjectDiscussions: Event Handlers */
 /*****************************************************************************/
 Template.ProjectDiscussions.events({
-    'click .list-group-item': function(event, template) {
-        event.preventDefault();
-        // Pass the discussion id to Sessions
-        Session.set('discussionToShow', event.currentTarget.id);
-        // Reload the discussion
-        // Empty the div
-        $("#selectedDiscussion").empty();
-        // Reload template with new data
-        Blaze.render(Template.Discuss, document.getElementById('selectedDiscussion'));
-    },
 });
 
 /*****************************************************************************/
