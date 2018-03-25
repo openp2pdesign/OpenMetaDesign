@@ -21,7 +21,16 @@ Template.Flows.events({
     // Show the div that enable the creation of flows
     'click #create-flow-button': function(event, template) {
         event.preventDefault();
-        $("#createFlowDiv").show();
+        // Get project and process IDs
+        var thisProjectID = this._id;
+        // Launch the modal
+        Modal.show('Flow', function() {
+            return {
+                "projectId": thisProjectID,
+                "flowId": 'new activity',
+                "mode": "add"
+            }
+        });
     },
 });
 

@@ -8,7 +8,8 @@ Template.ContradictionButtons.events({
         // Launch modal
         Modal.show('Contradiction', function() {
             return {
-                "contradictionId": template.data._id
+                "contradictionId": template.data._id,
+                "mode": "edit"
             }
         });
     },

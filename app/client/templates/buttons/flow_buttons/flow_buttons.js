@@ -9,6 +9,7 @@ Template.FlowButtons.events({
         Modal.show('Flow', function() {
             return {
                 "flowId": template.data._id,
+                "mode": "edit"
             }
         });
     },

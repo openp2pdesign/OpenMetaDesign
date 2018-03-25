@@ -38,56 +38,62 @@ Template.Flow.events({
             "firstNode": newFirstNode,
             "secondNode": newSecondNode
         }
-        // Save the flow
-        // Validate and save new data
-        Meteor.call('addFlow', thisProjectID, flowData, function(error, result) {
-            if (error) {
-                var errorNotice = new PNotify({
-                    type: 'error',
-                    title: 'Error',
-                    text: 'There was an error in adding the flow',
-                    icon: 'fa fa-random',
-                    addclass: 'pnotify stack-topright',
-                    animate: {
-                        animate: true,
-                        in_class: 'slideInDown',
-                        out_class: 'slideOutUp'
-                    },
-                    buttons: {
-                        closer: true,
-                        sticker: false
-                    }
-                });
+        // Add a new flow
+        if (this.mode == "add") {
+            // Save the flow
+            // Validate and save new data
+            Meteor.call('addFlow', thisProjectID, flowData, function(error, result) {
+                if (error) {
+                    var errorNotice = new PNotify({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'There was an error in adding the flow',
+                        icon: 'fa fa-random',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
 
-                errorNotice.get().click(function() {
-                    errorNotice.remove();
-                });
-            } else {
-                // Close the modal, since there is no activity any longer
-                Modal.hide('Flow');
-                // Add notification
-                var successNotice = new PNotify({
-                    type: 'success',
-                    title: 'Success',
-                    text: 'Flow successfully added.',
-                    icon: 'fa fa-random',
-                    addclass: 'pnotify stack-topright',
-                    animate: {
-                        animate: true,
-                        in_class: 'slideInDown',
-                        out_class: 'slideOutUp'
-                    },
-                    buttons: {
-                        closer: true,
-                        sticker: false
-                    }
-                });
+                    errorNotice.get().click(function() {
+                        errorNotice.remove();
+                    });
+                } else {
+                    // Close the modal, since there is no activity any longer
+                    Modal.hide('Flow');
+                    // Add notification
+                    var successNotice = new PNotify({
+                        type: 'success',
+                        title: 'Success',
+                        text: 'Flow successfully added.',
+                        icon: 'fa fa-random',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
 
-                successNotice.get().click(function() {
-                    successNotice.remove();
-                });
-            }
-        });
+                    successNotice.get().click(function() {
+                        successNotice.remove();
+                    });
+                }
+            });
+        } // Edit an existing flow
+        else if (this.mode == "edit") {
+
+        }
     },
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
@@ -180,11 +186,12 @@ Template.Flow.onCreated(function() {
     Meteor.subscribe('activities');
     Meteor.subscribe('flows');
     // Load variables
-    thisFlowID = this.data.flowId;
-    thisProjectID = Flows.findOne({ '_id': thisFlowID }).projectId;
-    // Set variables
+    thisProjectID = this.data.projectId;
     Session.set('thisProject', thisProjectID);
-    Session.set('discussionToShow', thisProjectID + "-" + thisFlowID);
+    if (this.data.mode === "edit") {
+        thisFlowID = this.data.flowId;
+        Session.set('discussionToShow', thisProjectID + "-" + thisFlowID);
+    }
 });
 
 Template.Flow.onRendered(function() {
