@@ -90,34 +90,89 @@ Template.FlowEdit.events({
             });
         } // Edit an existing flow
         else if (this.mode == "edit") {
+            // Save the flow
+            // Validate and save new data
+            Meteor.call('updateFlow', thisProjectID, thisFlowID, flowData, function(error, result) {
+                if (error) {
+                    var errorNotice = new PNotify({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'There was an error in updating the flow',
+                        icon: 'fa fa-random',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
 
+                    errorNotice.get().click(function() {
+                        errorNotice.remove();
+                    });
+                } else {
+                    // Close the modal, since there is no activity any longer
+                    Modal.hide('Flow');
+                    // Add notification
+                    var successNotice = new PNotify({
+                        type: 'success',
+                        title: 'Success',
+                        text: 'Flow successfully updated.',
+                        icon: 'fa fa-random',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
+
+                    successNotice.get().click(function() {
+                        successNotice.remove();
+                    });
+                }
+            });
         }
     },
-});
+    });
 
 /*****************************************************************************/
 /* FlowEdit: Helpers */
 /*****************************************************************************/
 Template.FlowEdit.helpers({
-    flowData: function() {
-        // Get the flow data
-        var thisData = Flows.findOne({
-            '_id': this.flowId
-        });
-        // If there is data... then return it
-        if (thisData) {
-            // Add the data for the nodes
-            thisData.firstNodeData = Activities.findOne({
-                '_id': thisData.flowData.firstNode
+    data: function() {
+        // Return helper values for the template
+        if (this.mode === "edit") {
+            // Get the flow data
+            var thisFlow = Flows.findOne({
+                '_id': this.flowId
             });
-            thisData.secondNodeData = Activities.findOne({
-                '_id': thisData.flowData.secondNode
-            });
-            // Return the data
-            return thisData;
+            // If there is data... then return it
+            if (thisFlow) {
+                // Add the data for the nodes
+                thisFlow.firstNodeData = Activities.findOne({
+                    '_id': thisFlow.flowData.firstNode
+                });
+                thisFlow.secondNodeData = Activities.findOne({
+                    '_id': thisFlow.flowData.secondNode
+                });
+            }
+        } else {
+            thisFlow = {}
         }
+        // Return the data
+        return thisFlow;
     },
 });
+
 
 /*****************************************************************************/
 /* FlowEdit: Lifecycle Hooks */
@@ -129,10 +184,14 @@ Template.FlowEdit.onCreated(function () {
     // Load variables
     thisProjectID = this.data.projectId
     thisFlowID = this.data.flowId;
-    console.log(this.data);
 });
 
 Template.FlowEdit.onRendered(function () {
+    // Enable select2
+    $('.select2-dropdown').select2({
+        dropdownAutoWidth: true,
+        width: '100%'
+    });
 });
 
 Template.FlowEdit.onDestroyed(function () {
