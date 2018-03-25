@@ -23,16 +23,6 @@ Template.Flows.events({
         event.preventDefault();
         $("#createFlowDiv").show();
     },
-    // Cancel delete the flow
-    'click #cancel-delete-flow-button': function(event, template) {
-        event.preventDefault();
-        $("#deleteFlowDiv").hide();
-    },
-    // Close show the flow
-    'click #close-flow-button': function(event, template) {
-        event.preventDefault();
-        $("#showFlowDiv").hide();
-    },
 });
 
 /*****************************************************************************/
