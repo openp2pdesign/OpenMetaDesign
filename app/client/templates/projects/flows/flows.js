@@ -40,7 +40,7 @@ Template.Flows.events({
 Template.Flows.helpers({
     tabularSelector: function() {
         return {'projectId': this._id};
-    },
+    }
 });
 
 /*****************************************************************************/

@@ -15,6 +15,7 @@
                         <div class="modal-body row-fluid">
                             <!-- Tabs -->
                             <ul class="nav nav-tabs">
+                                {{#if isEditMode}}
                                 <li class="active">
                                     <a href="#activity-view-tab" data-toggle="tab" title="View this activity">
                                         <span class="fa-stack fa-1x">
@@ -23,6 +24,7 @@
                                         </span>
                                     </a>
                                 </li>
+                                {{/if}}
                                 <li>
                                     <a href="#activity-edit-tab" data-toggle="tab" title="Edit this activity">
                                         <span class="fa-stack fa-1x">

@@ -14,6 +14,7 @@
                     <div class="modal-body row-fluid">
                         <!-- Tabs -->
                         <ul class="nav nav-tabs">
+                            {{#if isEditMode}}
                             <li class="active">
                                 <a href="#flow-view-tab" data-toggle="tab" title="View this flow">
                                     <span class="fa-stack fa-1x">
@@ -46,6 +47,16 @@
                                     </span>
                                 </a>
                             </li>
+                            {{else}}
+                            <li class="active">
+                                <a href="#flow-add-tab" data-toggle="tab" title="Edit this flow">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            {{/if}}
                             <li>
                                 <a href="#flow-help-tab" data-toggle="tab" title="Help">
                                     <span class="fa-stack fa-1x">
@@ -56,6 +67,7 @@
                             </li>
                         </ul>
                         <div class="tab-content">
+                            {{#if isEditMode}}
                             <div class="tab-pane fade in active" id="flow-view-tab">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -201,6 +213,107 @@
                                     </div>
                                 </div>
                             </div>
+                            {{else}}
+                            <div class="tab-pane fade in active" id="flow-add-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>{{_ "flow_edit"}}</h3>
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.title}} id="new-flow-title">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.description}} id="new-flow-description">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" value={{flowData.flowData.resource}} id="new-flow-resource">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_type"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <select class="select2-dropdown" name="state" id="new-flow-type">
+                                                        <option>
+                                                            {{flowData.flowData.type}}
+                                                        </option>
+                                                        <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
+                                                        <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
+                                                        <option value={{_ "material_flow_value"}}>{{_ "material_flow"}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="number" value={{flowData.flowData.weight}} id="new-flow-weight">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
+                                                <div class="col-lg-8">
+                                                    {{flowData.flowData.firstNodeData.title}}
+                                                    <select class="select2-dropdown" name="state" id="new-flow-first-node">
+                                                        <option data-option={{flowData.flowData.firstNode}}>
+                                                            {{flowData.flowData.firstNode}}
+                                                        </option>
+                                                        {{#each activityElements}}
+                                                            <option data-option={{activityElementData.id}}>
+                                                                #{{activityNumber}}
+                                                                -
+                                                                {{activityElementData.id}}
+                                                                ...
+                                                                {{activityElementData.title}}
+                                                                -
+                                                                {{activityElementData.description}}
+                                                            </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
+                                                <div class="col-lg-8">
+                                                    <select class="select2-dropdown" name="state" id="new-flow-second-node">
+                                                        <option data-option={{flowData.flowData.secondNode}}>
+                                                            {{flowData.flowData.secondNode}}
+                                                        </option>
+                                                        {{#each activityElements}}
+                                                            <option data-option={{activityElementData.id}}>
+                                                                <i class="icomoon-activity"></i> #{{activityNumber}}
+                                                                -
+                                                                {{activityElementData.title}}
+                                                                -
+                                                                {{activityElementData.description}}
+                                                            </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-warning" id="cancel-edit-save-flow-button">
+                                            <i class="fa fa-close"></i>
+                                            {{_ "flow_cancel_save_button"}}
+                                        </button>
+                                        <button class="btn btn-info" id="edit-save-flow-button">
+                                            <i class="fa fa-floppy-o"></i>
+                                            {{_ "flow_save_button"}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/if}}
                             <div class="tab-pane fade in" id="flow-help-tab">
                                 {{> FlowHelp}}
                             </div>

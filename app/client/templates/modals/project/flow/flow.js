@@ -176,6 +176,17 @@ Template.Flow.helpers({
             return thisData;
         }
     },
+    equals: function(a, b) {
+        // Compare variables, for if section in Blaze template
+        return a == b;
+    },
+    isEditMode: function() {
+        if (this.mode == "edit") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 });
 
 /*****************************************************************************/
