@@ -4,15 +4,15 @@ import { Discussions } from '../../../../lib/collections/discussions.js';
 import { $ } from 'meteor/jquery';
 
 /*****************************************************************************/
-/* ProjectDiscussions: Event Handlers */
+/* Discussions: Event Handlers */
 /*****************************************************************************/
-Template.ProjectDiscussions.events({
+Template.Discussions.events({
 });
 
 /*****************************************************************************/
-/* ProjectDiscussions: Helpers */
+/* Discussions: Helpers */
 /*****************************************************************************/
-Template.ProjectDiscussions.helpers({
+Template.Discussions.helpers({
     data: function() {
         return {
             "project": this._id,
@@ -37,18 +37,18 @@ Template.ProjectDiscussions.helpers({
 });
 
 /*****************************************************************************/
-/* ProjectDiscussions: Lifecycle Hooks */
+/* Discussions: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ProjectDiscussions.onCreated(function () {
+Template.Discussions.onCreated(function () {
     Meteor.subscribe('projects');
     Meteor.subscribe('discussions');
     Session.set('discussionToShow', null);
 });
 
-Template.ProjectDiscussions.onRendered(function () {
+Template.Discussions.onRendered(function () {
     // Empty the div, default
     $("#selectedDiscussion").empty();
 });
 
-Template.ProjectDiscussions.onDestroyed(function () {
+Template.Discussions.onDestroyed(function () {
 });
