@@ -150,7 +150,8 @@ Template.FlowEdit.events({
 Template.FlowEdit.helpers({
     data: function() {
         // Return helper values for the template
-        if (this.mode === "edit") {
+        var thisFlow = {}
+        if (thisMode === "edit") {
             // Get the flow data
             var thisFlow = Flows.findOne({
                 '_id': this.flowId
@@ -158,18 +159,18 @@ Template.FlowEdit.helpers({
             // If there is data... then return it
             if (thisFlow) {
                 // Add the data for the nodes
-                thisFlow.firstNodeData = Activities.findOne({
+                thisFlow.flowData.firstNodeData = Activities.findOne({
                     '_id': thisFlow.flowData.firstNode
                 });
-                thisFlow.secondNodeData = Activities.findOne({
+                thisFlow.flowData.secondNodeData = Activities.findOne({
                     '_id': thisFlow.flowData.secondNode
                 });
             }
-        } else {
+        } else if (thisMode === "add") {
             thisFlow = {}
         }
         // Return the data
-        return thisFlow;
+        return thisFlow.flowData;
     },
 });
 
@@ -184,6 +185,7 @@ Template.FlowEdit.onCreated(function () {
     // Load variables
     thisProjectID = this.data.projectId
     thisFlowID = this.data.flowId;
+    thisMode = this.data.mode;
 });
 
 Template.FlowEdit.onRendered(function () {

@@ -7,19 +7,19 @@
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_title"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{data.data.title}} id="new-flow-title">
+                          <input class="form-control" type="text" value={{data.title}} id="new-flow-title">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_description"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{data.data.description}} id="new-flow-description">
+                          <input class="form-control" type="text" value={{data.description}} id="new-flow-description">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_resource"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{data.data.resource}} id="new-flow-resource">
+                          <input class="form-control" type="text" value={{data.resource}} id="new-flow-resource">
                       </div>
                   </div>
                   <div class="form-group">
@@ -27,7 +27,7 @@
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-flow-type">
                               <option>
-                                  {{data.data.type}}
+                                  {{data.type}}
                               </option>
                               <option value={{_ "information_flow_value"}}>{{_ "information_flow"}}</option>
                               <option value={{_ "financial_flow_value"}}>{{_ "financial_flow"}}</option>
@@ -38,16 +38,16 @@
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_weight"}}:</label>
                       <div class="col-lg-8">
-                          <input class="form-control" type="number" value={{data.data.weight}} id="new-flow-weight">
+                          <input class="form-control" type="number" value={{data.weight}} id="new-flow-weight">
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                       <div class="col-lg-8">
-                          {{data.data.firstNodeData.title}}
+                          {{data.firstNodeData.title}}
                           <select class="select2-dropdown" name="state" id="new-flow-first-node">
-                              <option data-option={{data.data.firstNode}}>
-                                  {{data.data.firstNode}}
+                              <option data-option={{data.firstNode}}>
+                                  {{data.firstNode}}
                               </option>
                               {{#each activityElements}}
                                   <option data-option={{activityElementData.id}}>
@@ -67,8 +67,8 @@
                       <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-flow-second-node">
-                              <option data-option={{data.data.secondNode}}>
-                                  {{data.data.secondNode}}
+                              <option data-option={{data.secondNode}}>
+                                  {{data.secondNode}}
                               </option>
                               {{#each activityElements}}
                                   <option data-option={{activityElementData.id}}>
