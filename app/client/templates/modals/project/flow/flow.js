@@ -5,8 +5,6 @@ PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 // jquery
 import { $ } from 'meteor/jquery';
-// Random id
-import { Random } from 'meteor/random';
 // Viz
 import d3 from 'd3';
 // Load Projects and Settings
