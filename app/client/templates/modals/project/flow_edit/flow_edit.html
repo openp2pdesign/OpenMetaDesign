@@ -44,20 +44,15 @@
                   <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                       <div class="col-lg-8">
-                          {{data.firstNodeData.title}}
                           <select class="select2-dropdown" name="state" id="new-flow-first-node">
                               <option data-option={{data.firstNode}}>
-                                  {{data.firstNode}}
+                                  #{{data.firstNodeData.activityData.number}} -  {{data.firstNodeData.activityData.title}}
                               </option>
-                              {{#each activityElements}}
-                                  <option data-option={{activityElementData.id}}>
-                                      #{{activityNumber}}
+                              {{#each activities}}
+                                  <option data-option={{activityData.id}}>
+                                      #{{activityData.number}}
                                       -
-                                      {{activityElementData.id}}
-                                      ...
-                                      {{activityElementData.title}}
-                                      -
-                                      {{activityElementData.description}}
+                                      {{activityData.title}}
                                   </option>
                               {{/each}}
                           </select>
@@ -68,15 +63,13 @@
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-flow-second-node">
                               <option data-option={{data.secondNode}}>
-                                  {{data.secondNode}}
+                                  #{{data.secondNodeData.activityData.number}} -  {{data.secondNodeData.activityData.title}}
                               </option>
-                              {{#each activityElements}}
-                                  <option data-option={{activityElementData.id}}>
-                                      <i class="icomoon-activity"></i> #{{activityNumber}}
+                              {{#each activities}}
+                                  <option data-option={{activityData.id}}>
+                                      #{{activityData.number}}
                                       -
-                                      {{activityElementData.title}}
-                                      -
-                                      {{activityElementData.description}}
+                                      {{activityData.title}}
                                   </option>
                               {{/each}}
                           </select>

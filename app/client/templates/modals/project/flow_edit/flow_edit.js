@@ -172,6 +172,12 @@ Template.FlowEdit.helpers({
         // Return the data
         return thisFlow.flowData;
     },
+    activities: function() {
+        // Return only the activities in the current project
+        return Activities.find({
+            'projectId': thisProjectID
+        }).fetch();;
+    },
 });
 
 

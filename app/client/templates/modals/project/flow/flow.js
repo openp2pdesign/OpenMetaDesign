@@ -133,11 +133,6 @@ Template.Flow.onRendered(function() {
         trigger: 'hover',
         placement: 'top'
     });
-    // Enable select2
-    $('.select2-dropdown').select2({
-        dropdownAutoWidth: true,
-        width: '100%'
-    });
 
     // Visualize the Flow with D3
 
