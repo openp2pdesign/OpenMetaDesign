@@ -53,3 +53,9 @@
   content: "\e908";
   font-size: 1.3em;
 }
+.icomoon-activity-select2:before {
+  content: "\e907";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
