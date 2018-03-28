@@ -9,6 +9,7 @@
     "babel-runtime": "^6.23.0",
     "bcrypt-nodejs": "0.0.3",
     "buffer": "^5.1.0",
+    "core-js": "^2.5.4",
     "d3": "^4.13.0",
     "d3plus-text": "^0.9.25",
     "datatables.net-bs": "^1.10.16",
