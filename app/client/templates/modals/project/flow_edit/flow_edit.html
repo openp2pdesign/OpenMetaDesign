@@ -45,11 +45,11 @@
                       <label class="col-lg-3 control-label">{{_ "flow_first_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-flow-first-node">
-                              <option data-option={{data.firstNode}}>
+                              <option data-option={{data.firstNode}} data-icon="icomoon-activity">
                                   #{{data.firstNodeData.activityData.number}} -  {{data.firstNodeData.activityData.title}}
                               </option>
                               {{#each activities}}
-                                  <option data-option={{activityData.id}}>
+                                  <option data-option={{activityData.id}} data-icon="icomoon-activity">
                                       #{{activityData.number}}
                                       -
                                       {{activityData.title}}
@@ -62,11 +62,11 @@
                       <label class="col-lg-3 control-label">{{_ "flow_second_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-flow-second-node">
-                              <option data-option={{data.secondNode}}>
+                              <option data-option={{data.secondNode}} data-icon="icomoon-activity">
                                   #{{data.secondNodeData.activityData.number}} -  {{data.secondNodeData.activityData.title}}
                               </option>
                               {{#each activities}}
-                                  <option data-option={{activityData.id}}>
+                                  <option data-option={{activityData.id}} data-icon="icomoon-activity">
                                       #{{activityData.number}}
                                       -
                                       {{activityData.title}}

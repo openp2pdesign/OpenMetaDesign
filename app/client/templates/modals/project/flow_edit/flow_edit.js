@@ -195,10 +195,21 @@ Template.FlowEdit.onCreated(function () {
 });
 
 Template.FlowEdit.onRendered(function () {
+    // Icons for select2 options
+    function optionFormatIcon(icon) {
+        var originalOption = icon.element;
+        return '<i class="' + $(originalOption).data('icon') + '"></i> ' + icon.text;
+    }
     // Enable select2
     $('.select2-dropdown').select2({
         dropdownAutoWidth: true,
-        width: '100%'
+        width: '100%',
+        templateSelection: optionFormatIcon,
+        templateResult: optionFormatIcon,
+        allowHtml: true,
+        escapeMarkup: function(m) {
+            return m;
+        }
     });
 });
 
