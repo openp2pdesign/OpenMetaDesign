@@ -588,10 +588,10 @@ Meteor.methods({
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
-            'flowId': flowId
+            'flows.id': flowId
         }, {
             $set: {
-                'flowData': flowData
+                'flows.$': flowData
             }
         }, function(error) {
             if (error) {
@@ -619,9 +619,9 @@ Meteor.methods({
                 // Update flow in its own collection
                 Flows.update({
                     'projectId': projectId,
-                    'flowId': flowId
+                    '_id': flowId
                 }, {
-                    $push: {
+                    $set: {
                         "flowData": flowData
                     }
                 });
@@ -753,10 +753,10 @@ Meteor.methods({
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
-            'contradictionId': contradictionId
+            'contradictions.id': contradictionId
         }, {
             $set: {
-                'contradictionData': contradictionData
+                'contradictions.$': contradictionData
             }
         }, function(error) {
             if (error) {
@@ -784,9 +784,9 @@ Meteor.methods({
                 // Update contradiction in its own collection
                 Contradictions.update({
                     'projectId': projectId,
-                    'contradictionId': contradictionId
+                    '_id': contradictionId
                 }, {
-                    $push: {
+                    $set: {
                         "contradictionData": contradictionData
                     }
                 });

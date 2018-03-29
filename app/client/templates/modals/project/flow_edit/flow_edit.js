@@ -37,7 +37,7 @@ Template.FlowEdit.events({
             "secondNode": newSecondNode
         }
         // Add a new flow
-        if (this.mode == "add") {
+        if (thisMode == "add") {
             // Save the flow
             // Validate and save new data
             Meteor.call('addFlow', thisProjectID, flowData, function(error, result) {
@@ -89,7 +89,7 @@ Template.FlowEdit.events({
                 }
             });
         } // Edit an existing flow
-        else if (this.mode == "edit") {
+        else if (thisMode == "edit") {
             // Save the flow
             // Validate and save new data
             Meteor.call('updateFlow', thisProjectID, thisFlowID, flowData, function(error, result) {
