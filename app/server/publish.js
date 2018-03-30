@@ -152,7 +152,7 @@ Meteor.publish('activities', function() {
 });
 
 // Publish activity elements for the whole app
-Meteor.publish('activityElements', function() {
+Meteor.publish('activityelements', function() {
     return ActivityElements.find();
 });
 
