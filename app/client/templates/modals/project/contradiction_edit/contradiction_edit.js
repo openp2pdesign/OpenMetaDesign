@@ -16,6 +16,43 @@ import { Contradictions } from '../../../../../lib/collections/contradictions.j
 /* ContradictionEdit: Event Handlers */
 /*****************************************************************************/
 Template.ContradictionEdit.events({
+    // Show the contradiction lvel in realtime
+    'select2:selecting .select2-dropdown': function(event, template) {
+        // $(this).select2().find(":selected").val();
+        console.log($("#new-contradiction-second-node").select2("data")[0]);
+        console.log($("#new-contradiction-second-node").select2("data")[0].element.attributes['data-option'].value);
+        console.log($("#new-contradiction-second-node option:selected").data("option"));
+        //console.log($("#new-contradiction-second-node").select2('data'));
+        console.log($("#new-contradiction-second-node option:selected").text());
+        //console.log($("#new-contradiction-second-node option:selected").attr("data-option");
+
+        // Get the data from the form
+        var newFirstNode = $('#new-contradiction-first-node').val();
+        var newSecondNode = $('#new-contradiction-second-node').data('option');
+        // Compute the level of contradiction
+        var level = 0;
+        console.log("Calculating the type of contradiction..", newFirstNode, newSecondNode);
+        // if id is == then 1
+        if (newFirstNode === newSecondNode) {
+            level = "primary";
+            console.log(level);
+        }
+        // if id is != but activity is == then 2
+        var firstActivityElement = ActivityElements.findOne({
+            '_id': newFirstNode
+        })
+        var secondActivityElement = ActivityElements.findOne({
+            '_id': newSecondNode
+        })
+        console.log("1", firstActivityElement._id);
+        console.log("2", secondActivityElement._id);
+        // if id is != and activity is != then:
+        // if the second is a more advanced version of this activity = 3
+        // otherwise 4
+        //console.log(contradictionData);
+        // Show contradiction type explanation div
+        $('#contradiction-type-explanation').show();
+    },
     // Edit the contradiction
     'click #edit-save-contradiction-button': function(event, template) {
         event.preventDefault();
@@ -31,9 +68,9 @@ Template.ContradictionEdit.events({
         contradictionData = {
             "title": newTitle,
             "description": newDescription,
-            "resource": newResource,
             "firstNode": newFirstNode,
-            "secondNode": newSecondNode
+            "secondNode": newSecondNode,
+            "level": "test"
         }
         // Add a new contradiction
         if (thisMode == "add") {
@@ -114,8 +151,8 @@ Template.ContradictionEdit.events({
                         errorNotice.remove();
                     });
                 } else {
-                    // Close the modal, since there is no activity any longer
-                    Modal.hide('Contradiction');
+                    // Hide contradiction type explanation div
+                    $('#contradiction-type-explanation').hide();
                     // Add notification
                     var successNotice = new PNotify({
                         type: 'success',
@@ -206,6 +243,8 @@ Template.ContradictionEdit.onCreated(function () {
 });
 
 Template.ContradictionEdit.onRendered(function () {
+    // Hide contradiction type explanation div
+    $('#contradiction-type-explanation').hide();
     // Icons for select2 options
     function optionFormatIcon(icon) {
         var originalOption = icon.element;
@@ -215,6 +254,7 @@ Template.ContradictionEdit.onRendered(function () {
     $('.select2-dropdown').select2({
         dropdownAutoWidth: true,
         width: '100%',
+        dropdownParent: $('#thisModal'),
         templateSelection: optionFormatIcon,
         templateResult: optionFormatIcon,
         allowHtml: true,
@@ -222,6 +262,7 @@ Template.ContradictionEdit.onRendered(function () {
             return m;
         }
     });
+    $("#new-contradiction-second-node").select2("data-option", '76KFiBacbPdyLAchr');
 });
 
 Template.ContradictionEdit.onDestroyed(function () {
