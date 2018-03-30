@@ -167,7 +167,12 @@ Template.FlowEdit.helpers({
                 });
             }
         } else if (thisMode === "add") {
-            thisFlow = {}
+            thisFlow.flowData = {
+                "title": "Title of the flow...",
+                "description": "Description of the flow...",
+                "resource": "The resource flowing...",
+                "weight": 0,
+            }
         }
         // Return the data
         return thisFlow.flowData;

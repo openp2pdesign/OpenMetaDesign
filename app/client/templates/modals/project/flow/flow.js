@@ -20,7 +20,7 @@ Template.Flow.events({
     // Delete the flow
     'click #delete-flow-button': function(event, template) {
         event.preventDefault();
-        Meteor.call('deleteFlow', template.data.flowId, Session.get('thisProject'), function(error, result) {
+        Meteor.call('deleteFlow', thisFlowID, thisProjectID, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
@@ -120,7 +120,6 @@ Template.Flow.onCreated(function() {
     Meteor.subscribe('flows');
     // Load variables
     thisProjectID = this.data.projectId;
-    Session.set('thisProject', thisProjectID);
     if (this.data.mode === "edit") {
         thisFlowID = this.data.flowId;
         Session.set('discussionToShow', thisProjectID + "-" + thisFlowID);
