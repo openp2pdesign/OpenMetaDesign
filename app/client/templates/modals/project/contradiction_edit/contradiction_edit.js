@@ -197,6 +197,7 @@ Template.ContradictionEdit.helpers({
 Template.ContradictionEdit.onCreated(function () {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
+    Meteor.subscribe('activityelements');
     Meteor.subscribe('contradictions');
     // Load variables
     thisProjectID = this.data.projectId
@@ -208,7 +209,7 @@ Template.ContradictionEdit.onRendered(function () {
     // Icons for select2 options
     function optionFormatIcon(icon) {
         var originalOption = icon.element;
-        return '<i class="' + $(originalOption).data('icon') + '"></i> ' + icon.text;
+        return '<i class="' + $(originalOption).data('icon') + '"></i> ' + "#" + $(originalOption).data('activity-number') + ' - ' + '<i class="icomoon-' + $(originalOption).data('icon-element') + '-select2"></i> ' + '<span class="first-capital-letter">' + icon.text + '</span>';
     }
     // Enable select2
     $('.select2-dropdown').select2({

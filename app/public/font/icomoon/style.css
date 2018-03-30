@@ -40,7 +40,7 @@
 .icomoon-outcome:before {
   content: "\e904";
 }
-.icomoon.icon-object:before {
+.icomoon-object:before {
   content: "\e905";
 }
 .icomoon-community:before {
@@ -53,8 +53,51 @@
   content: "\e908";
   font-size: 1.3em;
 }
+/* select2 adjustments */
 .icomoon-activity-select2:before {
   content: "\e907";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-tools-select2:before {
+  content: "\e900";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-subject-select2:before {
+  content: "\e901";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-rules-select2:before {
+  content: "\e902";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-roles-select2:before {
+  content: "\e903";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-outcome-select2:before {
+  content: "\e904";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-object-select2:before {
+  content: "\e905";
+  font-size: 1em;
+  position: relative;
+  top: 2px;
+}
+.icomoon-community-select2:before {
+  content: "\e906";
   font-size: 1em;
   position: relative;
   top: 2px;
