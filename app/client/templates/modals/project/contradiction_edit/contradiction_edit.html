@@ -17,42 +17,15 @@
                       </div>
                   </div>
                   <div class="form-group">
-                      <label class="col-lg-3 control-label">{{_ "contradiction_resource"}}:</label>
-                      <div class="col-lg-8">
-                          <input class="form-control" type="text" value={{data.resource}} id="new-contradiction-resource">
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-lg-3 control-label">{{_ "contradiction_type"}}:</label>
-                      <div class="col-lg-8">
-                          <select class="select2-dropdown" name="state" id="new-contradiction-type">
-                              <option>
-                                  {{data.type}}
-                              </option>
-                              <option value={{_ "information_contradiction_value"}}>{{_ "information_contradiction"}}</option>
-                              <option value={{_ "financial_contradiction_value"}}>{{_ "financial_contradiction"}}</option>
-                              <option value={{_ "material_contradiction_value"}}>{{_ "material_contradiction"}}</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-lg-3 control-label">{{_ "contradiction_weight"}}:</label>
-                      <div class="col-lg-8">
-                          <input class="form-control" type="number" value={{data.weight}} id="new-contradiction-weight">
-                      </div>
-                  </div>
-                  <div class="form-group">
                       <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
                               <option data-option={{data.firstNode}} data-icon="icomoon-activity-select2">
-                                  #{{data.firstNodeData.activityData.number}} -  {{data.firstNodeData.activityData.title}}
+                                  {{data.firstNodeData.activityElementData.title}}
                               </option>
-                              {{#each activities}}
-                                  <option data-option={{activityData.id}} data-icon="icomoon-activity-select2">
-                                      #{{activityData.number}}
-                                      -
-                                      {{activityData.title}}
+                              {{#each activityElements}}
+                                  <option data-option={{activityElementData.id}} data-icon="icomoon-activity-select2">
+                                     {{activityElementData.title}}
                                   </option>
                               {{/each}}
                           </select>
@@ -63,13 +36,11 @@
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
                               <option data-option={{data.secondNode}} data-icon="icomoon-activity-select2">
-                                  #{{data.secondNodeData.activityData.number}} -  {{data.secondNodeData.activityData.title}}
+                                  {{data.secondNodeData.activityElementData.title}}
                               </option>
-                              {{#each activities}}
-                                  <option data-option={{activityData.id}} data-icon="icomoon-activity-select2">
-                                      #{{activityData.number}}
-                                      -
-                                      {{activityData.title}}
+                              {{#each activityElements}}
+                                  <option data-option={{activityElementData.id}} data-icon="icomoon-activity-select2">
+                                     {{activityElementData.title}}
                                   </option>
                               {{/each}}
                           </select>

@@ -31,8 +31,6 @@ Template.ContradictionEdit.events({
             "title": newTitle,
             "description": newDescription,
             "resource": newResource,
-            "type": newType,
-            "weight": newWeight,
             "firstNode": newFirstNode,
             "secondNode": newSecondNode
         }
@@ -46,7 +44,7 @@ Template.ContradictionEdit.events({
                         type: 'error',
                         title: 'Error',
                         text: 'There was an error in adding the contradiction',
-                        icon: 'fa fa-random',
+                        icon: 'fa fa-exclamation-triangle',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -70,7 +68,7 @@ Template.ContradictionEdit.events({
                         type: 'success',
                         title: 'Success',
                         text: 'Contradiction successfully added.',
-                        icon: 'fa fa-random',
+                        icon: 'fa fa-exclamation-triangle',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -98,7 +96,7 @@ Template.ContradictionEdit.events({
                         type: 'error',
                         title: 'Error',
                         text: 'There was an error in updating the contradiction',
-                        icon: 'fa fa-random',
+                        icon: 'fa fa-exclamation-triangle',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -122,7 +120,7 @@ Template.ContradictionEdit.events({
                         type: 'success',
                         title: 'Success',
                         text: 'Contradiction successfully updated.',
-                        icon: 'fa fa-random',
+                        icon: 'fa fa-exclamation-triangle',
                         addclass: 'pnotify stack-topright',
                         animate: {
                             animate: true,
@@ -182,6 +180,12 @@ Template.ContradictionEdit.helpers({
         return Activities.find({
             'projectId': thisProjectID
         }).fetch();;
+    },
+    activityElements: function() {
+        // Return only the activities elements in the current project
+        return ActivityElements.find({
+            'projectId': thisProjectID
+        }).fetch();
     },
 });
 

@@ -181,7 +181,7 @@ Template.FlowEdit.helpers({
         // Return only the activities in the current project
         return Activities.find({
             'projectId': thisProjectID
-        }).fetch();;
+        }).fetch();
     },
 });
 
