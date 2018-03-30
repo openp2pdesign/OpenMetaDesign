@@ -9,6 +9,7 @@ import { $ } from 'meteor/jquery';
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 import { Activities } from '../../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
 import { Contradictions } from '../../../../../lib/collections/contradictions.js';
 
 /*****************************************************************************/
