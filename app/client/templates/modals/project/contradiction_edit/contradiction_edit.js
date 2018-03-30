@@ -22,6 +22,9 @@ Template.ContradictionEdit.events({
         var newFirstNode = $('#new-contradiction-first-node option:selected').data('option');
         var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
         // Compute the level of contradiction
+        // See for example:
+        //KARANASIOS, S., RIISLA, K. and SIMEONOVA, B., 2017. Exploring the use of contradictions in activity theory studies: An interdisciplinary review. Presented at the 33rd EGOS Colloquium: The Good Organization, Copenhagen, July 6-8th.
+        //https://dspace.lboro.ac.uk/dspace-jspui/bitstream/2134/26026/1/PDF.pdf
         var level = 0;
         console.log("Calculating the type of contradiction..", newFirstNode, newSecondNode);
         // if id is == then 1
