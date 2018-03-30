@@ -1,0 +1,94 @@
+<template name="ContradictionEdit">
+  <div class="contradiction-edit">
+      <div class="row">
+          <div class="col-md-12">
+              <h3>{{_ "contradiction_edit"}}</h3>
+              <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_title"}}:</label>
+                      <div class="col-lg-8">
+                          <input class="form-control" type="text" value={{data.title}} id="new-contradiction-title">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_description"}}:</label>
+                      <div class="col-lg-8">
+                          <input class="form-control" type="text" value={{data.description}} id="new-contradiction-description">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_resource"}}:</label>
+                      <div class="col-lg-8">
+                          <input class="form-control" type="text" value={{data.resource}} id="new-contradiction-resource">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_type"}}:</label>
+                      <div class="col-lg-8">
+                          <select class="select2-dropdown" name="state" id="new-contradiction-type">
+                              <option>
+                                  {{data.type}}
+                              </option>
+                              <option value={{_ "information_contradiction_value"}}>{{_ "information_contradiction"}}</option>
+                              <option value={{_ "financial_contradiction_value"}}>{{_ "financial_contradiction"}}</option>
+                              <option value={{_ "material_contradiction_value"}}>{{_ "material_contradiction"}}</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_weight"}}:</label>
+                      <div class="col-lg-8">
+                          <input class="form-control" type="number" value={{data.weight}} id="new-contradiction-weight">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
+                      <div class="col-lg-8">
+                          <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
+                              <option data-option={{data.firstNode}} data-icon="icomoon-activity-select2">
+                                  #{{data.firstNodeData.activityData.number}} -  {{data.firstNodeData.activityData.title}}
+                              </option>
+                              {{#each activities}}
+                                  <option data-option={{activityData.id}} data-icon="icomoon-activity-select2">
+                                      #{{activityData.number}}
+                                      -
+                                      {{activityData.title}}
+                                  </option>
+                              {{/each}}
+                          </select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
+                      <div class="col-lg-8">
+                          <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
+                              <option data-option={{data.secondNode}} data-icon="icomoon-activity-select2">
+                                  #{{data.secondNodeData.activityData.number}} -  {{data.secondNodeData.activityData.title}}
+                              </option>
+                              {{#each activities}}
+                                  <option data-option={{activityData.id}} data-icon="icomoon-activity-select2">
+                                      #{{activityData.number}}
+                                      -
+                                      {{activityData.title}}
+                                  </option>
+                              {{/each}}
+                          </select>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <button class="btn btn-warning" id="cancel-edit-save-contradiction-button">
+                  <i class="fa fa-close"></i>
+                  {{_ "contradiction_cancel_save_button"}}
+              </button>
+              <button class="btn btn-info" id="edit-save-contradiction-button">
+                  <i class="fa fa-floppy-o"></i>
+                  {{_ "contradiction_save_button"}}
+              </button>
+          </div>
+      </div>
+  </div>
+</template>

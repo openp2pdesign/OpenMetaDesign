@@ -11,9 +11,6 @@ import { Settings } from '../../../../lib/collections/settings.js';
 import { Activities } from '../../../../lib/collections/activities.js';
 import { Flows } from '../../../../lib/collections/flows.js';
 
-// Client only collection for the autocomplete
-LocalActivityElements = new Mongo.Collection(null);
-
 /*****************************************************************************/
 /* Flows: Event Handlers */
 /*****************************************************************************/
@@ -21,13 +18,11 @@ Template.Flows.events({
     // Show the div that enable the creation of flows
     'click #create-flow-button': function(event, template) {
         event.preventDefault();
-        // Get project and process IDs
-        var thisProjectID = this._id;
         // Launch the modal
         Modal.show('Flow', function() {
             return {
                 "projectId": thisProjectID,
-                "flowId": 'new activity',
+                "flowId": 'new flow',
                 "mode": "add"
             }
         });
@@ -50,6 +45,8 @@ Template.Flows.onCreated(function() {
     Meteor.subscribe('projects');
     Meteor.subscribe('activities');
     Meteor.subscribe('flows');
+    // Get project ID
+    thisProjectID = this.data._id;
 });
 
 Template.Flows.onRendered(function() {

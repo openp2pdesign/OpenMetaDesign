@@ -1,180 +1,129 @@
 <template name="Contradiction">
-  <div class="contradiction">
-      <div class="modal fade" id="contradiction-modal">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">
-                          <i class="fa fa-times" aria-hidden="true"></i>
-                      </button>
-                      <h2 class="modal-title">
-                          {{_ "contradiction"}}
-                      </h2>
-                  </div>
-                  <div class="modal-body row-fluid">
-                      <!-- Tabs -->
-                      <ul class="nav nav-tabs">
-                          <li class="active">
-                              <a href="#contradiction-view-tab" data-toggle="tab" title="View this contradiction">
-                                  <span class="fa-stack fa-1x">
-                                      <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                      <i class="fa fa-exclamation-triangle fa-stack-1x" aria-hidden="true"></i>
-                                  </span>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#contradiction-edit-tab" data-toggle="tab" title="Edit this contradiction">
-                                  <span class="fa-stack fa-1x">
-                                      <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                      <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
-                                  </span>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#contradiction-discuss-tab" data-toggle="tab" title="Discuss this contradiction">
-                                  <span class="fa-stack fa-1x">
-                                      <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                      <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
-                                  </span>
-                              </a>
-                          </li>
-                          <li>
-                              <a href="#contradiction-delete-tab" data-toggle="tab" title="Delete this contradiction">
-                                  <span class="fa-stack fa-1x">
-                                      <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                      <i class="fa fa-trash fa-stack-1x" aria-hidden="true"></i>
-                                  </span>
-                              </a>
-                          </li>
-                      </ul>
-                      <div class="tab-content">
-                          <div class="tab-pane fade in active" id="contradiction-view-tab">
-                              <div class="col-md-12">
-                                  <h3>{{_ "contradiction_show"}}</h3>
-                                  <h4>{{contradictionData.contradictionData.title}}</h4>
-                                  <p>
-                                      {{contradictionData.contradictionData.description}}
-                                  </p>
-                              </div>
-                              <div class="col-md-6">
-                                      <i class="fa fa-random"></i>
-                                      <p>
-                                          ID: {{contradictionData.contradictionData.firstNode}}
-                                      </p>
-                                      <p>
-                                          Activity n. {{contradictionData.firstNodeData.activityNumber}}
-                                      </p>
-                                      <p>
-                                          {{contradictionData.firstNodeData.activityElementData.title}}
-                                      </p>
-                                      <p>
-                                          {{contradictionData.firstNodeData.activityElementData.description}}
-                                      </p>
-                              </div>
-                              <div class="col-md-6">
-                                      ...
-                              </div>
-                          </div>
-                          <div class="tab-pane fade in" id="contradiction-edit-tab">
-                              <div class="col-md-12">
-                                  <h3>{{_ "contradiction_edit"}}</h3>
-                                      <form class="form-horizontal" role="form">
-                                          <div class="form-group">
-                                              <label class="col-lg-3 control-label">{{_ "contradiction_title"}}:</label>
-                                              <div class="col-lg-8">
-                                                  <input class="form-control" type="text" value={{contradictionData.contradictionData.title}} id="new-contradiction-title">
-                                              </div>
-                                          </div>
-                                          <div class="form-group">
-                                              <label class="col-lg-3 control-label">{{_ "contradiction_description"}}:</label>
-                                              <div class="col-lg-8">
-                                                  <input class="form-control" type="text" value={{contradictionData.contradictionData.description}} id="new-contradiction-description">
-                                              </div>
-                                          </div>
-                                          <div class="form-group">
-                                              <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
-                                              <div class="col-lg-8">
-                                                  <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
-                                                      <option data-option={{contradictionData.contradictionData.firstNode}}>
-                                                          {{contradictionData.contradictionData.firstNode}}
-                                                      </option>
-                                                      {{#each activityElements}}
-                                                          <option data-option={{activityElementData.id}}>
-                                                              #{{activityNumber}}
-                                                              -
-                                                              {{activityElementData.title}}
-                                                              -
-                                                              {{activityElementData.description}}
-                                                          </option>
-                                                      {{/each}}
-                                                  </select>
-                                              </div>
-                                          </div>
-                                          <div class="form-group">
-                                              <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
-                                              <div class="col-lg-8">
-                                                  <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
-                                                      <option data-option={{contradictionData.contradictionData.secondNode}}>
-                                                          {{contradictionData.contradictionData.secondNode}}
-                                                      </option>
-                                                      {{#each activityElements}}
-                                                          <option data-option={{activityElementData.id}}>
-                                                              #{{activityNumber}}
-                                                              -
-                                                              {{activityElementData.title}}
-                                                              -
-                                                              {{activityElementData.description}}
-                                                          </option>
-                                                      {{/each}}
-                                                  </select>
-                                              </div>
-                                          </div>
-                                      </form>
-                              </div>
-                              <div class="col-md-12">
-                                  <button class="btn btn-warning" id="cancel-edit-save-contradiction-button">
-                                      <i class="fa fa-close"></i>
-                                      {{_ "contradiction_cancel_save_button"}}
-                                  </button>
-                                  <button class="btn btn-info" id="edit-save-contradiction-button">
-                                      <i class="fa fa-floppy-o"></i>
-                                      {{_ "contradiction_save_button"}}
-                                  </button>
-                              </div>
-                          </div>
-                          <div class="tab-pane fade in" id="contradiction-discuss-tab">
-                              <div class="col-md-12">
-                                  <h3>{{_ "contradiction_discuss"}}</h3>
-                              </div>
-                              <div class="col-md-12">
-                                  <div id="contradictionDiscussDiv">
-                                      {{>Discuss}}
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="tab-pane fade in" id="contradiction-delete-tab">
-                              <div class="col-md-12">
-                                  <h3>{{_ "contradiction_delete"}}</h3>
-                              </div>
-                              <div class="col-md-12">
-                                  {{_ "contradiction_delete_question"}}
-                                  <em>{{contradictionData._id}}</em>?
-                              </div>
-                              <div class="col-md-12">
-                                  <button class="btn btn-warning" id="cancel-delete-contradiction-button">
-                                      <i class="fa fa-close"></i>
-                                      {{_ "contradiction_cancel_save_button"}}
-                                  </button>
-                                  <button class="btn btn-info" id="delete-contradiction-button">
-                                      <i class="fa fa-trash"></i>
-                                      {{_ "contradiction_delete_button"}}
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div class="contradiction">
+        <div class="modal fade" id="contradiction-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                        <h2 class="modal-title">
+                            {{_ "contradiction"}}
+                        </h2>
+                    </div>
+                    <div class="modal-body row-fluid">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs">
+                            {{#if isEditMode}}
+                            <li class="active">
+                                <a href="#contradiction-view-tab" data-toggle="tab" title="View this contradiction">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-random fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#contradiction-edit-tab" data-toggle="tab" title="Edit this contradiction">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#contradiction-discuss-tab" data-toggle="tab" title="Discuss this contradiction">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#contradiction-delete-tab" data-toggle="tab" title="Delete this contradiction">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-trash fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            {{else}}
+                            <li class="active">
+                                <a href="#contradiction-add-tab" data-toggle="tab" title="Edit this contradiction">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            {{/if}}
+                            <li>
+                                <a href="#contradiction-help-tab" data-toggle="tab" title="Help">
+                                    <span class="fa-stack fa-1x">
+                                        <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                        <i class="fa fa-question fa-stack-1x" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            {{#if isEditMode}}
+                            <div class="tab-pane fade in active" id="contradiction-view-tab">
+                                <div class="row">
+                                    {{> ContradictionView}}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" id="showContradictionDivSVG"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="contradiction-edit-tab">
+                                {{> ContradictionEdit}}
+                            </div>
+                            <div class="tab-pane fade in" id="contradiction-discuss-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>{{_ "contradiction_discuss"}}</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div id="contradictionDiscussDiv">
+                                            {{>Discuss}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="contradiction-delete-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>{{_ "contradiction_delete"}}</h3>
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{_ "contradiction_delete_question"}}
+                                        <em>{{data._id}}</em>?
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn btn-warning" id="cancel-delete-contradiction-button">
+                                            <i class="fa fa-close"></i>
+                                            {{_ "contradiction_cancel_save_button"}}
+                                        </button>
+                                        <button class="btn btn-info" id="delete-contradiction-button">
+                                            <i class="fa fa-trash"></i>
+                                            {{_ "contradiction_delete_button"}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{else}}
+                            <div class="tab-pane fade in active" id="contradiction-add-tab">
+                                {{> ContradictionEdit}}
+                            </div>
+                            {{/if}}
+                            <div class="tab-pane fade in" id="contradiction-help-tab">
+                                {{> ContradictionHelp}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
