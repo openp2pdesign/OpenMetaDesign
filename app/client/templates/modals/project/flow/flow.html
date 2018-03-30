@@ -70,12 +70,7 @@
                             {{#if isEditMode}}
                             <div class="tab-pane fade in active" id="flow-view-tab">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <h3>{{flowData.flowData.title}}</h3>
-                                        <p>
-                                            {{flowData.flowData.description}}
-                                        </p>
-                                    </div>
+                                    {{> FlowView}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12" id="showFlowDivSVG"></div>
@@ -103,7 +98,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         {{_ "flow_delete_question"}}
-                                        <em>{{flowData._id}}</em>?
+                                        <em>{{data._id}}</em>?
                                     </div>
                                     <div class="col-md-12">
                                         <button class="btn btn-warning" id="cancel-delete-flow-button">
