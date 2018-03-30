@@ -17,18 +17,10 @@ import { Contradictions } from '../../../../../lib/collections/contradictions.j
 /*****************************************************************************/
 Template.ContradictionEdit.events({
     // Show the contradiction lvel in realtime
-    'select2:selecting .select2-dropdown': function(event, template) {
-        // $(this).select2().find(":selected").val();
-        console.log($("#new-contradiction-second-node").select2("data")[0]);
-        console.log($("#new-contradiction-second-node").select2("data")[0].element.attributes['data-option'].value);
-        console.log($("#new-contradiction-second-node option:selected").data("option"));
-        //console.log($("#new-contradiction-second-node").select2('data'));
-        console.log($("#new-contradiction-second-node option:selected").text());
-        //console.log($("#new-contradiction-second-node option:selected").attr("data-option");
-
+    'change select': function(event, template) {
         // Get the data from the form
-        var newFirstNode = $('#new-contradiction-first-node').val();
-        var newSecondNode = $('#new-contradiction-second-node').data('option');
+        var newFirstNode = $('#new-contradiction-first-node option:selected').data('option');
+        var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
         // Compute the level of contradiction
         var level = 0;
         console.log("Calculating the type of contradiction..", newFirstNode, newSecondNode);
@@ -36,20 +28,24 @@ Template.ContradictionEdit.events({
         if (newFirstNode === newSecondNode) {
             level = "primary";
             console.log(level);
+        } else {
+            // Otherwise, load full activity elements and keep checking
+            var firstActivityElement = ActivityElements.findOne({
+                '_id': newFirstNode
+            })
+            var secondActivityElement = ActivityElements.findOne({
+                '_id': newSecondNode
+            })
+            // if id is != but activity is == then 2
+            if (firstActivityElement.activityId === secondActivityElement.activityId) {
+                level = "secondary";
+                console.log(level);
+            } else {
+                // if id is != and activity is != then:
+                // if the second is a more advanced version of this activity = 3
+                // otherwise 4
+            }
         }
-        // if id is != but activity is == then 2
-        var firstActivityElement = ActivityElements.findOne({
-            '_id': newFirstNode
-        })
-        var secondActivityElement = ActivityElements.findOne({
-            '_id': newSecondNode
-        })
-        console.log("1", firstActivityElement._id);
-        console.log("2", secondActivityElement._id);
-        // if id is != and activity is != then:
-        // if the second is a more advanced version of this activity = 3
-        // otherwise 4
-        //console.log(contradictionData);
         // Show contradiction type explanation div
         $('#contradiction-type-explanation').show();
     },
@@ -262,7 +258,7 @@ Template.ContradictionEdit.onRendered(function () {
             return m;
         }
     });
-    $("#new-contradiction-second-node").select2("data-option", '76KFiBacbPdyLAchr');
+    //$("#new-contradiction-second-node").select2("data-option", '76KFiBacbPdyLAchr');
 });
 
 Template.ContradictionEdit.onDestroyed(function () {
