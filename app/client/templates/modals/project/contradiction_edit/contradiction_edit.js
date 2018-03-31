@@ -46,7 +46,15 @@ Template.ContradictionEdit.events({
             } else {
                 // if id is != and activity is != then:
                 // if the second is a more advanced version of this activity = 3
-                // otherwise 4
+                if (firstActivityElement.activityElementData.title === "object" && secondActivityElement.activityElementData.title === "object") {
+                    level = "tertiary";
+                    console.log(level);
+                } else {
+                    // otherwise 4
+                    level = "quaternary";
+                    console.log(level);
+                }
+
             }
         }
         // Show contradiction type explanation div
