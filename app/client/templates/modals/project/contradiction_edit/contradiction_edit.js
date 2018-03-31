@@ -196,6 +196,9 @@ Template.ContradictionEdit.helpers({
                 "resource": "The resource contradictioning...",
                 "weight": 0,
             }
+            thisContradiction.contradictionData.firstNodeData =
+            ActivityElements.findOne();
+            thisContradiction.contradictionData.secondNodeData = ActivityElements.findOne();
         }
         // Return the data
         return thisContradiction.contradictionData;
@@ -214,6 +217,13 @@ Template.ContradictionEdit.helpers({
     },
     contradictionLevel: function() {
         return Session.get('contradictionLevel');
+    },
+    isEditMode: function() {
+        if (this.mode == "edit") {
+            return true;
+        } else {
+            return false;
+        }
     }
 });
 
