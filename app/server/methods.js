@@ -677,6 +677,41 @@ Meteor.methods({
             }
         });
     },
+    'contradictionLevel': function(firstNode, secondNode) {
+        // Compute the level of contradiction
+        // See for example:
+        //KARANASIOS, S., RIISLA, K. and SIMEONOVA, B., 2017. Exploring the use of contradictions in activity theory studies: An interdisciplinary review. Presented at the 33rd EGOS Colloquium: The Good Organization, Copenhagen, July 6-8th.
+        //https://dspace.lboro.ac.uk/dspace-jspui/bitstream/2134/26026/1/PDF.pdf
+        var level = 0;
+        // if id is == then 1
+        if (firstNode === secondNode) {
+            level = "primary";
+        } else {
+            // Otherwise, load full activity elements and keep checking
+            var firstActivityElement = ActivityElements.findOne({
+                '_id': firstNode
+            })
+            var secondActivityElement = ActivityElements.findOne({
+                '_id': secondNode
+            })
+            // if id is != but activity is == then it's secondary level
+            if (firstActivityElement.activityId === secondActivityElement.activityId) {
+                level = "secondary";
+            } else {
+                // if id is != and activity is != then:
+                // if the second is a more advanced version of this activity
+                // that means, they connect the same object, it's ternary
+                if (firstActivityElement.activityElementData.title === "object" && secondActivityElement.activityElementData.title === "object") {
+                    level = "tertiary";
+                } else {
+                    // otherwise it's a quaternary level
+                    level = "quaternary";
+                }
+
+            }
+        }
+        return level;
+    },
     'addContradiction': function(projectId, contradictionData) {
         // Load the Project
         var thisProject = Projects.findOne({

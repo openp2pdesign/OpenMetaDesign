@@ -21,44 +21,16 @@ Template.ContradictionEdit.events({
         // Get the data from the form
         var newFirstNode = $('#new-contradiction-first-node option:selected').data('option');
         var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
-        // Compute the level of contradiction
-        // See for example:
-        //KARANASIOS, S., RIISLA, K. and SIMEONOVA, B., 2017. Exploring the use of contradictions in activity theory studies: An interdisciplinary review. Presented at the 33rd EGOS Colloquium: The Good Organization, Copenhagen, July 6-8th.
-        //https://dspace.lboro.ac.uk/dspace-jspui/bitstream/2134/26026/1/PDF.pdf
-        var level = 0;
-        console.log("Calculating the type of contradiction..", newFirstNode, newSecondNode);
-        // if id is == then 1
-        if (newFirstNode === newSecondNode) {
-            level = "primary";
-            console.log(level);
-        } else {
-            // Otherwise, load full activity elements and keep checking
-            var firstActivityElement = ActivityElements.findOne({
-                '_id': newFirstNode
-            })
-            var secondActivityElement = ActivityElements.findOne({
-                '_id': newSecondNode
-            })
-            // if id is != but activity is == then 2
-            if (firstActivityElement.activityId === secondActivityElement.activityId) {
-                level = "secondary";
-                console.log(level);
-            } else {
-                // if id is != and activity is != then:
-                // if the second is a more advanced version of this activity = 3
-                if (firstActivityElement.activityElementData.title === "object" && secondActivityElement.activityElementData.title === "object") {
-                    level = "tertiary";
-                    console.log(level);
-                } else {
-                    // otherwise 4
-                    level = "quaternary";
-                    console.log(level);
+        // Calculate the contradiction level
+        if (typeof newFirstNode !== "undefined" && typeof newSecondNode !== "undefined") {
+            Meteor.call('contradictionLevel', newFirstNode, newSecondNode, function(error, result) {
+                if (error) {} else {
+                    Session.set("contradictionLevel", result);
+                    // Show contradiction type explanation div
+                    $('#contradiction-type-explanation').show();
                 }
-
-            }
+            });
         }
-        // Show contradiction type explanation div
-        $('#contradiction-type-explanation').show();
     },
     // Edit the contradiction
     'click #edit-save-contradiction-button': function(event, template) {
@@ -71,13 +43,20 @@ Template.ContradictionEdit.events({
         var newWeight = parseInt($('#new-contradiction-weight').val());
         var newFirstNode = $('#new-contradiction-first-node option:selected').data('option');
         var newSecondNode = $('#new-contradiction-second-node option:selected').data('option');
+        var newLevel = 0;
+        // Calculate the contradiction level
+        Meteor.call('contradictionLevel', newFirstNode, newSecondNode, function(error, result) {
+            if (error) {} else {
+                newLevel = result;
+            }
+        });
         // Format data from the form as an object
         contradictionData = {
             "title": newTitle,
             "description": newDescription,
             "firstNode": newFirstNode,
             "secondNode": newSecondNode,
-            "level": "test"
+            "level": newLevel
         }
         // Add a new contradiction
         if (thisMode == "add") {
@@ -232,6 +211,9 @@ Template.ContradictionEdit.helpers({
             'projectId': thisProjectID
         }).fetch();
     },
+    contradictionLevel: function() {
+        return Session.get('contradictionLevel');
+    }
 });
 
 
