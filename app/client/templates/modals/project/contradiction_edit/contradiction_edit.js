@@ -181,10 +181,11 @@ Template.ContradictionEdit.helpers({
             // If there is data... then return it
             if (thisContradiction) {
                 // Add the data for the nodes
-                thisContradiction.contradictionData.firstNodeData = Activities.findOne({
+                thisContradiction.contradictionData.firstNodeData =
+                ActivityElements.findOne({
                     '_id': thisContradiction.contradictionData.firstNode
                 });
-                thisContradiction.contradictionData.secondNodeData = Activities.findOne({
+                thisContradiction.contradictionData.secondNodeData = ActivityElements.findOne({
                     '_id': thisContradiction.contradictionData.secondNode
                 });
             }

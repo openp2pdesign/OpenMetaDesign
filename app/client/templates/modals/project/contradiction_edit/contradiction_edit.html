@@ -20,8 +20,8 @@
                       <label class="col-lg-3 control-label">{{_ "contradiction_first_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-contradiction-first-node">
-                              <option data-option={{data.firstNode}} data-icon="icomoon-activity-select2" data-activity-number={{activityNumber}}>
-                                  {{data.firstNodeData.activityElementData.title}}
+                              <option data-option={{data.firstNodeData._id}} data-icon="icomoon-activity-select2" data-activity-number={{data.firstNodeData.activityNumber}}>
+                                  {{data.firstNodeData.activityElementData.title}} - {{data.firstNodeData.activityElementData.description}}
                               </option>
                               {{#each activityElements}}
                                   <option data-option={{activityElementData.id}} data-icon="icomoon-activity-select2" data-icon-element={{activityElementData.title}} data-activity-number={{activityNumber}}>
@@ -35,8 +35,8 @@
                       <label class="col-lg-3 control-label">{{_ "contradiction_second_node"}}:</label>
                       <div class="col-lg-8">
                           <select class="select2-dropdown" name="state" id="new-contradiction-second-node">
-                              <option data-option={{data.secondNode}} data-icon="icomoon-activity-select2" data-activity-number={{activityNumber}}>
-                                  {{data.secondNodeData.activityElementData.title}}
+                              <option data-option={{data.secondNodeData._id}} data-icon="icomoon-activity-select2" data-activity-number={{data.secondNodeData.activityNumber}}>
+                                  {{data.secondNodeData.activityElementData.title}} - {{data.secondNodeData.activityElementData.description}}
                               </option>
                               {{#each activityElements}}
                                   <option data-option={{activityElementData.id}} data-icon="icomoon-activity-select2" data-icon-element={{activityElementData.title}} data-activity-number={{activityNumber}}>
