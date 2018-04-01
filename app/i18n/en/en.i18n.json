@@ -67,7 +67,7 @@
     "empty_activity_description": "This is a new (empty) activity, please edit it and save it.",
     "financial_flow": "financial resources",
     "financial_flow_value": "financial resources",
-    "flow": "",
+    "flow": "Flow",
     "flow_add_button": "Add a flow",
     "flow_cancel_save_button": "Cancel",
     "flow_delete": "Delete this Flow",
@@ -140,7 +140,7 @@
     "flow_description_form": "",
     "flow_monodirectional": "",
     "flow_reciprocal": "Is the flow bidirectional?",
-    "flow_resource_form": "",
+    "flow_resource_form": "Resource that flows",
     "flow_show": "Show this flow",
     "flow_title_form": "Title of the flow"
 }
