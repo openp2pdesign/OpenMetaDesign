@@ -848,7 +848,7 @@ Template.ProjectsViz.onRendered(function() {
                         sectionX = sectionsWidth[width].x;
                     }
                 }
-                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
+                //addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
             }
         }
 

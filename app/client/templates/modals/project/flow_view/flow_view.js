@@ -51,6 +51,18 @@ Template.FlowView.onCreated(function () {
 });
 
 Template.FlowView.onRendered(function () {
+    // Load a svg file and append it to a parent element
+    var loadSVG = function(url, parent) {
+
+        var loadedSVG = parent.append("g");
+
+        d3.xml(url, function(error, xml) {
+            d3.select(loadedSVG).node().appendChild(xml.documentElement);
+        });
+
+        return loadedSVG;
+    }
+
     // Visualize the Flow with D3
 
     // Margins
@@ -83,7 +95,18 @@ Template.FlowView.onRendered(function () {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Visualize the flow in the SVG
-    svg.append("circle").attr("cx", 30).attr("cy", 30).attr("r", 20);
+    svg.append("circle").attr("cx", 130).attr("cy", 30).attr("r", 20);
+
+    // Load SVG
+    //var svgIcon = loadSVG(Meteor.absoluteUrl("font/activity.svg"), svg);
+    //svgIcon.attr("transform", "scale(0.035) translate(-20,-320)");
+    var url = Meteor.absoluteUrl("as_full_nolabel.svg");
+    d3.xml(url)
+    .then(function(xml) {
+        svg.node().appendChild(xml.documentElement);
+    });
+
+
 });
 
 Template.FlowView.onDestroyed(function () {
