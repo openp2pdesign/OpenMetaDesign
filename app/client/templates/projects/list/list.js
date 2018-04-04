@@ -69,10 +69,7 @@ Template.ProjectsList.helpers({
         return Projects.find();
     },
     myProjectsSelector: function() {
-        var user = Meteor.user();
-        if (user) {
-            return { 'users.$.id': Meteor.user()._id };
-        }
+        return { 'users' : { '$elemMatch' : { 'id' : Meteor.userId()} } };
     }
 });
 

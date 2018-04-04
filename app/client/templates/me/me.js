@@ -70,10 +70,7 @@ Template.Me.helpers({
         return Meteor.user();
     },
     myProjectsSelector: function() {
-        var user = Meteor.user();
-        if (user) {
-            return { 'users.$.id': Meteor.user()._id };
-        }
+        return { 'users' : { '$elemMatch' : { 'id' : Meteor.userId()} } };
     }
 });
 
