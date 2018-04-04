@@ -68,12 +68,12 @@ Template.ProjectsList.helpers({
     projects: function() {
         return Projects.find();
     },
-    tabularSelector: function() {
-        // TODO: Define here how the projects will be listed
-        // All projects are open?
-        // Or each project has a list of participants?
-        //return {'projectId': this._id};
-    },
+    myProjectsSelector: function() {
+        var user = Meteor.user();
+        if (user) {
+            return { 'users.$.id': Meteor.user()._id };
+        }
+    }
 });
 
 /*****************************************************************************/

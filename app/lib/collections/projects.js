@@ -579,6 +579,14 @@ export const ProjectSchema = new SimpleSchema({
         type: Object,
         blackbox: true
     },
+    users: {
+        type: Array,
+        optional: true
+    },
+    'users.$': {
+        type: Object,
+        blackbox: true
+    },
 });
 
 // Attach the ProjectSchema to the projects collection

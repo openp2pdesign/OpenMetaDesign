@@ -189,6 +189,18 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Return
                 return "success";
             }
         });
@@ -294,6 +306,17 @@ Meteor.methods({
                         'activitiesCount': activityData.number
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -350,6 +373,17 @@ Meteor.methods({
                         "versions": {
                             "number": thisProject.versionsCount + 1,
                             "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
                         }
                     }
                 });
@@ -462,6 +496,17 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
                 // Update activities collection
                 Activities.update({
                     '_id': activityId
@@ -520,6 +565,17 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
                 // Delete activities and activity elements
                 Activities.remove({
                     '_id': activityId
@@ -574,6 +630,17 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -613,6 +680,17 @@ Meteor.methods({
                         "versions": {
                             "number": thisProject.versionsCount + 1,
                             "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
                         }
                     }
                 });
@@ -667,6 +745,17 @@ Meteor.methods({
                         "versions": {
                             "number": thisProject.versionsCount + 1,
                             "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
                         }
                     }
                 });
@@ -754,6 +843,17 @@ Meteor.methods({
                         }
                     }
                 });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -793,6 +893,17 @@ Meteor.methods({
                         "versions": {
                             "number": thisProject.versionsCount + 1,
                             "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
                         }
                     }
                 });
@@ -847,6 +958,17 @@ Meteor.methods({
                         "versions": {
                             "number": thisProject.versionsCount + 1,
                             "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
                         }
                     }
                 });
