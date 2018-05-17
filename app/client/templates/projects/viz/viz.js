@@ -284,7 +284,7 @@ Template.ProjectsViz.onRendered(function() {
         top: 15,
         right: 0,
         bottom: 0,
-        left: 0
+        left: 100
     };
     var gutter = 10 + 10 + 10;
     var simpleGutter = 10;
@@ -708,7 +708,6 @@ Template.ProjectsViz.onRendered(function() {
             overlapRanges = []
         }
 
-
         // Layout: Find the first start and last end of activities
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
@@ -719,14 +718,14 @@ Template.ProjectsViz.onRendered(function() {
         // Draw the Time section
         var timeG = sectionsSVG.append("g").attr("id", "yAxisG");
         // Choose the start and end for the time scale
-        if (isFinite(firstStart) || isFinite(lastEnd)) {
+        if (isFinite(firstStart) && isFinite(lastEnd)) {
             // If there are start and end, then use them for the time scale
             startDate = firstStart;
             endDate = lastEnd;
         } else {
             // If there is no start or end, then use 1 year from now as a time scale
             startDate = new Date();
-            endDate = new Date().setFullYear(new Date().getFullYear() + 1);
+            endDate = new Date(new Date().setDate(new Date().getDate() + 365))
         }
         // Time scale
         var yScale = d3.scaleTime()
@@ -734,9 +733,10 @@ Template.ProjectsViz.onRendered(function() {
             .range([0, d3Container.clientHeight - labelHeight]);
         // Time axis
         let yAxis = d3.axisLeft().scale(yScale)
-            .ticks(16)
-            .tickSize(10);
-        //timeG.transition().duration(1000).call(yAxis);
+            .tickFormat(d3.timeFormat("%b %d %Y %I:%M"))
+            .ticks(10)
+            .tickSize(20, 40);
+        timeG.transition().duration(1000).call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
@@ -764,17 +764,6 @@ Template.ProjectsViz.onRendered(function() {
                 .classed("button-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
-            // Add Discuss this Process button
-            var discussProcessButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf086');
-            discussProcessButton.attr("data-toggle", "modal")
-                .classed("discuss-button", true)
-                .attr("title", "Discuss this process")
-                .attr("data-activity-mode", "discuss")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", thisUpdatedProject.processes[j].id)
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
-
             // Add separator lines from the project data
             for (separator in thisUpdatedProject.separators) {
                 thisSeparator = thisUpdatedProject.separators[separator]
@@ -782,6 +771,8 @@ Template.ProjectsViz.onRendered(function() {
                     addSectionLine(thisSeparator.text, sectionsGroups[j]);
                 }
             }
+
+            // TODO Add a separator at the end, so that the svg is wide as the available space
 
         }
 
@@ -801,21 +792,25 @@ Template.ProjectsViz.onRendered(function() {
 
         // TODO:30 Each section should be wide enough to avoid have overlapping activities
 
+        // TODO Implement this as a function that will be called when the browser resizes, above
+
         sectionsWidth = []
 
         // Translate timeG according to the label width
-        var GX = d3.select("#yAxisG").node().getBBox().width + 20;
-        timeG.attr("transform", "translate(" + GX + "," + labelHeight + ")");
+        var GX = 0;
         sectionsWidth.push({
             "section": "Time",
             "x": GX
         });
 
+        // Calculate the width of the section based on the available size
+        sectionCalculatedWidth = (d3Container.clientWidth-margin.left-simpleGutter)/(thisProject.processes.length);
+
         for (var j in thisProject.processes) {
             if (j == 0) {
                 GX = GX + simpleGutter;
             } else {
-                GX = GX + sectionsGroups[j - 1].node().getBBox().width + gutter;
+                GX = GX + sectionCalculatedWidth;
             }
             sectionsWidth.push({
                 "section": thisProject.processes[j].title,
