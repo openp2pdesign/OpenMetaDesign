@@ -5,14 +5,14 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.42",
+    "@babel/runtime": "^7.0.0-beta.47",
     "babel-runtime": "^6.23.0",
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
     "buffer": "^5.1.0",
-    "core-js": "^2.5.4",
-    "d3": "^5.0.0",
-    "d3plus-text": "^0.9.26",
+    "core-js": "^2.5.6",
+    "d3": "^5.4.0",
+    "d3plus-text": "^0.9.28",
     "datatables.net-bs": "^1.10.16",
     "deep-diff": "^0.3.8",
     "fibers": "^2.0.2",
@@ -24,10 +24,10 @@
     "meteor-node-stubs": "^0.2.11",
     "node-gyp": "^3.6.2",
     "node-pre-gyp": "^0.6.39",
-    "npm": "^5.8.0",
+    "npm": "^5.10.0",
     "pnotify": "^3.2.0",
     "pretty-checkbox": "^3.0.3",
-    "request": "^2.85.0",
+    "request": "^2.86.0",
     "simpl-schema": "^0.3.2"
   }
 }
