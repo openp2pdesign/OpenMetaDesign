@@ -34,6 +34,9 @@ Template.Discussions.helpers({
             }
         }
     },
+    tabularSelector: function() {
+        return {'projectId': this._id};
+    }
 });
 
 /*****************************************************************************/
