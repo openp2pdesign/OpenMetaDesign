@@ -164,6 +164,9 @@ Meteor.methods({
             Discussions.remove({
                 "projectId": projectId
             });
+            ProjectsStats.remove({
+                "projectId": projectId
+            });
         } else {
             console.log("Cannot found project", projectId);
         }
@@ -212,6 +215,18 @@ Meteor.methods({
                         "users": {
                             "id": Meteor.user()._id,
                             "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
                         }
                     }
                 });
@@ -332,6 +347,18 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -423,6 +450,18 @@ Meteor.methods({
                         });
                     }
                 }
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -530,6 +569,18 @@ Meteor.methods({
                         'activityData.location': activityLocationData
                     }
                 });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -598,6 +649,18 @@ Meteor.methods({
                 ActivityElements.remove({
                     "activityId": activityId
                 });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -653,6 +716,18 @@ Meteor.methods({
                         "users": {
                             "id": Meteor.user()._id,
                             "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
                         }
                     }
                 });
@@ -719,6 +794,18 @@ Meteor.methods({
                     }
                 });
             }
+            // Update the Edit stats of the project
+            ProjectsStats.update({
+                'projectId': projectId,
+                'dataByTopic.topic': 1
+            }, {
+                $push: {
+                    "dataByTopic.$.dates": {
+                        "value": 1,
+                        "date": new Date(),
+                    }
+                }
+            });
             // Return success
             return "success";
         });
@@ -776,6 +863,18 @@ Meteor.methods({
                 });
                 // Delete flow in its own collection
                 Flows.remove(flowId);
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -869,6 +968,18 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             }
@@ -932,6 +1043,18 @@ Meteor.methods({
                     }
                 });
             }
+            // Update the Edit stats of the project
+            ProjectsStats.update({
+                'projectId': projectId,
+                'dataByTopic.topic': 1
+            }, {
+                $push: {
+                    "dataByTopic.$.dates": {
+                        "value": 1,
+                        "date": new Date(),
+                    }
+                }
+            });
             // Return success
             return "success";
         });
@@ -990,6 +1113,18 @@ Meteor.methods({
                 // Delete contradiction in its own collection
                 Contradictions.remove({
                     '_id': contradictionId
+                });
+                // Update the Edit stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 1
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
                 });
                 // Return success
                 return "success";
