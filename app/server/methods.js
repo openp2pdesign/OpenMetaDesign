@@ -9,6 +9,7 @@ import { Settings } from '../lib/collections/settings.js';
 import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
+import { ProjectsStats } from '../lib/collections/projectsstats.js';
 
 let diff = require('deep-diff');
 Meteor.methods({
@@ -123,6 +124,20 @@ Meteor.methods({
         // Save the the first version of the project
         projectId = Projects.insert(newProject);
         console.log("Project", projectId, "created successfully.");
+        // Create the Project stats with a first Edit
+        var firstStatData = {
+            "projectId": projectId,
+            "dataByTopic": [{
+                    "topic": 1,
+                    "dates": [{
+                        "value": 1,
+                        "date": new Date(),
+                    }, ],
+                    "topicName": "Edits"
+                },
+            ]
+        };
+        ProjectsStats = ProjectsStats.insert(firstStatData);
         return projectId;
     },
     'deleteProject': function(projectId) {
