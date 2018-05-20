@@ -49,8 +49,12 @@ Template.ProjectActivityViz.onRendered(function () {
     },
   ]
 };
-    var container = d3Selection.select('#js-chart-container'),
-      lineChart = new LineChart();
+    // Initializat the chart
+    let container = d3Selection.select('#js-chart-container'),
+        lineChart = new LineChart();
+    // Make the chart fit into the bootstrap columns
+    let newContainerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
+    // Set up the chart
       if (container.node()) {
           let chartTooltip = tooltip();
           lineChart
@@ -58,7 +62,7 @@ Template.ProjectActivityViz.onRendered(function () {
             .aspectRatio(0.5)
             .grid('horizontal')
             .tooltipThreshold(600)
-            .width(800)
+            .width(newContainerWidth)
             .margin(10)
             .dateLabel('fullDate')
             .lineCurve('basis')
