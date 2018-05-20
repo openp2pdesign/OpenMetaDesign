@@ -7,58 +7,50 @@ var d3Selection = require('d3-selection');
 /*****************************************************************************/
 /* ProjectActivityViz: Event Handlers */
 /*****************************************************************************/
-Template.ProjectActivityViz.events({
-});
+Template.ProjectActivityViz.events({});
 
 /*****************************************************************************/
 /* ProjectActivityViz: Helpers */
 /*****************************************************************************/
-Template.ProjectActivityViz.helpers({
-});
+Template.ProjectActivityViz.helpers({});
 
 /*****************************************************************************/
 /* ProjectActivityViz: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ProjectActivityViz.onCreated(function () {
-});
+Template.ProjectActivityViz.onCreated(function() {});
 
-Template.ProjectActivityViz.onRendered(function () {
+Template.ProjectActivityViz.onRendered(function() {
     var data = {
-  "dataByTopic": [
-    {
-      "topic": 103,
-      "dates": [
-            {
-              "date": "27-Jun-15",
-              "value": 1,
-              "fullDate": "2015-06-27T07:00:00.000Z"
+        "dataByTopic": [{
+                "topic": 103,
+                "dates": [{
+                    "date": "27-Jun-15",
+                    "value": 1,
+                    "fullDate": "2015-06-27T07:00:00.000Z"
+                }, ],
+                "topicName": "Edits"
             },
-      ],
-      "topicName": "Edits"
-    },
-    {
-      "topic": 60,
-      "dates": [
-        {
-          "date": "27-Jun-15",
-          "value": 0,
-          "fullDate": "2015-06-27T07:00:00.000Z"
-        },
-      ],
-      "topicName": "Comments"
-    },
-  ]
-};
+            {
+                "topic": 60,
+                "dates": [{
+                    "date": "27-Jun-15",
+                    "value": 0,
+                    "fullDate": "2015-06-27T07:00:00.000Z"
+                }, ],
+                "topicName": "Comments"
+            },
+        ]
+    };
     // Initializat the chart
     let container = d3Selection.select('#js-chart-container'),
         lineChart = new LineChart();
     // Make the chart fit into the bootstrap columns
     let newContainerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
     // Set up the chart
-      if (container.node()) {
-          let chartTooltip = tooltip();
-          lineChart
-              .isAnimated(true)
+    if (container.node()) {
+        let chartTooltip = tooltip();
+        lineChart
+            .isAnimated(true)
             .aspectRatio(0.5)
             .grid('horizontal')
             .tooltipThreshold(600)
@@ -73,11 +65,9 @@ Template.ProjectActivityViz.onRendered(function () {
                 // eslint-disable-next-line no-console
                 console.log('Data entry marker clicked', d, mousePosition);
             })
-      }
-
-      // This line gets together container, data and chart
-      container.datum(data).call(lineChart);
+    }
+    // This line gets together container, data and chart
+    container.datum(data).call(lineChart);
 });
 
-Template.ProjectActivityViz.onDestroyed(function () {
-});
+Template.ProjectActivityViz.onDestroyed(function() {});
