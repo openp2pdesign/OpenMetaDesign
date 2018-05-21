@@ -134,10 +134,14 @@ Meteor.methods({
                         "date": new Date(),
                     }, ],
                     "topicName": "Edits"
-                },
+                }, {
+                        "topic": 2,
+                        "dates": [],
+                        "topicName": "Comments"
+                    },
             ]
         };
-        ProjectsStats = ProjectsStats.insert(firstStatData);
+        NewProjectsStats = ProjectsStats.insert(firstStatData);
         return projectId;
     },
     'deleteProject': function(projectId) {
@@ -1155,6 +1159,18 @@ Meteor.methods({
                 } else {
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
+                // Update the Comments stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 2
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             });
@@ -1215,6 +1231,18 @@ Meteor.methods({
                 } else {
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
+                // Update the Comments stats of the project
+                ProjectsStats.update({
+                    'projectId': projectId,
+                    'dataByTopic.topic': 2
+                }, {
+                    $push: {
+                        "dataByTopic.$.dates": {
+                            "value": 1,
+                            "date": new Date(),
+                        }
+                    }
+                });
                 // Return success
                 return "success";
             });
