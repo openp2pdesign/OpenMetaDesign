@@ -6,33 +6,35 @@ export const ProjectsStats = new Mongo.Collection('projectsstats');
 
 
 if (Meteor.isServer) {
-  ProjectsStats.allow({
-    insert: function (userId, doc) {
-      return false;
-    },
+    ProjectsStats.allow({
+        insert: function(userId, doc) {
+            return false;
+        },
 
-    update: function (userId, doc, fieldNames, modifier) {
-      return false;
-    },
+        update: function(userId, doc, fieldNames, modifier) {
+            return false;
+        },
 
-    remove: function (userId, doc) {
-      return false;
-    }
-  });
+        remove: function(userId, doc) {
+            return false;
+        }
+    });
+}
 
-  ProjectsStats.deny({
-    insert: function (userId, doc) {
-      return true;
-    },
+if (Meteor.isClient) {
+    ProjectsStats.allow({
+        insert: function(userId, doc) {
+            return true;
+        },
 
-    update: function (userId, doc, fieldNames, modifier) {
-      return true;
-    },
+        update: function(userId, doc, fieldNames, modifier) {
+            return true;
+        },
 
-    remove: function (userId, doc) {
-      return true;
-    }
-  });
+        remove: function(userId, doc) {
+            return true;
+        }
+    });
 }
 
 // A schema for a single date data

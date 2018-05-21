@@ -5,6 +5,7 @@ import { ActivityElements } from '../lib/collections/activity_elements.js';
 import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
+import { ProjectsStats } from '../lib/collections/projectsstats.js';
 
 
 // Publish users
@@ -169,6 +170,11 @@ Meteor.publish('contradictions', function() {
 // Publish discussions for the whole app
 Meteor.publish('discussions', function() {
     return Discussions.find();
+});
+
+// Publish projectsstats for the whole app
+Meteor.publish('projectsstats', function() {
+    return ProjectsStats.find();
 });
 
 // Publish projects for autocomplete forms

@@ -4,6 +4,10 @@ import tooltip from 'britecharts/dist/umd/tooltip.min.js';
 import 'britecharts/dist/css/britecharts.min.css';
 var d3Selection = require('d3-selection');
 
+// Load Projects and Projects Stats
+import { Projects } from '../../../../lib/collections/projects.js';
+import { ProjectsStats } from '../../../../lib/collections/projectsstats.js';
+
 /*****************************************************************************/
 /* ProjectActivityViz: Event Handlers */
 /*****************************************************************************/
@@ -17,30 +21,20 @@ Template.ProjectActivityViz.helpers({});
 /*****************************************************************************/
 /* ProjectActivityViz: Lifecycle Hooks */
 /*****************************************************************************/
-Template.ProjectActivityViz.onCreated(function() {});
+Template.ProjectActivityViz.onCreated(function() {
+    Meteor.subscribe('projects');
+    Meteor.subscribe('projectsstats');
+    // Get project ID
+    thisProjectID = this.data._id;
+});
 
 Template.ProjectActivityViz.onRendered(function() {
-    var data = {
-        "dataByTopic": [{
-                "topic": 103,
-                "dates": [{
-                    "date": "27-Jun-15",
-                    "value": 1,
-                    "fullDate": "2015-06-27T07:00:00.000Z"
-                }, ],
-                "topicName": "Edits"
-            },
-            {
-                "topic": 60,
-                "dates": [{
-                    "date": "27-Jun-15",
-                    "value": 0,
-                    "fullDate": "2015-06-27T07:00:00.000Z"
-                }, ],
-                "topicName": "Comments"
-            },
-        ]
-    };
+    // Get the data
+    thisData = ProjectsStats.findOne({
+        'projectId': thisProjectID
+    });
+    console.log(thisData);
+
     // Initializat the chart
     let container = d3Selection.select('#js-chart-container'),
         lineChart = new LineChart();
@@ -67,7 +61,7 @@ Template.ProjectActivityViz.onRendered(function() {
             })
     }
     // This line gets together container, data and chart
-    container.datum(data).call(lineChart);
+    container.datum(thisData).call(lineChart);
 });
 
 Template.ProjectActivityViz.onDestroyed(function() {});

@@ -128,18 +128,17 @@ Meteor.methods({
         var firstStatData = {
             "projectId": projectId,
             "dataByTopic": [{
-                    "topic": 1,
-                    "dates": [{
-                        "value": 1,
-                        "date": new Date(),
-                    }, ],
-                    "topicName": "Edits"
-                }, {
-                        "topic": 2,
-                        "dates": [],
-                        "topicName": "Comments"
-                    },
-            ]
+                "topic": 1,
+                "dates": [{
+                    "value": 1,
+                    "date": new Date(),
+                }, ],
+                "topicName": "Edits"
+            }, {
+                "topic": 2,
+                "dates": [],
+                "topicName": "Comments"
+            }, ]
         };
         NewProjectsStats = ProjectsStats.insert(firstStatData);
         return projectId;
