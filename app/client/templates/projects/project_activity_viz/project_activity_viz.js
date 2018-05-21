@@ -29,39 +29,57 @@ Template.ProjectActivityViz.onCreated(function() {
 });
 
 Template.ProjectActivityViz.onRendered(function() {
-    // Get the data
-    thisData = ProjectsStats.findOne({
-        'projectId': thisProjectID
-    });
-    console.log(thisData);
 
     // Initializat the chart
     let container = d3Selection.select('#js-chart-container'),
-        lineChart = new LineChart();
+        lineChart = new LineChart(),
+        chartTooltip = tooltip(),
+        thisData;
     // Make the chart fit into the bootstrap columns
-    let newContainerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
-    // Set up the chart
-    if (container.node()) {
-        let chartTooltip = tooltip();
+    let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
+
+    if (containerWidth) {
+
+        // Set up the chart
         lineChart
             .isAnimated(true)
             .aspectRatio(0.5)
             .grid('horizontal')
-            //.tooltipThreshold(600)
-            .width(newContainerWidth)
-            .margin(10)
+            .tooltipThreshold(300)
+            .width(containerWidth)
+            .margin(0)
             .dateLabel('date')
+            .valueLabel('value')
             .lineCurve('basis')
             .on('customMouseOver', chartTooltip.show)
             .on('customMouseMove', chartTooltip.update)
-            .on('customMouseOut', chartTooltip.hide)
-            .on('customDataEntryClick', function(d, mousePosition) {
-                // eslint-disable-next-line no-console
-                console.log('Data entry marker clicked', d, mousePosition);
-            })
+            .on('customMouseOut', chartTooltip.hide);
+
+        //Tooltip Setup and start
+        chartTooltip
+            //.topicLabel('topicName')
+            //.dateLabel('date')
+            .title('Tooltip title');
+
+        tooltipContainer = d3Selection.select('.js-single-line-chart-container .metadata-group .vertical-marker-container');
+        tooltipContainer.datum([]).call(chartTooltip);
     }
-    // This line gets together container, data and chart
-    container.datum(thisData).call(lineChart);
+
+    // Viz
+    Tracker.autorun(function() {
+        // REACTIVE VIZ
+        // Reactive var for the autorun
+        var thisData = ProjectsStats.findOne({
+            'projectId': thisProjectID
+        });
+        // If there's data
+        if (typeof thisData !== "undefined") {
+            // Link the chart to the data
+            console.log(thisData);
+            container.datum(thisData).call(lineChart);
+        }
+    });
+
 });
 
 Template.ProjectActivityViz.onDestroyed(function() {});

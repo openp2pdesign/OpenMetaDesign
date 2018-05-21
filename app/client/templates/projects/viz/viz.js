@@ -651,7 +651,7 @@ Template.ProjectsViz.onRendered(function() {
 
     Tracker.autorun(function() {
 
-        // REACTIVE EDITING
+        // REACTIVE VIZ
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({
             _id: thisProject._id
