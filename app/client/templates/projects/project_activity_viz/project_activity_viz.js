@@ -47,27 +47,25 @@ Template.ProjectActivityViz.onRendered(function() {
     if (containerWidth) {
         // Set up the chart
         lineChart
-        .isAnimated(true)
-        .aspectRatio(0.7)
-        .tooltipThreshold(300)
-        .grid('horizontal')
-        .width(containerWidth)
-        .margin(margin)
-        .dateLabel('date')
-        .valueLabel('value')
-        .lineCurve('basis')
-        .shouldShowAllDataPoints(true)
-        //.xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
-        //.xAxisCustomFormat('%dday')
-        //.xAxisFormat(lineChart.axisTimeCombinations.HOUR_DAY)
-        //.xTicks(20)
-        .on('customMouseOver', chartTooltip.show)
-        .on('customMouseMove', chartTooltip.update)
-        .on('customMouseOut', chartTooltip.hide);
+            .isAnimated(true)
+            .aspectRatio(0.7)
+            .tooltipThreshold(300)
+            .grid('horizontal')
+            .width(containerWidth)
+            .margin(margin)
+            .dateLabel('date')
+            .valueLabel('value')
+            .lineCurve('basis')
+            .shouldShowAllDataPoints(true)
+            .xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
+            .xTicks(20)
+            .on('customMouseOver', chartTooltip.show)
+            .on('customMouseMove', chartTooltip.update)
+            .on('customMouseOut', chartTooltip.hide);
 
         //Tooltip Setup and start
-        //chartTooltip.title('Tooltip Title');
-        tooltipContainer = d3Selection.select('#js-chart-container .metadata-group .vertical-marker-container');
+        chartTooltip.title('Tooltip Title');
+        tooltipContainer = d3Selection.select('#js-chart-container .metadata-group .horizontal-marker-container');
         tooltipContainer.datum([]).call(chartTooltip);
     }
 
