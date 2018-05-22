@@ -29,7 +29,6 @@ Template.ProjectActivityViz.onCreated(function() {
 });
 
 Template.ProjectActivityViz.onRendered(function() {
-
     // Initializat the chart
     let container = d3Selection.select('#js-chart-container'),
         lineChart = new LineChart(),
@@ -37,31 +36,38 @@ Template.ProjectActivityViz.onRendered(function() {
         thisData;
     // Make the chart fit into the bootstrap columns
     let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
-
+    var margin = {
+            left: 120,
+            right: 20,
+            top: 20,
+            bottom: 30
+        },
+        tooltipContainer = void 0;
+    // Setup
     if (containerWidth) {
-
         // Set up the chart
         lineChart
-            .isAnimated(true)
-            .aspectRatio(0.5)
-            .grid('horizontal')
-            .tooltipThreshold(300)
-            .width(containerWidth)
-            .margin(0)
-            .dateLabel('date')
-            .valueLabel('value')
-            .lineCurve('basis')
-            .on('customMouseOver', chartTooltip.show)
-            .on('customMouseMove', chartTooltip.update)
-            .on('customMouseOut', chartTooltip.hide);
+        .isAnimated(true)
+        .aspectRatio(0.7)
+        .tooltipThreshold(300)
+        .grid('horizontal')
+        .width(containerWidth)
+        .margin(margin)
+        .dateLabel('date')
+        .valueLabel('value')
+        .lineCurve('basis')
+        .shouldShowAllDataPoints(true)
+        //.xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
+        //.xAxisCustomFormat('%dday')
+        //.xAxisFormat(lineChart.axisTimeCombinations.HOUR_DAY)
+        //.xTicks(20)
+        .on('customMouseOver', chartTooltip.show)
+        .on('customMouseMove', chartTooltip.update)
+        .on('customMouseOut', chartTooltip.hide);
 
         //Tooltip Setup and start
-        chartTooltip
-            //.topicLabel('topicName')
-            //.dateLabel('date')
-            .title('Tooltip title');
-
-        tooltipContainer = d3Selection.select('.js-single-line-chart-container .metadata-group .vertical-marker-container');
+        //chartTooltip.title('Tooltip Title');
+        tooltipContainer = d3Selection.select('#js-chart-container .metadata-group .vertical-marker-container');
         tooltipContainer.datum([]).call(chartTooltip);
     }
 
