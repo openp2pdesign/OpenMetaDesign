@@ -9,9 +9,234 @@ import { Settings } from '../lib/collections/settings.js';
 import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
-import { ProjectsStats } from '../lib/collections/projectsstats.js';
+import { ProjectStats } from '../lib/collections/projectstats.js';
+import { EditStats } from '../lib/collections/editstats.js';
+import { CommentStats } from '../lib/collections/commentstats.js';
 
 let diff = require('deep-diff');
+
+// A function that resample stats
+var resampleStats = function(projectId) {
+    // Check how long the editing has been active
+    var firstEditEvent = EditStats.findOne({
+        "projectId": projectId
+    }, {
+        sort: {
+            "date": 1
+        }
+    });
+    var lastEditEvent = EditStats.findOne({
+        "projectId": projectId
+    }, {
+        sort: {
+            "date": -1
+        }
+    });
+    // Check how long the commenting has been active
+    var firstCommentEvent = CommentStats.findOne({
+        "projectId": projectId
+    }, {
+        sort: {
+            "date": 1
+        }
+    });
+    var lastCommentEvent = CommentStats.findOne({
+        "projectId": projectId
+    }, {
+        sort: {
+            "date": -1
+        }
+    });
+    // Check the duration of edits and comments, pick the longer one for plotting
+    var duration;
+    var firstEditEventDate = moment(firstEditEvent.date);
+    var lastEditEventDate = moment(lastEditEvent.date);
+    var editDuration = moment.duration(lastEditEventDate.diff(firstEditEventDate));
+    // Check if there are comments, there is always at least 1 edit (creation of project)
+    if (typeof firstCommentEvent !== "undefined" || typeof lastCommentEvent !== "undefined") {
+        var firstCommentEventDate = moment(firstCommentEvent.date);
+        var lastCommentEventDate = moment(lastCommentEvent.date);
+        var commentDuration = moment.duration(lastCommentEventDate.diff(firstCommentEventDate));
+        if (editDuration > commentDuration) {
+            duration = editDuration;
+        } else {
+            duration = commentDuration;
+        }
+    } else {
+        duration = editDuration;
+    }
+    // Prepare the resample (aggregation) accordingly
+    // if more than 3 months, then resample by months
+    if (duration.asMonths() > 3) {
+        // Resample by months
+        var pipeline = [{
+                "$match": {
+                    "projectId": projectId
+                }
+            },
+            {
+                "$project": {
+                    "value": "$value",
+                    "fullDate": "$date"
+                }
+            },
+            {
+                "$group": {
+                    "_id": {
+                        "year":{"$year":"$fullDate"},
+                        "month":{"$month":"$fullDate"},
+                    },
+                    "sum": {
+                        "$sum": "$value"
+                    },
+                    "date": {
+                        "$first": "$fullDate"
+                    }
+                }
+            }
+        ];
+    } else {
+        // if less than 3 months, then resample by days
+        if (duration.asMonths() < 3 && duration.asDays() > 3) {
+            // Resample by days
+            var pipeline = [{
+                    "$match": {
+                        "projectId": projectId
+                    }
+                },
+                {
+                    "$project": {
+                        "value": "$value",
+                        "fullDate": "$date"
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": {
+                            "year":{"$year":"$fullDate"},
+                            "month":{"$month":"$fullDate"},
+                            "day":{"$dayOfMonth":"$fullDate"},
+                        },
+                        "sum": {
+                            "$sum": "$value"
+                        },
+                        "date": {
+                            "$first": "$fullDate"
+                        }
+                    }
+                }
+            ];
+        } else {
+            // if less than 3 days, then resample by hours
+            if (duration.asDays() < 3 && duration.asHours() > 3) {
+                // Resample by hours
+                var pipeline = [{
+                        "$match": {
+                            "projectId": projectId
+                        }
+                    },
+                    {
+                        "$project": {
+                            "value": "$value",
+                            "fullDate": "$date"
+                        }
+                    },
+                    {
+                        "$group": {
+                            "_id": {
+                                "year":{"$year":"$fullDate"},
+                                "month":{"$month":"$fullDate"},
+                                "day":{"$dayOfMonth":"$fullDate"},
+                                "hour":{"$hour":"$fullDate"}
+                            },
+                            "sum": {
+                                "$sum": "$value"
+                            },
+                            "date": {
+                                "$first": "$fullDate"
+                            }
+                        }
+                    }
+                ];
+            } else {
+                // if less than 3 hours, then resample by minutes
+                if (duration.asHours() < 3) {
+                    // Resample by minutes
+                    var pipeline = [{
+                            "$match": {
+                                "projectId": projectId
+                            }
+                        },
+                        {
+                            "$project": {
+                                "value": "$value",
+                                "fullDate": "$date"
+                            }
+                        },
+                        {
+                            "$group": {
+                                "_id": {
+                                    "year":{"$year":"$fullDate"},
+                                    "month":{"$month":"$fullDate"},
+                                    "day":{"$dayOfMonth":"$fullDate"},
+                                    "hour":{"$hour":"$fullDate"},
+                                    "minute":{"$minute":"$fullDate"}
+                                },
+                                "sum": {
+                                    "$sum": "$value"
+                                },
+                                "date": {
+                                    "$first": "$fullDate"
+                                }
+                            }
+                        }
+                    ];
+                }
+            }
+        }
+
+    }
+    // Aggregate (resample)
+    var aggregatedEdits = EditStats.aggregate(pipeline);
+    var aggregatedComments = CommentStats.aggregate(pipeline);
+    // Convert the result to the BriteCharts-formatted ProjectStat collection
+    // Analyze the aggregated edits and get data
+    var aggregatedEditsValues = [];
+    for (element in aggregatedEdits) {
+        aggregatedEditsValues.push({ "value" : aggregatedEdits[element].sum, "date" : aggregatedEdits[element].date });
+    }
+    // Analyze the aggregated comments and get data
+    var aggregatedCommentsValues = [];
+    for (element in aggregatedComments) {
+        aggregatedCommentsValues.push({ "value" : aggregatedComments[element].sum, "date" : aggregatedComments[element].date });
+    }
+    // Create a new ProjectStats document
+    var newStatData = {
+        "projectId": projectId,
+        "dataByTopic": [{
+            "topic": 1,
+            "dates": aggregatedEditsValues,
+            "topicName": "Edits"
+        }, {
+            "topic": 2,
+            "dates": aggregatedComments,
+            "topicName": "Comments"
+        }, ]
+    };
+    // Delete existing ProjectStats for the current project
+    // First check if it exists...
+    let projectFoundId = Projects.findOne({
+        '_id': projectId
+    });
+    if (projectFoundId) {
+        ProjectStats.remove({
+            "projectId": projectId
+        });
+    }
+    // Replace it with a new one
+    NewProjectStats = ProjectStats.insert(newStatData);
+}
+
 Meteor.methods({
     'deleteAdmin': function(userId) {
         Roles.removeUsersFromRoles(userId, 'admin');
@@ -140,7 +365,7 @@ Meteor.methods({
                 "topicName": "Comments"
             }, ]
         };
-        NewProjectsStats = ProjectsStats.insert(firstStatData);
+        NewProjectStats = ProjectStats.insert(firstStatData);
         return projectId;
     },
     'deleteProject': function(projectId) {
@@ -167,7 +392,7 @@ Meteor.methods({
             Discussions.remove({
                 "projectId": projectId
             });
-            ProjectsStats.remove({
+            ProjectStats.remove({
                 "projectId": projectId
             });
         } else {
@@ -222,7 +447,7 @@ Meteor.methods({
                     }
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -233,6 +458,19 @@ Meteor.methods({
                         }
                     }
                 });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
+                });
+                // Update the stats
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date(),
+                });
+                resampleStats(projectId);
+
                 // Return
                 return "success";
             }
@@ -351,7 +589,7 @@ Meteor.methods({
                     }
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -361,6 +599,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -454,7 +697,7 @@ Meteor.methods({
                     }
                 }
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -464,6 +707,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -573,7 +821,7 @@ Meteor.methods({
                     }
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -583,6 +831,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -653,7 +906,7 @@ Meteor.methods({
                     "activityId": activityId
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -663,6 +916,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -723,7 +981,7 @@ Meteor.methods({
                     }
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -733,6 +991,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -798,7 +1061,7 @@ Meteor.methods({
                 });
             }
             // Update the Edit stats of the project
-            ProjectsStats.update({
+            ProjectStats.update({
                 'projectId': projectId,
                 'dataByTopic.topic': 1
             }, {
@@ -808,6 +1071,11 @@ Meteor.methods({
                         "date": new Date(),
                     }
                 }
+            });
+            EditStats.insert({
+                'projectId': projectId,
+                "value": 1,
+                "date": new Date()
             });
             // Return success
             return "success";
@@ -867,7 +1135,7 @@ Meteor.methods({
                 // Delete flow in its own collection
                 Flows.remove(flowId);
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -877,6 +1145,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -972,7 +1245,7 @@ Meteor.methods({
                     }
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -982,6 +1255,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -1047,7 +1325,7 @@ Meteor.methods({
                 });
             }
             // Update the Edit stats of the project
-            ProjectsStats.update({
+            ProjectStats.update({
                 'projectId': projectId,
                 'dataByTopic.topic': 1
             }, {
@@ -1057,6 +1335,11 @@ Meteor.methods({
                         "date": new Date(),
                     }
                 }
+            });
+            EditStats.insert({
+                'projectId': projectId,
+                "value": 1,
+                "date": new Date()
             });
             // Return success
             return "success";
@@ -1118,7 +1401,7 @@ Meteor.methods({
                     '_id': contradictionId
                 });
                 // Update the Edit stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 1
                 }, {
@@ -1128,6 +1411,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -1159,7 +1447,7 @@ Meteor.methods({
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
                 // Update the Comments stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 2
                 }, {
@@ -1169,6 +1457,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                CommentStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";
@@ -1231,7 +1524,7 @@ Meteor.methods({
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
                 // Update the Comments stats of the project
-                ProjectsStats.update({
+                ProjectStats.update({
                     'projectId': projectId,
                     'dataByTopic.topic': 2
                 }, {
@@ -1241,6 +1534,11 @@ Meteor.methods({
                             "date": new Date(),
                         }
                     }
+                });
+                CommentStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date()
                 });
                 // Return success
                 return "success";

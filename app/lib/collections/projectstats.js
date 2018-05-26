@@ -2,11 +2,11 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 // Collection of Project Statistics
-export const ProjectsStats = new Mongo.Collection('projectsstats');
+export const ProjectStats = new Mongo.Collection('projectstats');
 
 
 if (Meteor.isServer) {
-    ProjectsStats.allow({
+    ProjectStats.allow({
         insert: function(userId, doc) {
             return false;
         },
@@ -22,7 +22,7 @@ if (Meteor.isServer) {
 }
 
 if (Meteor.isClient) {
-    ProjectsStats.allow({
+    ProjectStats.allow({
         insert: function(userId, doc) {
             return true;
         },
@@ -78,5 +78,5 @@ export const CompleteStatSchema = new SimpleSchema({
     },
 });
 
-// Attach the CompleteStatSchema to the ProjectsStats collection
-ProjectsStats.attachSchema(CompleteStatSchema);
+// Attach the CompleteStatSchema to the ProjectStats collection
+ProjectStats.attachSchema(CompleteStatSchema);

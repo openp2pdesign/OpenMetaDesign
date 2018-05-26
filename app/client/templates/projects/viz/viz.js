@@ -171,6 +171,7 @@ Template.ProjectsViz.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
+    Meteor.subscribe("reportTotals");
 });
 
 Template.ProjectsViz.onRendered(function() {

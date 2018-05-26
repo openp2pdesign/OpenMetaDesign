@@ -6,7 +6,7 @@ var d3Selection = require('d3-selection');
 
 // Load Projects and Projects Stats
 import { Projects } from '../../../../lib/collections/projects.js';
-import { ProjectsStats } from '../../../../lib/collections/projectsstats.js';
+import { ProjectStats } from '../../../../lib/collections/projectstats.js';
 
 /*****************************************************************************/
 /* ProjectActivityViz: Event Handlers */
@@ -23,7 +23,7 @@ Template.ProjectActivityViz.helpers({});
 /*****************************************************************************/
 Template.ProjectActivityViz.onCreated(function() {
     Meteor.subscribe('projects');
-    Meteor.subscribe('projectsstats');
+    Meteor.subscribe('projectstats');
     // Get project ID
     thisProjectID = this.data._id;
 });
@@ -73,7 +73,7 @@ Template.ProjectActivityViz.onRendered(function() {
     Tracker.autorun(function() {
         // REACTIVE VIZ
         // Reactive var for the autorun
-        var thisData = ProjectsStats.findOne({
+        var thisData = ProjectStats.findOne({
             'projectId': thisProjectID
         });
         // If there's data
