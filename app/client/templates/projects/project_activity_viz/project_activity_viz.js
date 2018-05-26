@@ -48,7 +48,7 @@ Template.ProjectActivityViz.onRendered(function() {
         // Set up the chart
         lineChart
             .isAnimated(true)
-            .aspectRatio(0.7)
+            .aspectRatio(0.5)
             .tooltipThreshold(300)
             .grid('horizontal')
             .width(containerWidth)
@@ -57,11 +57,11 @@ Template.ProjectActivityViz.onRendered(function() {
             .valueLabel('value')
             .lineCurve('basis')
             .shouldShowAllDataPoints(true)
-            .xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
+            //.xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
             .xTicks(20)
-            .on('customMouseOver', chartTooltip.show)
-            .on('customMouseMove', chartTooltip.update)
-            .on('customMouseOut', chartTooltip.hide);
+            //.on('customMouseOver', chartTooltip.show)
+            //.on('customMouseMove', chartTooltip.update)
+            //.on('customMouseOut', chartTooltip.hide);
 
         //Tooltip Setup and start
         chartTooltip.title('Tooltip Title');
@@ -79,7 +79,6 @@ Template.ProjectActivityViz.onRendered(function() {
         // If there's data
         if (typeof thisData !== "undefined") {
             // Link the chart to the data
-            console.log(thisData);
             container.datum(thisData).call(lineChart);
         }
     });

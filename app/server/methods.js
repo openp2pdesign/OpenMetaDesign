@@ -12,7 +12,6 @@ import { Discussions } from '../lib/collections/discussions.js';
 import { ProjectStats } from '../lib/collections/projectstats.js';
 import { EditStats } from '../lib/collections/editstats.js';
 import { CommentStats } from '../lib/collections/commentstats.js';
-
 let diff = require('deep-diff');
 
 // A function that resample stats
@@ -66,9 +65,8 @@ var resampleStats = function(projectId) {
         duration = editDuration;
     }
     // Prepare the resample (aggregation) accordingly
-    // if more than 3 months, then resample by months
-    if (duration.asMonths() > 3) {
-        // Resample by months
+    if (duration.asMonths() > 4) {
+        // if more than 4 months, then resample by months
         var pipeline = [{
                 "$match": {
                     "projectId": projectId
@@ -83,8 +81,87 @@ var resampleStats = function(projectId) {
             {
                 "$group": {
                     "_id": {
-                        "year":{"$year":"$fullDate"},
-                        "month":{"$month":"$fullDate"},
+                        "year": {
+                            "$year": "$fullDate"
+                        },
+                        "month": {
+                            "$month": "$fullDate"
+                        },
+                    },
+                    "sum": {
+                        "$sum": "$value"
+                    },
+                    "date": {
+                        "$first": "$fullDate"
+                    }
+                }
+            }
+        ];
+    }
+    if (duration.asDays() > 5 && duration.asMonths() < 4) {
+        // if less than 3 months, then resample by days (if more than 5 days)
+        var pipeline = [{
+                "$match": {
+                    "projectId": projectId
+                }
+            },
+            {
+                "$project": {
+                    "value": "$value",
+                    "fullDate": "$date"
+                }
+            },
+            {
+                "$group": {
+                    "_id": {
+                        "year": {
+                            "$year": "$fullDate"
+                        },
+                        "month": {
+                            "$month": "$fullDate"
+                        },
+                        "day": {
+                            "$dayOfMonth": "$fullDate"
+                        },
+                    },
+                    "sum": {
+                        "$sum": "$value"
+                    },
+                    "date": {
+                        "$first": "$fullDate"
+                    }
+                }
+            }
+        ];
+    }
+    if (duration.asDays() < 5 && duration.asHours() > 3) {
+        // if less than 5 days and more than 3 hours, then resample by hours
+        var pipeline = [{
+                "$match": {
+                    "projectId": projectId
+                }
+            },
+            {
+                "$project": {
+                    "value": "$value",
+                    "fullDate": "$date"
+                }
+            },
+            {
+                "$group": {
+                    "_id": {
+                        "year": {
+                            "$year": "$fullDate"
+                        },
+                        "month": {
+                            "$month": "$fullDate"
+                        },
+                        "day": {
+                            "$dayOfMonth": "$fullDate"
+                        },
+                        "hour": {
+                            "$hour": "$fullDate"
+                        }
                     },
                     "sum": {
                         "$sum": "$value"
@@ -96,106 +173,48 @@ var resampleStats = function(projectId) {
             }
         ];
     } else {
-        // if less than 3 months, then resample by days
-        if (duration.asMonths() < 3 && duration.asDays() > 3) {
-            // Resample by days
-            var pipeline = [{
-                    "$match": {
-                        "projectId": projectId
-                    }
-                },
-                {
-                    "$project": {
-                        "value": "$value",
-                        "fullDate": "$date"
-                    }
-                },
-                {
-                    "$group": {
-                        "_id": {
-                            "year":{"$year":"$fullDate"},
-                            "month":{"$month":"$fullDate"},
-                            "day":{"$dayOfMonth":"$fullDate"},
-                        },
-                        "sum": {
-                            "$sum": "$value"
-                        },
-                        "date": {
-                            "$first": "$fullDate"
-                        }
-                    }
+        // if less than 3 hours, then resample by minutes
+        var pipeline = [{
+                "$match": {
+                    "projectId": projectId
                 }
-            ];
-        } else {
-            // if less than 3 days, then resample by hours
-            if (duration.asDays() < 3 && duration.asHours() > 3) {
-                // Resample by hours
-                var pipeline = [{
-                        "$match": {
-                            "projectId": projectId
+            },
+            {
+                "$project": {
+                    "value": "$value",
+                    "fullDate": "$date"
+                }
+            },
+            {
+                "$group": {
+                    "_id": {
+                        "year": {
+                            "$year": "$fullDate"
+                        },
+                        "month": {
+                            "$month": "$fullDate"
+                        },
+                        "day": {
+                            "$dayOfMonth": "$fullDate"
+                        },
+                        "hour": {
+                            "$hour": "$fullDate"
+                        },
+                        "minute": {
+                            "$minute": "$fullDate"
                         }
                     },
-                    {
-                        "$project": {
-                            "value": "$value",
-                            "fullDate": "$date"
-                        }
+                    "sum": {
+                        "$sum": "$value"
                     },
-                    {
-                        "$group": {
-                            "_id": {
-                                "year":{"$year":"$fullDate"},
-                                "month":{"$month":"$fullDate"},
-                                "day":{"$dayOfMonth":"$fullDate"},
-                                "hour":{"$hour":"$fullDate"}
-                            },
-                            "sum": {
-                                "$sum": "$value"
-                            },
-                            "date": {
-                                "$first": "$fullDate"
-                            }
-                        }
+                    "date": {
+                        "$first": "$fullDate"
                     }
-                ];
-            } else {
-                // if less than 3 hours, then resample by minutes
-                if (duration.asHours() < 3) {
-                    // Resample by minutes
-                    var pipeline = [{
-                            "$match": {
-                                "projectId": projectId
-                            }
-                        },
-                        {
-                            "$project": {
-                                "value": "$value",
-                                "fullDate": "$date"
-                            }
-                        },
-                        {
-                            "$group": {
-                                "_id": {
-                                    "year":{"$year":"$fullDate"},
-                                    "month":{"$month":"$fullDate"},
-                                    "day":{"$dayOfMonth":"$fullDate"},
-                                    "hour":{"$hour":"$fullDate"},
-                                    "minute":{"$minute":"$fullDate"}
-                                },
-                                "sum": {
-                                    "$sum": "$value"
-                                },
-                                "date": {
-                                    "$first": "$fullDate"
-                                }
-                            }
-                        }
-                    ];
                 }
             }
-        }
-
+        ];
     }
+
     // Aggregate (resample)
     var aggregatedEdits = EditStats.aggregate(pipeline);
     var aggregatedComments = CommentStats.aggregate(pipeline);
@@ -203,12 +222,20 @@ var resampleStats = function(projectId) {
     // Analyze the aggregated edits and get data
     var aggregatedEditsValues = [];
     for (element in aggregatedEdits) {
-        aggregatedEditsValues.push({ "value" : aggregatedEdits[element].sum, "date" : aggregatedEdits[element].date });
+        aggregatedEditsValues.push({
+            "value": aggregatedEdits[element].sum,
+            "date": aggregatedEdits[element].date
+        });
     }
     // Analyze the aggregated comments and get data
     var aggregatedCommentsValues = [];
-    for (element in aggregatedComments) {
-        aggregatedCommentsValues.push({ "value" : aggregatedComments[element].sum, "date" : aggregatedComments[element].date });
+    if (typeof firstCommentEvent !== "undefined" || typeof lastCommentEvent !== "undefined") {
+        for (element in aggregatedComments) {
+            aggregatedCommentsValues.push({
+                "value": aggregatedComments[element].sum,
+                "date": aggregatedComments[element].date
+            });
+        }
     }
     // Create a new ProjectStats document
     var newStatData = {
@@ -219,7 +246,7 @@ var resampleStats = function(projectId) {
             "topicName": "Edits"
         }, {
             "topic": 2,
-            "dates": aggregatedComments,
+            "dates": aggregatedCommentsValues,
             "topicName": "Comments"
         }, ]
     };
@@ -228,13 +255,12 @@ var resampleStats = function(projectId) {
     let projectFoundId = Projects.findOne({
         '_id': projectId
     });
-    if (projectFoundId) {
-        ProjectStats.remove({
-            "projectId": projectId
-        });
-    }
     // Replace it with a new one
-    NewProjectStats = ProjectStats.insert(newStatData);
+    ProjectStats.update({
+        '_id': projectFoundId
+    }, newStatData, {
+        'validate': false
+    });
 }
 
 Meteor.methods({
@@ -395,6 +421,12 @@ Meteor.methods({
             ProjectStats.remove({
                 "projectId": projectId
             });
+            EditStats.remove({
+                "projectId": projectId
+            });
+            CommentStats.remove({
+                "projectId": projectId
+            });
         } else {
             console.log("Cannot found project", projectId);
         }
@@ -458,11 +490,6 @@ Meteor.methods({
                         }
                     }
                 });
-                EditStats.insert({
-                    'projectId': projectId,
-                    "value": 1,
-                    "date": new Date()
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -470,7 +497,6 @@ Meteor.methods({
                     "date": new Date(),
                 });
                 resampleStats(projectId);
-
                 // Return
                 return "success";
             }
@@ -600,11 +626,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -708,11 +736,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -832,11 +862,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -917,11 +949,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -992,11 +1026,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -1072,11 +1108,13 @@ Meteor.methods({
                     }
                 }
             });
+            // Update the stats
             EditStats.insert({
                 'projectId': projectId,
                 "value": 1,
-                "date": new Date()
+                "date": new Date(),
             });
+            resampleStats(projectId);
             // Return success
             return "success";
         });
@@ -1146,11 +1184,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -1256,11 +1296,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -1336,11 +1378,13 @@ Meteor.methods({
                     }
                 }
             });
+            // Update the stats
             EditStats.insert({
                 'projectId': projectId,
                 "value": 1,
-                "date": new Date()
+                "date": new Date(),
             });
+            resampleStats(projectId);
             // Return success
             return "success";
         });
@@ -1412,11 +1456,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
@@ -1458,11 +1504,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 CommentStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             });
@@ -1535,11 +1583,13 @@ Meteor.methods({
                         }
                     }
                 });
+                // Update the stats
                 CommentStats.insert({
                     'projectId': projectId,
                     "value": 1,
-                    "date": new Date()
+                    "date": new Date(),
                 });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             });
