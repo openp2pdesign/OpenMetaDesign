@@ -12,6 +12,7 @@ import { Discussions } from '../lib/collections/discussions.js';
 import { ProjectStats } from '../lib/collections/projectstats.js';
 import { EditStats } from '../lib/collections/editstats.js';
 import { CommentStats } from '../lib/collections/commentstats.js';
+
 let diff = require('deep-diff');
 
 // A function that resample stats
@@ -173,7 +174,7 @@ var resampleStats = function(projectId) {
             }
         ];
     } else {
-        // if less than 3 hours, then resample by minutes
+        // if less than 3 hours, then resample by 10 minutes
         var pipeline = [{
                 "$match": {
                     "projectId": projectId
@@ -200,8 +201,21 @@ var resampleStats = function(projectId) {
                         "hour": {
                             "$hour": "$fullDate"
                         },
-                        "minute": {
-                            "$minute": "$fullDate"
+                        // Resample by 1 minute
+                        // "minute": {
+                        //     "$minute": "$fullDate"
+                        // }
+                        // Resample by 10 minutes
+                        "interval": {
+                            "$subtract": [{
+                                    "$minute": "$fullDate"
+                                },
+                                {
+                                    "$mod": [{
+                                        "$minute": "$fullDate"
+                                    }, 10]
+                                }
+                            ]
                         }
                     },
                     "sum": {
@@ -251,16 +265,11 @@ var resampleStats = function(projectId) {
         }, ]
     };
     // Delete existing ProjectStats for the current project
-    // First check if it exists...
-    let projectFoundId = Projects.findOne({
-        '_id': projectId
+    ProjectStats.remove({
+        "projectId": projectId
     });
     // Replace it with a new one
-    ProjectStats.update({
-        '_id': projectFoundId
-    }, newStatData, {
-        'validate': false
-    });
+    ProjectStats.insert(newStatData);
 }
 
 Meteor.methods({

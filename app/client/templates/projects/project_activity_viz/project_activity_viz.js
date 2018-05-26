@@ -56,7 +56,7 @@ Template.ProjectActivityViz.onRendered(function() {
             .dateLabel('date')
             .valueLabel('value')
             .lineCurve('basis')
-            .shouldShowAllDataPoints(true)
+            //.shouldShowAllDataPoints(true)
             //.xAxisCustomFormat(lineChart.axisTimeCombinations.HOUR_DAY)
             .xTicks(20)
             //.on('customMouseOver', chartTooltip.show)
