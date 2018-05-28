@@ -32,8 +32,7 @@ Template.ProjectActivityViz.onRendered(function() {
     // Initializat the chart
     let container = d3Selection.select('#js-chart-container'),
         lineChart = new LineChart(),
-        chartTooltip = new tooltip(),
-        thisData;
+        chartTooltip = new tooltip();
     // Make the chart fit into the bootstrap columns
     let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
     var margin = {
@@ -49,34 +48,37 @@ Template.ProjectActivityViz.onRendered(function() {
         lineChart
             .isAnimated(true)
             .aspectRatio(0.5)
-            .tooltipThreshold(300)
+            .tooltipThreshold(1300)
             .grid('full')
             .width(containerWidth)
             .margin(margin)
             .dateLabel('date')
             .valueLabel('value')
+            .topicLabel('topicName')
+            .shouldShowAllDataPoints(true)
             .xAxisFormat('custom')
             .xTicks(4)
             .xAxisCustomFormat('%d-%m-%Y %H:%M')
             .lineCurve('basis')
-            .shouldShowAllDataPoints(true)
-            .on('customMouseOver', function() {
-                chartTooltip.show();
-            })
-            .on('customMouseMove', function(dataPoint, topicColorMap, x,y) {
-                chartTooltip.update(dataPoint, topicColorMap, x, y);
-            })
-            .on('customMouseOut', function() {
-                chartTooltip.hide();
-            });
-
-        //Tooltip Setup and start
-        chartTooltip
-            //.topicLabel('value')
-            //.dateLabel('date')
-            .title('Tooltip Title');
-        tooltipContainer = d3Selection.select('#js-chart-container .metadata-group');
-        tooltipContainer.datum([]).call(chartTooltip);
+            // .on('customMouseOver', function() {
+            //     chartTooltip.show();
+            // })
+            // .on('customMouseMove', function(dataPoint, topicColorMap, x,y) {
+            //     //chartTooltip.update(dataPoint, topicColorMap, x, y);
+            // })
+            // .on('customMouseOut', function() {
+            //     chartTooltip.hide();
+            // });
+            //Tooltip Setup and start
+            // chartTooltip
+            //     .topicLabel('topicName')
+            //     .valueLabel('value')
+            //     .dateLabel('date')
+            //     .dateCustomFormat('%H:%M %p')
+            //     .nameLabel('topicName')
+            //     .title('Title');
+            // tooltipContainer = d3Selection.select('#js-chart-container .metadata-group');
+            // tooltipContainer.datum([]).call(chartTooltip);
     }
 
     // Viz
@@ -90,6 +92,7 @@ Template.ProjectActivityViz.onRendered(function() {
         if (typeof thisData !== "undefined") {
             // Link the chart to the data
             container.datum(thisData).call(lineChart);
+
         }
     });
 
