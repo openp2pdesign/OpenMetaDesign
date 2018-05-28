@@ -371,6 +371,7 @@ Meteor.methods({
             }],
             "flows": [],
             "contradictions": [],
+            //"users": [ Meteor.userId() ],
             "versions": [{
                 "number": 1,
                 "diff": "First version"
@@ -484,18 +485,6 @@ Meteor.methods({
                         "users": {
                             "id": Meteor.user()._id,
                             "username": Meteor.user().username
-                        }
-                    }
-                });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
                         }
                     }
                 });
@@ -623,18 +612,6 @@ Meteor.methods({
                         }
                     }
                 });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -733,18 +710,6 @@ Meteor.methods({
                         });
                     }
                 }
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -859,18 +824,6 @@ Meteor.methods({
                         'activityData.location': activityLocationData
                     }
                 });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -946,18 +899,6 @@ Meteor.methods({
                 ActivityElements.remove({
                     "activityId": activityId
                 });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -1020,18 +961,6 @@ Meteor.methods({
                         "users": {
                             "id": Meteor.user()._id,
                             "username": Meteor.user().username
-                        }
-                    }
-                });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
                         }
                     }
                 });
@@ -1105,18 +1034,6 @@ Meteor.methods({
                     }
                 });
             }
-            // Update the Edit stats of the project
-            ProjectStats.update({
-                'projectId': projectId,
-                'dataByTopic.topic': 1
-            }, {
-                $push: {
-                    "dataByTopic.$.dates": {
-                        "value": 1,
-                        "date": new Date(),
-                    }
-                }
-            });
             // Update the stats
             EditStats.insert({
                 'projectId': projectId,
@@ -1181,18 +1098,6 @@ Meteor.methods({
                 });
                 // Delete flow in its own collection
                 Flows.remove(flowId);
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -1293,18 +1198,6 @@ Meteor.methods({
                         }
                     }
                 });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -1375,18 +1268,6 @@ Meteor.methods({
                     }
                 });
             }
-            // Update the Edit stats of the project
-            ProjectStats.update({
-                'projectId': projectId,
-                'dataByTopic.topic': 1
-            }, {
-                $push: {
-                    "dataByTopic.$.dates": {
-                        "value": 1,
-                        "date": new Date(),
-                    }
-                }
-            });
             // Update the stats
             EditStats.insert({
                 'projectId': projectId,
@@ -1453,18 +1334,6 @@ Meteor.methods({
                 Contradictions.remove({
                     '_id': contradictionId
                 });
-                // Update the Edit stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 1
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 EditStats.insert({
                     'projectId': projectId,
@@ -1501,18 +1370,6 @@ Meteor.methods({
                 } else {
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
-                // Update the Comments stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 2
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 CommentStats.insert({
                     'projectId': projectId,
@@ -1580,18 +1437,6 @@ Meteor.methods({
                 } else {
                     console.log("Discussion in room", roomId, "updated in project", projectId, "successfully.");
                 }
-                // Update the Comments stats of the project
-                ProjectStats.update({
-                    'projectId': projectId,
-                    'dataByTopic.topic': 2
-                }, {
-                    $push: {
-                        "dataByTopic.$.dates": {
-                            "value": 1,
-                            "date": new Date(),
-                        }
-                    }
-                });
                 // Update the stats
                 CommentStats.insert({
                     'projectId': projectId,
