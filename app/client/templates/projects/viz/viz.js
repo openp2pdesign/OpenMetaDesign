@@ -157,10 +157,11 @@ Template.ProjectsViz.helpers({
                 "updatedAtBy": thisProject.versions[version].updatedAtBy,
                 "updatedAt": thisProject.versions[version].updatedAt,
                 "updatedAtRelative": moment(thisProject.versions[version].updatedAt).calendar(),
-                "diff": thisProject.versions[version].diff,
+                "diff": JSON.stringify(JSON.parse(thisProject.versions[version].diff),null,'\t'),
             };
             prettifiedData.push(thisData);
         }
+
         return prettifiedData;
     },
 });
