@@ -185,7 +185,7 @@ Template.ProjectsViz.onRendered(function() {
     });
 
     // Add the Locations map
-    var locationsMap = L.map('locationsMap').setView([441.385064, 2.173403], 10);
+    var locationsMap = L.map('locationsMap').setView([39.223841, 9.121661], 3);
     // Tiles: http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri.WorldGrayCanvas
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 16,
@@ -269,9 +269,7 @@ Template.ProjectsViz.onRendered(function() {
                     });
                 }
             }
-
         }
-
     });
 
     // Set up visualization
