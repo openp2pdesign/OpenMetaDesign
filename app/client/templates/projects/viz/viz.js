@@ -171,7 +171,6 @@ Template.ProjectsViz.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
-    Meteor.subscribe("reportTotals");
 });
 
 Template.ProjectsViz.onRendered(function() {
@@ -655,7 +654,7 @@ Template.ProjectsViz.onRendered(function() {
         // REACTIVE VIZ
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({
-            _id: thisProject._id
+            '_id': thisProject._id
         });
 
         // LAYOUT - SVG

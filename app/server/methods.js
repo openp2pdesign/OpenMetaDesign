@@ -201,7 +201,7 @@ var resampleStats = function(projectId) {
                         "hour": {
                             "$hour": "$fullDate"
                         },
-                        // Resample by 1 minute
+                        //Resample by 1 minute
                         // "minute": {
                         //     "$minute": "$fullDate"
                         // }
