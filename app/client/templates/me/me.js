@@ -1,3 +1,10 @@
+// Load Pnotify
+import 'pnotify/dist/pnotify.css';
+import PNotify from 'pnotify';
+PNotify.prototype.options.styling = "bootstrap3";
+PNotify.prototype.options.styling = "fontawesome";
+// jquery
+import { $ } from 'meteor/jquery';
 /*****************************************************************************/
 /* Me: Event Handlers */
 /*****************************************************************************/
@@ -70,7 +77,13 @@ Template.Me.helpers({
         return Meteor.user();
     },
     myProjectsSelector: function() {
-        return { 'users' : { '$elemMatch' : { 'id' : Meteor.userId()} } };
+        return {
+            'users': {
+                '$elemMatch': {
+                    'id': Meteor.userId()
+                }
+            }
+        };
     }
 });
 

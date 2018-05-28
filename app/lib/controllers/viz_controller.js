@@ -35,8 +35,18 @@ VizController = RouteController.extend({
   onRerun: function () {
     this.next();
   },
-  onBeforeAction: function () {
-    this.next();
+  // Show the page to only logged in users
+  onBeforeAction: function() {
+      var loggedInUser = Meteor.userId();
+
+      if (!!loggedInUser) {
+          Router.go('projectsViz', {_id: this.params._id});
+          this.stop();
+      } else {
+          Router.go('home');
+          this.stop();
+      }
+      this.next();
   },
 
   // The same thing as providing a function as the second parameter. You can

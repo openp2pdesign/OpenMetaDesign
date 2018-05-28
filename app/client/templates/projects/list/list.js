@@ -3,6 +3,7 @@ import 'pnotify/dist/pnotify.css';
 import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
+
 /*****************************************************************************/
 /* ProjectsList: Event Handlers */
 /*****************************************************************************/
@@ -69,7 +70,13 @@ Template.ProjectsList.helpers({
         return Projects.find();
     },
     myProjectsSelector: function() {
-        return { 'users' : { '$elemMatch' : { 'id' : Meteor.userId()} } };
+        return {
+            'users': {
+                '$elemMatch': {
+                    'id': Meteor.userId()
+                }
+            }
+        };
     }
 });
 
