@@ -37,8 +37,8 @@ Template.ProjectActivityViz.onRendered(function() {
     let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
     var margin = {
             left: 40,
-            right: 20,
-            top: 20,
+            right: 40,
+            top: 0,
             bottom: 40
         },
         tooltipContainer = void 0;
@@ -55,11 +55,11 @@ Template.ProjectActivityViz.onRendered(function() {
             .dateLabel('date')
             .valueLabel('value')
             .topicLabel('topicName')
-            .shouldShowAllDataPoints(true)
             .xAxisFormat('custom')
-            .xTicks(4)
+            .xTicks(6)
             .xAxisCustomFormat('%d-%m-%Y %H:%M')
             .lineCurve('basis')
+            //.shouldShowAllDataPoints(true)
             // .on('customMouseOver', function() {
             //     chartTooltip.show();
             // })
