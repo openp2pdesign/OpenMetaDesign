@@ -93,6 +93,14 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#view-jsoncode" data-toggle="tab" title="View the JSON of this project">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-database fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#view-versions" data-toggle="tab" title="View all the Versions of this project">
                                 <span class="fa-stack fa-1x">
                                     <i class="fa fa-circle fa-stack-2x icon-background"></i>
@@ -144,6 +152,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade in" id="view-jsoncode">
+                            <h2>{{_ "jsoncode"}}</h2>
+                            <pre>
+                                <code class="json">{{jsoncode}}</code>
+                            </pre>
                         </div>
                         <div class="tab-pane fade in" id="view-versions">
                             <h2>{{_ "versions"}}</h2>

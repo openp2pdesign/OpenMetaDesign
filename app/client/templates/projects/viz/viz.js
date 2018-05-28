@@ -134,7 +134,7 @@ Template.ProjectsViz.events({
 Template.ProjectsViz.helpers({
     data: function() {
         return Projects.findOne({
-            _id: thisProject._id
+            '_id': thisProject._id
         });
     },
     activitiesWithoutLocation: function() {
@@ -147,6 +147,12 @@ Template.ProjectsViz.helpers({
             }
         }
         return activitiesWithoutLocation;
+    },
+    jsoncode: function() {
+        var data = Projects.findOne({
+            '_id': thisProject._id
+        });
+        return JSON.stringify(data,null,'\t');
     },
     versions: function() {
         var prettifiedData = [];
