@@ -3,11 +3,12 @@ import colors from 'britecharts/dist/umd/colors.min.js';
 import tooltip from 'britecharts/dist/umd/tooltip.min.js';
 import 'britecharts/dist/css/britecharts.min.css';
 var d3Selection = require('d3-selection');
+// jquery
+import { $ } from 'meteor/jquery';
 
 // Load Projects and Projects Stats
 import { Projects } from '../../../../lib/collections/projects.js';
 import { ProjectStats } from '../../../../lib/collections/projectstats.js';
-
 /*****************************************************************************/
 /* ProjectActivityViz: Event Handlers */
 /*****************************************************************************/
@@ -29,36 +30,47 @@ Template.ProjectActivityViz.onCreated(function() {
 });
 
 Template.ProjectActivityViz.onRendered(function() {
-    // Initializat the chart
-    let container = d3Selection.select('#js-chart-container'),
-        lineChart = new LineChart(),
-        chartTooltip = new tooltip();
-    // Make the chart fit into the bootstrap columns
-    let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
-    var margin = {
-            left: 40,
-            right: 40,
-            top: 0,
-            bottom: 40
-        },
-        tooltipContainer = void 0;
-    // Setup
-    if (containerWidth) {
-        // Set up the chart
-        lineChart
-            .isAnimated(true)
-            .aspectRatio(0.5)
-            .tooltipThreshold(1300)
-            .grid('full')
-            .width(containerWidth)
-            .margin(margin)
-            .dateLabel('date')
-            .valueLabel('value')
-            .topicLabel('topicName')
-            .xAxisFormat('custom')
-            .xTicks(6)
-            .xAxisCustomFormat('%d-%m-%Y %H:%M')
-            .lineCurve('basis')
+
+
+    // Viz
+    Tracker.autorun(function() {
+        // REACTIVE VIZ
+        // Reactive var for the autorun
+        var thisData = ProjectStats.findOne({
+            'projectId': thisProjectID
+        });
+        // Clear the previous chart
+        $("#js-chart-container").empty();
+        // Initialize the chart
+        let container = d3Selection.select('#js-chart-container'),
+            lineChart = new LineChart(),
+            chartTooltip = new tooltip();
+        // Make the chart fit into the bootstrap columns
+        let containerWidth = container.node() ? container.node().getBoundingClientRect().width : false;
+        var margin = {
+                left: 40,
+                right: 40,
+                top: 0,
+                bottom: 40
+            },
+            tooltipContainer = void 0;
+        // Setup
+        if (containerWidth) {
+            // Set up the chart
+            lineChart
+                .isAnimated(true)
+                .aspectRatio(0.5)
+                .tooltipThreshold(1300)
+                .grid('full')
+                .width(containerWidth)
+                .margin(margin)
+                .dateLabel('date')
+                .valueLabel('value')
+                .topicLabel('topicName')
+                .xAxisFormat('custom')
+                .xTicks(3)
+                .xAxisCustomFormat('%d-%m-%Y %H:%M')
+                .lineCurve('basis')
             //.shouldShowAllDataPoints(true)
             // .on('customMouseOver', function() {
             //     chartTooltip.show();
@@ -79,20 +91,11 @@ Template.ProjectActivityViz.onRendered(function() {
             //     .title('Title');
             // tooltipContainer = d3Selection.select('#js-chart-container .metadata-group');
             // tooltipContainer.datum([]).call(chartTooltip);
-    }
-
-    // Viz
-    Tracker.autorun(function() {
-        // REACTIVE VIZ
-        // Reactive var for the autorun
-        var thisData = ProjectStats.findOne({
-            'projectId': thisProjectID
-        });
+        }
         // If there's data
         if (typeof thisData !== "undefined") {
             // Link the chart to the data
             container.datum(thisData).call(lineChart);
-
         }
     });
 

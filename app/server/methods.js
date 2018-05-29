@@ -12,7 +12,6 @@ import { Discussions } from '../lib/collections/discussions.js';
 import { ProjectStats } from '../lib/collections/projectstats.js';
 import { EditStats } from '../lib/collections/editstats.js';
 import { CommentStats } from '../lib/collections/commentstats.js';
-
 let diff = require('deep-diff');
 
 // A function that resample stats
@@ -175,8 +174,7 @@ var resampleStats = function(projectId) {
         ];
     } else {
         // if less than 3 hours, then resample by 10 minutes
-        var pipeline = [
-            {
+        var pipeline = [{
                 "$match": {
                     "projectId": projectId
                 }
@@ -234,15 +232,15 @@ var resampleStats = function(projectId) {
     var aggregatedEdits = EditStats.aggregate(pipeline);
     var aggregatedComments = CommentStats.aggregate(pipeline);
     // Sort the stats by time
-    var aggregatedEditsSorted = aggregatedEdits.sort(function(a,b){
+    var aggregatedEditsSorted = aggregatedEdits.sort(function(a, b) {
         var c = new Date(a.date);
         var d = new Date(b.date);
-        return c-d;
+        return c - d;
     });
-    var aggregatedCommentsSorted = aggregatedComments.sort(function(a,b){
+    var aggregatedCommentsSorted = aggregatedComments.sort(function(a, b) {
         var c = new Date(a.date);
         var d = new Date(b.date);
-        return c-d;
+        return c - d;
     });
     // Convert the result to the BriteCharts-formatted ProjectStat collection
     // Analyze the aggregated edits and get data
@@ -263,7 +261,6 @@ var resampleStats = function(projectId) {
             });
         }
     }
-
     // Create a new ProjectStats document
     var newStatData = {
         "projectId": projectId,
@@ -277,12 +274,12 @@ var resampleStats = function(projectId) {
             "topicName": "Comments"
         }, ]
     };
-    // Delete existing ProjectStats for the current project
-    ProjectStats.remove({
-        "projectId": projectId
+    // Update ProjectStats for the current project
+    ProjectStats.update({
+        'projectId': projectId
+    }, {
+        '$set': newStatData
     });
-    // Replace it with a new one
-    ProjectStats.insert(newStatData);
 }
 
 Meteor.methods({
