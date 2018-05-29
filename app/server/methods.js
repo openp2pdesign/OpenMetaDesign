@@ -175,7 +175,8 @@ var resampleStats = function(projectId) {
         ];
     } else {
         // if less than 3 hours, then resample by 10 minutes
-        var pipeline = [{
+        var pipeline = [
+            {
                 "$match": {
                     "projectId": projectId
                 }
@@ -232,6 +233,17 @@ var resampleStats = function(projectId) {
     // Aggregate (resample)
     var aggregatedEdits = EditStats.aggregate(pipeline);
     var aggregatedComments = CommentStats.aggregate(pipeline);
+    // Sort the stats by time
+    var aggregatedEditsSorted = aggregatedEdits.sort(function(a,b){
+        var c = new Date(a.date);
+        var d = new Date(b.date);
+        return c-d;
+    });
+    var aggregatedCommentsSorted = aggregatedComments.sort(function(a,b){
+        var c = new Date(a.date);
+        var d = new Date(b.date);
+        return c-d;
+    });
     // Convert the result to the BriteCharts-formatted ProjectStat collection
     // Analyze the aggregated edits and get data
     var aggregatedEditsValues = [];
@@ -251,6 +263,7 @@ var resampleStats = function(projectId) {
             });
         }
     }
+
     // Create a new ProjectStats document
     var newStatData = {
         "projectId": projectId,
