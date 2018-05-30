@@ -31,13 +31,22 @@
             </div>
             <div class="row">
                 <div class="col-xs-2">
-                    <i class="fa fa-clock-o"></i> <strong>Created at</strong> {{createdAt}} by {{createdBy}}
+                    <p>
+                        <i class="fa fa-clock-o"></i> <strong>Created at</strong> {{createdAt}} by {{createdBy}}
+                    </p>
+                    <p>
+                        <i class="fa fa-clock-o"></i> <strong>Last updated at</strong> {{lastUpdatedAt}} by {{lastUpdatedBy}}
+                    </p>
+                    <hr />
+                    <p>
+                        <i class="fa fa-circle icon-legend-edits"></i> Edits
+                    </p>
+                    <p>
+                        <i class="fa fa-circle icon-legend-comments"></i> Comments
+                    </p>
                 </div>
-                <div class="col-xs-8">
+                <div class="col-xs-10">
                     {{> ProjectActivityViz}}
-                </div>
-                <div class="col-xs-2">
-                    <i class="fa fa-clock-o"></i> <strong>Last updated at</strong> {{lastUpdatedAt}} by {{lastUpdatedBy}}
                 </div>
             </div>
             <div class="row">
