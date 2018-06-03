@@ -111,9 +111,6 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click .svg-emoji': function() {
-        Modal.show('ActivityAdd');
-    },
     'click .activities-without-location': function() {
         var thisActivityId= event.target.getAttribute('data-id');
         var thisActivityData = Activities.findOne({ '_id': thisActivityId });
@@ -296,9 +293,9 @@ Template.ProjectsViz.onRendered(function() {
     var labelHeight = 20;
 
     // Activity
-    var participationContainerWidth = 30;
-    var mainContainerWidth = 170;
-    var containerHeight = 500;
+    var activityTimelineWidth = 5;
+    var activityIconTimelineWidth = 50;
+    var activityIconTimelineHeight = 50;
 
     // Get dimensions of the container on window resize
     window.addEventListener("resize", function(d) {
@@ -335,25 +332,6 @@ Template.ProjectsViz.onRendered(function() {
     feMerge.append("feMergeNode")
         .attr("in", "SourceGraphic");
 
-    // Emojis for reactions
-    // Source: https://github.com/twitter/twemoji
-    // License: CC-BY
-
-    var emojis = {
-        simple_smile: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f603.svg",
-        heart_eyes: 'https://github.com/twitter/twemoji/blob/gh-pages/svg/1f60d.svg',
-        worried: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f61f.svg",
-        angry: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f621.svg",
-        up: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f44d.svg",
-        down: "https://github.com/twitter/twemoji/blob/gh-pages/svg/1f44e.svg"
-    }
-
-    emojis.worried = "";
-    emojis.angry = "";
-    emojis.up = "";
-    emojis.down = "";
-
-
     // Functions for reusable elements
 
     // Load a svg file and append it to a parent element
@@ -367,35 +345,6 @@ Template.ProjectsViz.onRendered(function() {
         });
 
         return loadedSVG;
-    }
-
-    // Create an emoji button
-    var addEmoji = function(x, y, radius, parent, type) {
-
-        var emoji = parent.append("g");
-
-        // Add the button circle
-        var emojiCircle = emoji.append("circle")
-            .attr("cx", x + radius)
-            .attr("cy", y + radius)
-            .attr("r", radius)
-            .attr("class", "svg-button");
-
-        // Load SVG
-        var svgIcon = loadSVG("/emojis/1f603_2.svg", emoji);
-        svgIcon.attr("transform", "scale(0.035) translate(-20,-320)");
-
-        // Add classes
-        emoji.attr("class", "svg-emoji")
-            .on("mouseover", function() {
-                emojiCircle.attr("filter", "url(#glow)");
-            })
-            .on("mouseout", function() {
-                emojiCircle.attr("filter", null);
-            });
-
-        return emoji;
-
     }
 
     // Create a button with a FontAwesome icon
@@ -486,65 +435,40 @@ Template.ProjectsViz.onRendered(function() {
         activity.attr("data-activity-id", activityData.id);
 
         // Add the participation container
-        var participationContainer = activity.append("g").attr("class", "svg-activity-participation");
+        var activityTimeline = activity.append("g").attr("class", "svg-activity-participation");
 
-        participationContainer.append("rect")
+        activityTimeline.append("rect")
             .attr("x", x)
             .attr("y", y)
-            .attr("width", participationContainerWidth)
+            .attr("width", activityTimelineWidth)
             .attr("height", height);
 
-        var participationLevelX = x + participationContainerWidth / 2;
+        var participationLevelX = x + activityTimelineWidth / 2;
         var participationLevelY = y + 20;
 
-        var participationLevel = participationContainer.append("text")
+        // Add the main container
+        var activityIconTimeline = activity.append("g").attr("class", "svg-activity");
+
+        activityIconTimeline.append("rect")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("width", activityIconTimelineWidth)
+            .attr("height", activityIconTimelineHeight);
+
+        // Move the main container beside the participation container
+        var activityIconTimelineX = activityTimelineWidth;
+        activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
+
+        // Add the title with a D3Plus TextBox
+        var activityTitle = activityIconTimeline.append('g')
+            .append("text")
             .text("Participation Level %")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("class", "participation-level")
             .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
-        // Add the main container
-        var mainContainer = activity.append("g").attr("class", "svg-activity");
-
-        mainContainer.append("rect")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("width", mainContainerWidth)
-            .attr("height", height);
-
-        // Move the main container beside the participation container
-        var mainContainerX = participationContainerWidth + 5;
-        mainContainer.attr("transform", "translate(" + mainContainerX + ",0)");
-
-        // Add the title with a D3Plus TextBox
-        var activityTitle = mainContainer.append('g')
-            .attr("id", "textbox-1");
-
-        title = new TextBox()
-            .data([{}])
-            .select("#textbox-1")
-            .text(activityData.title)
-            .width(mainContainerWidth - 70)
-            .x(x + 10)
-            .y(y + 20)
-            .fontSize(16)
-            .fontWeight(500)
-            .render();
-
         // Add the control buttons
-        var activityButtons = mainContainer.append("g");
-        // Discuss Button
-        var discussButton = addButton(x + 5, y, 10, activityButtons, '\uf086');
-        discussButton.attr("data-toggle", "modal")
-            .classed("discuss-button", true)
-            .attr("title", "Discuss the activity")
-            .attr("data-activity-mode", "discuss")
-            .attr("data-activity-id", activityData.id)
-            .attr("data-process-id", processData.id)
-            .classed("button-tooltip", true)
-            .attr("data-toggle", "tooltip");
-        // Edit Button
+        var activityButtons = activityIconTimeline.append("g");
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")
             .classed("activity-button", true)
@@ -554,71 +478,11 @@ Template.ProjectsViz.onRendered(function() {
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
             .attr("data-toggle", "tooltip");
-        // Flows Button
-        var flowsButton = addButton(x + 55, y, 10, activityButtons, '\uf074');
-        flowsButton.attr("data-toggle", "modal")
-            .classed("flows-button", true)
-            .attr("title", "Edit the flows")
-            .attr("data-activity-mode", "flows")
-            .attr("data-activity-id", activityData.id)
-            .attr("data-process-id", processData.id)
-            .classed("button-tooltip", true)
-            .attr("data-toggle", "tooltip");
-        // Issues Button
-        var issuesButton = addButton(x + 80, y, 10, activityButtons, '\uf071');
-        issuesButton.attr("data-toggle", "modal")
-            .classed("issues-button", true)
-            .attr("title", "Document contradictions")
-            .attr("data-activity-mode", "contradictions")
-            .attr("data-activity-id", activityData.id)
-            .attr("data-process-id", processData.id)
-            .classed("button-tooltip", true)
-            .attr("data-toggle", "tooltip");
-        // Delete Button
-        var deleteButton = addButton(x + 105, y, 10, activityButtons, '\uf068');
-        deleteButton.attr("data-toggle", "modal")
-            .classed("delete-button", true)
-            .attr("title", "Delete the activity")
-            .attr("data-activity-mode", "delete")
-            .attr("data-activity-id", activityData.id)
-            .attr("data-process-id", processData.id)
-            .classed("button-tooltip", true)
-            .attr("data-toggle", "tooltip");
         // Move the buttons below the title
         activityButtonY = 15 + // padding
-            20 + // button size
+            15 + // button size
             parseInt(activityTitle.node().getBBox().height); // title height
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
-
-        // Add the description with a D3Plus TextBox
-        var activityDescription = mainContainer.append('g')
-            .attr("id", "textbox-2");
-
-        description = new TextBox()
-            .data([{}])
-            .text(activityData.description)
-            .width(mainContainerWidth - 30)
-            .select("#textbox-2")
-            .x(x + 10)
-            .y(y + activityButtonY + 20)
-            .fontSize(14)
-            .fontWeight(400)
-            .render();
-
-        // Add emojis
-        // var activityEmojis = mainContainer.append("g");
-        // var emoji01 = addEmoji(x, y, 10, activityEmojis, "smile");
-        // emoji01.attr("title", "I like it!")
-        //     .classed("button-tooltip", true)
-        //     .attr("data-toggle", "tooltip");
-        // var emoji02 = addEmoji(x + 25, y, 10, activityEmojis, "smile");
-        // emoji02.attr("title", "I like it!")
-        //     .classed("button-tooltip", "true")
-        //     .attr("data-toggle", "tooltip");
-        // var emoji03 = addEmoji(x + 50, y, 10, activityEmojis, "smile");
-        // emoji03.attr("title", "I like it!")
-        //     .classed("button-tooltip", true)
-        //     .attr("data-toggle", "tooltip");
 
         // Return the whole activity
         return activity;
@@ -848,7 +712,7 @@ Template.ProjectsViz.onRendered(function() {
                         sectionX = sectionsWidth[width].x;
                     }
                 }
-                //addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
+                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
             }
         }
 
