@@ -293,6 +293,7 @@ Template.ProjectsViz.onRendered(function() {
     var labelHeight = 20;
 
     // Activity
+    var activityTimelineMargin = 4;
     var activityTimelineWidth = 5;
     var activityIconTimelineWidth = 50;
     var activityIconTimelineHeight = 50;
@@ -483,6 +484,9 @@ Template.ProjectsViz.onRendered(function() {
             15 + // button size
             parseInt(activityTitle.node().getBBox().height); // title height
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
+
+        // Add a margin for the whole activity from the separator lines
+        activity.attr("transform", "translate("+activityTimelineMargin+",0)");
 
         // Return the whole activity
         return activity;
