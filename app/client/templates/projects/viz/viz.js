@@ -167,6 +167,9 @@ Template.ProjectsViz.helpers({
 
         return prettifiedData;
     },
+    users: function() {
+        return this.users;
+    },
 });
 /*****************************************************************************/
 /* ProjectsViz: Lifecycle Hooks */
@@ -427,8 +430,8 @@ Template.ProjectsViz.onRendered(function() {
         // Variables for customizing the viz
         var activityTimelineMargin = 4;
         var activityTimelineWidth = 15;
-        var activityIconTimelineWidth = 50;
-        var activityIconTimelineHeight = 50;
+        var activityIconTimelineWidth = 60;
+        var activityIconTimelineHeight = 80;
 
         // Add the main group
         var activity = parent.append("g");

@@ -18,15 +18,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    <h2>{{_ "project_description"}}</h2><span class="html-edit-button" id="html-edit-button-description"></span>
+                <div class="col-xs-4 col-sm4 col-md-4 col-lg-4">
+                    <h2>{{_ "project_description"}}<span class="html-edit-button" id="html-edit-button-description"></span></h2>
                     <p>
                         {{description}}
                     </p>
                 </div>
                 <div class="col-xs-4 col-sm4 col-md-4 col-lg-4">
-                    <h2>Community</h2><span class="html-edit-button" id="html-edit-button-community"></span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet consequat mauris, nec molestie ligula molestie sit amet. Nullam vulputate sollicitudin purus, at posuere libero consectetur ut</p>
+                    <h2>Community <span class="html-edit-button" id="html-edit-button-community"></span></h2>
+                    <p>
+                        {{community}}
+                    </p>
+                </div>
+                <div class="col-xs-4 col-sm4 col-md-4 col-lg-4">
+                    <h2>Participants</h2>
+                    <p>
+                        {{#each users}}
+                            <span>{{username}}</span>
+                        {{/each}}
+                    </p>
                 </div>
             </div>
             <div class="row">
