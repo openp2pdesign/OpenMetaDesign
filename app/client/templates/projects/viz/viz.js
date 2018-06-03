@@ -366,7 +366,7 @@ Template.ProjectsViz.onRendered(function() {
             .style("font-size", radius.toString() + "px")
             .text(iconCode);
 
-        // Add classes
+        // Add hover effect and class
         button.attr("class", "svg-button")
             .on("mouseover", function() {
                 d3.select(this)
@@ -482,6 +482,11 @@ Template.ProjectsViz.onRendered(function() {
             .attr("class", "participation-level")
             .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
+        activityTimelineContainer
+            .attr("title", "Participation level: " + activityData.participation + " (" + participationLevelValue + "%)")
+            .classed("participation-tooltip", true)
+            .attr("data-toggle", "tooltip");
+
         // Add the activity icon container
         var activityIconTimeline = activity.append("g").attr("class", "svg-activity");
 
@@ -523,7 +528,7 @@ Template.ProjectsViz.onRendered(function() {
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate("+activityTimelineMargin+",0)");
 
-        // Add classes
+        // Add hover effect and class
         activity.attr("class", "activity-hover")
             .on("mouseover", function() {
                 d3.select(this)
@@ -772,6 +777,11 @@ Template.ProjectsViz.onRendered(function() {
         // FINAL STEPS
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
+            container: 'body',
+            trigger: "hover",
+            placement: 'top'
+        });
+        this.$('svg .participation-tooltip').tooltip({
             container: 'body',
             trigger: "hover",
             placement: 'top'
