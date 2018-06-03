@@ -107,16 +107,16 @@ svg {
     fill: #fff;
 }
 
-.tooltip {
-    font-family: $font-viz;
-}
-
-.svg-emoji {
+.activity-hover {
     cursor: pointer;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
+}
+
+.tooltip {
+    font-family: $font-viz;
 }
 
 .svg-label {

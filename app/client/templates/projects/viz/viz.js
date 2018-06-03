@@ -523,9 +523,19 @@ Template.ProjectsViz.onRendered(function() {
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate("+activityTimelineMargin+",0)");
 
+        // Add classes
+        activity.attr("class", "activity-hover")
+            .on("mouseover", function() {
+                d3.select(this)
+                    .attr("filter", "url(#glow)");
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .attr("filter", null);
+            });
+
         // Return the whole activity
         return activity;
-
     }
 
 
