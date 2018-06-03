@@ -311,6 +311,12 @@ export const ActivitySchema = new SimpleSchema({
         type: Number,
         defaultValue: 1
     },
+    processId: {
+        type: String
+    },
+    processTitle: {
+        type: String
+    },
     title: {
         type: String,
         max: 100,

@@ -16,6 +16,14 @@
                         <span id="activity-number" data-id={{activity.number}}></span>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-3 control-label">{{_ "process_title"}}:</label>
+                        <div class="col-lg-8">
+                            <select class="col-lg-8 form-control select2" id="new-process-title" style="width: 100%">
+                                <option selected="selected">{{activity.processTitle}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "activity_title"}}:</label>
                         <div class="col-lg-8">
                             <input class="form-control" type="text" value={{activity.title}} id="new-title">
@@ -72,7 +80,7 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">{{_ "participation"}}:</label>
                         <div class="col-lg-8">
-                            <select class="col-lg-8 form-control" id="new-participation" style="width: 100%">
+                            <select class="col-lg-8 form-control select2" id="new-participation" style="width: 100%">
                                 <option selected="selected">{{activity.participation}}</option>
                             </select>
                         </div>

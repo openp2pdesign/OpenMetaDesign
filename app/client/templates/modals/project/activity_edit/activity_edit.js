@@ -18,6 +18,13 @@ Template.ActivityEdit.events({
     'click #save-activity-button': function(event) {
         event.preventDefault();
         // Load data from the form
+        var thisProcessTitle = $('#new-process-title').val();
+        var thisProcessId = "";
+        for (process in this.project.processes) {
+            if (this.project.processes[process].title === thisProcessTitle) {
+                thisProcessId = this.project.processes[process].id;
+            }
+        }
         var thisActivityId = $('#activity-id').data('id');
         var thisActivityNumber = $('#activity-number').data('id');
         var newTitle = $('#new-title').val();
@@ -41,6 +48,8 @@ Template.ActivityEdit.events({
         var newTimeEnd = $("#new-time-end").data("DateTimePicker").date().toDate();
         // Format data from the form as an object
         activityData = {
+            "processId": thisProcessId,
+            "processTitle": thisProcessTitle,
             "title": newTitle,
             "description": newDescription,
             "id": thisActivityId,
@@ -199,6 +208,8 @@ Template.ActivityEdit.helpers({
                     return thisActivity;
                 } else {
                     thisActivity = {
+                        "processId": thisProcess.id,
+                        "processTitle": thisProcess.title,
                         "title": "A new activity",
                         "description": "Write here a description of the activity.",
                         "number": "",
@@ -278,6 +289,8 @@ Template.ActivityEdit.onRendered(function() {
         format: 'LLL',
         defaultDate: thisActivity.time.end
     });
+    // Enable all select2 selects
+    $(".select2").select2();
     // Select2 for participation level
     $("#new-participation").select2({
         data: ["No participation",
@@ -285,6 +298,16 @@ Template.ActivityEdit.onRendered(function() {
             "Consultative participation",
             "Shared control",
             "Full control"
+        ],
+        allowClear: false,
+        dropdownAutoWidth : true
+    });
+    // Select2 for process
+    $("#new-process-title").select2({
+        data: ["Customer processes",
+            "Front-Office processes",
+            "Back-Office processes",
+            "Support processes"
         ],
         allowClear: false,
         dropdownAutoWidth : true
