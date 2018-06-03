@@ -496,7 +496,9 @@ Template.ProjectsViz.onRendered(function() {
             .attr("x", x)
             .attr("y", y)
             .attr("width", activityIconTimelineWidth)
-            .attr("height", activityIconTimelineHeight);
+            .attr("height", activityIconTimelineHeight)
+            .style("stroke-width", "2px")
+            .style("stroke", "#8f8f8f");
 
         // Move the activity icon container beside the participation container
         var activityIconTimelineX = activityTimelineWidth;
