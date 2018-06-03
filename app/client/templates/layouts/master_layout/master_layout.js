@@ -70,29 +70,4 @@ Template.MasterLayout.events({
             }
         });
     },
-    // Just a test for Pnotify TODO remove / fix
-    'click #home': function(event) {
-        event.preventDefault();
-
-        var notice = new PNotify({
-            type: 'info',
-            title: 'Title',
-            text: 'Text.',
-            icon: 'fa fa-envelope-o',
-            addclass: 'pnotify stack-topright',
-            animate: {
-                animate: true,
-                in_class: 'slideInDown',
-                out_class: 'slideOutUp'
-            },
-            buttons: {
-                closer: true,
-                sticker: false
-            }
-        });
-        notice.get().click(function() {
-            notice.remove();
-        });
-
-    }
 });
