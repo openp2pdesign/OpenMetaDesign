@@ -292,12 +292,6 @@ Template.ProjectsViz.onRendered(function() {
     var simpleGutter = 10;
     var labelHeight = 20;
 
-    // Activity
-    var activityTimelineMargin = 4;
-    var activityTimelineWidth = 5;
-    var activityIconTimelineWidth = 50;
-    var activityIconTimelineHeight = 50;
-
     // Get dimensions of the container on window resize
     window.addEventListener("resize", function(d) {
         width = d3Container.clientWidth;
@@ -430,24 +424,60 @@ Template.ProjectsViz.onRendered(function() {
     // Create an activity
     var addActivity = function(x, y, height, parent, activityData, processData) {
 
+        // Variables for customizing the viz
+        var activityTimelineMargin = 4;
+        var activityTimelineWidth = 15;
+        var activityIconTimelineWidth = 50;
+        var activityIconTimelineHeight = 50;
+
+        // Add the main group
         var activity = parent.append("g");
 
         // Add the activity id
         activity.attr("data-activity-id", activityData.id);
 
-        // Add the participation container
+        // Add the activity timeline
         var activityTimeline = activity.append("g").attr("class", "svg-activity-participation");
-
-        activityTimeline.append("rect")
+        var activityTimelineContainer = activityTimeline.append("rect")
             .attr("x", x)
             .attr("y", y)
             .attr("width", activityTimelineWidth)
             .attr("height", height);
 
+        // Add participation level information to the activity timeline
         var participationLevelX = x + activityTimelineWidth / 2;
-        var participationLevelY = y + 20;
+        var participationLevelY = y + 5;
+        var participationLevelValue = 0;
+        // Calculate the participationLevelValue
+        switch(activityData.participation) {
+            case "No participation":
+                participationLevelValue = 0;
+                break;
+            case "Indirect participation":
+                participationLevelValue = 20;
+                break;
+            case "Consultative participation":
+                participationLevelValue = 35;
+                break;
+            case "Shared control":
+                participationLevelValue = 50;
+                break;
+            case "Full control":
+                participationLevelValue = 100;
+                break;
+        }
+        // Set the color of the activity timeline based on the participation level
+        activityTimelineContainer
+            .attr("fill", "orange");
+        // Add the participation level percentage text
+        var participationLevel = activityTimeline.append("text")
+            .text(participationLevelValue + "%")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("class", "participation-level")
+            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
-        // Add the main container
+        // Add the activity icon container
         var activityIconTimeline = activity.append("g").attr("class", "svg-activity");
 
         activityIconTimeline.append("rect")
@@ -456,19 +486,19 @@ Template.ProjectsViz.onRendered(function() {
             .attr("width", activityIconTimelineWidth)
             .attr("height", activityIconTimelineHeight);
 
-        // Move the main container beside the participation container
+        // Move the activity icon container beside the participation container
         var activityIconTimelineX = activityTimelineWidth;
         activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
 
-        // Add the title with a D3Plus TextBox
+        // Add the title
         var activityTitle = activityIconTimeline.append('g')
             .append("text")
-            .text("Participation Level %")
+            .text("#...")
             .attr("x", 0)
             .attr("y", 0)
             .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
-        // Add the control buttons
+        // Add the edit button
         var activityButtons = activityIconTimeline.append("g");
         var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
         editButton.attr("data-toggle", "modal")

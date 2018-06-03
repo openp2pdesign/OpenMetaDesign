@@ -84,6 +84,12 @@ svg {
     fill: #000;
 }
 
+.participation-level {
+    fill: #f7b864 !important;
+    writing-mode: tb;
+    cursor: default;
+}
+
 /* UI Button */
 .svg-button, .button-tooltip {
     cursor: pointer;
