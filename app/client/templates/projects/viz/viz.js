@@ -473,7 +473,9 @@ Template.ProjectsViz.onRendered(function() {
         var participationLevelValueColor = participationLevelValue*255/100;
         participationLevelValueColorString = "rgb("+participationLevelValueColor+","+participationLevelValueColor+","+participationLevelValueColor+")";
         activityTimelineContainer
-            .attr("fill", participationLevelValueColorString);
+            .attr("fill", participationLevelValueColorString)
+            .style("stroke-width", "2px")
+            .style("stroke", "#000");
         // Add the participation level percentage text
         var participationLevel = activityTimeline.append("text")
             .text(participationLevelValue + "%")
