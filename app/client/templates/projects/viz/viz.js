@@ -380,10 +380,9 @@ Template.ProjectsViz.onRendered(function() {
     }
 
     // Create a button for an activity
-    var addActivityButton = function(x, y, radius, parent, number, iconCode) {
+    var addActivityButton = function(x, y, radius, parent, buttonWidth, number, iconCode) {
 
         var button = parent.append("g");
-        var buttonWidth = radius + number.toString().length * radius;
 
         // Add the first circle
         button.append("circle")
@@ -483,6 +482,9 @@ Template.ProjectsViz.onRendered(function() {
         // Variables for customizing the viz
         var activityTimelineMargin = 4;
         var activityTimelineWidth = 15;
+        var radius = 10;
+        var buttonWidth = radius + activityData.number.toString().length * radius;
+        var fullButtonWidth = buttonWidth+radius*2;
         var activityIconTimelineWidth = 60;
         var activityIconTimelineHeight = 80;
 
@@ -542,7 +544,7 @@ Template.ProjectsViz.onRendered(function() {
             .classed("participation-tooltip", true)
             .attr("data-toggle", "tooltip");
 
-        // Add the activity icon container
+        // Add the activity icon and button container
         var activityIconTimeline = activity.append("g").attr("class", "svg-activity");
 
         activityIconTimeline.append("rect")
@@ -557,25 +559,24 @@ Template.ProjectsViz.onRendered(function() {
         var activityIconTimelineX = activityTimelineWidth;
         activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
 
+        // Add elements to the container with this group
+        var activityContainer = activityIconTimeline.append("g");
+
         // Add the activity icon
 
         // Add the activity button
-        var activityButtons = activityIconTimeline.append("g");
-        var activityButton = addActivityButton(x, y, 10, activityButtons, activityData.number, '\uf044');
+        var activityContainer = activityIconTimeline.append("g");
+        var activityButton = addActivityButton(x, y, radius, activityContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
             .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")")
             .classed("activity-button", true)
-            .attr("title", "Edit the activity")
+            .attr("title", "Edit this activity")
             .attr("data-activity-mode", "edit")
             .attr("data-activity-id", activityData.id)
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
+            .attr("transform", "translate("+(fullButtonWidth/2)+","+(activityIconTimelineHeight-radius*1.5)+")")
             .attr("data-toggle", "tooltip");
-        // Move the buttons below the title
-        activityButtonY = 15 + // padding
-            15 + // button size
-            parseInt(activityButton.node().getBBox().height); // title height
-        activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
