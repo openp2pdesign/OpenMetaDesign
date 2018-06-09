@@ -557,18 +557,13 @@ Template.ProjectsViz.onRendered(function() {
         var activityIconTimelineX = activityTimelineWidth;
         activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
 
-        // Add the title
-        var activityTitle = activityIconTimeline.append('g')
-            .append("text")
-            .text("#...")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
+        // Add the activity icon
 
-        // Add the edit button
+        // Add the activity button
         var activityButtons = activityIconTimeline.append("g");
-        var editButton = addActivityButton(x, y, 10, activityButtons, activityData.number, '\uf044');
-        editButton.attr("data-toggle", "modal")
+        var activityButton = addActivityButton(x, y, 10, activityButtons, activityData.number, '\uf044');
+        activityButton.attr("data-toggle", "modal")
+            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")")
             .classed("activity-button", true)
             .attr("title", "Edit the activity")
             .attr("data-activity-mode", "edit")
@@ -579,7 +574,7 @@ Template.ProjectsViz.onRendered(function() {
         // Move the buttons below the title
         activityButtonY = 15 + // padding
             15 + // button size
-            parseInt(activityTitle.node().getBBox().height); // title height
+            parseInt(activityButton.node().getBBox().height); // title height
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
         // Add a margin for the whole activity from the separator lines
