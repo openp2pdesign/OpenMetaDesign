@@ -8,7 +8,8 @@ import hljs from 'highlight.js';
 import { moment } from 'meteor/momentjs:moment';
 // Import D3
 import d3 from 'd3';
-import { TextBox } from 'd3plus-text';
+import 'd3-fetch';
+// Diff
 let diff = require('deep-diff');
 // Import collections
 import { Projects } from '../../../../lib/collections/projects.js';
@@ -336,9 +337,8 @@ Template.ProjectsViz.onRendered(function() {
 
         var loadedSVG = parent.append("g");
 
-        d3.xml(url).mimeType("image/svg+xml").get(function(xml) {
-            var svgFile = document.importNode(xml.documentElement, true);
-            loadedSVG.node().appendChild(svgFile);
+        d3.xml(url).then(xml => {
+            loadedSVG.node().appendChild(xml.documentElement);
         });
 
         return loadedSVG;
@@ -563,6 +563,9 @@ Template.ProjectsViz.onRendered(function() {
         var activityContainer = activityIconTimeline.append("g");
 
         // Add the activity icon
+        var activityIcon = loadSVG("../as_full_nolabel.svg", activityContainer);
+        activityContainer.attr("transform", "scale(0.2)")
+        activityIcon.attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
         // Add the activity button
         var activityContainer = activityIconTimeline.append("g");
