@@ -379,6 +379,60 @@ Template.ProjectsViz.onRendered(function() {
         return button;
     }
 
+    // Create a button for an activity
+    var addActivityButton = function(x, y, radius, parent, number, iconCode) {
+
+        var button = parent.append("g");
+        var buttonWidth = radius + number.toString().length * radius;
+
+        // Add the first circle
+        button.append("circle")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", radius);
+        // Add the rect between the circles
+        button.append("rect")
+            .attr("x", x)
+            .attr("y", y-radius)
+            .attr("width", buttonWidth)
+            .attr("height", radius*2);
+        // Add the last circle
+        button.append("circle")
+            .attr("cx", x+buttonWidth)
+            .attr("cy", y)
+            .attr("r", radius);
+        // Add the activity number
+        button.append('text')
+            .attr("x", x+radius/2)
+            .attr("y", y)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-size", radius.toString() + "px")
+            .text("#"+number);
+        // Add the icon
+        button.append('text')
+            .attr("x", x+buttonWidth)
+            .attr("y", y)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-family", "FontAwesome")
+            .style("font-size", radius.toString() + "px")
+            .text(iconCode);
+
+        // Add hover effect and class
+        button.attr("class", "svg-button")
+            .on("mouseover", function() {
+                d3.select(this)
+                    .attr("filter", "url(#glow)");
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .attr("filter", null);
+            });
+
+        return button;
+    }
+
     // Create a section label
     var addSectionLabel = function(text, parent) {
 
@@ -513,7 +567,7 @@ Template.ProjectsViz.onRendered(function() {
 
         // Add the edit button
         var activityButtons = activityIconTimeline.append("g");
-        var editButton = addButton(x + 30, y, 10, activityButtons, '\uf044');
+        var editButton = addActivityButton(x, y, 10, activityButtons, activityData.number, '\uf044');
         editButton.attr("data-toggle", "modal")
             .classed("activity-button", true)
             .attr("title", "Edit the activity")
