@@ -315,10 +315,6 @@ Template.ProjectsViz.onRendered(function() {
         .append("g")
         .attr("id", "sectionsSVG");
 
-    // Debug: see the border of the svg
-    // TODO:70 to be removed
-    svg.attr("style", "outline: thin solid black;");
-
     // Filters
     var defs = svg.append("defs");
     // Glow filter
