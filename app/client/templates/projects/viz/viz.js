@@ -14,7 +14,6 @@ let diff = require('deep-diff');
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Activities } from '../../../../lib/collections/activities.js';
 import { Settings } from '../../../../lib/collections/settings.js';
-
 /*****************************************************************************/
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
@@ -112,8 +111,10 @@ Template.ProjectsViz.events({
         });
     },
     'click .activities-without-location': function() {
-        var thisActivityId= event.target.getAttribute('data-id');
-        var thisActivityData = Activities.findOne({ '_id': thisActivityId });
+        var thisActivityId = event.target.getAttribute('data-id');
+        var thisActivityData = Activities.findOne({
+            '_id': thisActivityId
+        });
         Modal.show('Activity', function() {
             return {
                 "project": thisProject._id,
@@ -136,7 +137,9 @@ Template.ProjectsViz.helpers({
     },
     activitiesWithoutLocation: function() {
         var activitiesWithoutLocation = [];
-        var activitiesToMap = Activities.find({ 'projectId': thisProject._id }).fetch();
+        var activitiesToMap = Activities.find({
+            'projectId': thisProject._id
+        }).fetch();
         for (activity in activitiesToMap) {
             // If the activity hasn't a location
             if (typeof activitiesToMap[activity].activityData.location == "undefined") {
@@ -149,7 +152,7 @@ Template.ProjectsViz.helpers({
         var data = Projects.findOne({
             '_id': thisProject._id
         });
-        return JSON.stringify(data,null,'\t');
+        return JSON.stringify(data, null, '\t');
     },
     versions: function() {
         var prettifiedData = [];
@@ -160,7 +163,7 @@ Template.ProjectsViz.helpers({
                 "updatedAtBy": thisProject.versions[version].updatedAtBy,
                 "updatedAt": thisProject.versions[version].updatedAt,
                 "updatedAtRelative": moment(thisProject.versions[version].updatedAt).calendar(),
-                "diff": JSON.stringify(JSON.parse(thisProject.versions[version].diff),null,'\t'),
+                "diff": JSON.stringify(JSON.parse(thisProject.versions[version].diff), null, '\t'),
             };
             prettifiedData.push(thisData);
         }
@@ -288,7 +291,7 @@ Template.ProjectsViz.onRendered(function() {
     var margin = {
         top: 15,
         right: 0,
-        bottom: 0,
+        bottom: 15,
         left: 100
     };
     var gutter = 10 + 10 + 10;
@@ -305,12 +308,12 @@ Template.ProjectsViz.onRendered(function() {
     // Add the visualization SVG to the container
     var svg = d3.select('#d3-container').append("svg")
         .attr("width", "100%")
-        .attr("height", "100%")
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("height", "100%");
 
     // Setup layout container
-    var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
+    var sectionsSVG = svg
+        .append("g")
+        .attr("id", "sectionsSVG");
 
     // Debug: see the border of the svg
     // TODO:70 to be removed
@@ -452,7 +455,7 @@ Template.ProjectsViz.onRendered(function() {
         var participationLevelY = y + 5;
         var participationLevelValue = 0;
         // Calculate the participationLevelValue
-        switch(activityData.participation) {
+        switch (activityData.participation) {
             case "No participation":
                 participationLevelValue = 0;
                 break;
@@ -470,8 +473,8 @@ Template.ProjectsViz.onRendered(function() {
                 break;
         }
         // Set the color of the activity timeline based on the participation level
-        var participationLevelValueColor = participationLevelValue*255/100;
-        participationLevelValueColorString = "rgb("+participationLevelValueColor+","+participationLevelValueColor+","+participationLevelValueColor+")";
+        var participationLevelValueColor = participationLevelValue * 255 / 100;
+        participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
         activityTimelineContainer
             .attr("fill", participationLevelValueColorString)
             .style("stroke-width", "2px")
@@ -530,7 +533,7 @@ Template.ProjectsViz.onRendered(function() {
         activityButtons.attr("transform", "translate(15," + activityButtonY + ")");
 
         // Add a margin for the whole activity from the separator lines
-        activity.attr("transform", "translate("+activityTimelineMargin+",0)");
+        activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
 
         // Add hover effect and class
         activity.attr("class", "activity-hover")
@@ -703,17 +706,6 @@ Template.ProjectsViz.onRendered(function() {
 
         }
 
-        // Draw the Journey section
-        // Journey label
-        // var journeyLabel = addSectionLabel("Journey", journeyG);
-        //
-        // journeyG.append("rect")
-        //     .attr("x", 0)
-        //     .attr("y", 0)
-        //     .attr("width", 50)
-        //     .attr("height", 20)
-        //     .attr("fill", "orange");
-
         // Organize sections
         // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
 
@@ -731,7 +723,7 @@ Template.ProjectsViz.onRendered(function() {
         });
 
         // Calculate the width of the section based on the available size
-        sectionCalculatedWidth = (d3Container.clientWidth-margin.left-simpleGutter)/(thisProject.processes.length);
+        sectionCalculatedWidth = (d3Container.clientWidth - margin.left - simpleGutter) / (thisProject.processes.length);
 
         for (var j in thisProject.processes) {
             if (j == 0) {
@@ -770,15 +762,30 @@ Template.ProjectsViz.onRendered(function() {
                         sectionX = sectionsWidth[width].x;
                     }
                 }
-                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), svg, activityData, thisUpdatedProject.processes[process]);
+                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
             }
         }
 
-        // Translate journeyG it after the timeG section
-        // var journeyGX = blueprintGX + blueprintSupportG.node().getBBox().width + simpleGutter;
-        // journeyG.attr("transform", "translate(" + journeyGX + "," + labelHeight + ")");
-
         // FINAL STEPS
+        // Implement zoom and pan
+        function zoomed() {
+            sectionsSVG.attr("transform", d3.event.transform);
+        }
+        var d3width = +d3Container.clientWidth - margin.left - margin.right;
+        var d3height = +d3Container.clientHeight - margin.top - margin.bottom;
+        var zoom = d3.zoom()
+            .scaleExtent([1, 3])
+            .translateExtent([
+                [-margin.left, -margin.top],
+                [d3width, d3height]
+            ])
+            .on("zoom", zoomed);
+        // Add initial margin translation
+        var transform = d3.zoomIdentity.translate(margin.left, margin.top);
+        // Add zoom to svg
+        svg.call(zoom);
+        // Add zoom to sectionsSVG with initial transformation
+        sectionsSVG.call(zoom.transform, transform);
         // Add tooltips to the visualization
         this.$('svg .button-tooltip').tooltip({
             container: 'body',
