@@ -541,7 +541,6 @@ Template.ProjectsViz.onRendered(function() {
             .attr("x", participationLevelX)
             .attr("y", participationLevelY)
             .attr("class", "participation-level");
-
         // Add the activity icon and button container
         var activityIconContainer = activity.append("g").attr("class", "svg-activity");
         // Add activity rectangle
@@ -572,8 +571,9 @@ Template.ProjectsViz.onRendered(function() {
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
 
-        // Add hover effect and class
+        // Add class
         activity.attr("class", "activity-hover")
+            // Add hover effect
             .on("mouseover", function() {
                 d3.select(this)
                     .attr("filter", "url(#glow)");
@@ -581,6 +581,15 @@ Template.ProjectsViz.onRendered(function() {
             .on("mouseout", function() {
                 d3.select(this)
                     .attr("filter", null);
+            })
+            // Hide / show the activity icon on click
+            .on("click", function(){
+                if (activityIconContainer.style("display") === "inline") {
+                    activityIconContainer.style("display", "none");
+                }
+                else {
+                    activityIconContainer.style("display", "inline");
+                }
             });
 
         // Return the whole activity
@@ -819,8 +828,8 @@ Template.ProjectsViz.onRendered(function() {
             .on("zoom", zoomed);
         // Add initial margin translation
         var transform = d3.zoomIdentity.translate(margin.left, margin.top);
-        // Add zoom to svg
-        svg.call(zoom);
+        // Add zoom to svg, disable double click zoom
+        svg.call(zoom).on("dblclick.zoom", null);
         // Add zoom to sectionsSVG with initial transformation
         sectionsSVG.call(zoom.transform, transform);
         // Add tooltips to the visualization
