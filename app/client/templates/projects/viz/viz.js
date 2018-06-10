@@ -567,13 +567,6 @@ Template.ProjectsViz.onRendered(function() {
             roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
             community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
         }
-        for (i in activity.activityElementsCenters) {
-            activity.append("circle")
-                .attr("cx", activity.activityElementsCenters[i].x)
-                .attr("cy", activity.activityElementsCenters[i].y)
-                .attr("fill", "blue")
-                .attr("r", "4");
-        }
         // Add the activity button
         var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
@@ -615,13 +608,6 @@ Template.ProjectsViz.onRendered(function() {
                         roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
                         community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
                     }
-                    for (i in activity.activityElementsCenters) {
-                        activity.append("circle")
-                            .attr("cx", activity.activityElementsCenters[i].x)
-                            .attr("cy", activity.activityElementsCenters[i].y)
-                            .attr("fill", "red")
-                            .attr("r", "4");
-                    }
                 }
                 else {
                     activityIconContainer.style("display", "inline");
@@ -634,13 +620,6 @@ Template.ProjectsViz.onRendered(function() {
                         rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
                         roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
                         community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
-                    }
-                    for (i in activity.activityElementsCenters) {
-                        activity.append("circle")
-                            .attr("cx", activity.activityElementsCenters[i].x)
-                            .attr("cy", activity.activityElementsCenters[i].y)
-                            .attr("fill", "red")
-                            .attr("r", "4");
                     }
                 }
             });
@@ -867,6 +846,7 @@ Template.ProjectsViz.onRendered(function() {
                 var thisActivity = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
                 // Add it to the list of activities
                 vizActivities.push(thisActivity);
+                // For flows and issues: add 5 to x
                 for (i in thisActivity.activityElementsCenters) {
                     sectionsSVG.append("circle")
                         .attr("cx", thisActivity.activityElementsCenters[i].x+5)
