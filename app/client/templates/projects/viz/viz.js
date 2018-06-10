@@ -559,13 +559,20 @@ Template.ProjectsViz.onRendered(function() {
         activityIcon.attr("transform", "translate("+(x+centerHorizontalPadding)+","+(y+5)+")");
         //Find centers of activity elements
         activity.activityElementsCenters = {
-            subject: {x: (x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
-            object: {x: (x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
-            outcome: {x: x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
-            tools: {x: (x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
-            rules: {x: (x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
-            roles: {x: (x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
-            community: {x: (x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+            subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
+            object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
+            outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
+            tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
+            rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
+            roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
+            community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+        }
+        for (i in activity.activityElementsCenters) {
+            activity.append("circle")
+                .attr("cx", activity.activityElementsCenters[i].x)
+                .attr("cy", activity.activityElementsCenters[i].y)
+                .attr("fill", "blue")
+                .attr("r", "4");
         }
         // Add the activity button
         var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
@@ -598,9 +605,43 @@ Template.ProjectsViz.onRendered(function() {
             .on("click", function(){
                 if (activityIconContainer.style("display") === "inline") {
                     activityIconContainer.style("display", "none");
+                    //Update centers of activity elements
+                    activity.activityElementsCenters = {
+                        subject: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        object: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        outcome: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        tools: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        rules: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                        community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                    }
+                    for (i in activity.activityElementsCenters) {
+                        activity.append("circle")
+                            .attr("cx", activity.activityElementsCenters[i].x)
+                            .attr("cy", activity.activityElementsCenters[i].y)
+                            .attr("fill", "red")
+                            .attr("r", "4");
+                    }
                 }
                 else {
                     activityIconContainer.style("display", "inline");
+                    //Update centers of activity elements
+                    activity.activityElementsCenters = {
+                        subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
+                        object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
+                        outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
+                        tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
+                        rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
+                        roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
+                        community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+                    }
+                    for (i in activity.activityElementsCenters) {
+                        activity.append("circle")
+                            .attr("cx", activity.activityElementsCenters[i].x)
+                            .attr("cy", activity.activityElementsCenters[i].y)
+                            .attr("fill", "red")
+                            .attr("r", "4");
+                    }
                 }
             });
 
@@ -826,6 +867,13 @@ Template.ProjectsViz.onRendered(function() {
                 var thisActivity = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
                 // Add it to the list of activities
                 vizActivities.push(thisActivity);
+                for (i in thisActivity.activityElementsCenters) {
+                    sectionsSVG.append("circle")
+                        .attr("cx", thisActivity.activityElementsCenters[i].x+5)
+                        .attr("cy", thisActivity.activityElementsCenters[i].y)
+                        .attr("fill", "green")
+                        .attr("r", "4");
+                }
             }
         }
 
