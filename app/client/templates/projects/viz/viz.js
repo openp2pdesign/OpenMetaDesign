@@ -560,12 +560,12 @@ Template.ProjectsViz.onRendered(function() {
         activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
 
         // Add elements to the container with this group
-        var activityContainer = activityIconTimeline.append("g");
+        var activityContainer = activityIconTimeline.append("g").classed("ac", true)
 
         // Add the activity icon
-        var activityIcon = loadSVG("../as_full_nolabel.svg", activityContainer);
-        activityContainer.attr("transform", "scale(0.2)")
-        activityIcon.attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
+        var activityIcon = loadSVG("../as_full_nolabel_small.svg", activity);
+        activityContainer.attr("transform", "scale(1)")
+        //activityIcon.attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
 
         // Add the activity button
         var activityContainer = activityIconTimeline.append("g");
