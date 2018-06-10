@@ -486,7 +486,7 @@ Template.ProjectsViz.onRendered(function() {
         var buttonWidth = radius + activityData.number.toString().length * radius;
         var fullButtonWidth = buttonWidth+radius*2;
         var activityIconContainerWidth = 60;
-        var activityIconContainerHeight = 80;
+        var activityIconContainerHeight = 85;
 
         // Add the main group
         var activity = parent.append("g");
@@ -553,8 +553,10 @@ Template.ProjectsViz.onRendered(function() {
             .style("stroke", "#8f8f8f");
         // Add the activity icon
         var activityIcon = loadSVG("../as_full_nolabel_small.svg", activityIconContainer);
+        var activityIconSize = { width: 55, height: 50};
+        var centerHorizontalPadding = (activityIconContainerWidth-activityIconSize.width)/2;
         // Move it to x and y, and a 5 vertical padding from top
-        activityIcon.attr("transform", "translate("+x+","+(y+5)+")");
+        activityIcon.attr("transform", "translate("+(x+centerHorizontalPadding)+","+(y+5)+")");
         // Add the activity button
         var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
