@@ -485,8 +485,8 @@ Template.ProjectsViz.onRendered(function() {
         var radius = 10;
         var buttonWidth = radius + activityData.number.toString().length * radius;
         var fullButtonWidth = buttonWidth+radius*2;
-        var activityIconTimelineWidth = 60;
-        var activityIconTimelineHeight = 80;
+        var activityIconContainerWidth = 60;
+        var activityIconContainerHeight = 80;
 
         // Add the main group
         var activity = parent.append("g");
@@ -496,7 +496,7 @@ Template.ProjectsViz.onRendered(function() {
 
         // Add the activity timeline
         var activityTimeline = activity.append("g").attr("class", "svg-activity-participation");
-        var activityTimelineContainer = activityTimeline.append("rect")
+        var activityTimelineRect = activityTimeline.append("rect")
             .attr("x", x)
             .attr("y", y)
             .attr("width", activityTimelineWidth)
@@ -504,7 +504,7 @@ Template.ProjectsViz.onRendered(function() {
 
         // Add participation level information to the activity timeline
         var participationLevelX = x + activityTimelineWidth / 2;
-        var participationLevelY = y + 5;
+        var participationLevelY = y + activityTimelineWidth / 2;
         var participationLevelValue = 0;
         // Calculate the participationLevelValue
         switch (activityData.participation) {
@@ -527,60 +527,48 @@ Template.ProjectsViz.onRendered(function() {
         // Set the color of the activity timeline based on the participation level
         var participationLevelValueColor = participationLevelValue * 255 / 100;
         participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
-        activityTimelineContainer
+        activityTimelineRect
             .attr("fill", participationLevelValueColorString)
             .style("stroke-width", "2px")
             .style("stroke", "#000");
-        // Add the participation level percentage text
-        var participationLevel = activityTimeline.append("text")
-            .text(participationLevelValue + "%")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("class", "participation-level")
-            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
-
-        activityTimelineContainer
+        activityTimelineRect
             .attr("title", "Participation level: " + activityData.participation + " (" + participationLevelValue + "%)")
             .classed("participation-tooltip", true)
             .attr("data-toggle", "tooltip");
+        // Add the participation level percentage text
+        var participationLevel = activityTimeline.append("text")
+            .text(participationLevelValue + "%")
+            .attr("x", participationLevelX)
+            .attr("y", participationLevelY)
+            .attr("class", "participation-level");
 
         // Add the activity icon and button container
-        var activityIconTimeline = activity.append("g").attr("class", "svg-activity");
-
-        activityIconTimeline.append("rect")
+        var activityIconContainer = activity.append("g").attr("class", "svg-activity");
+        // Add activity rectangle
+        activityIconContainer.append("rect")
             .attr("x", x)
             .attr("y", y)
-            .attr("width", activityIconTimelineWidth)
-            .attr("height", activityIconTimelineHeight)
+            .attr("width", activityIconContainerWidth)
+            .attr("height", activityIconContainerHeight)
             .style("stroke-width", "2px")
             .style("stroke", "#8f8f8f");
-
-        // Move the activity icon container beside the participation container
-        var activityIconTimelineX = activityTimelineWidth;
-        activityIconTimeline.attr("transform", "translate(" + activityIconTimelineX + ",0)");
-
-        // Add elements to the container with this group
-        var activityContainer = activityIconTimeline.append("g").classed("ac", true)
-
         // Add the activity icon
-        var activityIcon = loadSVG("../as_full_nolabel_small.svg", activity);
-        activityContainer.attr("transform", "scale(1)")
-        //activityIcon.attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")");
-
+        var activityIcon = loadSVG("../as_full_nolabel_small.svg", activityIconContainer);
+        // Move it to x and y, and a 5 vertical padding from top
+        activityIcon.attr("transform", "translate("+x+","+(y+5)+")");
         // Add the activity button
-        var activityContainer = activityIconTimeline.append("g");
-        var activityButton = addActivityButton(x, y, radius, activityContainer, buttonWidth, activityData.number, '\uf044');
+        var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
-            .attr("transform", "translate(" + participationLevelX + "," + participationLevelY + ")")
             .classed("activity-button", true)
             .attr("title", "Edit this activity")
             .attr("data-activity-mode", "edit")
             .attr("data-activity-id", activityData.id)
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
-            .attr("transform", "translate("+(fullButtonWidth/2)+","+(activityIconTimelineHeight-radius*1.5)+")")
+            .attr("transform", "translate("+(fullButtonWidth/2)+","+(activityIconContainerHeight-radius*1.5)+")")
             .attr("data-toggle", "tooltip");
-
+        // Move the whole activityIconContainer after the participation level
+        activityIconContainer.attr("transform", "translate("+activityTimelineWidth+",0)")
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
 
