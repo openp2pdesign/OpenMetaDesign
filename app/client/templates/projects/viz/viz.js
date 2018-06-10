@@ -645,6 +645,9 @@ Template.ProjectsViz.onRendered(function() {
             '_id': thisProject._id
         });
 
+        // Activities to be drawn
+        var vizActivities = [];
+
         // LAYOUT - SVG
         // Both general layout and all activities are rendered programmatically here
         // Layout: Find the activity with the earlieast start
@@ -802,10 +805,9 @@ Template.ProjectsViz.onRendered(function() {
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
             for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                // Get the activity data
                 activityData = thisUpdatedProject.processes[process]["activities"][activity];
                 processData = thisUpdatedProject.processes[process];
-                // Draw the activity
-                console.log("Drawing activity with id", activityData.id, "in process", processData.title);
                 // Find the process group in the svg
                 for (group in sectionsGroups) {
                     sectionSelection = sectionsGroups[group]._groups[0][0];
@@ -820,8 +822,10 @@ Template.ProjectsViz.onRendered(function() {
                         sectionX = sectionsWidth[width].x;
                     }
                 }
-                var thisAdd = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-                console.log(thisAdd.activityElementsCenters);
+                // Add / draw the activity
+                var thisActivity = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                // Add it to the list of activities
+                vizActivities.push(thisActivity);
             }
         }
 
