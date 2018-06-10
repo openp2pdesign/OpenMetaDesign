@@ -559,13 +559,13 @@ Template.ProjectsViz.onRendered(function() {
         activityIcon.attr("transform", "translate("+(x+centerHorizontalPadding)+","+(y+5)+")");
         //Find centers of activity elements
         activity.activityElementsCenters = {
-            subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
-            object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
-            outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
-            tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
-            rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
-            roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
-            community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+            subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18, title: "Subject"},
+            object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2, title: "Object"},
+            outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2, title: "Outcome"},
+            tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18, title: "Tools"},
+            rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2, title: "Rules"},
+            roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18, title: "Roles"},
+            community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18, title: "Community"},
         }
         var activityTooltips = activity.append("g");
         // Add transparent circles for tooltip
@@ -575,7 +575,7 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("cy", activity.activityElementsCenters[i].y)
                 .attr("fill", "rgba(0, 0, 0, 0)")
                 .attr("r", "7")
-                .attr("title", "Edit this activity")
+                .attr("title", activity.activityElementsCenters[i].title)
                 .classed("activity-tooltip", true)
                 .attr("data-toggle", "tooltip");
 
