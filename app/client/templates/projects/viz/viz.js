@@ -567,6 +567,19 @@ Template.ProjectsViz.onRendered(function() {
             roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
             community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
         }
+        var activityTooltips = activity.append("g");
+        // Add transparent circles for tooltip
+        for (i in activity.activityElementsCenters) {
+            activityTooltips.append("circle")
+                .attr("cx", activity.activityElementsCenters[i].x)
+                .attr("cy", activity.activityElementsCenters[i].y)
+                .attr("fill", "rgba(0, 0, 0, 0)")
+                .attr("r", "7")
+                .attr("title", "Edit this activity")
+                .classed("activity-tooltip", true)
+                .attr("data-toggle", "tooltip");
+
+        }
         // Add the activity button
         var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
@@ -608,6 +621,8 @@ Template.ProjectsViz.onRendered(function() {
                         roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
                         community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
                     }
+                    // Hide tooltips
+                    activityTooltips.style("display", "none");
                 }
                 else {
                     activityIconContainer.style("display", "inline");
@@ -621,6 +636,8 @@ Template.ProjectsViz.onRendered(function() {
                         roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
                         community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
                     }
+                    // Show tooltips
+                    activityTooltips.style("display", "inline");
                 }
             });
 
@@ -846,13 +863,13 @@ Template.ProjectsViz.onRendered(function() {
                 var thisActivity = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
                 // Add it to the list of activities
                 vizActivities.push(thisActivity);
-                // For flows and issues: add 5 to x
+                // For flows and issues: add 5 to x (the borders of the rects)
                 for (i in thisActivity.activityElementsCenters) {
                     sectionsSVG.append("circle")
-                        .attr("cx", thisActivity.activityElementsCenters[i].x+5)
+                        .attr("cx", thisActivity.activityElementsCenters[i].x+4)
                         .attr("cy", thisActivity.activityElementsCenters[i].y)
                         .attr("fill", "green")
-                        .attr("r", "4");
+                        .attr("r", 0);
                 }
             }
         }
@@ -884,6 +901,11 @@ Template.ProjectsViz.onRendered(function() {
             placement: 'top'
         });
         this.$('svg .participation-tooltip').tooltip({
+            container: 'body',
+            trigger: "hover",
+            placement: 'top'
+        });
+        this.$('svg .activity-tooltip').tooltip({
             container: 'body',
             trigger: "hover",
             placement: 'top'
