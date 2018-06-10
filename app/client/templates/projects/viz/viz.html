@@ -155,7 +155,7 @@
                                             {{#each activity in activitiesWithoutLocation}}
                                             <li>
                                                 <a href="#">
-                                                    <img src="../map/activityIconNoLocation.svg"  data-id={{activity.id}} class="activities-without-location" title="spooks" />
+                                                    <img src="../map/activityIconNoLocation.svg"  data-id={{activity.id}} class="activities-without-location" data-toggle="tooltip" title="Edit activity #{{activity.number}}" />
                                                 </a>
                                             </li>
                                             {{/each}}

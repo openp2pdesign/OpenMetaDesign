@@ -190,6 +190,11 @@ Template.ProjectsViz.onRendered(function() {
         trigger: 'hover',
         placement: 'top'
     });
+    // Tooltips for the activites in the map tab
+    $('.activities-without-location').tooltip({
+        trigger: 'hover',
+        placement: 'top'
+    });
     // Highlight.js
     $("code").each(function(i, block) {
         hljs.highlightBlock(block);
