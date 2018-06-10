@@ -557,6 +557,16 @@ Template.ProjectsViz.onRendered(function() {
         var centerHorizontalPadding = (activityIconContainerWidth-activityIconSize.width)/2;
         // Move it to x and y, and a 5 vertical padding from top
         activityIcon.attr("transform", "translate("+(x+centerHorizontalPadding)+","+(y+5)+")");
+        //Find centers of activity elements
+        activity.activityElementsCenters = {
+            subject: {x: (x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
+            object: {x: (x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
+            outcome: {x: x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
+            tools: {x: (x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
+            rules: {x: (x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
+            roles: {x: (x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
+            community: {x: (x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+        }
         // Add the activity button
         var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
         activityButton.attr("data-toggle", "modal")
@@ -810,7 +820,8 @@ Template.ProjectsViz.onRendered(function() {
                         sectionX = sectionsWidth[width].x;
                     }
                 }
-                addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                var thisAdd = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                console.log(thisAdd.activityElementsCenters);
             }
         }
 
