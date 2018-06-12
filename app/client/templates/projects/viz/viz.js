@@ -572,6 +572,8 @@ Template.ProjectsViz.onRendered(function() {
             roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18, title: "Roles"},
             community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18, title: "Community"},
         }
+        // Add activity ID data
+        activity.id = activityData.id;
         var activityTooltips = activity.append("g");
         // Add transparent circles for tooltip
         for (i in activity.activityElementsCenters) {
@@ -878,6 +880,62 @@ Template.ProjectsViz.onRendered(function() {
                 }
             }
         }
+        // Draw the flows
+        var flowsGroup = sectionsSVG.append("g");
+        for (flow in thisUpdatedProject.flows) {
+            // Get the ids of the nodes in the flow
+            firstNode = thisUpdatedProject.flows[flow].firstNode;
+            secondNode = thisUpdatedProject.flows[flow].secondNode;
+            // Get the activity center of the node in the flow
+            var firstNodeCenter;
+            var secondNodeCenter;
+            for (activity in vizActivities) {
+                if (vizActivities[activity].id === firstNode) {
+                    firstNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
+                }
+                if (vizActivities[activity].id === secondNode) {
+                    secondNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
+                }
+            }
+            //flowsGroup
+            flowsGroup.append("circle")
+                .attr("cx", firstNodeCenter.x+4)
+                .attr("cy", firstNodeCenter.y)
+                .attr("fill", "red")
+                .attr("r", 3);
+            flowsGroup.append("circle")
+                .attr("cx", secondNodeCenter.x+4)
+                .attr("cy", secondNodeCenter.y)
+                .attr("fill", "red")
+                .attr("r", 3);
+            // Line
+            var line = d3.line().x(function(d) { return d.x; }).y(function(d) { return d.y; });
+            var points = [
+                {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                {x: secondNodeCenter.x+4, y: secondNodeCenter.y}
+            ];
+            var pathData = line(points);
+            flowsGroup.selectAll('path')
+                .data(points)
+                .enter()
+                .append('path')
+                .attr('d', pathData)
+                .attr("stroke", "red")
+                .attr("stroke-width", 1)
+                .attr("fill", "none");
+
+    //var line = d3.svg.line().x(x).y(y);
+    var points = [
+  {x: 0, y: 346},
+  {x: 160, y: 169},
+  {x: 84,y: 42},
+  {x: 0, y: 94},
+  {x: 47, y: 160}
+];
+
+        }
+
+        // Draw the issues
 
         // FINAL STEPS
         // Implement zoom and pan
