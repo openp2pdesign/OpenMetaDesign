@@ -909,10 +909,15 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("fill", "red")
                 .attr("r", 3);
             // Line
-            var line = d3.line().x(function(d) { return d.x; }).y(function(d) { return d.y; });
+            var line = d3.line()
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; })
+                .curve(d3.curveBasis);
             var points = [
                 {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                {x: secondNodeCenter.x+4, y: secondNodeCenter.y}
+                {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+
             ];
             var pathData = line(points);
             flowsGroup.selectAll('path')
