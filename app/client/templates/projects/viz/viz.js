@@ -913,14 +913,14 @@ Template.ProjectsViz.onRendered(function() {
                 .x(function(d) { return d.x; })
                 .y(function(d) { return d.y; })
                 .curve(d3.curveBasis);
+            // TODO: calculate the points...
             var points = [
                 {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
                 {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
                 {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
-
             ];
             var pathData = line(points);
-            flowsGroup.selectAll('path')
+            var flowViz = flowsGroup.selectAll('path')
                 .data(points)
                 .enter()
                 .append('path')
@@ -929,14 +929,17 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("stroke-width", 1)
                 .attr("fill", "none");
 
-    //var line = d3.svg.line().x(x).y(y);
-    var points = [
-  {x: 0, y: 346},
-  {x: 160, y: 169},
-  {x: 84,y: 42},
-  {x: 0, y: 94},
-  {x: 47, y: 160}
-];
+            // Add class
+            flowViz.attr("class", "activity-hover")
+                // Add hover effect
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                })
 
         }
 
