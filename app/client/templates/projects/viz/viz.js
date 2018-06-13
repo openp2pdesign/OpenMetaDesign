@@ -898,15 +898,16 @@ Template.ProjectsViz.onRendered(function() {
                 }
             }
             //flowsGroup
+            var flowColor = "red";
             flowsGroup.append("circle")
                 .attr("cx", firstNodeCenter.x+4)
                 .attr("cy", firstNodeCenter.y)
-                .attr("fill", "red")
+                .attr("fill", flowColor)
                 .attr("r", 3);
             flowsGroup.append("circle")
                 .attr("cx", secondNodeCenter.x+4)
                 .attr("cy", secondNodeCenter.y)
-                .attr("fill", "red")
+                .attr("fill", flowColor)
                 .attr("r", 3);
             // Line
             var line = d3.line()
@@ -919,18 +920,36 @@ Template.ProjectsViz.onRendered(function() {
                 {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
                 {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
             ];
+            // Add the path as the flow viz
             var pathData = line(points);
             var flowViz = flowsGroup.selectAll('path')
                 .data(points)
                 .enter()
                 .append('path')
                 .attr('d', pathData)
-                .attr("stroke", "red")
-                .attr("stroke-width", 1)
+                .attr("stroke", flowColor)
+                .attr("stroke-width", 2)
                 .attr("fill", "none");
-
+            // Add an icon in the middle of the path
+            var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength()*0.5);
+            var flowVizMidPoint = flowsGroup.append("svg:circle")
+                    .style("fill", flowColor)
+                    .attr("r", 8)
+                    .attr("cx", pathMidPoint.x)
+                    .attr("cy", pathMidPoint.y);
             // Add class
-            flowViz.attr("class", "activity-hover")
+            flowsGroup.attr("class", "activity-hover")
+                // Add hover effect
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                })
+            // Add class
+            flowVizMidPoint.attr("class", "activity-hover")
                 // Add hover effect
                 .on("mouseover", function() {
                     d3.select(this)
