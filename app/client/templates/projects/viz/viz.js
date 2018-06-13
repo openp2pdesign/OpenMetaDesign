@@ -953,6 +953,10 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("r", 8)
                 .attr("cx", pathMidPoint.x)
                 .attr("cy", pathMidPoint.y);
+            // Add tooltip
+            flowVizMidPoint.classed("flow-tooltip", true)
+                .attr("title", thisUpdatedProject.flows[flow].title)
+                .attr("data-toggle", "tooltip");
             // Add the icon
             thisFlow.append('text')
                 .attr("fill", "#fff")
@@ -1011,6 +1015,11 @@ Template.ProjectsViz.onRendered(function() {
             placement: 'top'
         });
         this.$('svg .activity-tooltip').tooltip({
+            container: 'body',
+            trigger: "hover",
+            placement: 'top'
+        });
+        this.$('svg .flow-tooltip').tooltip({
             container: 'body',
             trigger: "hover",
             placement: 'top'
