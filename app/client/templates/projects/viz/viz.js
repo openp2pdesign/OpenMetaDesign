@@ -14,6 +14,8 @@ let diff = require('deep-diff');
 // Import collections
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Activities } from '../../../../lib/collections/activities.js';
+import { Flows } from '../../../../lib/collections/flows.js';
+import { Contradictions } from '../../../../lib/collections/contradictions.js';
 import { Settings } from '../../../../lib/collections/settings.js';
 /*****************************************************************************/
 /* ProjectsViz: Event Handlers */
@@ -124,7 +126,20 @@ Template.ProjectsViz.events({
                 "mode": "edit"
             }
         });
-    }
+    },
+    // Show the div that enable the edit of flows
+    'click .edit-flow': function(event, template) {
+        event.preventDefault();
+        var thisFlow = Flows.findOne({ '_id': event.currentTarget.id });
+        // Launch modal
+        Modal.show('Flow', function() {
+            return {
+                "projectId": this.projectId,
+                "flowId": event.currentTarget.id,
+                "mode": "edit"
+            }
+        });
+    },
 });
 
 /*****************************************************************************/
@@ -899,12 +914,13 @@ Template.ProjectsViz.onRendered(function() {
             }
             //flowsGroup
             var flowColor = "#73f17b";
-            flowsGroup.append("circle")
+            var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
+            thisFlow.append("circle")
                 .attr("cx", firstNodeCenter.x+4)
                 .attr("cy", firstNodeCenter.y)
                 .attr("fill", flowColor)
                 .attr("r", 3);
-            flowsGroup.append("circle")
+            thisFlow.append("circle")
                 .attr("cx", secondNodeCenter.x+4)
                 .attr("cy", secondNodeCenter.y)
                 .attr("fill", flowColor)
@@ -922,7 +938,7 @@ Template.ProjectsViz.onRendered(function() {
             ];
             // Add the path as the flow viz
             var pathData = line(points);
-            var flowViz = flowsGroup.selectAll('path')
+            var flowViz = thisFlow.selectAll('path')
                 .data(points)
                 .enter()
                 .append('path')
@@ -932,13 +948,13 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("fill", "none");
             // Add an icon in the middle of the path
             var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength()*0.5);
-            var flowVizMidPoint = flowsGroup.append("circle")
+            var flowVizMidPoint = thisFlow.append("circle")
                 .attr("fill", flowColor)
                 .attr("r", 8)
                 .attr("cx", pathMidPoint.x)
                 .attr("cy", pathMidPoint.y);
             // Add the icon
-            flowsGroup.append('text')
+            thisFlow.append('text')
                 .attr("fill", "#fff")
                 .attr("x", pathMidPoint.x)
                 .attr("y", pathMidPoint.y)
@@ -947,8 +963,8 @@ Template.ProjectsViz.onRendered(function() {
                 .style("font-family", "FontAwesome")
                 .style("font-size", "8px")
                 .text("\uf074");
-            // Add class
-            flowsGroup.attr("class", "activity-hover")
+            // Add class for the hover effect and for launching the edit modal
+            thisFlow.attr("class", "activity-hover edit-flow")
                 // Add hover effect
                 .on("mouseover", function() {
                     d3.select(this)
