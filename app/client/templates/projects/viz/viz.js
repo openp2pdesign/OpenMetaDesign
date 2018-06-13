@@ -898,7 +898,7 @@ Template.ProjectsViz.onRendered(function() {
                 }
             }
             //flowsGroup
-            var flowColor = "red";
+            var flowColor = "#73f17b";
             flowsGroup.append("circle")
                 .attr("cx", firstNodeCenter.x+4)
                 .attr("cy", firstNodeCenter.y)
@@ -932,11 +932,21 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("fill", "none");
             // Add an icon in the middle of the path
             var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength()*0.5);
-            var flowVizMidPoint = flowsGroup.append("svg:circle")
-                    .style("fill", flowColor)
-                    .attr("r", 8)
-                    .attr("cx", pathMidPoint.x)
-                    .attr("cy", pathMidPoint.y);
+            var flowVizMidPoint = flowsGroup.append("circle")
+                .attr("fill", flowColor)
+                .attr("r", 8)
+                .attr("cx", pathMidPoint.x)
+                .attr("cy", pathMidPoint.y);
+            // Add the icon
+            flowsGroup.append('text')
+                .attr("fill", "#fff")
+                .attr("x", pathMidPoint.x)
+                .attr("y", pathMidPoint.y)
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .style("font-family", "FontAwesome")
+                .style("font-size", "8px")
+                .text("\uf074");
             // Add class
             flowsGroup.attr("class", "activity-hover")
                 // Add hover effect
@@ -947,22 +957,11 @@ Template.ProjectsViz.onRendered(function() {
                 .on("mouseout", function() {
                     d3.select(this)
                         .attr("filter", null);
-                })
-            // Add class
-            flowVizMidPoint.attr("class", "activity-hover")
-                // Add hover effect
-                .on("mouseover", function() {
-                    d3.select(this)
-                        .attr("filter", "url(#glow)");
-                })
-                .on("mouseout", function() {
-                    d3.select(this)
-                        .attr("filter", null);
-                })
+                });
 
         }
 
-        // Draw the issues
+        // TODO Draw the issues
 
         // FINAL STEPS
         // Implement zoom and pan
