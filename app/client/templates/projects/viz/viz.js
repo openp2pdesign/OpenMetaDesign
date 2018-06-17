@@ -14,6 +14,7 @@ let diff = require('deep-diff');
 // Import collections
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Activities } from '../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../lib/collections/activity_elements.js';
 import { Flows } from '../../../../lib/collections/flows.js';
 import { Contradictions } from '../../../../lib/collections/contradictions.js';
 import { Settings } from '../../../../lib/collections/settings.js';
@@ -140,6 +141,19 @@ Template.ProjectsViz.events({
             }
         });
     },
+    // Show the div that enable the edit of contradictions
+    'click .edit-contradiction': function(event, template) {
+        event.preventDefault();
+        var thisContradiction = Contradictions.findOne({ '_id': event.currentTarget.id });
+        // Launch modal
+        Modal.show('Contradiction', function() {
+            return {
+                "projectId": this.projectId,
+                "contradictionId": event.currentTarget.id,
+                "mode": "edit"
+            }
+        });
+    },
 });
 
 /*****************************************************************************/
@@ -197,6 +211,8 @@ Template.ProjectsViz.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
+    // Access activity elements for contradictions viz
+    Meteor.subscribe('activityelements');
 });
 
 Template.ProjectsViz.onRendered(function() {
@@ -981,7 +997,98 @@ Template.ProjectsViz.onRendered(function() {
 
         }
 
-        // TODO Draw the issues
+        // Draw the contradictions
+        var contradictionsGroup = sectionsSVG.append("g");
+        for (contradiction in thisUpdatedProject.contradictions) {
+            // Get the ids of the nodes in the flow
+            firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
+            secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
+            // Get the first activity element
+            var firstActivityElement = ActivityElements.findOne({'_id': firstNode});
+            // Get the second activity element
+            var secondActivityElement = ActivityElements.findOne({'_id': secondNode});
+            // Get the activity center of the node in the flow
+            var firstNodeCenter;
+            var secondNodeCenter;
+            // Access the data when ready
+            if ((typeof firstActivityElement != "undefined") && (typeof secondActivityElement != "undefined")) {
+                for (activity in vizActivities) {
+                    if (vizActivities[activity].id === firstActivityElement.activityId) {
+                        firstNodeCenter = vizActivities[activity].activityElementsCenters[firstActivityElement.activityElementData.title];
+                    }
+                    if (vizActivities[activity].id === secondActivityElement.activityId) {
+                        secondNodeCenter = vizActivities[activity].activityElementsCenters[secondActivityElement.activityElementData.title];
+                    }
+                }
+            }
+            //contradictionsGroup
+            var contradictionColor = "#63dfff";
+            var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
+            thisContradiction.append("circle")
+                .attr("cx", firstNodeCenter.x+4)
+                .attr("cy", firstNodeCenter.y)
+                .attr("fill", contradictionColor)
+                .attr("r", 3);
+            thisContradiction.append("circle")
+                .attr("cx", secondNodeCenter.x+4)
+                .attr("cy", secondNodeCenter.y)
+                .attr("fill", contradictionColor)
+                .attr("r", 3);
+            // Line
+            var line = d3.line()
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; })
+                .curve(d3.curveBasis);
+            // TODO: calculate the points...
+            var points = [
+                {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+            ];
+            // Add the path as the flow viz
+            var pathData = line(points);
+            var contradictionViz = thisContradiction.selectAll('path')
+                .data(points)
+                .enter()
+                .append('path')
+                .attr('d', pathData)
+                .attr("stroke", contradictionColor)
+                .attr("stroke-width", 2)
+                .attr("fill", "none");
+            // Add an icon in the middle of the path
+            var pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength()*0.5);
+            var contradictionVizMidPoint = thisContradiction.append("circle")
+                .attr("fill", contradictionColor)
+                .attr("r", 8)
+                .attr("cx", pathMidPoint.x)
+                .attr("cy", pathMidPoint.y);
+            // Add tooltip
+            contradictionVizMidPoint.classed("flow-tooltip", true)
+                .attr("title", thisUpdatedProject.contradictions[contradiction].title)
+                .attr("data-toggle", "tooltip");
+            // Add the icon
+            thisContradiction.append('text')
+                .attr("fill", "#fff")
+                .attr("x", pathMidPoint.x)
+                .attr("y", pathMidPoint.y)
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .style("font-family", "FontAwesome")
+                .style("font-size", "8px")
+                .text("\uf071");
+            // Add class for the hover effect and for launching the edit modal
+            thisContradiction.attr("class", "activity-hover edit-contradiction")
+                // Add hover effect
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                });
+
+        }
 
         // FINAL STEPS
         // Implement zoom and pan
