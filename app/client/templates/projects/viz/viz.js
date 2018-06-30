@@ -647,36 +647,36 @@ Template.ProjectsViz.onRendered(function() {
             })
             // Hide / show the activity icon on click
             .on("click", function(){
-                if (activityIconContainer.style("display") === "inline") {
-                    activityIconContainer.style("display", "none");
-                    //Update centers of activity elements
-                    activity.activityElementsCenters = {
-                        subject: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        object: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        outcome: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        tools: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        rules: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                        community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                    }
-                    // Hide tooltips
-                    activityTooltips.style("display", "none");
-                }
-                else {
-                    activityIconContainer.style("display", "inline");
-                    //Update centers of activity elements
-                    activity.activityElementsCenters = {
-                        subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
-                        object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
-                        outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
-                        tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
-                        rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
-                        roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
-                        community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
-                    }
-                    // Show tooltips
-                    activityTooltips.style("display", "inline");
-                }
+                // if (activityIconContainer.style("display") === "inline") {
+                //     activityIconContainer.style("display", "none");
+                //     //Update centers of activity elements
+                //     activity.activityElementsCenters = {
+                //         subject: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         object: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         outcome: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         tools: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         rules: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //         community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
+                //     }
+                //     // Hide tooltips
+                //     activityTooltips.style("display", "none");
+                // }
+                // else {
+                //     activityIconContainer.style("display", "inline");
+                //     //Update centers of activity elements
+                //     activity.activityElementsCenters = {
+                //         subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
+                //         object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
+                //         outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
+                //         tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
+                //         rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
+                //         roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
+                //         community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
+                //     }
+                //     // Show tooltips
+                //     activityTooltips.style("display", "inline");
+                // }
             });
 
         // Return the whole activity
