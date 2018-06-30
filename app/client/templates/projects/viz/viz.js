@@ -998,6 +998,8 @@ Template.ProjectsViz.onRendered(function() {
         }
 
         // Draw the contradictions
+        // TODO: primary contradictions as self-loop
+        // 
         var contradictionsGroup = sectionsSVG.append("g");
         for (contradiction in thisUpdatedProject.contradictions) {
             // Get the ids of the nodes in the flow
