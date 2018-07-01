@@ -5,6 +5,10 @@ PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
 // jquery
 import { $ } from 'meteor/jquery';
+
+// Import collection
+import { InvitedUsersToProjects } from '../../../lib/collections/invited_users_to_projects.js';
+
 /*****************************************************************************/
 /* Me: Event Handlers */
 /*****************************************************************************/
@@ -84,7 +88,23 @@ Template.Me.helpers({
                 }
             }
         };
-    }
+    },
+    myInvitationsToProjectsSelector: function() {
+        if (Meteor.subscribe("invitedUsersToProjects").ready()) {
+            var invitationsThisUser = InvitedUsersToProjects.find({
+                'users.userId': Meteor.userId()
+            }).fetch();
+            var projectsIDs = [];
+            for (x in invitationsThisUser) {
+                projectsIDs.push(invitationsThisUser[x].projectId);
+            }
+            return {
+                '_id': {
+                    '$in': projectsIDs
+                }
+            };
+        }
+    },
 });
 
 /*****************************************************************************/
