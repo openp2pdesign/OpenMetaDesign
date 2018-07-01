@@ -6,6 +6,7 @@ import { Flows } from '../lib/collections/flows.js';
 import { Contradictions } from '../lib/collections/contradictions.js';
 import { Discussions } from '../lib/collections/discussions.js';
 import { ProjectStats } from '../lib/collections/projectstats.js';
+import { InvitedUsersToProjects } from '../lib/collections/invited_users_to_projects.js';
 
 
 // Publish users
@@ -199,4 +200,9 @@ Meteor.publish("autocompleteActivities", function(selector, options) {
 Meteor.publish("autocompleteActivityElements", function(selector, options) {
   Autocomplete.publishCursor(ActivityElements.find(selector, options), this);
   this.ready();
+});
+
+// Publish invited users to projects
+Meteor.publish("invitedUsersToProjects", function(selector, options) {
+  return InvitedUsersToProjects.find();
 });

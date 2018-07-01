@@ -6,6 +6,9 @@ PNotify.prototype.options.styling = "fontawesome";
 // jquery
 import { $ } from 'meteor/jquery';
 
+// Import collection
+import { InvitedUsersToProjects } from '../../../../lib/collections/invited_users_to_projects.js';
+
 /*****************************************************************************/
 /* InviteUsersToProject: Event Handlers */
 /*****************************************************************************/
@@ -13,9 +16,9 @@ Template.InviteUsersToProject.events({
         'click #confirm': function() {
             event.preventDefault();
             // Get the data from the form
-            var newInvitedUsers = $('#invite-users-autocomplete').val();
+            var newInvitedUsersText = $('#invite-users-autocomplete').val();
             // Split the data by @
-            newInvitedUsers = newInvitedUsers.split("@");
+            newInvitedUsers = newInvitedUsersText.split("@");
             newInvitedUsersArray = [];
             // Remove empty spaces
             for (str in newInvitedUsers) {
@@ -28,7 +31,7 @@ Template.InviteUsersToProject.events({
                 }
             }
             // Update the document
-            Meteor.call("updateInvitedUsersToProject", this._id, newInvitedUsersArray, function(error, result) {
+            Meteor.call("updateInvitedUsersToProject", this._id, newInvitedUsersText, newInvitedUsersArray, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -92,13 +95,17 @@ Template.InviteUsersToProject.helpers({
             ]
         };
     },
+    data: function() {
+        var thisDoc = InvitedUsersToProjects.findOne({ 'projectId' : this._id });
+        return thisDoc;
+    },
 });
 
 /*****************************************************************************/
 /* InviteUsersToProject: Lifecycle Hooks */
 /*****************************************************************************/
 Template.InviteUsersToProject.onCreated(function () {
-    //Meteor.subscribe("usersList");
+    Meteor.subscribe("invitedUsersToProjects");
 });
 
 Template.InviteUsersToProject.onRendered(function () {

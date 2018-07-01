@@ -5,7 +5,7 @@ import SimpleSchema from 'simpl-schema';
 SimpleSchema.debug = true;
 
 // Collection of Projects where users are invited
-export const InvitedUsersToProjects = new Mongo.Collection('invited_projects');
+export const InvitedUsersToProjects = new Mongo.Collection('invited_users_to_projects');
 
 
 if (Meteor.isServer) {
@@ -42,6 +42,10 @@ if (Meteor.isServer) {
 InvitedUsersSchema = new SimpleSchema({
     projectId: {
         type: String,
+    },
+    text: {
+        type: String,
+        optional: true
     },
     users: {
         type: Array,

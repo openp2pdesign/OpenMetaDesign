@@ -452,6 +452,8 @@ Meteor.methods({
         // Add the document for storing the invited users to this project
         var firstInvitedUsers = {
             "projectId": projectId,
+            "text": "",
+            "users": []
         }
         NewProjectInvitedUsers = InvitedUsersToProjects.insert(firstInvitedUsers);
         // Return the project id
@@ -1536,12 +1538,41 @@ Meteor.methods({
             }
         }
     },
-    'updateInvitedUsersToProject': function(projectId, users) {
+    'updateInvitedUsersToProject': function(projectId, text, users) {
+        var usersObjects = [];
+        // Get the user id from the username
+        for (user in users) {
+            usersObjects.push({
+                "username": users[user],
+                "userId": Meteor.users.findOne({"username": users[user]})._id
+            });
+        }
+        console.log(usersObjects);
         // Apply changes by updating the document
         InvitedUsersToProjects.update({
             'projectId': projectId
         }, {
-            $set: users
+            $set: {
+                'text': text
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", "Error", error.reason, "while updating invited users in project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Invited users updated in project", projectId, "successfully.");
+                // Return
+                return "success";
+            }
+        });
+        // Apply changes by updating the document
+        InvitedUsersToProjects.update({
+            'projectId': projectId
+        }, {
+            $set: {
+                'users': usersObjects
+            }
         }, function(error) {
             if (error) {
                 throw new Meteor.Error("method_error", "Error", error.reason, "while updating invited users in project", projectId, ".");
