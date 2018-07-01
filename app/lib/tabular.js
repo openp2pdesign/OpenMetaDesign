@@ -45,7 +45,7 @@ TabularTables.Users = new Tabular.Table({
 
 // Table of projects
 TabularTables.Projects = new Tabular.Table({
-    name: "Projects",
+    name: "MyProjects",
     collection: Projects,
     pub: "projects",
     columns: [{
@@ -78,7 +78,7 @@ TabularTables.Projects = new Tabular.Table({
 
 // Table of invited projects
 TabularTables.InvitedProjects = new Tabular.Table({
-    name: "Projects",
+    name: "InvitedProjects",
     collection: Projects,
     pub: "projects",
     columns: [{
