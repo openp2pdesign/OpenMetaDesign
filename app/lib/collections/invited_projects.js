@@ -37,3 +37,20 @@ if (Meteor.isServer) {
     }
   });
 }
+
+// A schema for invited users to projects
+InvitedUsersSchema = new SimpleSchema({
+    projectId: {
+        type: String,
+    },
+    users: {
+        type: Array,
+    },
+    'users.$': {
+        type: Object,
+        blackbox: true
+    },
+});
+
+// Attach the InvitedUsersSchema to the Flows collection
+InvitedProjects.attachSchema(InvitedUsersSchema);

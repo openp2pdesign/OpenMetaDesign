@@ -3,6 +3,8 @@ import 'pnotify/dist/pnotify.css';
 import PNotify from 'pnotify';
 PNotify.prototype.options.styling = "bootstrap3";
 PNotify.prototype.options.styling = "fontawesome";
+// jquery
+import { $ } from 'meteor/jquery';
 
 /*****************************************************************************/
 /* InviteUsersToProject: Event Handlers */
@@ -10,7 +12,22 @@ PNotify.prototype.options.styling = "fontawesome";
 Template.InviteUsersToProject.events({
         'click #confirm': function() {
             event.preventDefault();
-            console.log("confirmed");
+            // Get the data from the form
+            var newInvitedUsers = $('#invite-users-autocomplete').val();
+            // Split the data by @
+            newInvitedUsers = newInvitedUsers.split("@");
+            newInvitedUsersArray = [];
+            // Remove empty spaces
+            for (str in newInvitedUsers) {
+                newInvitedUsersArray.push($.trim(newInvitedUsers[str]));
+            }
+            // Remove empty usernames
+            for (element in newInvitedUsersArray) {
+                if (newInvitedUsersArray[element].length == 0) {
+                    newInvitedUsersArray.splice(element,1);
+                }
+            }
+            console.log("Invited:", newInvitedUsersArray);
         }
 });
 
@@ -18,7 +35,7 @@ Template.InviteUsersToProject.events({
 /* InviteUsersToProject: Helpers */
 /*****************************************************************************/
 Template.InviteUsersToProject.helpers({
-    autocompleteSettingsUser: function() {
+    autocompleteSettingsInvitedUser: function() {
         return {
             position: "bottom",
             limit: 8,
@@ -38,6 +55,7 @@ Template.InviteUsersToProject.helpers({
 /* InviteUsersToProject: Lifecycle Hooks */
 /*****************************************************************************/
 Template.InviteUsersToProject.onCreated(function () {
+    //Meteor.subscribe("usersList");
 });
 
 Template.InviteUsersToProject.onRendered(function () {
