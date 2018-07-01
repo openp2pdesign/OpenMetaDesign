@@ -1538,7 +1538,7 @@ Meteor.methods({
             }
         }
     },
-    'updateInvitedUsersToProject': function(projectId, text, users) {
+    'updateInvitedUsersToProject': function(projectId, users) {
         var usersObjects = [];
         // Get the user id from the username
         for (user in users) {
@@ -1547,25 +1547,6 @@ Meteor.methods({
                 "userId": Meteor.users.findOne({"username": users[user]})._id
             });
         }
-        console.log(usersObjects);
-        // Apply changes by updating the document
-        InvitedUsersToProjects.update({
-            'projectId': projectId
-        }, {
-            $set: {
-                'text': text
-            }
-        }, function(error) {
-            if (error) {
-                throw new Meteor.Error("method_error", "Error", error.reason, "while updating invited users in project", projectId, ".");
-                console.log(error);
-                return "error";
-            } else {
-                console.log("Invited users updated in project", projectId, "successfully.");
-                // Return
-                return "success";
-            }
-        });
         // Apply changes by updating the document
         InvitedUsersToProjects.update({
             'projectId': projectId

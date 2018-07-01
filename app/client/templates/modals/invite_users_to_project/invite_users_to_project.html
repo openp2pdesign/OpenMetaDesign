@@ -8,9 +8,19 @@
                       <h2 class="modal-title">{{_ "invite_users"}}</h2>
                   </div>
                   <div class="modal-body">
-                      {{#with data}}
-                        {{> inputAutocomplete settings=autocompleteSettingsInvitedUser id="invite-users-autocomplete" class="input-xlarge form-control" placeholder="..." }}
-                        {{text}}
+                      {{#with allUsers}}
+                        <select class="select2-dropdown" name="states[]" multiple="multiple" id="new-users-invited">
+                            <!-- data-option={{data.firstNode}} -->
+                            <option
+                             data-icon="fa fa-user">
+                                text
+                            </option>
+                            {{#each allUsers}}
+                                <option data-option={{_id}} data-icon="fa fa-user">
+                                    {{username}}
+                                </option>
+                            {{/each}}
+                        </select>
                       {{/with}}
                   </div>
                   <div class="modal-footer">

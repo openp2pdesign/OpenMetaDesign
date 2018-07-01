@@ -16,22 +16,13 @@ Template.InviteUsersToProject.events({
         'click #confirm': function() {
             event.preventDefault();
             // Get the data from the form
-            var newInvitedUsersText = $('#invite-users-autocomplete').val();
-            // Split the data by @
-            newInvitedUsers = newInvitedUsersText.split("@");
-            newInvitedUsersArray = [];
-            // Remove empty spaces
-            for (str in newInvitedUsers) {
-                newInvitedUsersArray.push($.trim(newInvitedUsers[str]));
-            }
-            // Remove empty usernames
-            for (element in newInvitedUsersArray) {
-                if (newInvitedUsersArray[element].length == 0) {
-                    newInvitedUsersArray.splice(element,1);
-                }
+            var newInvitedUsersValues = $('#new-users-invited').select2('data');
+            var newInvitedUsersArray = [];
+            for (user in newInvitedUsersValues) {
+                newInvitedUsersArray.push(newInvitedUsersValues[user].id);
             }
             // Update the document
-            Meteor.call("updateInvitedUsersToProject", this._id, newInvitedUsersText, newInvitedUsersArray, function(error, result) {
+            Meteor.call("updateInvitedUsersToProject", this._id, newInvitedUsersArray, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -81,23 +72,12 @@ Template.InviteUsersToProject.events({
 /* InviteUsersToProject: Helpers */
 /*****************************************************************************/
 Template.InviteUsersToProject.helpers({
-    autocompleteSettingsInvitedUser: function() {
-        return {
-            position: "bottom",
-            limit: 8,
-            rules: [{
-                    token: '@',
-                    collection: Meteor.users,
-                    field: "username",
-                    template: Template.UserPill,
-                    noMatchTemplate: Template.NotFoundPill
-                },
-            ]
-        };
-    },
     data: function() {
         var thisDoc = InvitedUsersToProjects.findOne({ 'projectId' : this._id });
         return thisDoc;
+    },
+    allUsers: function() {
+        return Meteor.users.find().fetch();
     },
 });
 
@@ -106,9 +86,26 @@ Template.InviteUsersToProject.helpers({
 /*****************************************************************************/
 Template.InviteUsersToProject.onCreated(function () {
     Meteor.subscribe("invitedUsersToProjects");
+    Meteor.subscribe("usersList");
 });
 
 Template.InviteUsersToProject.onRendered(function () {
+    // Icons for select2 options
+    function optionFormatIcon(icon) {
+        var originalOption = icon.element;
+        return '<i class="' + $(originalOption).data('icon') + '"></i> ' + icon.text;
+    }
+    // Enable select2
+    $('.select2-dropdown').select2({
+        dropdownAutoWidth: true,
+        width: '100%',
+        templateSelection: optionFormatIcon,
+        templateResult: optionFormatIcon,
+        allowHtml: true,
+        escapeMarkup: function(m) {
+            return m;
+        }
+    });
 });
 
 Template.InviteUsersToProject.onDestroyed(function () {
