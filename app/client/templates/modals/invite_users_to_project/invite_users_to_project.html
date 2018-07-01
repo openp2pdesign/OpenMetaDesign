@@ -12,7 +12,7 @@
                         <select class="select2-dropdown" name="states[]" multiple="multiple" id="new-users-invited">
                             {{#with data}}
                                 {{#each users}}
-                                    <option data-option={{userId}} data-icon="fa fa-user">
+                                    <option selected="selected" data-option={{userId}} data-icon="fa fa-user">
                                         {{username}}
                                     </option>
                                 {{/each}}
