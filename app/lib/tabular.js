@@ -76,6 +76,39 @@ TabularTables.Projects = new Tabular.Table({
 });
 
 
+// Table of invited projects
+TabularTables.InvitedProjects = new Tabular.Table({
+    name: "Projects",
+    collection: Projects,
+    pub: "projects",
+    columns: [{
+        data: "_id",
+        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+    }, {
+        data: "title",
+        title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
+    }, {
+        data: "createdBy",
+        title: '<i class="fa fa-user" aria-hidden="true"></i> Created by'
+    }, {
+        data: "createdAt",
+        title: '<i class="fa fa-clock-o" aria-hidden="true"></i> Created at',
+        render: function(val, type, doc) {
+            if (val instanceof Date) {
+                return moment(val).calendar() + " -- " + val;
+            } else {
+                return "Never";
+            }
+        }
+    }, {
+        title: '<i class="fa fa-tasks" aria-hidden="true"></i> Actions',
+        tmpl: Meteor.isClient && Template.JoinProject
+    }],
+    responsive: true,
+    autoWidth: false
+});
+
+
 // Table of activities
 TabularTables.Activities = new Tabular.Table({
     name: "Activities",

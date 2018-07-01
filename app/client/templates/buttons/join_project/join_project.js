@@ -1,33 +1,26 @@
 /*****************************************************************************/
-/* EditProject: Event Handlers */
+/* JoinProject: Event Handlers */
 /*****************************************************************************/
-
-Template.EditProject.events({
+Template.JoinProject.events({
     'click .edit-project': function() {
         Router.go("projectsViz", this);
     },
-    'click .invite-project': function() {
-        Modal.show('InviteUsersToProject', this);
-    },
-    'click .delete-project': function() {
-        Modal.show('ConfirmProjectDelete', this);
-    }
 });
 
 /*****************************************************************************/
-/* EditProject: Helpers */
+/* JoinProject: Helpers */
 /*****************************************************************************/
-Template.EditProject.helpers({
+Template.JoinProject.helpers({
 });
 
 /*****************************************************************************/
-/* EditProject: Lifecycle Hooks */
+/* JoinProject: Lifecycle Hooks */
 /*****************************************************************************/
-Template.EditProject.onCreated(function () {
+Template.JoinProject.onCreated(function () {
 });
 
-Template.EditProject.onRendered(function () {
+Template.JoinProject.onRendered(function () {
 });
 
-Template.EditProject.onDestroyed(function () {
+Template.JoinProject.onDestroyed(function () {
 });

@@ -18,6 +18,7 @@ import { ActivityElements } from '../../../../lib/collections/activity_elements
 import { Flows } from '../../../../lib/collections/flows.js';
 import { Contradictions } from '../../../../lib/collections/contradictions.js';
 import { Settings } from '../../../../lib/collections/settings.js';
+
 /*****************************************************************************/
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
@@ -999,7 +1000,6 @@ Template.ProjectsViz.onRendered(function() {
 
         // Draw the contradictions
         // TODO: primary contradictions as self-loop
-        // 
         var contradictionsGroup = sectionsSVG.append("g");
         for (contradiction in thisUpdatedProject.contradictions) {
             // Get the ids of the nodes in the flow

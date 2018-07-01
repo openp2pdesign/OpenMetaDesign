@@ -1,0 +1,21 @@
+<template name="InviteUsersToProject">
+  <div class="invite-users-to-project">
+      <div class="modal fade">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                      <h2 class="modal-title">{{_ "invite_users"}}</h2>
+                  </div>
+                  <div class="modal-body">
+                      {{> inputAutocomplete settings=autocompleteSettingsUser id="invite-users-autocomplete" class="input-xlarge form-control" placeholder="..." }}
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-info" data-dismiss="modal" id="cancel">{{_ "cancel"}}</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirm">{{_ "confirm"}}</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
