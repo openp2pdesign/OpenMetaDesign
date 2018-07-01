@@ -12,6 +12,7 @@ import { Discussions } from '../lib/collections/discussions.js';
 import { ProjectStats } from '../lib/collections/projectstats.js';
 import { EditStats } from '../lib/collections/editstats.js';
 import { CommentStats } from '../lib/collections/commentstats.js';
+import { InvitedUsersToProjects } from '../lib/collections/invited_users_to_projects.js';
 let diff = require('deep-diff');
 
 // A function that resample stats
@@ -448,6 +449,12 @@ Meteor.methods({
             }, ]
         };
         NewProjectStats = ProjectStats.insert(firstStatData);
+        // Add the document for storing the invited users to this project
+        var firstInvitedUsers = {
+            "projectId": projectId,
+        }
+        NewProjectInvitedUsers = InvitedUsersToProjects.insert(firstInvitedUsers);
+        // Return the project id
         return projectId;
     },
     'deleteProject': function(projectId) {
@@ -481,6 +488,9 @@ Meteor.methods({
                 "projectId": projectId
             });
             CommentStats.remove({
+                "projectId": projectId
+            });
+            InvitedUsersToProjects.remove({
                 "projectId": projectId
             });
         } else {
@@ -1525,5 +1535,23 @@ Meteor.methods({
                 });
             }
         }
+    },
+    'updateInvitedUsersToProject': function(projectId, users) {
+        // Apply changes by updating the document
+        InvitedUsersToProjects.update({
+            'projectId': projectId
+        }, {
+            $set: users
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", "Error", error.reason, "while updating invited users in project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Invited users updated in project", projectId, "successfully.");
+                // Return
+                return "success";
+            }
+        });
     },
 });

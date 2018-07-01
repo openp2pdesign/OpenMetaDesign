@@ -5,11 +5,11 @@ import SimpleSchema from 'simpl-schema';
 SimpleSchema.debug = true;
 
 // Collection of Projects where users are invited
-export const InvitedProjects = new Mongo.Collection('invited_projects');
+export const InvitedUsersToProjects = new Mongo.Collection('invited_projects');
 
 
 if (Meteor.isServer) {
-  InvitedProjects.allow({
+  InvitedUsersToProjects.allow({
     insert: function (userId, doc) {
       return false;
     },
@@ -23,7 +23,7 @@ if (Meteor.isServer) {
     }
   });
 
-  InvitedProjects.deny({
+  InvitedUsersToProjects.deny({
     insert: function (userId, doc) {
       return true;
     },
@@ -45,6 +45,7 @@ InvitedUsersSchema = new SimpleSchema({
     },
     users: {
         type: Array,
+        optional: true
     },
     'users.$': {
         type: Object,
@@ -53,4 +54,4 @@ InvitedUsersSchema = new SimpleSchema({
 });
 
 // Attach the InvitedUsersSchema to the Flows collection
-InvitedProjects.attachSchema(InvitedUsersSchema);
+InvitedUsersToProjects.attachSchema(InvitedUsersSchema);

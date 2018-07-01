@@ -27,7 +27,50 @@ Template.InviteUsersToProject.events({
                     newInvitedUsersArray.splice(element,1);
                 }
             }
-            console.log("Invited:", newInvitedUsersArray);
+            // Update the document
+            Meteor.call("updateInvitedUsersToProject", this._id, newInvitedUsersArray, function(error, result) {
+                if (error) {
+                    var errorNotice = new PNotify({
+                        type: 'error',
+                        title: 'Error',
+                        text: 'There was an error in inviting users',
+                        icon: 'fa fa-user-plus',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
+                    errorNotice.get().click(function() {
+                        errorNotice.remove();
+                    });
+                } else {
+                    var successNotice = new PNotify({
+                        type: 'success',
+                        title: 'Success',
+                        text: 'Users successfully invited.',
+                        icon: 'fa fa-user-plus',
+                        addclass: 'pnotify stack-topright',
+                        animate: {
+                            animate: true,
+                            in_class: 'slideInDown',
+                            out_class: 'slideOutUp'
+                        },
+                        buttons: {
+                            closer: true,
+                            sticker: false
+                        }
+                    });
+                    successNotice.get().click(function() {
+                        successNotice.remove();
+                    });
+                }
+            });
         }
 });
 
