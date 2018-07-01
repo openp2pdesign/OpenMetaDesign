@@ -14,6 +14,7 @@ Template.UserPill.helpers({
 /* UserPill: Lifecycle Hooks */
 /*****************************************************************************/
 Template.UserPill.onCreated(function () {
+    Meteor.subscribe("usersList");
 });
 
 Template.UserPill.onRendered(function () {
