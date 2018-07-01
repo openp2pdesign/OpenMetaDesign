@@ -73,8 +73,10 @@ Template.InviteUsersToProject.events({
 /*****************************************************************************/
 Template.InviteUsersToProject.helpers({
     data: function() {
-        var thisDoc = InvitedUsersToProjects.findOne({ 'projectId' : this._id });
-        return thisDoc;
+        if ( Meteor.subscribe("invitedUsersToProjects").ready()) {
+            var thisDoc = InvitedUsersToProjects.findOne({ 'projectId' : thisProjectID });
+            return thisDoc;
+        }
     },
     allUsers: function() {
         return Meteor.users.find().fetch();
@@ -85,8 +87,8 @@ Template.InviteUsersToProject.helpers({
 /* InviteUsersToProject: Lifecycle Hooks */
 /*****************************************************************************/
 Template.InviteUsersToProject.onCreated(function () {
-    Meteor.subscribe("invitedUsersToProjects");
     Meteor.subscribe("usersList");
+    thisProjectID = this.data._id;
 });
 
 Template.InviteUsersToProject.onRendered(function () {

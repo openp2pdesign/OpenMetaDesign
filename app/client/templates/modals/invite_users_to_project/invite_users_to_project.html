@@ -10,11 +10,13 @@
                   <div class="modal-body">
                       {{#with allUsers}}
                         <select class="select2-dropdown" name="states[]" multiple="multiple" id="new-users-invited">
-                            <!-- data-option={{data.firstNode}} -->
-                            <option
-                             data-icon="fa fa-user">
-                                text
-                            </option>
+                            {{#with data}}
+                                {{#each users}}
+                                    <option data-option={{userId}} data-icon="fa fa-user">
+                                        {{username}}
+                                    </option>
+                                {{/each}}
+                            {{/with}}
                             {{#each allUsers}}
                                 <option data-option={{_id}} data-icon="fa fa-user">
                                     {{username}}
