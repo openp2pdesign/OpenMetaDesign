@@ -27,68 +27,61 @@ Template.ProjectsViz.events({
         event.preventDefault();
         var thisID = $(event.currentTarget).attr("id");
         thisID = thisID.replace("html-edit-button-", "");
-        console.log(thisID);
+        // Check the data embedded in the button
+        item = event.currentTarget.outerHTML;
+        dataFieldMode = $(item).attr("data-mode");
+        dataFieldID = $(item).attr("data-id");
 
-        event.path.map(function(item) {
-
-            // Check the data embedded in the button
-            dataFieldMode = $(item).attr("data-mode");
-            dataFieldID = $(item).attr("data-id");
-
-            if (dataFieldMode == "edit") {
-                // Edit button
-                Modal.show('EditHtml', function() {
-                    return {
-                        "project": thisProject._id,
-                        "field": dataFieldID,
-                        "mode": "edit"
-                    }
-                });
-            } else if (dataFieldMode == "discuss") {
-                // Set the session variable for the discussion
-                Session.set('discussionToShow', thisProject._id + "-" + dataFieldID);
-                // Discuss button
-                Modal.show('DiscussHtml', function() {
-                    return {
-                        "project": thisProject._id,
-                        "field": dataFieldID,
-                        "mode": "discuss"
-                    }
-                });
-            }
-        });
+        if (dataFieldMode == "edit") {
+            // Edit button
+            Modal.show('EditHtml', function() {
+                return {
+                    "project": thisProject._id,
+                    "field": dataFieldID,
+                    "mode": "edit"
+                }
+            });
+        } else if (dataFieldMode == "discuss") {
+            // Set the session variable for the discussion
+            Session.set('discussionToShow', thisProject._id + "-" + dataFieldID);
+            // Discuss button
+            Modal.show('DiscussHtml', function() {
+                return {
+                    "project": thisProject._id,
+                    "field": dataFieldID,
+                    "mode": "discuss"
+                }
+            });
+        }
     },
     'click .activity-button': function(event) {
         event.preventDefault();
-
-        event.path.map(function(item) {
-            // Check the data embedded in the button
-            dataActivityMode = $(item).attr("data-activity-mode");
-            dataProcessId = $(item).attr("data-process-id");
-            dataActivityId = $(item).attr("data-activity-id");
-
-            if (dataActivityMode == "edit") {
-                // Edit button
-                Modal.show('Activity', function() {
-                    return {
-                        "project": thisProject._id,
-                        "process": dataProcessId,
-                        "activity": dataActivityId,
-                        "mode": "edit"
-                    }
-                });
-            } else if (dataActivityMode == "add") {
-                // Add button
-                Modal.show('Activity', function() {
-                    return {
-                        "project": thisProject._id,
-                        "process": dataProcessId,
-                        "activity": dataActivityId,
-                        "mode": "add"
-                    }
-                });
-            }
-        });
+        // Check the data embedded in the button
+        item = event.currentTarget.outerHTML;
+        dataActivityMode = $(item).attr("data-activity-mode");
+        dataProcessId = $(item).attr("data-process-id");
+        dataActivityId = $(item).attr("data-activity-id");
+        if (dataActivityMode == "edit") {
+            // Edit button
+            Modal.show('Activity', function() {
+                return {
+                    "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "edit"
+                }
+            });
+        } else if (dataActivityMode == "add") {
+            // Add button
+            Modal.show('Activity', function() {
+                return {
+                    "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "add"
+                }
+            });
+        }
     },
     'click .discuss-button': function(event) {
         event.preventDefault();
@@ -104,20 +97,18 @@ Template.ProjectsViz.events({
     },
     'click .delete-button': function(event) {
         event.preventDefault();
-
-        event.path.map(function(item) {
-            // Check the data embedded in the button
-            dataActivityId = $(item).attr("data-activity-id");
-            // If there's an activity id, delete it
-            if (dataActivityId) {
-                Modal.show('ActivityDelete', function(event) {
-                    return {
-                        "project": thisProject._id,
-                        "activity": dataActivityId
-                    }
-                });
-            }
-        });
+        // Check the data embedded in the button
+        item = event.currentTarget.outerHTML;
+        dataActivityId = $(item).attr("data-activity-id");
+        // If there's an activity id, delete it
+        if (dataActivityId) {
+            Modal.show('ActivityDelete', function(event) {
+                return {
+                    "project": thisProject._id,
+                    "activity": dataActivityId
+                }
+            });
+        }
     },
     'click .activities-without-location': function(event) {
         event.preventDefault();
@@ -137,7 +128,9 @@ Template.ProjectsViz.events({
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
         event.preventDefault();
-        var thisFlow = Flows.findOne({ '_id': event.currentTarget.id });
+        var thisFlow = Flows.findOne({
+            '_id': event.currentTarget.id
+        });
         // Launch modal
         Modal.show('Flow', function() {
             return {
@@ -150,7 +143,9 @@ Template.ProjectsViz.events({
     // Show the div that enable the edit of contradictions
     'click .edit-contradiction': function(event, template) {
         event.preventDefault();
-        var thisContradiction = Contradictions.findOne({ '_id': event.currentTarget.id });
+        var thisContradiction = Contradictions.findOne({
+            '_id': event.currentTarget.id
+        });
         // Launch modal
         Modal.show('Contradiction', function() {
             return {
@@ -436,25 +431,25 @@ Template.ProjectsViz.onRendered(function() {
         // Add the rect between the circles
         button.append("rect")
             .attr("x", x)
-            .attr("y", y-radius)
+            .attr("y", y - radius)
             .attr("width", buttonWidth)
-            .attr("height", radius*2);
+            .attr("height", radius * 2);
         // Add the last circle
         button.append("circle")
-            .attr("cx", x+buttonWidth)
+            .attr("cx", x + buttonWidth)
             .attr("cy", y)
             .attr("r", radius);
         // Add the activity number
         button.append('text')
-            .attr("x", x+radius/2)
+            .attr("x", x + radius / 2)
             .attr("y", y)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "central")
             .style("font-size", radius.toString() + "px")
-            .text("#"+number);
+            .text("#" + number);
         // Add the icon
         button.append('text')
-            .attr("x", x+buttonWidth)
+            .attr("x", x + buttonWidth)
             .attr("y", y)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "central")
@@ -528,7 +523,7 @@ Template.ProjectsViz.onRendered(function() {
         var activityTimelineWidth = 15;
         var radius = 10;
         var buttonWidth = radius + activityData.number.toString().length * radius;
-        var fullButtonWidth = buttonWidth+radius*2;
+        var fullButtonWidth = buttonWidth + radius * 2;
         var activityIconContainerWidth = 60;
         var activityIconContainerHeight = 85;
 
@@ -597,19 +592,50 @@ Template.ProjectsViz.onRendered(function() {
             .style("stroke", "#8f8f8f");
         // Add the activity icon
         var activityIcon = loadSVG("../as_full_nolabel_small.svg", activityIconContainer);
-        var activityIconSize = { width: 55, height: 50};
-        var centerHorizontalPadding = (activityIconContainerWidth-activityIconSize.width)/2;
+        var activityIconSize = {
+            width: 55,
+            height: 50
+        };
+        var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
         // Move it to x and y, and a 5 vertical padding from top
-        activityIcon.attr("transform", "translate("+(x+centerHorizontalPadding)+","+(y+5)+")");
+        activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
         //Find centers of activity elements
         activity.activityElementsCenters = {
-            subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18, title: "Subject"},
-            object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2, title: "Object"},
-            outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2, title: "Outcome"},
-            tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18, title: "Tools"},
-            rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2, title: "Rules"},
-            roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18, title: "Roles"},
-            community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18, title: "Community"},
+            subject: {
+                x: 15 + (x + activityIconContainerWidth / 2) - 10,
+                y: (y + 5 + activityIconSize.height / 2) - 18,
+                title: "Subject"
+            },
+            object: {
+                x: 15 + (x + activityIconContainerWidth / 2) + 20,
+                y: y + 5 + activityIconSize.height / 2,
+                title: "Object"
+            },
+            outcome: {
+                x: 15 + x + activityIconContainerWidth / 2,
+                y: y + 5 + activityIconSize.height / 2,
+                title: "Outcome"
+            },
+            tools: {
+                x: 15 + (x + activityIconContainerWidth / 2) + 10,
+                y: (y + 5 + activityIconSize.height / 2) - 18,
+                title: "Tools"
+            },
+            rules: {
+                x: 15 + (x + activityIconContainerWidth / 2) - 20,
+                y: y + 5 + activityIconSize.height / 2,
+                title: "Rules"
+            },
+            roles: {
+                x: 15 + (x + activityIconContainerWidth / 2) - 10,
+                y: (y + 5 + activityIconSize.height / 2) + 18,
+                title: "Roles"
+            },
+            community: {
+                x: 15 + (x + activityIconContainerWidth / 2) + 10,
+                y: (y + 5 + activityIconSize.height / 2) + 18,
+                title: "Community"
+            },
         }
         // Add activity ID data
         activity.id = activityData.id;
@@ -635,10 +661,10 @@ Template.ProjectsViz.onRendered(function() {
             .attr("data-activity-id", activityData.id)
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
-            .attr("transform", "translate("+(fullButtonWidth/2)+","+(activityIconContainerHeight-radius*1.5)+")")
+            .attr("transform", "translate(" + (fullButtonWidth / 2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
             .attr("data-toggle", "tooltip");
         // Move the whole activityIconContainer after the participation level
-        activityIconContainer.attr("transform", "translate("+activityTimelineWidth+",0)")
+        activityIconContainer.attr("transform", "translate(" + activityTimelineWidth + ",0)")
         // Add a margin for the whole activity from the separator lines
         activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
 
@@ -654,7 +680,7 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("filter", null);
             })
             // Hide / show the activity icon on click
-            .on("click", function(){
+            .on("click", function() {
                 // if (activityIconContainer.style("display") === "inline") {
                 //     activityIconContainer.style("display", "none");
                 //     //Update centers of activity elements
@@ -912,7 +938,7 @@ Template.ProjectsViz.onRendered(function() {
                 // For flows and issues: add 5 to x (the borders of the rects)
                 for (i in thisActivity.activityElementsCenters) {
                     sectionsSVG.append("circle")
-                        .attr("cx", thisActivity.activityElementsCenters[i].x+4)
+                        .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
                         .attr("cy", thisActivity.activityElementsCenters[i].y)
                         .attr("fill", "green")
                         .attr("r", 0);
@@ -940,25 +966,37 @@ Template.ProjectsViz.onRendered(function() {
             var flowColor = "#73f17b";
             var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
             thisFlow.append("circle")
-                .attr("cx", firstNodeCenter.x+4)
+                .attr("cx", firstNodeCenter.x + 4)
                 .attr("cy", firstNodeCenter.y)
                 .attr("fill", flowColor)
                 .attr("r", 3);
             thisFlow.append("circle")
-                .attr("cx", secondNodeCenter.x+4)
+                .attr("cx", secondNodeCenter.x + 4)
                 .attr("cy", secondNodeCenter.y)
                 .attr("fill", flowColor)
                 .attr("r", 3);
             // Line
             var line = d3.line()
-                .x(function(d) { return d.x; })
-                .y(function(d) { return d.y; })
+                .x(function(d) {
+                    return d.x;
+                })
+                .y(function(d) {
+                    return d.y;
+                })
                 .curve(d3.curveBasis);
             // TODO: calculate the points...
-            var points = [
-                {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
-                {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+            var points = [{
+                    x: firstNodeCenter.x + 4,
+                    y: firstNodeCenter.y
+                },
+                {
+                    x: secondNodeCenter.x + 4,
+                    y: firstNodeCenter.y
+                },
+                {
+                    x: secondNodeCenter.x + 4,
+                    y: secondNodeCenter.y
+                },
             ];
             // Add the path as the flow viz
             var pathData = line(points);
@@ -971,7 +1009,7 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("stroke-width", 2)
                 .attr("fill", "none");
             // Add an icon in the middle of the path
-            var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength()*0.5);
+            var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
             var flowVizMidPoint = thisFlow.append("circle")
                 .attr("fill", flowColor)
                 .attr("r", 8)
@@ -1012,9 +1050,13 @@ Template.ProjectsViz.onRendered(function() {
             firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
             secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
             // Get the first activity element
-            var firstActivityElement = ActivityElements.findOne({'_id': firstNode});
+            var firstActivityElement = ActivityElements.findOne({
+                '_id': firstNode
+            });
             // Get the second activity element
-            var secondActivityElement = ActivityElements.findOne({'_id': secondNode});
+            var secondActivityElement = ActivityElements.findOne({
+                '_id': secondNode
+            });
             // Get the activity center of the node in the flow
             var firstNodeCenter;
             var secondNodeCenter;
@@ -1033,48 +1075,87 @@ Template.ProjectsViz.onRendered(function() {
             var contradictionColor = "#63dfff";
             var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
             thisContradiction.append("circle")
-                .attr("cx", firstNodeCenter.x+4)
+                .attr("cx", firstNodeCenter.x + 4)
                 .attr("cy", firstNodeCenter.y)
                 .attr("fill", contradictionColor)
                 .attr("r", 3);
             thisContradiction.append("circle")
-                .attr("cx", secondNodeCenter.x+4)
+                .attr("cx", secondNodeCenter.x + 4)
                 .attr("cy", secondNodeCenter.y)
                 .attr("fill", contradictionColor)
                 .attr("r", 3);
             // Line
             var line = d3.line()
-                .x(function(d) { return d.x; })
-                .y(function(d) { return d.y; })
+                .x(function(d) {
+                    return d.x;
+                })
+                .y(function(d) {
+                    return d.y;
+                })
                 .curve(d3.curveBasis);
             // Calculate the points...
             var points = [];
             // Define curve according to the contradiction levels
             if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
                 // Primary contradictions as self-loop
-                points = [
-                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x, y: firstNodeCenter.y-20},
-                    {x: secondNodeCenter.x+8, y: firstNodeCenter.y-20},
-                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                points = [{
+                        x: firstNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x,
+                        y: firstNodeCenter.y - 20
+                    },
+                    {
+                        x: secondNodeCenter.x + 8,
+                        y: firstNodeCenter.y - 20
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: secondNodeCenter.y
+                    },
                 ];
             } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
-                points = [
-                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+8, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                points = [{
+                        x: firstNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 8,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: secondNodeCenter.y
+                    },
                 ];
             } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
-                points = [
-                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                points = [{
+                        x: firstNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: secondNodeCenter.y
+                    },
                 ];
             } else if (thisUpdatedProject.contradictions[contradiction].level === "quaternary") {
-                points = [
-                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                points = [{
+                        x: firstNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: firstNodeCenter.y
+                    },
+                    {
+                        x: secondNodeCenter.x + 4,
+                        y: secondNodeCenter.y
+                    },
                 ];
             }
             // Add the path as the flow viz
@@ -1090,9 +1171,12 @@ Template.ProjectsViz.onRendered(function() {
             // Add an icon in the middle of the path
             var pathMidPoint = {};
             if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
-                pathMidPoint = {x: secondNodeCenter.x+4, y: firstNodeCenter.y-20};
+                pathMidPoint = {
+                    x: secondNodeCenter.x + 4,
+                    y: firstNodeCenter.y - 20
+                };
             } else {
-                pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength()*0.5);
+                pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength() * 0.5);
             }
             var contradictionVizMidPoint = thisContradiction.append("circle")
                 .attr("fill", contradictionColor)
