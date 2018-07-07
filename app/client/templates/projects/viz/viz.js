@@ -1006,7 +1006,6 @@ Template.ProjectsViz.onRendered(function() {
         }
 
         // Draw the contradictions
-        // TODO: primary contradictions as self-loop
         var contradictionsGroup = sectionsSVG.append("g");
         for (contradiction in thisUpdatedProject.contradictions) {
             // Get the ids of the nodes in the flow
@@ -1048,12 +1047,36 @@ Template.ProjectsViz.onRendered(function() {
                 .x(function(d) { return d.x; })
                 .y(function(d) { return d.y; })
                 .curve(d3.curveBasis);
-            // TODO: calculate the points...
-            var points = [
-                {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
-                {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
-            ];
+            // Calculate the points...
+            var points = [];
+            // Define curve according to the contradiction levels
+            if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
+                // Primary contradictions as self-loop
+                points = [
+                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x, y: firstNodeCenter.y-20},
+                    {x: secondNodeCenter.x+8, y: firstNodeCenter.y-20},
+                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                ];
+            } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
+                points = [
+                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                ];
+            } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
+                points = [
+                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                ];
+            } else if (thisUpdatedProject.contradictions[contradiction].level === "quaternary") {
+                points = [
+                    {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
+                ];
+            }
             // Add the path as the flow viz
             var pathData = line(points);
             var contradictionViz = thisContradiction.selectAll('path')
@@ -1065,7 +1088,12 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("stroke-width", 2)
                 .attr("fill", "none");
             // Add an icon in the middle of the path
-            var pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength()*0.5);
+            var pathMidPoint = {};
+            if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
+                pathMidPoint = {x: secondNodeCenter.x+4, y: firstNodeCenter.y-20};
+            } else {
+                pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength()*0.5);
+            }
             var contradictionVizMidPoint = thisContradiction.append("circle")
                 .attr("fill", contradictionColor)
                 .attr("r", 8)
