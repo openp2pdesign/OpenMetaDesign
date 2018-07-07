@@ -39,6 +39,11 @@ AccountsTemplates.addFields([{
     type: 'text',
     displayName: "Avatar",
     type: 'hidden'
+}, {
+    _id: 'avatar_large',
+    type: 'text',
+    displayName: "Avatar (large image)",
+    type: 'hidden'
 }]);
 
 var onSubmitFunc = function(error, state) {
@@ -54,11 +59,16 @@ var onSubmitFunc = function(error, state) {
           size: 34,
           default: 'mm'
       });
+      var avatarUrlLarge = Gravatar.imageUrl(Meteor.user().emails[0].address, {
+          size: 200,
+          default: 'mm'
+      });
       Meteor.users.update({
           _id: Meteor.user()._id
       }, {
           $set: {
-              "profile.avatar": avatarUrl
+              "profile.avatar": avatarUrl,
+              "profile.avatar_large": avatarUrlLarge,
           }
       });
     }

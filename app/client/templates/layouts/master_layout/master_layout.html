@@ -22,6 +22,11 @@
                     </li>
                     {{#if currentUser}}
                         <li>
+                            {{#with currentUserData}}
+                                <img src={{profile.avatar_large}} />
+                            {{/with}}
+                        </li>   
+                        <li>
                             {{#linkTo route="Login"}}
                                 <i class="fa fa-user"></i>
                                 {{_ "me"}}
@@ -49,12 +54,12 @@
                             </li>
                         {{/if}}
                         <li>
-                            {{> I18nDropdown}}
-                        </li>
-                        <li>
                             <a href="https://github.com/openp2pdesign/OpenMetaDesign">
                                 <i class="fa fa-github"></i> {{_ "source"}}
                             </a>
+                        </li>
+                        <li>
+                            {{> I18nDropdown}}
                         </li>
                         <li id="signout">
                             <a href="#">

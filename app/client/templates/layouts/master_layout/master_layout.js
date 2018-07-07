@@ -10,7 +10,11 @@ var myStack = {
     "push": "top"
 };
 
-Template.MasterLayout.helpers({});
+Template.MasterLayout.helpers({
+    currentUserData: function() {
+        return Meteor.user();
+    },
+});
 
 Template.MasterLayout.events({
     'click #signout': function(event) {
