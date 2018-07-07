@@ -13,7 +13,7 @@ import { InvitedUsersToProjects } from '../../../../lib/collections/invited_user
 /* InviteUsersToProject: Event Handlers */
 /*****************************************************************************/
 Template.InviteUsersToProject.events({
-        'click #confirm': function() {
+        'click #confirm': function(event) {
             event.preventDefault();
             // Get the data from the form
             var newInvitedUsersValues = $('#new-users-invited').select2('data');

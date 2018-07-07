@@ -23,10 +23,14 @@ import { Settings } from '../../../../lib/collections/settings.js';
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
 Template.ProjectsViz.events({
-    'click .html-edit-button': function() {
+    'click .html-edit-button': function(event) {
         event.preventDefault();
+        var thisID = $(event.currentTarget).attr("id");
+        thisID = thisID.replace("html-edit-button-", "");
+        console.log(thisID);
 
         event.path.map(function(item) {
+
             // Check the data embedded in the button
             dataFieldMode = $(item).attr("data-mode");
             dataFieldID = $(item).attr("data-id");
@@ -54,7 +58,7 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click .activity-button': function() {
+    'click .activity-button': function(event) {
         event.preventDefault();
 
         event.path.map(function(item) {
@@ -86,19 +90,19 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click .discuss-button': function() {
+    'click .discuss-button': function(event) {
         event.preventDefault();
         Modal.show('ActivityDiscuss');
     },
-    'click .flows-button': function() {
+    'click .flows-button': function(event) {
         event.preventDefault();
         Modal.show('ActivityFlows');
     },
-    'click .issues-button': function() {
+    'click .issues-button': function(event) {
         event.preventDefault();
         Modal.show('ActivityIssues');
     },
-    'click .delete-button': function() {
+    'click .delete-button': function(event) {
         event.preventDefault();
 
         event.path.map(function(item) {
@@ -106,7 +110,7 @@ Template.ProjectsViz.events({
             dataActivityId = $(item).attr("data-activity-id");
             // If there's an activity id, delete it
             if (dataActivityId) {
-                Modal.show('ActivityDelete', function() {
+                Modal.show('ActivityDelete', function(event) {
                     return {
                         "project": thisProject._id,
                         "activity": dataActivityId
@@ -115,12 +119,13 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click .activities-without-location': function() {
+    'click .activities-without-location': function(event) {
+        event.preventDefault();
         var thisActivityId = event.target.getAttribute('data-id');
         var thisActivityData = Activities.findOne({
             '_id': thisActivityId
         });
-        Modal.show('Activity', function() {
+        Modal.show('Activity', function(event) {
             return {
                 "project": thisProject._id,
                 "process": thisActivityData.processId,

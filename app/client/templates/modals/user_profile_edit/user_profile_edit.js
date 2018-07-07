@@ -17,9 +17,7 @@ Template.UserProfileEdit.events({
         var newEmail = $('#new-email').val();
         var newBio = $('#new-bio').val();
 
-
         // Validate and save new data
-
         if ((newFirstName) && (newFirstName != Meteor.user().profile.firstName)) {
             Meteor.call('updateUserFirstName', this._id, newFirstName);
 

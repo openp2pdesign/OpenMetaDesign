@@ -1560,7 +1560,7 @@ Meteor.methods({
                 console.log(error);
                 return "error";
             } else {
-                console.log("Invited users updated in project", projectId, "successfully.");
+                console.log("Invited users to project", projectId, "updated successfully.");
                 // Return
                 return "success";
             }
