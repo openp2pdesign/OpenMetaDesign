@@ -44,11 +44,19 @@
 
 .navbar-fixed-bottom
 {
-    padding: 10px;
     height: 10px;
+    padding: 10px;
     text-align: center;
     border-top: 1px solid #d5d5d5;
     background-color: #f1f1f1;
+}
+
+/* Vertical alignment of the avatar image in the navbar */
+.navbar-nav li
+{
+    display: inline-block;
+    float: none;
+    vertical-align: middle;
 }
 
 .compulsory
@@ -74,6 +82,7 @@ body
 }
 
 /* Fix a select2 width issue */
-.select2-dropdown {
+.select2-dropdown
+{
     width: 100px !important;
 }

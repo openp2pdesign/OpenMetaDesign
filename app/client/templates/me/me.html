@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-2">
                 {{#with currentUserData}}
-                    <img src={{profile.avatar_large}} />
+                    <img src={{profile.avatar_large}} class="img-rounded img-responsive"/>
                 {{/with}}
             </div>
             <div class="col-lg-8">
@@ -47,6 +47,13 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
+                        <a href="http://en.gravatar.com/" target="_blank">
+                            <button type="button" class="btn btn-sm btn-primary change-avatar"><i class="fa fa-user" aria-hidden="true"></i> {{_ "change_my_avatar_on_gravatar"}}</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
                         <button type="button" class="btn btn-sm btn-warning change-password"><i class="fa fa-trash" aria-hidden="true"></i> {{_ "change_my_password"}}</button>
                     </div>
                 </div>
@@ -55,6 +62,13 @@
         <div class="row">
             <div class="col-lg-12">
                 {{> ProjectsList}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="https://github.com/openp2pdesign/OpenMetaDesign">
+                    <i class="fa fa-github"></i> {{_ "source"}}
+                </a>
             </div>
         </div>
     </div>

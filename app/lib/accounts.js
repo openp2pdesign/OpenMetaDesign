@@ -57,12 +57,13 @@ var onSubmitFunc = function(error, state) {
       // Add the avatar as a Gravatar from the main e-mail
       var avatarUrl = Gravatar.imageUrl(Meteor.user().emails[0].address, {
           size: 34,
-          default: 'mm'
+          default: 'identicon'
       });
       var avatarUrlLarge = Gravatar.imageUrl(Meteor.user().emails[0].address, {
           size: 200,
-          default: 'mm'
+          default: 'identicon'
       });
+      // Update the user information
       Meteor.users.update({
           _id: Meteor.user()._id
       }, {

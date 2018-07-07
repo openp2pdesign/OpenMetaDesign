@@ -14,24 +14,15 @@
             </div>
             <div class="collapse navbar-collapse" id="navigationbar">
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="home">
-                        {{#linkTo route="home"}}
-                            <i class="fa fa-home"></i>
-                            {{_ "home"}}
-                        {{/linkTo}}
-                    </li>
                     {{#if currentUser}}
                         <li>
-                            {{#with currentUserData}}
-                                <img src={{profile.avatar_large}} />
-                            {{/with}}
-                        </li>   
-                        <li>
                             {{#linkTo route="Login"}}
-                                <i class="fa fa-user"></i>
-                                {{_ "me"}}
+                                {{#with currentUserData}}
+                                    <img src={{profile.avatar}} class="img-circle" /> {{_ "me"}}
+                                {{/with}}
                             {{/linkTo}}
                         </li>
+                        <!--
                         <li>
                             {{#linkTo route="projectsList"}}
                                 <i class="fa fa-cubes"></i>
@@ -45,6 +36,7 @@
                                 {{_ "new_project"}}
                             {{/linkTo}}
                         </li>
+                        -->
                         {{#if isInRole 'admin'}}
                             <li>
                                 {{#linkTo route="admin"}}
@@ -53,14 +45,11 @@
                                 {{/linkTo}}
                             </li>
                         {{/if}}
-                        <li>
-                            <a href="https://github.com/openp2pdesign/OpenMetaDesign">
-                                <i class="fa fa-github"></i> {{_ "source"}}
-                            </a>
-                        </li>
+                        <!--
                         <li>
                             {{> I18nDropdown}}
                         </li>
+                        -->
                         <li id="signout">
                             <a href="#">
                                 <i class="fa fa-sign-out"></i>
