@@ -1061,7 +1061,7 @@ Template.ProjectsViz.onRendered(function() {
             } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
                 points = [
                     {x: firstNodeCenter.x+4, y: firstNodeCenter.y},
-                    {x: secondNodeCenter.x+4, y: firstNodeCenter.y},
+                    {x: secondNodeCenter.x+8, y: firstNodeCenter.y},
                     {x: secondNodeCenter.x+4, y: secondNodeCenter.y},
                 ];
             } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
