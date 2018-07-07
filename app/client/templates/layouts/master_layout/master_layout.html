@@ -51,6 +51,11 @@
                         <li>
                             {{> I18nDropdown}}
                         </li>
+                        <li>
+                            <a href="https://github.com/openp2pdesign/OpenMetaDesign">
+                                <i class="fa fa-github"></i> {{_ "source"}}
+                            </a>
+                        </li>
                         <li id="signout">
                             <a href="#">
                                 <i class="fa fa-sign-out"></i>
@@ -72,7 +77,7 @@
     <div class="main container">
         {{> yield}}
     </div>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
+    <!-- <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4">
@@ -82,9 +87,11 @@
                     {{_ "social"}}
                 </div>
                 <div class="col-sm-4">
-                    {{_ "source"}}
+                    <a href="https://github.com/openp2pdesign/OpenMetaDesign">
+                        <i class="fa fa-github"></i> {{_ "source"}}
+                    </a>
                 </div>
             </div>
         </div>
-    </nav>
+    </nav> -->
 </template>

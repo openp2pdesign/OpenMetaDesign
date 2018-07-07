@@ -11,7 +11,6 @@
 .navbar
 {
     z-index: 10;
-
     background-color: #fff;
 }
 
@@ -45,8 +44,9 @@
 
 .navbar-fixed-bottom
 {
-    height: 80px;
-
+    padding: 10px;
+    height: 10px;
+    text-align: center;
     border-top: 1px solid #d5d5d5;
     background-color: #f1f1f1;
 }
@@ -54,7 +54,6 @@
 .compulsory
 {
     font-weight: bold;
-
     color: red;
 }
 
