@@ -1,4 +1,4 @@
-# OpenMetaDesign
+![app/public/logo/OMD_logo_large.svg](app/public/logo/OMD_logo_large.png)
 
 A platform for the collaborative design and discussion of collaborative design processes.
 
