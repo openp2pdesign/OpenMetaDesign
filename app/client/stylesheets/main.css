@@ -86,3 +86,43 @@ body
 {
     width: 100px !important;
 }
+
+
+/* Open Meta Design logo */
+
+.logoOMD::after {
+    content: "÷÷÷Open Meta Design";
+}
+
+.logoOMD {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 700;
+    color: #000;
+    background: #fff;
+}
+
+
+.navbar-brand.logoOMD {
+    color: #000;
+    background: #fff;
+    -webkit-transition: all 1s ease-in-out;
+       -moz-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+         -o-transition: all 1s ease-in-out;
+}
+
+.navbar-brand.logoOMD:hover {
+    color: #999999;
+    background: #d4d4d4;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -webkit-transition: all 1s ease-in-out;
+       -moz-transition: all 1s ease-in-out;
+        -ms-transition: all 1s ease-in-out;
+         -o-transition: all 1s ease-in-out;
+}
+
+.navbar-brand {
+    font-size: 1.6em;
+}
