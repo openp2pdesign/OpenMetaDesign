@@ -1,17 +1,20 @@
 <template name="Me">
     <div class="me">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 <h1>{{_ "my_profile"}}</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-2">
-                {{#with currentUserData}}
-                    <img src={{profile.avatar_large}} class="img-rounded img-responsive"/>
-                {{/with}}
+            <div class="col-sm-2">
+                        {{#with currentUserData}}
+                            <img src={{profile.avatar_large}} class="img-rounded img-responsive"/>
+                        {{/with}}
+                        <a href="http://en.gravatar.com/" target="_blank">
+                            <button type="button" class="btn btn-sm btn-primary change-avatar"><i class="fa fa-user" aria-hidden="true"></i> {{_ "change_my_avatar"}}</button>
+                        </a>
             </div>
-            <div class="col-lg-8">
+            <div class="col-sm-8">
                 {{#with currentUserData}}
                     <table class="table">
                         <tbody>
@@ -39,33 +42,26 @@
                     </table>
                 {{/with}}
             </div>
-            <div class="col-lg-2">
+            <div class="col-sm-2">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
                         <button type="button" class="btn btn-sm btn-primary edit-user"><i class="fa fa-pencil-square-o"></i> {{_ "edit_my_profile"}}</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
-                        <a href="http://en.gravatar.com/" target="_blank">
-                            <button type="button" class="btn btn-sm btn-primary change-avatar"><i class="fa fa-user" aria-hidden="true"></i> {{_ "change_my_avatar_on_gravatar"}}</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button type="button" class="btn btn-sm btn-warning change-password"><i class="fa fa-trash" aria-hidden="true"></i> {{_ "change_my_password"}}</button>
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-sm btn-warning change-password"><i class="fa fa-unlock" aria-hidden="true"></i> {{_ "change_my_password"}}</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 {{> ProjectsList}}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-12">
                 {{> About}}
             </div>
         </div>
