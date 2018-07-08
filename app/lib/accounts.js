@@ -107,7 +107,7 @@ AccountsTemplates.configure({
 
     // Privacy Policy and Terms of Use
     privacyUrl: 'privacy',
-    termsUrl: 'http://www.google.com', // TODO configure terms url
+    termsUrl: 'tos',
 
     // Redirects
     homeRoutePath: '/',

@@ -2,31 +2,70 @@
     <div class="admin">
         <h1>{{_ "admin"}}</h1>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <h2>{{_ "users"}}</h2>
                 {{> tabular table=TabularTables.Users class="table table-striped table-bordered table-condensed"}}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <h2>{{_ "projects"}}</h2>
                 {{> tabular table=TabularTables.Projects class="table table-striped table-bordered table-condensed"}}
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-sm-12">
                 <h2>{{_ "settings"}}</h2>
+            </div>
+        </div>
+        <!-- Google Maps Geocoding API -->
+        <div class="row">
+            <div class="col-sm-10">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label class="col-lg-2 control-label">Google Maps API Key:</label>
-                            <div class="col-lg-10">
+                            <label class="col-sm-4 control-label">Google Maps Geocoding API Key:</label>
+                            <div class="col-sm-8">
                                 <input class="form-control" type="text" value={{settingsData.GoogleMapsAPIkey}} id="new-google-maps-api-key">
                             </div>
                         </div>
                     </form>
-                    <div>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" id="google-maps-api-key-confirm">{{_ "save_changes"}}</button>
-                    </div>
+            </div>
+            <div class="col-sm-2">
+                <a href="https://developers.google.com/maps/documentation/embed/get-api-key" target="_blank">
+                    <button type="button" class="btn btn-default btn-info" data-dismiss="modal" id="google-maps-api-key-confirm"><i class="fa fa-map-marker"></i> {{_ "get_api_key"}}</button>
+                </a>
+            </div>
+        </div>
+        <!-- Terms of Service -->
+        <div class="row">
+            <div class="col-sm-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terms of Service:</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" class="form-control" type="text" value={{settingsData.TOS}} id="new-tos"></textarea>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+        <!-- Privacy Policy -->
+        <div class="row">
+            <div class="col-sm-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Privacy Policy:</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" class="form-control" type="text" value={{settingsData.privacy}} id="new-privacy"></textarea>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+        <!-- Save Settings -->
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-default btn-primary" data-dismiss="modal" id="save-settings"><i class="fa fa-save"></i> {{_ "save_changes"}}</button>
             </div>
         </div>
     </div>

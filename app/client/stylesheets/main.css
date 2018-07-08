@@ -87,6 +87,9 @@ body
     width: 100px !important;
 }
 
+textarea {
+    resize: vertical;
+}
 
 /* Open Meta Design logo */
 

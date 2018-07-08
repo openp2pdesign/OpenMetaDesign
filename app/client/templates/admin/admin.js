@@ -10,18 +10,20 @@ import { Settings } from '../../../lib/collections/settings.js';
 /* Admin: Event Handlers */
 /*****************************************************************************/
 Template.Admin.events({
-    'click #google-maps-api-key-confirm': function(event) {
+    'click #save-settings': function(event) {
         event.preventDefault();
 
         var newGoogleMapsAPIKey = $('#new-google-maps-api-key').val();
+        var newTOS = $('#new-tos').val();
+        var newPrivacy = $('#new-privacy').val();
 
-        Meteor.call('updateGoogleMapsSettings', newGoogleMapsAPIKey, function(error, result) {
+        Meteor.call('updateSettings', newGoogleMapsAPIKey, newTOS, newPrivacy, function(error, result) {
             if (error) {
                 var errorNotice = new PNotify({
                     type: 'error',
                     title: 'Error',
-                    text: 'There was an error in adding your Google Maps API key',
-                    icon: 'fa fa-key',
+                    text: 'There was an error in updating the settings',
+                    icon: 'fa fa-cogs',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,
@@ -40,8 +42,8 @@ Template.Admin.events({
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
-                    text: 'Google Maps API key successfully added.',
-                    icon: 'fa fa-key',
+                    text: 'Settings successfully updated.',
+                    icon: 'fa fa-cogs',
                     addclass: 'pnotify stack-topright',
                     animate: {
                         animate: true,

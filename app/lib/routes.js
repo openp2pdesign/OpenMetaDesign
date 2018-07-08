@@ -43,6 +43,18 @@ Router.route('me', {
     where: 'client'
 });
 
+// TOS
+Router.route('tos', {
+    name: 'TOSPage',
+    where: 'client'
+});
+
+// TOS
+Router.route('privacy', {
+    name: 'PrivacyPage',
+    where: 'client'
+});
+
 // SignIn
 AccountsTemplates.configureRoute('signIn', {
     name: 'Login',

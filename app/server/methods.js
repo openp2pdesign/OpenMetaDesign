@@ -367,14 +367,16 @@ Meteor.methods({
             }
         });
     },
-    'updateGoogleMapsSettings': function(newkey) {
+    'updateSettings': function(newGoogleMapsAPIKey, newTOS, newPrivacy) {
         // There is only one doc for settings...
         var onlySettingsDoc = Settings.findOne();
         Settings.update({
             '_id': onlySettingsDoc._id
         }, {
             $set: {
-                'GoogleMapsAPIkey': newkey
+                'GoogleMapsAPIkey': newGoogleMapsAPIKey,
+                'TOS': newTOS,
+                'privacy': newPrivacy
             }
         });
     },

@@ -21,8 +21,13 @@ Settings.allow({
 
 SettingsSchema = new SimpleSchema({
     GoogleMapsAPIkey: {
-        type: String,
-        label: "Google Maps API Key"
+        type: String
+    },
+    TOS: {
+        type: String
+    },
+    privacy: {
+        type: String
     }
 });
 

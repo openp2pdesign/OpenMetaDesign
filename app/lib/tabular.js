@@ -50,7 +50,7 @@ TabularTables.Projects = new Tabular.Table({
     pub: "projects",
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
@@ -83,7 +83,7 @@ TabularTables.InvitedProjects = new Tabular.Table({
     pub: "projects",
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
@@ -116,7 +116,7 @@ TabularTables.Activities = new Tabular.Table({
     pub: "tabular_activities",
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "activityData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
@@ -149,7 +149,7 @@ TabularTables.Flows = new Tabular.Table({
     pub: "tabular_flows",
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "flowData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
@@ -182,7 +182,7 @@ TabularTables.Contradictions = new Tabular.Table({
     pub: "tabular_contradictions",
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "contradictionData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
@@ -220,7 +220,7 @@ TabularTables.Discussions = new Tabular.Table({
     }],
     columns: [{
         data: "_id",
-        title: '<i class="fa fa-key" aria-hidden="true"></i> ID'
+        title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
         data: "attachedToDescription",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Element',
