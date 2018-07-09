@@ -63,6 +63,17 @@ Template.FlowView.onRendered(function () {
         return loadedSVG;
     }
 
+    // Get the data
+    thisFlow = Flows.findOne({
+        '_id': thisFlowID
+    });
+    var activityNode1 = Activities.findOne({
+        '_id': thisFlow.flowData.firstNode
+    });
+    var activityNode2 = Activities.findOne({
+        '_id': thisFlow.flowData.secondNode
+    });
+
     // Margins
     // https://bl.ocks.org/mbostock/3019563
     var margin = {
@@ -98,6 +109,34 @@ Template.FlowView.onRendered(function () {
 
     // Visualize the flow in the SVG
     // TODO Number and title of activities
+    svg.append('text')
+        .attr("x", "50")
+        .attr("y", "115")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .text("#" + activityNode1.activityData.number);
+    svg.append('text')
+        .attr("x", "50")
+        .attr("y", "130")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .text(activityNode1.activityData.title);
+    svg.append('text')
+        .attr("x", "250")
+        .attr("y", "115")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .text("#" + activityNode2.activityData.number);
+    svg.append('text')
+        .attr("x", "250")
+        .attr("y", "130")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .text(activityNode2.activityData.title);
     // TODO Arrow (weighted)
     // TODO Type of the flow
     // TODO Resource flowing
