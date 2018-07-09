@@ -25,13 +25,11 @@ import { Settings } from '../../../../lib/collections/settings.js';
 Template.ProjectsViz.events({
     'click .html-edit-button': function(event) {
         event.preventDefault();
-        var thisID = $(event.currentTarget).attr("id");
-        thisID = thisID.replace("html-edit-button-", "");
         // Check the data embedded in the button
-        item = event.currentTarget.outerHTML;
-        dataFieldMode = $(item).attr("data-mode");
-        dataFieldID = $(item).attr("data-id");
-
+        item = event.currentTarget.innerHTML;
+        var itemData = $(item).find('[data-mode]')[0].outerHTML;
+        var dataFieldMode = $(itemData).data("mode");
+        var dataFieldID = $(itemData).data("id");
         if (dataFieldMode == "edit") {
             // Edit button
             Modal.show('EditHtml', function() {
