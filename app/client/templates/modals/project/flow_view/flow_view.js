@@ -51,19 +51,17 @@ Template.FlowView.onCreated(function () {
 });
 
 Template.FlowView.onRendered(function () {
-    // Load a svg file and append it to a parent element
-    var loadSVG = function(url, parent) {
-
-        var loadedSVG = parent.append("g");
-
-        d3.xml(url, function(error, xml) {
-            d3.select(loadedSVG).node().appendChild(xml.documentElement);
-        });
-
-        return loadedSVG;
-    }
 
     // Visualize the Flow with D3
+
+    // Function for loading an SVG
+    var loadSVG = function(url, parent) {
+        var loadedSVG = parent.append("g");
+        d3.xml(Meteor.absoluteUrl(url)).then(function(xml) {
+            loadedSVG.node().appendChild(xml.documentElement);
+        });
+        return loadedSVG;
+    }
 
     // Margins
     // https://bl.ocks.org/mbostock/3019563
@@ -81,7 +79,7 @@ Template.FlowView.onRendered(function () {
     window.addEventListener("resize", function(d) {
         width = d3Container.clientWidth;
         height = d3Container.clientHeight;
-        console.log(width, height);
+        //console.log(width, height);
     });
 
     // Remove previous SVG
@@ -94,18 +92,17 @@ Template.FlowView.onRendered(function () {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // Load SVG activity icons
+    var activityIcon1 = loadSVG("as_full_nolabel.svg", svg).attr("transform", "scale(0.35)");
+    var activityIcon2 = loadSVG("as_full_nolabel.svg", svg).attr("transform", "translate(460,0), scale(0.35)");
+
     // Visualize the flow in the SVG
-    svg.append("circle").attr("cx", 130).attr("cy", 30).attr("r", 20);
-
-    // Load SVG
-    //var svgIcon = loadSVG(Meteor.absoluteUrl("font/activity.svg"), svg);
-    //svgIcon.attr("transform", "scale(0.035) translate(-20,-320)");
-    var url = Meteor.absoluteUrl("as_full_nolabel.svg");
-    d3.xml(url)
-    .then(function(xml) {
-        svg.node().appendChild(xml.documentElement);
-    });
-
+    // TODO Arrow (weighted)
+    // TODO Title of the flow
+    // TODO Type of the flow
+    // TODO Resource flowing
+    // TODO Description of the flow
+    // TODO Number and title of activities
 
 });
 

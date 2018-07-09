@@ -371,13 +371,10 @@ Template.ProjectsViz.onRendered(function() {
 
     // Load a svg file and append it to a parent element
     var loadSVG = function(url, parent) {
-
         var loadedSVG = parent.append("g");
-
-        d3.xml(url).then(xml => {
+        d3.xml(Meteor.absoluteUrl(url)).then(function(xml) {
             loadedSVG.node().appendChild(xml.documentElement);
         });
-
         return loadedSVG;
     }
 
