@@ -10,8 +10,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="90mm"
-   height="10mm"
-   viewBox="0 0 90 10"
+   height="11mm"
+   viewBox="0 0 90 11"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1199659"
-     inkscape:cx="144.87768"
-     inkscape:cy="48.292559"
+     inkscape:zoom="6.2241179"
+     inkscape:cx="151.88942"
+     inkscape:cy="12.204158"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,16 +55,16 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-287)">
+     transform="translate(0,-286)">
     <text
        id="text893"
-       y="294.73642"
+       y="294.20724"
        x="-0.23283333"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333302px;line-height:200%;font-family:Dosis;-inkscape-font-specification:'Dosis, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          sodipodi:role="line"
          id="tspan941"
          x="-0.23283333"
-         y="294.73642">÷÷÷Open Meta Design</tspan></text>
+         y="294.20724">÷÷÷Open Meta Design</tspan></text>
   </g>
 </svg>
