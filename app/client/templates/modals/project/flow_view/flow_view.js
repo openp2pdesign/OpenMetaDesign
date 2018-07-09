@@ -35,7 +35,7 @@ Template.FlowView.helpers({
             // Return the data
             return thisData;
         }
-    },
+    }
 });
 
 /*****************************************************************************/
@@ -97,12 +97,10 @@ Template.FlowView.onRendered(function () {
     var activityIcon2 = loadSVG("as_full_nolabel.svg", svg).attr("transform", "translate(460,0), scale(0.35)");
 
     // Visualize the flow in the SVG
+    // TODO Number and title of activities
     // TODO Arrow (weighted)
-    // TODO Title of the flow
     // TODO Type of the flow
     // TODO Resource flowing
-    // TODO Description of the flow
-    // TODO Number and title of activities
 
 });
 
