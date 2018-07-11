@@ -3,6 +3,20 @@
         <h3>{{_ "contradiction_view"}}</h3>
     </div>
     <div class="contradiction-view col-md-12">
+        <div>
+            <h3>
+                {{#with data}}
+                    {{contradictionData.title}}
+                {{/with}}
+            </h3>
+        </div>
         <div id="showContradictionDivSVG"></div>
+        <div>
+            <p>
+                {{#with data}}
+                    {{contradictionData.description}}
+                {{/with}}
+            </p>
+        </div>
     </div>
 </template>
