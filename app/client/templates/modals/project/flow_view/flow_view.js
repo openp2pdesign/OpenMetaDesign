@@ -103,39 +103,47 @@ Template.FlowView.onRendered(function () {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Load SVG activity icons
-    var activityIcon1 = loadSVG("as_full_nolabel.svg", svg).attr("transform", "scale(0.35)");
-    var activityIcon2 = loadSVG("as_full_nolabel.svg", svg).attr("transform", "translate(460,0), scale(0.35)");
+    // Load SVG activity icons and create two groups
+    // Activity 1
+    var activityIcon1 = loadSVG("as_full_nolabel_flow.svg", svg).attr("transform", "translate(0,-15)");
+    // Activity 2
+    var activityIcon2 = loadSVG("as_full_nolabel_flow.svg", svg).attr("transform", "translate(460,-15)");
 
     // Visualize the flow in the SVG
-    // TODO Number and title of activities
+    // Number and title of activities
+    // Activity 1
     svg.append('text')
         .attr("x", "50")
-        .attr("y", "115")
+        .attr("y", "100")
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
+        .style("font-weight", "700")
         .text("#" + activityNode1.activityData.number);
     svg.append('text')
         .attr("x", "50")
-        .attr("y", "130")
+        .attr("y", "120")
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
+        .style("font-weight", "700")
         .text(activityNode1.activityData.title);
+    // Activity 2
     svg.append('text')
-        .attr("x", "250")
-        .attr("y", "115")
+        .attr("x", 50+460)
+        .attr("y", "100")
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
+        .style("font-weight", "700")
         .text("#" + activityNode2.activityData.number);
     svg.append('text')
-        .attr("x", "250")
-        .attr("y", "130")
+        .attr("x", 50+460)
+        .attr("y", "120")
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
+        .style("font-weight", "700")
         .text(activityNode2.activityData.title);
     // TODO Arrow (weighted)
     // TODO Type of the flow
