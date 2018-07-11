@@ -6,6 +6,7 @@ import d3 from 'd3';
 import { Projects } from '../../../../../lib/collections/projects.js';
 import { Settings } from '../../../../../lib/collections/settings.js';
 import { Activities } from '../../../../../lib/collections/activities.js';
+import { ActivityElements } from '../../../../../lib/collections/activity_elements.js';
 import { Contradictions } from '../../../../../lib/collections/contradictions.js';
 
 /*****************************************************************************/
@@ -51,7 +52,34 @@ Template.ContradictionView.onCreated(function () {
 });
 
 Template.ContradictionView.onRendered(function () {
+
     // Visualize the Contradiction with D3
+
+    // Function for loading an SVG
+    var loadSVG = function(url, parent) {
+        var loadedSVG = parent.append("g");
+        d3.xml(Meteor.absoluteUrl(url)).then(function(xml) {
+            loadedSVG.node().appendChild(xml.documentElement);
+        });
+        return loadedSVG;
+    }
+
+    // Get the data
+    thisContradiction = Contradictions.findOne({
+        '_id': thisContradictionID
+    });
+    var activityElementNode1 = ActivityElements.findOne({
+        '_id': thisContradiction.contradictionData.firstNode
+    });
+    var activityElementNode2 = ActivityElements.findOne({
+        '_id': thisContradiction.contradictionData.secondNode
+    });
+    var activityNode1 = Activities.findOne({
+        '_id': activityElementNode1.activityId
+    });
+    var activityNode2 = Activities.findOne({
+        '_id': activityElementNode2.activityId
+    });
 
     // Margins
     // https://bl.ocks.org/mbostock/3019563
@@ -69,7 +97,7 @@ Template.ContradictionView.onRendered(function () {
     window.addEventListener("resize", function(d) {
         width = d3Container.clientWidth;
         height = d3Container.clientHeight;
-        console.log(width, height);
+        //console.log(width, height);
     });
 
     // Remove previous SVG
@@ -82,8 +110,51 @@ Template.ContradictionView.onRendered(function () {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    // Load SVG activity icons and create two groups
+    // Activity 1
+    var activityIcon1 = loadSVG("as_full_nolabel_contradiction.svg", svg).attr("transform", "translate(0,-15)");
+    // Activity 2
+    var activityIcon2 = loadSVG("as_full_nolabel_contradiction.svg", svg).attr("transform", "translate(460,-15)");
+
     // Visualize the contradiction in the SVG
-    svg.append("circle").attr("cx", 30).attr("cy", 30).attr("r", 20);
+    // Number and title of activities
+    // Activity 1
+    svg.append('text')
+        .attr("x", 50)
+        .attr("y", 100)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .style("font-weight", "700")
+        .text("#" + activityNode1.activityData.number);
+    svg.append('text')
+        .attr("x", 50)
+        .attr("y", 120)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .style("font-weight", "700")
+        .text(activityNode1.activityData.title.slice(0, 7)+"...");
+    // Activity 2
+    svg.append('text')
+        .attr("x", 50+460)
+        .attr("y", 100)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .style("font-weight", "700")
+        .text("#" + activityNode2.activityData.number);
+    svg.append('text')
+        .attr("x", 50+460)
+        .attr("y", 120)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "16px")
+        .style("font-weight", "700")
+        .text(activityNode2.activityData.title.slice(0, 7)+"...");
+    // Arrow
+    // #63dfff
+
 });
 
 Template.ContradictionView.onDestroyed(function () {
