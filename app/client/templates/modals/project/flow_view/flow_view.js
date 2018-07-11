@@ -127,7 +127,7 @@ Template.FlowView.onRendered(function () {
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
         .style("font-weight", "700")
-        .text(activityNode1.activityData.title);
+        .text(activityNode1.activityData.title.slice(0, 7)+"...");
     // Activity 2
     svg.append('text')
         .attr("x", 50+460)
@@ -144,7 +144,7 @@ Template.FlowView.onRendered(function () {
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
         .style("font-weight", "700")
-        .text(activityNode2.activityData.title);
+        .text(activityNode2.activityData.title.slice(0, 7)+"...");
     // TODO Arrow (weighted)
     // TODO Type of the flow
     // TODO Resource flowing
