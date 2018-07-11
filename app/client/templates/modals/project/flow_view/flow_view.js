@@ -145,7 +145,32 @@ Template.FlowView.onRendered(function () {
         .style("font-size", "16px")
         .style("font-weight", "700")
         .text(activityNode2.activityData.title.slice(0, 7)+"...");
-    // TODO Arrow (weighted)
+    // Arrow (weighted)
+    // Get max and min weight for a scale
+    var query = {};
+    // Max
+    var options = { sort: { "flowData.weight":-1 } };
+    var results = Flows.find(query, options).fetch();
+    var maxFlowWeight = results[0].flowData.weight;
+    // Min
+    options = { sort: { "flowData.weight":1 } };
+    results = Flows.find(query, options).fetch();
+    var minFlowWeight = results[0].flowData.weight;
+    var weightScale = d3.scaleLinear().domain([minFlowWeight, maxFlowWeight]).range([5, 20]);
+    svg.append("line")
+      .attr("x1", 130)
+      .attr("y1", 30)
+      .attr("x2", 420)
+      .attr("y2", 30)
+      .attr("stroke-width", weightScale(thisFlow.flowData.weight))
+      .attr("stroke", "#73f17b")
+      .attr("marker-end", "url(#triangle)");
+    svg.append("ellipse")
+      .attr("cx", 420)
+      .attr("cy", 30)
+      .attr("rx", weightScale(thisFlow.flowData.weight))
+      .attr("ry", weightScale(thisFlow.flowData.weight))
+      .attr("fill", "#73f17b");
     // TODO Type of the flow
     // TODO Resource flowing
 
