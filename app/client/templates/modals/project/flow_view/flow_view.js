@@ -113,16 +113,16 @@ Template.FlowView.onRendered(function () {
     // Number and title of activities
     // Activity 1
     svg.append('text')
-        .attr("x", "50")
-        .attr("y", "100")
+        .attr("x", 50)
+        .attr("y", 100)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
         .style("font-weight", "700")
         .text("#" + activityNode1.activityData.number);
     svg.append('text')
-        .attr("x", "50")
-        .attr("y", "120")
+        .attr("x", 50)
+        .attr("y", 120)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
@@ -131,7 +131,7 @@ Template.FlowView.onRendered(function () {
     // Activity 2
     svg.append('text')
         .attr("x", 50+460)
-        .attr("y", "100")
+        .attr("y", 100)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
@@ -139,7 +139,7 @@ Template.FlowView.onRendered(function () {
         .text("#" + activityNode2.activityData.number);
     svg.append('text')
         .attr("x", 50+460)
-        .attr("y", "120")
+        .attr("y", 120)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "central")
         .style("font-size", "16px")
@@ -171,8 +171,25 @@ Template.FlowView.onRendered(function () {
       .attr("rx", weightScale(thisFlow.flowData.weight))
       .attr("ry", weightScale(thisFlow.flowData.weight))
       .attr("fill", "#73f17b");
-    // TODO Type of the flow
-    // TODO Resource flowing
+    // Type of the flow
+    svg.append('text')
+        .attr("x", (420-130))
+        .attr("y", 20-weightScale(thisFlow.flowData.weight))
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "14px")
+        .style("font-style", "italic")
+        .style("font-weight", "300")
+        .text(thisFlow.flowData.type);
+    // Resource flowing
+    svg.append('text')
+        .attr("x", (420-130))
+        .attr("y", 40+weightScale(thisFlow.flowData.weight))
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .style("font-size", "14px")
+        .style("font-weight", "400")
+        .text(thisFlow.flowData.resource.slice(0, 20)+"...");
 
 });
 
