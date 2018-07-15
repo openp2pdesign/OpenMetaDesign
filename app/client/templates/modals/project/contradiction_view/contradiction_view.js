@@ -198,22 +198,108 @@ Template.ContradictionView.onRendered(function () {
         }
         return activityElementsCenters[title];
     }
-    var firstNodeCoordinates = getElementCoordinates(0,-15,activityElementNode1.activityElementData.title);
-    var secondNodeCoordinates = getElementCoordinates(460,-15,activityElementNode2.activityElementData.title);
+    var firstNodeCenter = getElementCoordinates(0,-15,activityElementNode1.activityElementData.title);
+    var secondNodeCenter = getElementCoordinates(460,-15,activityElementNode2.activityElementData.title);
     // Draw conntradiction start and end
+    var contradictionColor = "#63dfff";
+    var thisContradictionGroup = svg.append("g").attr("id", thisContradiction._id);
     svg.append("ellipse")
-        .attr("cx", firstNodeCoordinates.x)
-        .attr("cy", firstNodeCoordinates.y)
-        .attr("fill", "#63dfff")
+        .attr("cx", firstNodeCenter.x)
+        .attr("cy", firstNodeCenter.y)
+        .attr("fill", contradictionColor)
         .attr("rx", 5)
         .attr("ry", 5);
     svg.append("ellipse")
-        .attr("cx", secondNodeCoordinates.x)
-        .attr("cy", secondNodeCoordinates.y)
-        .attr("fill", "#63dfff")
+        .attr("cx", secondNodeCenter.x)
+        .attr("cy", secondNodeCenter.y)
+        .attr("fill", contradictionColor)
         .attr("rx", 5)
         .attr("ry", 5);
     // Draw contradiction "arrow"
+    // Line
+    var line = d3.line()
+        .x(function(d) {
+            return d.x;
+        })
+        .y(function(d) {
+            return d.y;
+        })
+        .curve(d3.curveBasis);
+    // Calculate the points...
+    var points = [];
+    // Define curve according to the contradiction levels
+    if (thisContradiction.contradictionData.level === "primary") {
+        // Primary contradictions as self-loop
+        points = [{
+                x: firstNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x,
+                y: firstNodeCenter.y - 20
+            },
+            {
+                x: secondNodeCenter.x + 8,
+                y: firstNodeCenter.y - 20
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: secondNodeCenter.y
+            },
+        ];
+    } else if (thisContradiction.contradictionData.level === "secondary") {
+        points = [{
+                x: firstNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 8,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: secondNodeCenter.y
+            },
+        ];
+    } else if (thisContradiction.contradictionData.level === "tertiary") {
+        points = [{
+                x: firstNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: secondNodeCenter.y
+            },
+        ];
+    } else if (thisContradiction.contradictionData.level === "quaternary") {
+        points = [{
+                x: firstNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: firstNodeCenter.y
+            },
+            {
+                x: secondNodeCenter.x + 4,
+                y: secondNodeCenter.y
+            },
+        ];
+    }
+    // Add the path as the flow viz
+    var pathData = line(points);
+    var contradictionViz = thisContradictionGroup.selectAll('path')
+        .data(points)
+        .enter()
+        .append('path')
+        .attr('d', pathData)
+        .attr("stroke", contradictionColor)
+        .attr("stroke-width", 4)
+        .attr("fill", "none");
 
 });
 
