@@ -153,7 +153,67 @@ Template.ContradictionView.onRendered(function () {
         .style("font-weight", "700")
         .text(activityNode2.activityData.title.slice(0, 7)+"...");
     // Arrow
-    // #63dfff
+    //Find centers of activity elements
+    var activityIconSize = {
+        width: 100,
+        height: 90
+    };
+    var getElementCoordinates = function(x,y,title) {
+        var activityElementsCenters = {
+            subject: {
+                x: x + (activityIconSize.width / 2) - 19,
+                y: y + (activityIconSize.height / 2) - 34,
+                title: "Subject"
+            },
+            object: {
+                x: x + (activityIconSize.width / 2) + 39,
+                y: y + (activityIconSize.height / 2),
+                title: "Object"
+            },
+            outcome: {
+                x: x + (activityIconSize.width / 2),
+                y: y + (activityIconSize.height / 2),
+                title: "Outcome"
+            },
+            tools: {
+                x: x + (activityIconSize.width / 2) + 19,
+                y: y + (activityIconSize.height / 2) - 34,
+                title: "Tools"
+            },
+            rules: {
+                x: x + (activityIconSize.width / 2) - 39,
+                y: y + (activityIconSize.height / 2),
+                title: "Rules"
+            },
+            roles: {
+                x: x + (activityIconSize.width / 2) + 19,
+                y: y + (activityIconSize.height / 2) + 34,
+                title: "Roles"
+            },
+            community: {
+                x: x + (activityIconSize.width / 2) - 19,
+                y: y + (activityIconSize.height / 2) + 34,
+                title: "Community"
+            },
+        }
+        return activityElementsCenters[title];
+    }
+    var firstNodeCoordinates = getElementCoordinates(0,-15,activityElementNode1.activityElementData.title);
+    var secondNodeCoordinates = getElementCoordinates(460,-15,activityElementNode2.activityElementData.title);
+    // Draw conntradiction start and end
+    svg.append("ellipse")
+        .attr("cx", firstNodeCoordinates.x)
+        .attr("cy", firstNodeCoordinates.y)
+        .attr("fill", "#63dfff")
+        .attr("rx", 5)
+        .attr("ry", 5);
+    svg.append("ellipse")
+        .attr("cx", secondNodeCoordinates.x)
+        .attr("cy", secondNodeCoordinates.y)
+        .attr("fill", "#63dfff")
+        .attr("rx", 5)
+        .attr("ry", 5);
+    // Draw contradiction "arrow"
 
 });
 
