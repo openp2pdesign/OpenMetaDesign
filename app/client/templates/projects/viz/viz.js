@@ -11,6 +11,8 @@ import d3 from 'd3';
 import 'd3-fetch';
 // Diff
 let diff = require('deep-diff');
+// Networkx
+const jsnx = require('jsnetworkx');
 // Import collections
 import { Projects } from '../../../../lib/collections/projects.js';
 import { Activities } from '../../../../lib/collections/activities.js';
@@ -759,7 +761,6 @@ Template.ProjectsViz.onRendered(function() {
         // Layout: Find the activity with the latest end
         activitiesEnds = [];
         activitiesRanges = [];
-        overlaps = [];
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
@@ -768,39 +769,45 @@ Template.ProjectsViz.onRendered(function() {
                 processData = thisUpdatedProject.processes[process];
                 activitiesStarts.push(activityData.time.start)
                 activitiesEnds.push(activityData.time.end)
-                activitiesRanges.push(moment().range(moment(activityData.time.start), moment(activityData.time.end)));
             }
-            // Check overlaps between activities in each process for the layout
-            overlapsCount = 0;
-            overlapRanges = []
-            for (range in activitiesRanges) {
-                firstRange = activitiesRanges[range];
-                for (anotherRange in activitiesRanges) {
-                    secondRange = activitiesRanges[anotherRange];
-                    // Avoid to check the same dates
-                    if (!firstRange.isSame(secondRange)) {
-                        // If they overlaps...
-                        if (firstRange.overlaps(secondRange)) {
-                            overlapsCount += 1;
-                            overlapRanges.push({
-                                "first": firstRange,
-                                "second": secondRange
-                            });
+            // Overlaps: get clusters of overlapping activities with number of activities involved, then get the max number of activities in clusters and expand the column accordingly
+            // We do this with JSNetworkX: we build a graph of overlapping activities and find cliques in it
+
+            // Check overlaps in time ranges
+            activityRangesThisProcess = [];
+            for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                // Get the activity data
+                activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                // Transform it into a MomentJS range
+                var range  = moment().range(activityData.time.start, activityData.time.end);
+                // Add it to the array
+                activityRangesThisProcess.push(range);
+            }
+            activityOverlapsThisProcess = [];
+            // If there is more than one activity (and range), check overlaps
+            if (activityRangesThisProcess.length > 1) {
+                for (range in activityRangesThisProcess) {
+                    for (range2 in activityRangesThisProcess) {
+                        if (activityRangesThisProcess[range2] !== activityRangesThisProcess[range]) {
+                            var overlap = activityRangesThisProcess[range].overlaps(activityRangesThisProcess[range2]);
+                            if (overlap) {
+                                activityOverlapsThisProcess.push([range, range2]);
+                            }
                         }
+
                     }
                 }
+                // Find overlaps with JSNetworkX
+                var G = new jsnx.Graph();
+                G.addEdgesFrom(activityOverlapsThisProcess);
+                var cliques = jsnx.findCliques(G);
+                var arrayFromClique = Array.from(cliques);
+                thisUpdatedProject.processes[process].overlaps = arrayFromClique;
+                thisUpdatedProject.processes[process].overlapsMax = Math.max(...(arrayFromClique.map(el => el.length)));
+            } else {
+                thisUpdatedProject.processes[process].overlaps = [[0]];
+                thisUpdatedProject.processes[process].overlapsMax = 0;
             }
-            // Get the final number of meaningful overlaps per process
-            if (overlapsCount > 0) {
-                console.log(overlapRanges);
-            }
-            overlaps.push({
-                process: thisUpdatedProject.processes[process]["title"],
-                overlaps: overlapsCount
-            });
-            activitiesRanges = [];
-            overlapsCount = 0;
-            overlapRanges = []
         }
 
         // Layout: Find the first start and last end of activities
@@ -890,7 +897,7 @@ Template.ProjectsViz.onRendered(function() {
         // Calculate the width of the section based on the available size
         sectionCalculatedWidth = (d3Container.clientWidth - margin.left - simpleGutter) / (thisProject.processes.length);
 
-        for (var j in thisProject.processes) {
+        for (var j in thisUpdatedProject.processes) {
             if (j == 0) {
                 GX = GX + simpleGutter;
             } else {
@@ -901,43 +908,57 @@ Template.ProjectsViz.onRendered(function() {
                 "x": GX
             });
             sectionsGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
-
         }
+
+        //console.log("GX", GX);
+        //console.log("OMAX",thisUpdatedProject.processes[j].overlapsMax);
 
         // Draw the activities
         // Look in each process
         for (process in thisUpdatedProject.processes) {
-            // Look in each activity
+            // Loop each cluster of activities
+            for (cluster in thisUpdatedProject.processes[process].overlaps) {
+                var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
+                activityX = 0;
+                for (activity in clusterActivities) {
+                    // Get the activity data
+                    activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                    console.log(activity);
+                    console.log(activityData);
+                    processData = thisUpdatedProject.processes[process];
+                    // Find the process group in the svg
+                    for (group in sectionsGroups) {
+                        sectionSelection = sectionsGroups[group]._groups[0][0];
+                        sectionSelectionID = $(sectionSelection).attr("id");
+                        if (sectionSelectionID == processData.title) {
+                            parentGroup = sectionsGroups[group];
+                        }
+                    }
+                    // Find the width
+                    for (width in sectionsWidth) {
+                        if (sectionsWidth[width].section == processData.title) {
+                            sectionX = sectionsWidth[width].x;
+                        }
+                    }
+                    // Add / draw the activity
+                    var thisActivity = addActivity(sectionX+activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                    // Add it to the list of activities
+                    vizActivities.push(thisActivity);
+                    // For flows and issues: add 5 to x (the borders of the rects)
+                    for (i in thisActivity.activityElementsCenters) {
+                        sectionsSVG.append("circle")
+                            .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
+                            .attr("cy", thisActivity.activityElementsCenters[i].y)
+                            .attr("fill", "green")
+                            .attr("r", 0);
+                    }
+                    activityX = activityX + 80;
+                }
+            }
+
+            // Look in each activity in the cluster
             for (activity in thisUpdatedProject.processes[process]["activities"]) {
-                // Get the activity data
-                activityData = thisUpdatedProject.processes[process]["activities"][activity];
-                processData = thisUpdatedProject.processes[process];
-                // Find the process group in the svg
-                for (group in sectionsGroups) {
-                    sectionSelection = sectionsGroups[group]._groups[0][0];
-                    sectionSelectionID = $(sectionSelection).attr("id");
-                    if (sectionSelectionID == processData.title) {
-                        parentGroup = sectionsGroups[group];
-                    }
-                }
-                // Find the width
-                for (width in sectionsWidth) {
-                    if (sectionsWidth[width].section == processData.title) {
-                        sectionX = sectionsWidth[width].x;
-                    }
-                }
-                // Add / draw the activity
-                var thisActivity = addActivity(sectionX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-                // Add it to the list of activities
-                vizActivities.push(thisActivity);
-                // For flows and issues: add 5 to x (the borders of the rects)
-                for (i in thisActivity.activityElementsCenters) {
-                    sectionsSVG.append("circle")
-                        .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
-                        .attr("cy", thisActivity.activityElementsCenters[i].y)
-                        .attr("fill", "green")
-                        .attr("r", 0);
-                }
+
             }
         }
         // Draw the flows
