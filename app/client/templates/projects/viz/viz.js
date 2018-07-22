@@ -514,7 +514,6 @@ Template.ProjectsViz.onRendered(function() {
 
     // Create an activity
     var addActivity = function(x, y, height, parent, activityData, processData) {
-
         // Variables for customizing the viz
         var activityTimelineMargin = 4;
         var activityTimelineWidth = 15;
@@ -529,6 +528,34 @@ Template.ProjectsViz.onRendered(function() {
 
         // Add the activity id
         activity.attr("data-activity-id", activityData.id);
+
+        // Add lines to the time axis
+        // Line generator
+        var lineGenerator = d3.line();
+        // Line at start of activity
+        var points = [
+            [0, y],
+            [x, y]
+        ];
+        var pathData = lineGenerator(points);
+        var lineGraph = activity.append("path")
+            .attr("d", pathData)
+            .attr("stroke", "#a7b5d4")
+            .style("stroke-dasharray", ("3,5"))
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
+        // Line at end of activity
+        var points = [
+            [0, y+height],
+            [x, y+height]
+        ];
+        var pathData = lineGenerator(points);
+        var lineGraph = activity.append("path")
+            .attr("d", pathData)
+            .attr("stroke", "#a7b5d4")
+            .style("stroke-dasharray", ("3,5"))
+            .attr("stroke-width", 1)
+            .attr("fill", "none");
 
         // Add the activity timeline
         var activityTimeline = activity.append("g").attr("class", "svg-activity-participation");
@@ -920,6 +947,7 @@ Template.ProjectsViz.onRendered(function() {
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
                 var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
                 activityX = 0;
+                console.log(clusterActivities);
                 if (thisUpdatedProject.processes[process]["activities"].length > 0) {
                     for (activity in clusterActivities) {
                         var cursorActivity = clusterActivities[activity];
