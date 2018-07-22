@@ -118,6 +118,9 @@ TabularTables.Activities = new Tabular.Table({
         data: "_id",
         title: '<i class="fa fa-file" aria-hidden="true"></i> ID'
     }, {
+        data: "activityData.number",
+        title: '<i class="fa fa-list-ol" aria-hidden="true"></i> #'
+    }, {
         data: "activityData.title",
         title: '<i class="fa fa-book" aria-hidden="true"></i> Title'
     }, {

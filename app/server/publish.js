@@ -68,6 +68,7 @@ Meteor.publishComposite("tabular_activities", function (tableName, ids, fields) 
       return Activities.find({}, {
             fields: {
                 'id': 1,
+                'number': 1,
                 'contradictionData.title': 1
             }
         });
