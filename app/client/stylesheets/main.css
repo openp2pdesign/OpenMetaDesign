@@ -96,6 +96,11 @@ textarea {
     resize: vertical;
 }
 
+.modal-icon {
+    color: #fff;
+    font-size: 60%;
+}
+
 /* Open Meta Design logo */
 
 .logoOMD::after {
