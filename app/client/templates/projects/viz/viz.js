@@ -438,7 +438,7 @@ Template.ProjectsViz.onRendered(function() {
             .attr("r", radius);
         // Add the activity number
         button.append('text')
-            .attr("x", x + radius / 2)
+            .attr("x", x + radius / 2 - (number.toString().length * 1))
             .attr("y", y)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "central")
@@ -518,7 +518,21 @@ Template.ProjectsViz.onRendered(function() {
         var activityTimelineMargin = 4;
         var activityTimelineWidth = 15;
         var radius = 10;
-        var buttonWidth = radius + activityData.number.toString().length * radius;
+        var buttonWidth = 0;
+        switch (activityData.number.toString().length) {
+            case 0:
+                buttonWidth = 0;
+                break;
+            case 1:
+                buttonWidth = 20;
+                break;
+            case 2:
+                buttonWidth = 22;
+                break;
+            case 3:
+                buttonWidth = 24;
+                break;
+        }
         var fullButtonWidth = buttonWidth + radius * 2;
         var activityIconContainerWidth = 60;
         var activityIconContainerHeight = 85;
@@ -685,8 +699,9 @@ Template.ProjectsViz.onRendered(function() {
             .attr("data-activity-id", activityData.id)
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
-            .attr("transform", "translate(" + (fullButtonWidth / 2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
+            .attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
             .attr("data-toggle", "tooltip");
+
         // Move the whole activityIconContainer after the participation level
         activityIconContainer.attr("transform", "translate(" + activityTimelineWidth + ",0)")
         // Add a margin for the whole activity from the separator lines
@@ -947,6 +962,8 @@ Template.ProjectsViz.onRendered(function() {
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
                 var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
                 activityX = 0;
+                // Debug
+                console.log(thisUpdatedProject.processes[process].title);
                 console.log(clusterActivities);
                 if (thisUpdatedProject.processes[process]["activities"].length > 0) {
                     for (activity in clusterActivities) {
