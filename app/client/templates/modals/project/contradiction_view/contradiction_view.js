@@ -267,11 +267,11 @@ Template.ContradictionView.onRendered(function () {
                 y: firstNodeCenter.y
             },
             {
-                x: secondNodeCenter.x + 4,
+                x: secondNodeCenter.x,
                 y: firstNodeCenter.y
             },
             {
-                x: secondNodeCenter.x + 4,
+                x: secondNodeCenter.x,
                 y: secondNodeCenter.y
             },
         ];
@@ -281,11 +281,11 @@ Template.ContradictionView.onRendered(function () {
                 y: firstNodeCenter.y
             },
             {
-                x: secondNodeCenter.x + 4,
+                x: secondNodeCenter.x,
                 y: firstNodeCenter.y
             },
             {
-                x: secondNodeCenter.x + 4,
+                x: secondNodeCenter.x,
                 y: secondNodeCenter.y
             },
         ];
