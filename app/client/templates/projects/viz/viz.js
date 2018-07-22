@@ -920,45 +920,41 @@ Template.ProjectsViz.onRendered(function() {
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
                 var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
                 activityX = 0;
-                for (activity in clusterActivities) {
-                    // Get the activity data
-                    activityData = thisUpdatedProject.processes[process]["activities"][activity];
-                    console.log(activity);
-                    console.log(activityData);
-                    processData = thisUpdatedProject.processes[process];
-                    // Find the process group in the svg
-                    for (group in sectionsGroups) {
-                        sectionSelection = sectionsGroups[group]._groups[0][0];
-                        sectionSelectionID = $(sectionSelection).attr("id");
-                        if (sectionSelectionID == processData.title) {
-                            parentGroup = sectionsGroups[group];
+                if (thisUpdatedProject.processes[process]["activities"].length > 0) {
+                    for (activity in clusterActivities) {
+                        var cursorActivity = clusterActivities[activity];
+                        // Get the activity data
+                        activityData = thisUpdatedProject.processes[process]["activities"][cursorActivity];
+                        processData = thisUpdatedProject.processes[process];
+                        // Find the process group in the svg
+                        for (group in sectionsGroups) {
+                            sectionSelection = sectionsGroups[group]._groups[0][0];
+                            sectionSelectionID = $(sectionSelection).attr("id");
+                            if (sectionSelectionID == processData.title) {
+                                parentGroup = sectionsGroups[group];
+                            }
                         }
-                    }
-                    // Find the width
-                    for (width in sectionsWidth) {
-                        if (sectionsWidth[width].section == processData.title) {
-                            sectionX = sectionsWidth[width].x;
+                        // Find the width
+                        for (width in sectionsWidth) {
+                            if (sectionsWidth[width].section == processData.title) {
+                                sectionX = sectionsWidth[width].x;
+                            }
                         }
+                        // Add / draw the activity
+                        var thisActivity = addActivity(sectionX+activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                        // Add it to the list of activities
+                        vizActivities.push(thisActivity);
+                        // For flows and issues: add 5 to x (the borders of the rects)
+                        for (i in thisActivity.activityElementsCenters) {
+                            sectionsSVG.append("circle")
+                                .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
+                                .attr("cy", thisActivity.activityElementsCenters[i].y)
+                                .attr("fill", "green")
+                                .attr("r", 0);
+                        }
+                        activityX = activityX + 80;
                     }
-                    // Add / draw the activity
-                    var thisActivity = addActivity(sectionX+activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-                    // Add it to the list of activities
-                    vizActivities.push(thisActivity);
-                    // For flows and issues: add 5 to x (the borders of the rects)
-                    for (i in thisActivity.activityElementsCenters) {
-                        sectionsSVG.append("circle")
-                            .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
-                            .attr("cy", thisActivity.activityElementsCenters[i].y)
-                            .attr("fill", "green")
-                            .attr("r", 0);
-                    }
-                    activityX = activityX + 80;
                 }
-            }
-
-            // Look in each activity in the cluster
-            for (activity in thisUpdatedProject.processes[process]["activities"]) {
-
             }
         }
         // Draw the flows
