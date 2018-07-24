@@ -530,7 +530,7 @@ Template.ProjectsViz.onRendered(function() {
                 buttonWidth = 22;
                 break;
             case 3:
-                buttonWidth = 24;
+                buttonWidth = 23;
                 break;
         }
         var fullButtonWidth = buttonWidth + radius * 2;
@@ -959,46 +959,54 @@ Template.ProjectsViz.onRendered(function() {
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Loop each cluster of activities
+            // To plot the cluster well
+            var activitiesInClusters = [];
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
-                var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
-                activityX = 0;
-                // Debug
-                console.log(thisUpdatedProject.processes[process].title);
-                console.log(clusterActivities);
-                if (thisUpdatedProject.processes[process]["activities"].length > 0) {
-                    for (activity in clusterActivities) {
-                        var cursorActivity = clusterActivities[activity];
-                        // Get the activity data
-                        activityData = thisUpdatedProject.processes[process]["activities"][cursorActivity];
-                        processData = thisUpdatedProject.processes[process];
-                        // Find the process group in the svg
-                        for (group in sectionsGroups) {
-                            sectionSelection = sectionsGroups[group]._groups[0][0];
-                            sectionSelectionID = $(sectionSelection).attr("id");
-                            if (sectionSelectionID == processData.title) {
-                                parentGroup = sectionsGroups[group];
-                            }
+                    var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
+                    activityX = 0;
+
+                    if (thisUpdatedProject.processes[process]["activities"].length > 0) {
+                    for (clusterCursor in clusterActivities) {
+                            thisUpdatedProject.processes[process]["activities"][clusterCursor]["activityX"] = activityX;
+                            activityX = activityX + 80;
+                            activitiesInClusters.push(thisUpdatedProject.processes[process]["activities"][clusterCursor]["id"]);
                         }
-                        // Find the width
-                        for (width in sectionsWidth) {
-                            if (sectionsWidth[width].section == processData.title) {
-                                sectionX = sectionsWidth[width].x;
-                            }
-                        }
-                        // Add / draw the activity
-                        var thisActivity = addActivity(sectionX+activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-                        // Add it to the list of activities
-                        vizActivities.push(thisActivity);
-                        // For flows and issues: add 5 to x (the borders of the rects)
-                        for (i in thisActivity.activityElementsCenters) {
-                            sectionsSVG.append("circle")
-                                .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
-                                .attr("cy", thisActivity.activityElementsCenters[i].y)
-                                .attr("fill", "green")
-                                .attr("r", 0);
-                        }
-                        activityX = activityX + 80;
                     }
+            }
+            // Look in each activity
+            for (activity in thisUpdatedProject.processes[process]["activities"]) {
+                // Get the activity data
+                activityData = thisUpdatedProject.processes[process]["activities"][activity];
+                processData = thisUpdatedProject.processes[process];
+                // Add activityX to activities that are not in a cluster
+                if (!activitiesInClusters.includes(activityData.id)) {
+                    activityData.activityX = 0;
+                }
+                // Find the process group in the svg
+                for (group in sectionsGroups) {
+                    sectionSelection = sectionsGroups[group]._groups[0][0];
+                    sectionSelectionID = $(sectionSelection).attr("id");
+                    if (sectionSelectionID == processData.title) {
+                        parentGroup = sectionsGroups[group];
+                    }
+                }
+                // Find the width
+                for (width in sectionsWidth) {
+                    if (sectionsWidth[width].section == processData.title) {
+                        sectionX = sectionsWidth[width].x;
+                    }
+                }
+                // Add / draw the activity
+                var thisActivity = addActivity(sectionX+activityData.activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+                // Add it to the list of activities
+                vizActivities.push(thisActivity);
+                // For flows and issues: add 5 to x (the borders of the rects)
+                for (i in thisActivity.activityElementsCenters) {
+                    sectionsSVG.append("circle")
+                        .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
+                        .attr("cy", thisActivity.activityElementsCenters[i].y)
+                        .attr("fill", "green")
+                        .attr("r", 0);
                 }
             }
         }
