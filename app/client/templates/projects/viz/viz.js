@@ -960,11 +960,11 @@ Template.ProjectsViz.onRendered(function() {
         for (process in thisUpdatedProject.processes) {
             // Loop each cluster of activities
             // To plot the cluster well
+            // TODO keep track of each activity position, then check overlap... and add accordingly
             var activitiesInClusters = [];
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
                     var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
                     activityX = 0;
-
                     if (thisUpdatedProject.processes[process]["activities"].length > 0) {
                     for (clusterCursor in clusterActivities) {
                             thisUpdatedProject.processes[process]["activities"][clusterCursor]["activityX"] = activityX;
