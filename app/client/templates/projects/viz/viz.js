@@ -10,10 +10,6 @@ import { moment } from 'meteor/momentjs:moment';
 import d3 from 'd3';
 import 'd3-fetch';
 import timeline from './d3.timeline.js';
-
-var timeline2 = timeline()
-    .size([1000, 300]);
-
 // Diff
 let diff = require('deep-diff');
 // Networkx
@@ -885,7 +881,13 @@ Template.ProjectsViz.onRendered(function() {
             .tickFormat(d3.timeFormat("%b %d %Y %I:%M"))
             .ticks(10)
             .tickSize(20, 40);
-        timeG.transition().duration(1000).call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
+        timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
+        // Add a d3.layout.timeline
+        var timelineLayout = timeline()
+            .size([d3Container.clientHeight - labelHeight, 200])
+            .extent([startDate, endDate])
+            .padding(3)
+            .maxBandHeight(20);
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
@@ -957,9 +959,6 @@ Template.ProjectsViz.onRendered(function() {
             sectionsGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
         }
 
-        //console.log("GX", GX);
-        //console.log("OMAX",thisUpdatedProject.processes[j].overlapsMax);
-
         // Draw the activities
         // Look in each process
         for (process in thisUpdatedProject.processes) {
@@ -978,308 +977,378 @@ Template.ProjectsViz.onRendered(function() {
                         }
                     }
             }
-            // Look in each activity
-            for (activity in thisUpdatedProject.processes[process]["activities"]) {
-                // Get the activity data
-                activityData = thisUpdatedProject.processes[process]["activities"][activity];
-                processData = thisUpdatedProject.processes[process];
-                // Add activityX to activities that are not in a cluster
-                if (!activitiesInClusters.includes(activityData.id)) {
-                    activityData.activityX = 0;
-                }
-                // Find the process group in the svg
-                for (group in sectionsGroups) {
-                    sectionSelection = sectionsGroups[group]._groups[0][0];
-                    sectionSelectionID = $(sectionSelection).attr("id");
-                    if (sectionSelectionID == processData.title) {
-                        parentGroup = sectionsGroups[group];
-                    }
-                }
-                // Find the width
-                for (width in sectionsWidth) {
-                    if (sectionsWidth[width].section == processData.title) {
-                        sectionX = sectionsWidth[width].x;
-                    }
-                }
-                // Add / draw the activity
-                var thisActivity = addActivity(sectionX+activityData.activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-                // Add it to the list of activities
-                vizActivities.push(thisActivity);
-                // For flows and issues: add 5 to x (the borders of the rects)
-                for (i in thisActivity.activityElementsCenters) {
-                    sectionsSVG.append("circle")
-                        .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
-                        .attr("cy", thisActivity.activityElementsCenters[i].y)
-                        .attr("fill", "green")
-                        .attr("r", 0);
-                }
+            // Timeline Layout
+
+            //console.log(JSON.stringify(thisUpdatedProject.processes));
+
+            // types = ["Customer processes",
+            //     "Front-Office processes",
+            //     "Back-Office processes",
+            //     "Support processes"
+            // ];
+
+            var types = ["Customer processes"];
+
+            var jsonData = thisUpdatedProject.processes[0].activities;
+            for (activity in jsonData) {
+                jsonData[activity].start = jsonData[activity].time.start;
+                jsonData[activity].end = jsonData[activity].time.end;
             }
+
+            var colorScale = d3.scaleOrdinal()
+                .domain(["Customer processes","Front-Office processes","Back-Office processes","Support processes"])
+                .range(["#96abb1", "#313746", "#b0909d", "#687a97", "#292014"]);
+
+           types.forEach(function(type, i) {
+
+               var onlyThisType = jsonData.filter(function(d) {
+                   return d.processTitle === type
+               });
+               console.log("O",onlyThisType);
+               console.log("RRRR", jsonData);
+               var theseBands = timelineLayout(onlyThisType);
+
+
+               console.log("T",type);
+               console.log("B",theseBands);
+
+               var timelineSVGGroup = timeG.append("g").attr("id", "timelineSVGGroup");
+
+               timelineSVGGroup
+                   .attr("transform", "translate(" + (65 + (i * 120)) + ",100)")
+                   .selectAll("rect")
+                   .data(theseBands)
+                   .enter()
+                   .append("rect")
+                   .attr("y", function(d) {
+                       return d.start
+                   })
+                   .attr("x", function(d) {
+                       return d.y
+                   })
+                   .attr("width", function(d) {
+                       return d.dy
+                   })
+                   .attr("height", function(d) {
+                       return d.end - d.start
+                   })
+                   .style("fill", function(d) {
+                       return "#000";
+                       //return colorScale(d.processTitle)
+                   })
+                   .style("stroke", "black")
+                   .style("stroke-width", 1);
+
+              timelineSVGGroup.append("text")
+                   .text(type)
+                   .attr("x", 50 + (i * 120))
+                   .attr("y", 20)
+                   .attr("fill", "#000");
+
+           });
+
+            // Look in each activity
+            // for (activity in thisUpdatedProject.processes[process]["activities"]) {
+            //     // Get the activity data
+            //     activityData = thisUpdatedProject.processes[process]["activities"][activity];
+            //     processData = thisUpdatedProject.processes[process];
+            //     // Add activityX to activities that are not in a cluster
+            //     if (!activitiesInClusters.includes(activityData.id)) {
+            //         activityData.activityX = 0;
+            //     }
+            //     // Find the process group in the svg
+            //     for (group in sectionsGroups) {
+            //         sectionSelection = sectionsGroups[group]._groups[0][0];
+            //         sectionSelectionID = $(sectionSelection).attr("id");
+            //         if (sectionSelectionID == processData.title) {
+            //             parentGroup = sectionsGroups[group];
+            //         }
+            //     }
+            //     // Find the width
+            //     for (width in sectionsWidth) {
+            //         if (sectionsWidth[width].section == processData.title) {
+            //             sectionX = sectionsWidth[width].x;
+            //         }
+            //     }
+            //     // Add / draw the activity
+            //     var thisActivity = addActivity(sectionX+activityData.activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
+            //     // Add it to the list of activities
+            //     vizActivities.push(thisActivity);
+            //     // For flows and issues: add 5 to x (the borders of the rects)
+            //     for (i in thisActivity.activityElementsCenters) {
+            //         sectionsSVG.append("circle")
+            //             .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
+            //             .attr("cy", thisActivity.activityElementsCenters[i].y)
+            //             .attr("fill", "green")
+            //             .attr("r", 0);
+            //     }
+            // }
         }
         // Draw the flows
-        var flowsGroup = sectionsSVG.append("g");
-        for (flow in thisUpdatedProject.flows) {
-            // Get the ids of the nodes in the flow
-            firstNode = thisUpdatedProject.flows[flow].firstNode;
-            secondNode = thisUpdatedProject.flows[flow].secondNode;
-            // Get the activity center of the node in the flow
-            var firstNodeCenter;
-            var secondNodeCenter;
-            for (activity in vizActivities) {
-                if (vizActivities[activity].id === firstNode) {
-                    firstNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
-                }
-                if (vizActivities[activity].id === secondNode) {
-                    secondNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
-                }
-            }
-            //flowsGroup
-            var flowColor = "#73f17b";
-            var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
-            thisFlow.append("circle")
-                .attr("cx", firstNodeCenter.x + 4)
-                .attr("cy", firstNodeCenter.y)
-                .attr("fill", flowColor)
-                .attr("r", 3);
-            thisFlow.append("circle")
-                .attr("cx", secondNodeCenter.x + 4)
-                .attr("cy", secondNodeCenter.y)
-                .attr("fill", flowColor)
-                .attr("r", 3);
-            // Line
-            var line = d3.line()
-                .x(function(d) {
-                    return d.x;
-                })
-                .y(function(d) {
-                    return d.y;
-                })
-                .curve(d3.curveBasis);
-            // TODO: calculate the points...
-            var points = [{
-                    x: firstNodeCenter.x + 4,
-                    y: firstNodeCenter.y
-                },
-                {
-                    x: secondNodeCenter.x + 4,
-                    y: firstNodeCenter.y
-                },
-                {
-                    x: secondNodeCenter.x + 4,
-                    y: secondNodeCenter.y
-                },
-            ];
-            // Add the path as the flow viz
-            var pathData = line(points);
-            var flowViz = thisFlow.selectAll('path')
-                .data(points)
-                .enter()
-                .append('path')
-                .attr('d', pathData)
-                .attr("stroke", flowColor)
-                .attr("stroke-width", 2)
-                .attr("fill", "none");
-            // Add an icon in the middle of the path
-            var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
-            var flowVizMidPoint = thisFlow.append("circle")
-                .attr("fill", flowColor)
-                .attr("r", 8)
-                .attr("cx", pathMidPoint.x)
-                .attr("cy", pathMidPoint.y);
-            // Add tooltip
-            flowVizMidPoint.classed("flow-tooltip", true)
-                .attr("title", thisUpdatedProject.flows[flow].title)
-                .attr("data-toggle", "tooltip");
-            // Add the icon
-            thisFlow.append('text')
-                .attr("fill", "#fff")
-                .attr("x", pathMidPoint.x)
-                .attr("y", pathMidPoint.y)
-                .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "central")
-                .style("font-family", "FontAwesome")
-                .style("font-size", "8px")
-                .text("\uf074");
-            // Add class for the hover effect and for launching the edit modal
-            thisFlow.attr("class", "activity-hover edit-flow")
-                // Add hover effect
-                .on("mouseover", function() {
-                    d3.select(this)
-                        .attr("filter", "url(#glow)");
-                })
-                .on("mouseout", function() {
-                    d3.select(this)
-                        .attr("filter", null);
-                });
-
-        }
-
-        // Draw the contradictions
-        var contradictionsGroup = sectionsSVG.append("g");
-        for (contradiction in thisUpdatedProject.contradictions) {
-            // Get the ids of the nodes in the flow
-            firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
-            secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
-            // Get the first activity element
-            var firstActivityElement = ActivityElements.findOne({
-                '_id': firstNode
-            });
-            // Get the second activity element
-            var secondActivityElement = ActivityElements.findOne({
-                '_id': secondNode
-            });
-            // Get the activity center of the node in the flow
-            var firstNodeCenter;
-            var secondNodeCenter;
-            // Access the data when ready
-            if ((typeof firstActivityElement != "undefined") && (typeof secondActivityElement != "undefined")) {
-                for (activity in vizActivities) {
-                    if (vizActivities[activity].id === firstActivityElement.activityId) {
-                        firstNodeCenter = vizActivities[activity].activityElementsCenters[firstActivityElement.activityElementData.title];
-                    }
-                    if (vizActivities[activity].id === secondActivityElement.activityId) {
-                        secondNodeCenter = vizActivities[activity].activityElementsCenters[secondActivityElement.activityElementData.title];
-                    }
-                }
-            }
-            //contradictionsGroup
-            var contradictionColor = "#63dfff";
-            var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
-            thisContradiction.append("circle")
-                .attr("cx", firstNodeCenter.x + 4)
-                .attr("cy", firstNodeCenter.y)
-                .attr("fill", contradictionColor)
-                .attr("r", 3);
-            thisContradiction.append("circle")
-                .attr("cx", secondNodeCenter.x + 4)
-                .attr("cy", secondNodeCenter.y)
-                .attr("fill", contradictionColor)
-                .attr("r", 3);
-            // Line
-            var line = d3.line()
-                .x(function(d) {
-                    return d.x;
-                })
-                .y(function(d) {
-                    return d.y;
-                })
-                .curve(d3.curveBasis);
-            // Calculate the points...
-            var points = [];
-            // Define curve according to the contradiction levels
-            if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
-                // Primary contradictions as self-loop
-                points = [{
-                        x: firstNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x,
-                        y: firstNodeCenter.y - 20
-                    },
-                    {
-                        x: secondNodeCenter.x + 8,
-                        y: firstNodeCenter.y - 20
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: secondNodeCenter.y
-                    },
-                ];
-            } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
-                points = [{
-                        x: firstNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 8,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: secondNodeCenter.y
-                    },
-                ];
-            } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
-                points = [{
-                        x: firstNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: secondNodeCenter.y
-                    },
-                ];
-            } else if (thisUpdatedProject.contradictions[contradiction].level === "quaternary") {
-                points = [{
-                        x: firstNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: firstNodeCenter.y
-                    },
-                    {
-                        x: secondNodeCenter.x + 4,
-                        y: secondNodeCenter.y
-                    },
-                ];
-            }
-            // Add the path as the flow viz
-            var pathData = line(points);
-            var contradictionViz = thisContradiction.selectAll('path')
-                .data(points)
-                .enter()
-                .append('path')
-                .attr('d', pathData)
-                .attr("stroke", contradictionColor)
-                .attr("stroke-width", 2)
-                .attr("fill", "none");
-            // Add an icon in the middle of the path
-            var pathMidPoint = {};
-            if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
-                pathMidPoint = {
-                    x: secondNodeCenter.x + 4,
-                    y: firstNodeCenter.y - 20
-                };
-            } else {
-                pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength() * 0.5);
-            }
-            var contradictionVizMidPoint = thisContradiction.append("circle")
-                .attr("fill", contradictionColor)
-                .attr("r", 8)
-                .attr("cx", pathMidPoint.x)
-                .attr("cy", pathMidPoint.y);
-            // Add tooltip
-            contradictionVizMidPoint.classed("flow-tooltip", true)
-                .attr("title", thisUpdatedProject.contradictions[contradiction].title)
-                .attr("data-toggle", "tooltip");
-            // Add the icon
-            thisContradiction.append('text')
-                .attr("fill", "#fff")
-                .attr("x", pathMidPoint.x)
-                .attr("y", pathMidPoint.y)
-                .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "central")
-                .style("font-family", "FontAwesome")
-                .style("font-size", "8px")
-                .text("\uf071");
-            // Add class for the hover effect and for launching the edit modal
-            thisContradiction.attr("class", "activity-hover edit-contradiction")
-                // Add hover effect
-                .on("mouseover", function() {
-                    d3.select(this)
-                        .attr("filter", "url(#glow)");
-                })
-                .on("mouseout", function() {
-                    d3.select(this)
-                        .attr("filter", null);
-                });
-
-        }
+        // var flowsGroup = sectionsSVG.append("g");
+        // for (flow in thisUpdatedProject.flows) {
+        //     // Get the ids of the nodes in the flow
+        //     firstNode = thisUpdatedProject.flows[flow].firstNode;
+        //     secondNode = thisUpdatedProject.flows[flow].secondNode;
+        //     // Get the activity center of the node in the flow
+        //     var firstNodeCenter;
+        //     var secondNodeCenter;
+        //     for (activity in vizActivities) {
+        //         if (vizActivities[activity].id === firstNode) {
+        //             firstNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
+        //         }
+        //         if (vizActivities[activity].id === secondNode) {
+        //             secondNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
+        //         }
+        //     }
+        //     //flowsGroup
+        //     var flowColor = "#73f17b";
+        //     var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
+        //     thisFlow.append("circle")
+        //         .attr("cx", firstNodeCenter.x + 4)
+        //         .attr("cy", firstNodeCenter.y)
+        //         .attr("fill", flowColor)
+        //         .attr("r", 3);
+        //     thisFlow.append("circle")
+        //         .attr("cx", secondNodeCenter.x + 4)
+        //         .attr("cy", secondNodeCenter.y)
+        //         .attr("fill", flowColor)
+        //         .attr("r", 3);
+        //     // Line
+        //     var line = d3.line()
+        //         .x(function(d) {
+        //             return d.x;
+        //         })
+        //         .y(function(d) {
+        //             return d.y;
+        //         })
+        //         .curve(d3.curveBasis);
+        //     // TODO: calculate the points...
+        //     var points = [{
+        //             x: firstNodeCenter.x + 4,
+        //             y: firstNodeCenter.y
+        //         },
+        //         {
+        //             x: secondNodeCenter.x + 4,
+        //             y: firstNodeCenter.y
+        //         },
+        //         {
+        //             x: secondNodeCenter.x + 4,
+        //             y: secondNodeCenter.y
+        //         },
+        //     ];
+        //     // Add the path as the flow viz
+        //     var pathData = line(points);
+        //     var flowViz = thisFlow.selectAll('path')
+        //         .data(points)
+        //         .enter()
+        //         .append('path')
+        //         .attr('d', pathData)
+        //         .attr("stroke", flowColor)
+        //         .attr("stroke-width", 2)
+        //         .attr("fill", "none");
+        //     // Add an icon in the middle of the path
+        //     var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
+        //     var flowVizMidPoint = thisFlow.append("circle")
+        //         .attr("fill", flowColor)
+        //         .attr("r", 8)
+        //         .attr("cx", pathMidPoint.x)
+        //         .attr("cy", pathMidPoint.y);
+        //     // Add tooltip
+        //     flowVizMidPoint.classed("flow-tooltip", true)
+        //         .attr("title", thisUpdatedProject.flows[flow].title)
+        //         .attr("data-toggle", "tooltip");
+        //     // Add the icon
+        //     thisFlow.append('text')
+        //         .attr("fill", "#fff")
+        //         .attr("x", pathMidPoint.x)
+        //         .attr("y", pathMidPoint.y)
+        //         .attr("text-anchor", "middle")
+        //         .attr("dominant-baseline", "central")
+        //         .style("font-family", "FontAwesome")
+        //         .style("font-size", "8px")
+        //         .text("\uf074");
+        //     // Add class for the hover effect and for launching the edit modal
+        //     thisFlow.attr("class", "activity-hover edit-flow")
+        //         // Add hover effect
+        //         .on("mouseover", function() {
+        //             d3.select(this)
+        //                 .attr("filter", "url(#glow)");
+        //         })
+        //         .on("mouseout", function() {
+        //             d3.select(this)
+        //                 .attr("filter", null);
+        //         });
+        //
+        // }
+        //
+        // // Draw the contradictions
+        // var contradictionsGroup = sectionsSVG.append("g");
+        // for (contradiction in thisUpdatedProject.contradictions) {
+        //     // Get the ids of the nodes in the flow
+        //     firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
+        //     secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
+        //     // Get the first activity element
+        //     var firstActivityElement = ActivityElements.findOne({
+        //         '_id': firstNode
+        //     });
+        //     // Get the second activity element
+        //     var secondActivityElement = ActivityElements.findOne({
+        //         '_id': secondNode
+        //     });
+        //     // Get the activity center of the node in the flow
+        //     var firstNodeCenter;
+        //     var secondNodeCenter;
+        //     // Access the data when ready
+        //     if ((typeof firstActivityElement != "undefined") && (typeof secondActivityElement != "undefined")) {
+        //         for (activity in vizActivities) {
+        //             if (vizActivities[activity].id === firstActivityElement.activityId) {
+        //                 firstNodeCenter = vizActivities[activity].activityElementsCenters[firstActivityElement.activityElementData.title];
+        //             }
+        //             if (vizActivities[activity].id === secondActivityElement.activityId) {
+        //                 secondNodeCenter = vizActivities[activity].activityElementsCenters[secondActivityElement.activityElementData.title];
+        //             }
+        //         }
+        //     }
+        //     //contradictionsGroup
+        //     var contradictionColor = "#63dfff";
+        //     var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
+        //     thisContradiction.append("circle")
+        //         .attr("cx", firstNodeCenter.x + 4)
+        //         .attr("cy", firstNodeCenter.y)
+        //         .attr("fill", contradictionColor)
+        //         .attr("r", 3);
+        //     thisContradiction.append("circle")
+        //         .attr("cx", secondNodeCenter.x + 4)
+        //         .attr("cy", secondNodeCenter.y)
+        //         .attr("fill", contradictionColor)
+        //         .attr("r", 3);
+        //     // Line
+        //     var line = d3.line()
+        //         .x(function(d) {
+        //             return d.x;
+        //         })
+        //         .y(function(d) {
+        //             return d.y;
+        //         })
+        //         .curve(d3.curveBasis);
+        //     // Calculate the points...
+        //     var points = [];
+        //     // Define curve according to the contradiction levels
+        //     if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
+        //         // Primary contradictions as self-loop
+        //         points = [{
+        //                 x: firstNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x,
+        //                 y: firstNodeCenter.y - 20
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 8,
+        //                 y: firstNodeCenter.y - 20
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: secondNodeCenter.y
+        //             },
+        //         ];
+        //     } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
+        //         points = [{
+        //                 x: firstNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 8,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: secondNodeCenter.y
+        //             },
+        //         ];
+        //     } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
+        //         points = [{
+        //                 x: firstNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: secondNodeCenter.y
+        //             },
+        //         ];
+        //     } else if (thisUpdatedProject.contradictions[contradiction].level === "quaternary") {
+        //         points = [{
+        //                 x: firstNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: firstNodeCenter.y
+        //             },
+        //             {
+        //                 x: secondNodeCenter.x + 4,
+        //                 y: secondNodeCenter.y
+        //             },
+        //         ];
+        //     }
+        //     // Add the path as the flow viz
+        //     var pathData = line(points);
+        //     var contradictionViz = thisContradiction.selectAll('path')
+        //         .data(points)
+        //         .enter()
+        //         .append('path')
+        //         .attr('d', pathData)
+        //         .attr("stroke", contradictionColor)
+        //         .attr("stroke-width", 2)
+        //         .attr("fill", "none");
+        //     // Add an icon in the middle of the path
+        //     var pathMidPoint = {};
+        //     if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
+        //         pathMidPoint = {
+        //             x: secondNodeCenter.x + 4,
+        //             y: firstNodeCenter.y - 20
+        //         };
+        //     } else {
+        //         pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength() * 0.5);
+        //     }
+        //     var contradictionVizMidPoint = thisContradiction.append("circle")
+        //         .attr("fill", contradictionColor)
+        //         .attr("r", 8)
+        //         .attr("cx", pathMidPoint.x)
+        //         .attr("cy", pathMidPoint.y);
+        //     // Add tooltip
+        //     contradictionVizMidPoint.classed("flow-tooltip", true)
+        //         .attr("title", thisUpdatedProject.contradictions[contradiction].title)
+        //         .attr("data-toggle", "tooltip");
+        //     // Add the icon
+        //     thisContradiction.append('text')
+        //         .attr("fill", "#fff")
+        //         .attr("x", pathMidPoint.x)
+        //         .attr("y", pathMidPoint.y)
+        //         .attr("text-anchor", "middle")
+        //         .attr("dominant-baseline", "central")
+        //         .style("font-family", "FontAwesome")
+        //         .style("font-size", "8px")
+        //         .text("\uf071");
+        //     // Add class for the hover effect and for launching the edit modal
+        //     thisContradiction.attr("class", "activity-hover edit-contradiction")
+        //         // Add hover effect
+        //         .on("mouseover", function() {
+        //             d3.select(this)
+        //                 .attr("filter", "url(#glow)");
+        //         })
+        //         .on("mouseout", function() {
+        //             d3.select(this)
+        //                 .attr("filter", null);
+        //         });
+        //
+        // }
 
         // FINAL STEPS
         // Implement zoom and pan
