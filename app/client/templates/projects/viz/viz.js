@@ -1016,6 +1016,9 @@ Template.ProjectsViz.onRendered(function() {
 
                var thisX = 25 + (i * 120);
 
+
+
+
                timelineSVGGroup
                    .attr("transform", "translate(" + (thisX) + ",100)")
                    .selectAll("rect")
@@ -1023,24 +1026,105 @@ Template.ProjectsViz.onRendered(function() {
                    .enter()
                    .append("rect")
                    .attr("y", function(d) {
-                       return d.start
+                       return d.start;
                    })
                    .attr("x", function(d) {
-                       return d.y
+                       return d.y;
                    })
                    .attr("width", function(d) {
-                       return d.dy
+                       return d.dy;
                    })
                    .attr("height", function(d) {
-                       return d.end - d.start
+                       return d.end - d.start;
                    })
                    .style("fill", function(d) {
-                       return "#bfdde4";
-                       //return colorScale(d.processTitle)
+                       // Calculate the participationLevelValue
+                       switch (d.participation) {
+                           case "No participation":
+                               participationLevelValue = 0;
+                               break;
+                           case "Indirect participation":
+                               participationLevelValue = 20;
+                               break;
+                           case "Consultative participation":
+                               participationLevelValue = 35;
+                               break;
+                           case "Shared control":
+                               participationLevelValue = 50;
+                               break;
+                           case "Full control":
+                               participationLevelValue = 100;
+                               break;
+                       }
+                       // Set the color of the activity timeline based on the participation level
+                       var participationLevelValueColor = participationLevelValue * 255 / 100;
+                       participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
+
+                       return participationLevelValueColorString;
                    })
                    .style("stroke", "black")
-                   .style("stroke-width", 1);
+                   .style("stroke-width", 1)
+                   .attr("title", function(d) {
+                       // Calculate the participationLevelValue
+                       switch (d.participation) {
+                           case "No participation":
+                               participationLevelValue = 0;
+                               break;
+                           case "Indirect participation":
+                               participationLevelValue = 20;
+                               break;
+                           case "Consultative participation":
+                               participationLevelValue = 35;
+                               break;
+                           case "Shared control":
+                               participationLevelValue = 50;
+                               break;
+                           case "Full control":
+                               participationLevelValue = 100;
+                               break;
+                       }
 
+                    return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
+                   })
+                   .classed("participation-tooltip", true)
+                   .attr("data-toggle", "tooltip");
+
+                   // Add the participation level percentage text
+                   timelineSVGGroup
+                    .append("g")
+                       .selectAll("text")
+                       .data(theseBands)
+                       .enter()
+                       .append("text")
+                       .text(function(d) {
+                           // Calculate the participationLevelValue
+                           switch (d.participation) {
+                               case "No participation":
+                                   participationLevelValue = 0;
+                                   break;
+                               case "Indirect participation":
+                                   participationLevelValue = 20;
+                                   break;
+                               case "Consultative participation":
+                                   participationLevelValue = 35;
+                                   break;
+                               case "Shared control":
+                                   participationLevelValue = 50;
+                                   break;
+                               case "Full control":
+                                   participationLevelValue = 100;
+                                   break;
+                           }
+
+                        return participationLevelValue + "%";
+                       })
+                       .attr("x", function(d) {
+                           return d.y + 10;
+                       })
+                       .attr("y", function(d) {
+                           return d.start + 10;
+                       })
+                       .attr("class", "participation-level");
 
                // Add lines to the time axis
                timelineSVGGroup
