@@ -1388,7 +1388,7 @@ Template.ProjectsViz.onRendered(function() {
         var d3width = +d3Container.clientWidth - margin.left - margin.right;
         var d3height = +d3Container.clientHeight - margin.top - margin.bottom;
         var zoom = d3.zoom()
-            .scaleExtent([1, 3])
+            .scaleExtent([1, 13])
             .translateExtent([
                 [-margin.left, -margin.top],
                 [d3width, d3height]
