@@ -9,6 +9,11 @@ import { moment } from 'meteor/momentjs:moment';
 // Import D3
 import d3 from 'd3';
 import 'd3-fetch';
+import timeline from './d3.timeline.js';
+
+var timeline2 = timeline()
+    .size([1000, 300]);
+
 // Diff
 let diff = require('deep-diff');
 // Networkx
