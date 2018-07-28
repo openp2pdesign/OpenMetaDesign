@@ -1035,11 +1035,55 @@ Template.ProjectsViz.onRendered(function() {
                        return d.end - d.start
                    })
                    .style("fill", function(d) {
-                       return "#000";
+                       return "#bfdde4";
                        //return colorScale(d.processTitle)
                    })
                    .style("stroke", "black")
                    .style("stroke-width", 1);
+
+
+               // Add lines to the time axis
+               timelineSVGGroup
+                .append("g")
+                   .selectAll("line")
+                   .data(theseBands)
+                   .enter()
+                   .append("line")
+                   .attr("x1", -thisX)
+                   .attr("y1", function(d) {
+                       return d.start
+                   })
+                   .attr("x2", function(d) {
+                       return d.y
+                   })
+                   .attr("y2", function(d) {
+                       return d.start
+                   })
+                   .attr("stroke", "#a7b5d4")
+                   .style("stroke-dasharray", ("3,5"))
+                   .attr("stroke-width", 1)
+                   .attr("fill", "none");
+
+                   timelineSVGGroup
+                    .append("g")
+                       .selectAll("line")
+                       .data(theseBands)
+                       .enter()
+                       .append("line")
+                       .attr("x1", -thisX)
+                       .attr("y1", function(d) {
+                           return d.end
+                       })
+                       .attr("x2", function(d) {
+                            return d.y
+                       })
+                       .attr("y2", function(d) {
+                           return d.end
+                       })
+                       .attr("stroke", "#bb25ba")
+                       .style("stroke-dasharray", ("3,5"))
+                       .attr("stroke-width", 1)
+                       .attr("fill", "none");
 
               // Add section label
               var sectionLabel = timelineSVGGroup.append("text")
