@@ -1012,10 +1012,12 @@ Template.ProjectsViz.onRendered(function() {
                console.log("T",type);
                console.log("B",theseBands);
 
-               var timelineSVGGroup = timeG.append("g").attr("id", "timelineSVGGroup");
+               var timelineSVGGroup = sectionsSVG.append("g").attr("id", "timelineSVGGroup");
+
+               var thisX = 25 + (i * 120);
 
                timelineSVGGroup
-                   .attr("transform", "translate(" + (65 + (i * 120)) + ",100)")
+                   .attr("transform", "translate(" + (thisX) + ",100)")
                    .selectAll("rect")
                    .data(theseBands)
                    .enter()
@@ -1039,11 +1041,46 @@ Template.ProjectsViz.onRendered(function() {
                    .style("stroke", "black")
                    .style("stroke-width", 1);
 
-              timelineSVGGroup.append("text")
+              // Add section label
+              var sectionLabel = timelineSVGGroup.append("text")
                    .text(type)
-                   .attr("x", 50 + (i * 120))
-                   .attr("y", 20)
+                   .attr("x", thisX+25)
+                   .attr("y", 0)
                    .attr("fill", "#000");
+
+                   // Add Add Activity button
+                   var addActivityButton = addButton(thisX+50, -labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+                   addActivityButton.attr("data-toggle", "modal")
+                       .classed("activity-button", true)
+                       .attr("title", "Add an activity here")
+                       .attr("data-activity-mode", "add")
+                       .attr("data-activity-id", "none")
+                       .attr("data-process-id", thisUpdatedProject.processes[j].id)
+                       .classed("button-tooltip", true)
+                       .attr("data-toggle", "tooltip");
+
+                   // Add separator lines from the project data
+                   var text = "Customer processes";
+                   // Add the line
+                   timelineSVGGroup.append("line")
+                       .attr("x1", thisX)
+                       .attr("y1", 0)
+                       .attr("x1", thisX)
+                       .attr("y1", d3Container.clientHeight)
+                       .attr("class", "svg-lines-line");
+                   // Add the background behind the text
+                   timelineSVGGroup.append("rect")
+                       .attr("x", thisX+50-10)
+                       .attr("y", 0)
+                       .attr("width", 20)
+                       .attr("height", text.length * 5)
+                       .attr("class", "svg-lines-rect");
+                   // Add the text
+                   timelineSVGGroup.append("text")
+                       .text(text)
+                       .attr("x", thisX+50)
+                       .attr("y", 0)
+                       .attr("class", "svg-lines-text");
 
            });
 
