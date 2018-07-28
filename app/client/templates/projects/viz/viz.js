@@ -1044,43 +1044,36 @@ Template.ProjectsViz.onRendered(function() {
               // Add section label
               var sectionLabel = timelineSVGGroup.append("text")
                    .text(type)
-                   .attr("x", thisX+25)
-                   .attr("y", 0)
-                   .attr("fill", "#000");
+                   .attr("class", "svg-label")
+                   .attr("x", thisX)
+                   .attr("y", -30-labelHeight);
 
-                   // Add Add Activity button
-                   var addActivityButton = addButton(thisX+50, -labelHeight - 5, 10, timelineSVGGroup, '\uf067');
-                   addActivityButton.attr("data-toggle", "modal")
-                       .classed("activity-button", true)
-                       .attr("title", "Add an activity here")
-                       .attr("data-activity-mode", "add")
-                       .attr("data-activity-id", "none")
-                       .attr("data-process-id", thisUpdatedProject.processes[j].id)
-                       .classed("button-tooltip", true)
-                       .attr("data-toggle", "tooltip");
+            // Add Add Activity button
+            var addActivityButton = addButton(thisX+sectionLabel.node().getBBox().width + 15, -30-labelHeight-5, 10, timelineSVGGroup, '\uf067');
+            addActivityButton.attr("data-toggle", "modal")
+               .classed("activity-button", true)
+               .attr("title", "Add an activity here")
+               .attr("data-activity-mode", "add")
+               .attr("data-activity-id", "none")
+               .attr("data-process-id", thisUpdatedProject.processes[j].id)
+               .classed("button-tooltip", true)
+               .attr("data-toggle", "tooltip");
 
-                   // Add separator lines from the project data
-                   var text = "Customer processes";
-                   // Add the line
-                   timelineSVGGroup.append("line")
-                       .attr("x1", thisX)
-                       .attr("y1", 0)
-                       .attr("x1", thisX)
-                       .attr("y1", d3Container.clientHeight)
-                       .attr("class", "svg-lines-line");
-                   // Add the background behind the text
-                   timelineSVGGroup.append("rect")
-                       .attr("x", thisX+50-10)
-                       .attr("y", 0)
-                       .attr("width", 20)
-                       .attr("height", text.length * 5)
-                       .attr("class", "svg-lines-rect");
-                   // Add the text
-                   timelineSVGGroup.append("text")
-                       .text(text)
-                       .attr("x", thisX+50)
-                       .attr("y", 0)
-                       .attr("class", "svg-lines-text");
+            // Add separator lines from the project data
+            var text = "Line of interaction";
+            // Add the line
+            timelineSVGGroup.append("line")
+               .attr("x1", thisX+50)
+               .attr("y1", text.length * 5)
+               .attr("x2", thisX+50)
+               .attr("y2", d3Container.clientHeight)
+               .attr("class", "svg-lines-line");
+            // Add the text
+            timelineSVGGroup.append("text")
+               .text(text)
+               .attr("x", thisX+50)
+               .attr("y", 0)
+               .attr("class", "svg-lines-text");
 
            });
 
