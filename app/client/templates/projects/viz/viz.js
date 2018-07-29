@@ -969,19 +969,6 @@ Template.ProjectsViz.onRendered(function() {
         for (process in thisUpdatedProject.processes) {
             // Loop each cluster of activities
             // To plot the cluster well
-            // TODO keep track of each activity position, then check overlap... and add accordingly
-            var activitiesInClusters = [];
-            for (cluster in thisUpdatedProject.processes[process].overlaps) {
-                var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
-                activityX = 0;
-                if (thisUpdatedProject.processes[process]["activities"].length > 0) {
-                    for (clusterCursor in clusterActivities) {
-                        thisUpdatedProject.processes[process]["activities"][clusterCursor]["activityX"] = activityX;
-                        activityX = activityX + 80;
-                        activitiesInClusters.push(thisUpdatedProject.processes[process]["activities"][clusterCursor]["id"]);
-                    }
-                }
-            }
             // Timeline Layout
 
             //console.log(JSON.stringify(thisUpdatedProject.processes));
@@ -1091,15 +1078,15 @@ Template.ProjectsViz.onRendered(function() {
                     .classed("participation-tooltip", true)
                     .attr("data-toggle", "tooltip")
                     .classed("activity-hover", true)
-                        // Add hover effect
-                        .on("mouseover", function() {
-                            d3.select(this)
-                                .attr("filter", "url(#glow)");
-                        })
-                        .on("mouseout", function() {
-                            d3.select(this)
-                                .attr("filter", null);
-                        });
+                    // Add hover effect
+                    .on("mouseover", function() {
+                        d3.select(this)
+                            .attr("filter", "url(#glow)");
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this)
+                            .attr("filter", null);
+                    });
 
                 // Add the participation level percentage text
                 timelineSVGGroup
@@ -1182,8 +1169,8 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("stroke-width", 1)
                     .attr("fill", "none");
 
-                    var activityIconContainerWidth = 60;
-                    var activityIconContainerHeight = 85;
+                var activityIconContainerWidth = 60;
+                var activityIconContainerHeight = 85;
 
                 // Activity Icon Box
                 timelineSVGGroup
@@ -1193,7 +1180,7 @@ Template.ProjectsViz.onRendered(function() {
                     .enter()
                     .append("rect")
                     .attr("x", function(d) {
-                        return d.y+20;
+                        return d.y + 20;
                     })
                     .attr("y", function(d) {
                         return d.start;
@@ -1204,15 +1191,15 @@ Template.ProjectsViz.onRendered(function() {
                     .style("fill", "#fff")
                     .style("stroke", "#8f8f8f")
                     .classed("activity-hover", true)
-                        // Add hover effect
-                        .on("mouseover", function() {
-                            d3.select(this)
-                                .attr("filter", "url(#glow)");
-                        })
-                        .on("mouseout", function() {
-                            d3.select(this)
-                                .attr("filter", null);
-                        });
+                    // Add hover effect
+                    .on("mouseover", function() {
+                        d3.select(this)
+                            .attr("filter", "url(#glow)");
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this)
+                            .attr("filter", null);
+                    });
                 // Activity Icon
                 timelineSVGGroup
                     .selectAll("path")
@@ -1222,7 +1209,7 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("d", activityIconPath)
                     .style("fill", "#ba4d4d")
                     .attr("transform", function(d) {
-                        return "translate(" + (d.y+20+5) + ","+(d.start+5)+")";
+                        return "translate(" + (d.y + 20 + 5) + "," + (d.start + 5) + ")";
                     });
                 // Activity
 
@@ -1397,7 +1384,7 @@ Template.ProjectsViz.onRendered(function() {
                                 buttonWidth = 23;
                                 break;
                         }
-                        return d.y+buttonWidth+20;
+                        return d.y + buttonWidth + 20;
                     })
                     .attr("y", function(d) {
                         return d.start;
@@ -1423,15 +1410,15 @@ Template.ProjectsViz.onRendered(function() {
                     //.attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
                     .attr("data-toggle", "tooltip");
 
-                    activityEditButtons.attr("class", "svg-button")
-                       .on("mouseover", function() {
-                           d3.select(this)
-                               .attr("filter", "url(#glow)");
-                       })
-                       .on("mouseout", function() {
-                           d3.select(this)
-                               .attr("filter", null);
-                       });
+                activityEditButtons.attr("class", "svg-button")
+                    .on("mouseover", function() {
+                        d3.select(this)
+                            .attr("filter", "url(#glow)");
+                    })
+                    .on("mouseout", function() {
+                        d3.select(this)
+                            .attr("filter", null);
+                    });
 
                 // Process Section info
 
@@ -1470,43 +1457,6 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("class", "svg-lines-text");
 
             });
-
-            // Look in each activity
-            // for (activity in thisUpdatedProject.processes[process]["activities"]) {
-            //     // Get the activity data
-            //     activityData = thisUpdatedProject.processes[process]["activities"][activity];
-            //     processData = thisUpdatedProject.processes[process];
-            //     // Add activityX to activities that are not in a cluster
-            //     if (!activitiesInClusters.includes(activityData.id)) {
-            //         activityData.activityX = 0;
-            //     }
-            //     // Find the process group in the svg
-            //     for (group in sectionsGroups) {
-            //         sectionSelection = sectionsGroups[group]._groups[0][0];
-            //         sectionSelectionID = $(sectionSelection).attr("id");
-            //         if (sectionSelectionID == processData.title) {
-            //             parentGroup = sectionsGroups[group];
-            //         }
-            //     }
-            //     // Find the width
-            //     for (width in sectionsWidth) {
-            //         if (sectionsWidth[width].section == processData.title) {
-            //             sectionX = sectionsWidth[width].x;
-            //         }
-            //     }
-            //     // Add / draw the activity
-            //     var thisActivity = addActivity(sectionX+activityData.activityX, labelHeight + yScale(activityData.time.start), yScale(activityData.time.end), sectionsSVG, activityData, thisUpdatedProject.processes[process]);
-            //     // Add it to the list of activities
-            //     vizActivities.push(thisActivity);
-            //     // For flows and issues: add 5 to x (the borders of the rects)
-            //     for (i in thisActivity.activityElementsCenters) {
-            //         sectionsSVG.append("circle")
-            //             .attr("cx", thisActivity.activityElementsCenters[i].x + 4)
-            //             .attr("cy", thisActivity.activityElementsCenters[i].y)
-            //             .attr("fill", "green")
-            //             .attr("r", 0);
-            //     }
-            // }
         }
         // Draw the flows
         // var flowsGroup = sectionsSVG.append("g");
