@@ -10,7 +10,7 @@ import { moment } from 'meteor/momentjs:moment';
 import d3 from 'd3';
 import 'd3-fetch';
 import timeline from './d3.timeline.js';
-// Icon
+// Activity Icon
 import activityIconPath from './activityIconPath.js';
 activityIconPath = activityIconPath.activityIconPath;
 // Diff
@@ -1193,7 +1193,7 @@ Template.ProjectsViz.onRendered(function() {
                     .style("stroke-width", "1px")
                     .style("fill", "#fff")
                     .style("stroke", "#8f8f8f");
-
+                // Activity Icon
                 timelineSVGGroup
                     .selectAll("path")
                     .data(theseBands)
@@ -1202,13 +1202,10 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("d", activityIconPath)
                     .style("fill", "#ba4d4d")
                     .attr("transform", function(d) {
-                        return "translate(" + (d.y+20) + ","+d.start+")";
+                        return "translate(" + (d.y+20+5) + ","+(d.start+5)+")";
                     });
+                // Activity
 
-                    // var loadedSVG = parent.append("g");
-                    // d3.xml(Meteor.absoluteUrl("../as_full_nolabel_small.svg")).then(function(xml) {
-                    //     loadedSVG.node().appendChild(xml.documentElement);
-                    // });
 
                 // Process Section info
 
