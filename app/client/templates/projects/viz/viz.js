@@ -1089,7 +1089,17 @@ Template.ProjectsViz.onRendered(function() {
                         return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
                     })
                     .classed("participation-tooltip", true)
-                    .attr("data-toggle", "tooltip");
+                    .attr("data-toggle", "tooltip")
+                    .classed("activity-hover", true)
+                        // Add hover effect
+                        .on("mouseover", function() {
+                            d3.select(this)
+                                .attr("filter", "url(#glow)");
+                        })
+                        .on("mouseout", function() {
+                            d3.select(this)
+                                .attr("filter", null);
+                        });
 
                 // Add the participation level percentage text
                 timelineSVGGroup
@@ -1192,7 +1202,17 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("height", activityIconContainerHeight)
                     .style("stroke-width", "1px")
                     .style("fill", "#fff")
-                    .style("stroke", "#8f8f8f");
+                    .style("stroke", "#8f8f8f")
+                    .classed("activity-hover", true)
+                        // Add hover effect
+                        .on("mouseover", function() {
+                            d3.select(this)
+                                .attr("filter", "url(#glow)");
+                        })
+                        .on("mouseout", function() {
+                            d3.select(this)
+                                .attr("filter", null);
+                        });
                 // Activity Icon
                 timelineSVGGroup
                     .selectAll("path")
@@ -1205,6 +1225,79 @@ Template.ProjectsViz.onRendered(function() {
                         return "translate(" + (d.y+20+5) + ","+(d.start+5)+")";
                     });
                 // Activity
+
+                // Center of activity elements
+                // var activityIconSize = {
+                //     width: 55,
+                //     height: 50
+                // };
+                // var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
+                // // Move it to x and y, and a 5 vertical padding from top
+                // activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
+                // //Find centers of activity elements
+                // timelineSVGGroup.activityElementsCenters = {
+                //     subject: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) - 10,
+                //         y: (y + 5 + activityIconSize.height / 2) - 18,
+                //         title: "Subject"
+                //     },
+                //     object: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) + 20,
+                //         y: y + 5 + activityIconSize.height / 2,
+                //         title: "Object"
+                //     },
+                //     outcome: {
+                //         x: 15 + x + activityIconContainerWidth / 2,
+                //         y: y + 5 + activityIconSize.height / 2,
+                //         title: "Outcome"
+                //     },
+                //     tools: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) + 10,
+                //         y: (y + 5 + activityIconSize.height / 2) - 18,
+                //         title: "Tools"
+                //     },
+                //     rules: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) - 20,
+                //         y: y + 5 + activityIconSize.height / 2,
+                //         title: "Rules"
+                //     },
+                //     roles: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) - 10,
+                //         y: (y + 5 + activityIconSize.height / 2) + 18,
+                //         title: "Roles"
+                //     },
+                //     community: {
+                //         x: 15 + (x + activityIconContainerWidth / 2) + 10,
+                //         y: (y + 5 + activityIconSize.height / 2) + 18,
+                //         title: "Community"
+                //     },
+                // }
+                // // Add activity ID data
+                // timelineSVGGroup.id = activityData.id;
+                // var activityTooltips = timelineSVGGroup.append("g");
+                // // Add transparent circles for tooltip
+                // for (i in timelineSVGGroup.activityElementsCenters) {
+                //     activityTooltips.append("circle")
+                //         .attr("cx", timelineSVGGroup.activityElementsCenters[i].x)
+                //         .attr("cy", timelineSVGGroup.activityElementsCenters[i].y)
+                //         .attr("fill", "rgba(0, 0, 0, 0)")
+                //         .attr("r", "7")
+                //         .attr("title", timelineSVGGroup.activityElementsCenters[i].title)
+                //         .classed("activity-tooltip", true)
+                //         .attr("data-toggle", "tooltip");
+                //
+                // }
+                // // Add the activity button
+                // var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
+                // activityButton.attr("data-toggle", "modal")
+                //     .classed("activity-button", true)
+                //     .attr("title", "Edit this activity")
+                //     .attr("data-activity-mode", "edit")
+                //     .attr("data-activity-id", activityData.id)
+                //     .attr("data-process-id", processData.id)
+                //     .classed("button-tooltip", true)
+                //     .attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
+                //     .attr("data-toggle", "tooltip");
 
 
                 // Process Section info
