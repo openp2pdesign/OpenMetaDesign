@@ -1223,6 +1223,7 @@ Template.ProjectsViz.onRendered(function() {
                                     x = 16 + (x + activityIconContainerWidth / 2) - 10;
                                     break;
                             }
+                            d["activityCenterX"] = x + radius / 2;
                             return x + radius / 2;
                         })
                         .attr("cy", function(d) {
@@ -1254,6 +1255,7 @@ Template.ProjectsViz.onRendered(function() {
                                     y = (y + 5 + activityIconSize.height / 2) + 15;
                                     break;
                             }
+                            d["activityCenterY"] = y;
                             return y;
                         })
                         .attr("fill", "rgba(0, 0, 0, 0)")
