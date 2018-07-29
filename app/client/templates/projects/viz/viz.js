@@ -1287,18 +1287,151 @@ Template.ProjectsViz.onRendered(function() {
                 //         .attr("data-toggle", "tooltip");
                 //
                 // }
-                // // Add the activity button
-                // var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
-                // activityButton.attr("data-toggle", "modal")
-                //     .classed("activity-button", true)
-                //     .attr("title", "Edit this activity")
-                //     .attr("data-activity-mode", "edit")
-                //     .attr("data-activity-id", activityData.id)
-                //     .attr("data-process-id", processData.id)
-                //     .classed("button-tooltip", true)
-                //     .attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
-                //     .attr("data-toggle", "tooltip");
+                // Add the activity button
+                // TODO position of the button
+                // TODO hover effects
+                // TODO font family for activity number
+                var activityEditButtons = timelineSVGGroup
+                    .append("g")
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("g");
+                var radius = 10;
+                // Add first circle
+                activityEditButtons
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        return d.y;
+                    })
+                    .attr("cy", function(d) {
+                        return d.start;
+                    })
+                    .attr("r", radius)
+                    .classed("svg-button", true);
+                // Add the rect between the circles
+                activityEditButtons
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) {
+                        return d.y;
+                    })
+                    .attr("y", function(d) {
+                        return d.start - radius;
+                    })
+                    .attr("width", function(d) {
+                        var buttonWidth = 0;
+                        switch (d.number.toString().length) {
+                            case 0:
+                                buttonWidth = 0;
+                                break;
+                            case 1:
+                                buttonWidth = 20;
+                                break;
+                            case 2:
+                                buttonWidth = 22;
+                                break;
+                            case 3:
+                                buttonWidth = 23;
+                                break;
+                        }
+                        return buttonWidth;
+                    })
+                    .attr("height", function(d) {
+                        return radius * 2;
+                    })
+                    .classed("svg-button", true);
+                // Add second circle
+                activityEditButtons
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        var buttonWidth = 0;
+                        switch (d.number.toString().length) {
+                            case 0:
+                                buttonWidth = 0;
+                                break;
+                            case 1:
+                                buttonWidth = 20;
+                                break;
+                            case 2:
+                                buttonWidth = 22;
+                                break;
+                            case 3:
+                                buttonWidth = 23;
+                                break;
+                        }
+                        return d.y + buttonWidth;
+                    })
+                    .attr("cy", function(d) {
+                        return d.start;
+                    })
+                    .attr("r", radius)
+                    .classed("svg-button", true);
+                // Add the activity number
+                activityEditButtons
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("text")
+                    .attr("width", function(d) {
+                        var buttonWidth = 0;
+                        switch (d.number.toString().length) {
+                            case 0:
+                                buttonWidth = 0;
+                                break;
+                            case 1:
+                                buttonWidth = 20;
+                                break;
+                            case 2:
+                                buttonWidth = 22;
+                                break;
+                            case 3:
+                                buttonWidth = 23;
+                                break;
+                        }
+                        return d.y+buttonWidth+20;
+                    })
+                    .attr("y", function(d) {
+                        return d.start;
+                    })
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "central")
+                    .style("font-family", "FontAwesome")
+                    .style("font-size", radius.toString() + "px")
+                    .text(function(d) {
+                        return "#" + d.number + " " + "\uf044";
+                    })
+                    .attr("data-toggle", "modal")
+                    .classed("activity-button", true)
+                    .attr("title", "Edit this activity")
+                    .attr("data-activity-mode", "edit")
+                    .attr("data-activity-id", function(d) {
+                        return d.id;
+                    })
+                    .attr("data-process-id", function(d) {
+                        return d.processId;
+                    })
+                    .classed("button-tooltip", true)
+                    //.attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
+                    .attr("data-toggle", "tooltip");
 
+                    activityEditButtons.attr("class", "svg-button")
+                       .on("mouseover", function() {
+                           d3.select(this)
+                               .attr("filter", "url(#glow)");
+                       })
+                       .on("mouseout", function() {
+                           d3.select(this)
+                               .attr("filter", null);
+                       });
 
                 // Process Section info
 
