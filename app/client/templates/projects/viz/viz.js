@@ -468,14 +468,13 @@ Template.ProjectsViz.onRendered(function() {
         var thisUpdatedProject = Projects.findOne({
             '_id': thisProject._id
         });
-
-        // LAYOUT - SVG
-        // Both general layout and all activities are rendered programmatically here
+        // Reset Layout
+        d3.selectAll("#sectionsSVG").remove();
+        var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
         // Layout: Find the activity with the earlieast start
         activitiesStarts = [];
         // Layout: Find the activity with the latest end
         activitiesEnds = [];
-        activitiesRanges = [];
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
@@ -486,14 +485,9 @@ Template.ProjectsViz.onRendered(function() {
                 activitiesEnds.push(activityData.time.end)
             }
         }
-
         // Layout: Find the first start and last end of activities
         firstStart = _.min(activitiesStarts);
         lastEnd = _.max(activitiesEnds);
-
-        // Reset Layout
-        d3.selectAll("#sectionsSVG").remove();
-        var sectionsSVG = svg.append("g").attr("id", "sectionsSVG");
         // Draw the Time section
         var timeG = sectionsSVG.append("g").attr("id", "yAxisG");
         // Choose the start and end for the time scale
@@ -541,12 +535,7 @@ Template.ProjectsViz.onRendered(function() {
                 return d.title === type
             });
             var theseBands = timelineLayout(onlyThisType[0].activities);
-            // Debug
-            console.log("I", i);
-            console.log("O", onlyThisType);
-            console.log("T", type);
-            console.log("B", theseBands);
-            // Variables
+            // Variables for the visualization
             var thisX = 25 + (i * 120);
             var activityIconContainerWidth = 60;
             var activityIconContainerHeight = 85;
