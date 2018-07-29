@@ -815,46 +815,6 @@ Template.ProjectsViz.onRendered(function() {
                 activitiesStarts.push(activityData.time.start)
                 activitiesEnds.push(activityData.time.end)
             }
-            // Overlaps: get clusters of overlapping activities with number of activities involved, then get the max number of activities in clusters and expand the column accordingly
-            // We do this with JSNetworkX: we build a graph of overlapping activities and find cliques in it
-
-            // Check overlaps in time ranges
-            activityRangesThisProcess = [];
-            for (activity in thisUpdatedProject.processes[process]["activities"]) {
-                // Get the activity data
-                activityData = thisUpdatedProject.processes[process]["activities"][activity];
-                // Transform it into a MomentJS range
-                var range = moment().range(activityData.time.start, activityData.time.end);
-                // Add it to the array
-                activityRangesThisProcess.push(range);
-            }
-            activityOverlapsThisProcess = [];
-            // If there is more than one activity (and range), check overlaps
-            if (activityRangesThisProcess.length > 1) {
-                for (range in activityRangesThisProcess) {
-                    for (range2 in activityRangesThisProcess) {
-                        if (activityRangesThisProcess[range2] !== activityRangesThisProcess[range]) {
-                            var overlap = activityRangesThisProcess[range].overlaps(activityRangesThisProcess[range2]);
-                            if (overlap) {
-                                activityOverlapsThisProcess.push([range, range2]);
-                            }
-                        }
-
-                    }
-                }
-                // Find overlaps with JSNetworkX
-                var G = new jsnx.Graph();
-                G.addEdgesFrom(activityOverlapsThisProcess);
-                var cliques = jsnx.findCliques(G);
-                var arrayFromClique = Array.from(cliques);
-                thisUpdatedProject.processes[process].overlaps = arrayFromClique;
-                thisUpdatedProject.processes[process].overlapsMax = Math.max(...(arrayFromClique.map(el => el.length)));
-            } else {
-                thisUpdatedProject.processes[process].overlaps = [
-                    [0]
-                ];
-                thisUpdatedProject.processes[process].overlapsMax = 0;
-            }
         }
 
         // Layout: Find the first start and last end of activities
@@ -897,555 +857,498 @@ Template.ProjectsViz.onRendered(function() {
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
 
-        // Draw the Processes sections
-        var sections = []
-        var sectionsGroups = [];
-        var sectionLabels = [];
-        var lineGroups = [];
-
-        for (var j in thisUpdatedProject.processes) {
-            sectionsGroups.push(sectionsSVG.append("g").attr("id", thisUpdatedProject.processes[j].title));
-            lineGroups.push(sectionsSVG.append("g"));
-            // Add section label
-            //sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionsGroups[j]));
-
-            // Add separator lines from the project data
-            for (separator in thisUpdatedProject.separators) {
-                thisSeparator = thisUpdatedProject.separators[separator]
-                if (thisSeparator.second === thisUpdatedProject.processes[j].title) {
-                    addSectionLine(thisSeparator.text, sectionsGroups[j]);
-                }
-            }
-
-            // TODO Add a separator at the end, so that the svg is wide as the available space
-
-        }
-
-        // Organize sections
-        // In case we need to get the transform of an element: https://stackoverflow.com/a/38753017/2237113
-
-        // TODO:30 Each section should be wide enough to avoid have overlapping activities
-
-        // TODO Implement this as a function that will be called when the browser resizes, above
-
-        sectionsWidth = []
-
-        // Translate timeG according to the label width
-        var GX = 0;
-        sectionsWidth.push({
-            "section": "Time",
-            "x": GX
-        });
-
-        // Calculate the width of the section based on the available size
-        sectionCalculatedWidth = (d3Container.clientWidth - margin.left - simpleGutter) / (thisProject.processes.length);
-
-        for (var j in thisUpdatedProject.processes) {
-            if (j == 0) {
-                GX = GX + simpleGutter;
-            } else {
-                GX = GX + sectionCalculatedWidth;
-            }
-            sectionsWidth.push({
-                "section": thisProject.processes[j].title,
-                "x": GX
-            });
-            sectionsGroups[j].attr("transform", "translate(" + GX + "," + labelHeight + ")");
-        }
-
         // Draw the activities
 
-            //console.log(JSON.stringify(thisUpdatedProject.processes));
+        var types = ["Customer processes",
+            "Front-Office processes",
+            "Back-Office processes",
+            "Support processes"
+        ];
 
-            var types = ["Customer processes",
-                "Front-Office processes",
-                "Back-Office processes",
-                "Support processes"
-            ];
+        types = ["Customer processes"];
 
-            types = ["Customer processes"];
-
-            var jsonData = thisUpdatedProject.processes[0].activities;
-            for (activity in jsonData) {
-                jsonData[activity].start = jsonData[activity].time.start;
-                jsonData[activity].end = jsonData[activity].time.end;
-            }
-
-            types.forEach(function(type, i) {
-                // Get the data of a process and calculate the layout
-                var onlyThisType = jsonData.filter(function(d) {
-                    return d.processTitle === type
-                });
-                var theseBands = timelineLayout(onlyThisType);
-                // Debug
-                console.log("I", i);
-                console.log("O", onlyThisType);
-                console.log("RRRR", jsonData);
-                console.log("T", type);
-                console.log("B", theseBands);
-                // Variables
-                var thisX = 25 + (i * 120);
-                var activityIconContainerWidth = 60;
-                var activityIconContainerHeight = 85;
-                var radius = 10;
-                // Add main group for this process
-                var timelineSVGGroup = sectionsSVG.append("g")
-                    .attr("id", "timelineSVGGroup")
-                    .attr("transform", "translate(" + (thisX) + ",100)")
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
-                    .append("g")
-                    .attr("class", "GGG"+i);
-                // Select groups in this group
-                var thisProcessGroup = d3.selectAll("g.GGG"+i);
-                // Add main activity rect
-                thisProcessGroup
-                    .append("rect")
-                    .attr("y", function(d) {
-                        return d.start;
-                    })
-                    .attr("x", function(d) {
-                        return d.y;
-                    })
-                    .attr("width", function(d) {
-                        return 20;
-                    })
-                    .attr("height", function(d) {
-                        return d.end - d.start;
-                    })
-                    .style("fill", function(d) {
-                        // Calculate the participationLevelValue
-                        switch (d.participation) {
-                            case "No participation":
-                                participationLevelValue = 0;
-                                break;
-                            case "Indirect participation":
-                                participationLevelValue = 20;
-                                break;
-                            case "Consultative participation":
-                                participationLevelValue = 35;
-                                break;
-                            case "Shared control":
-                                participationLevelValue = 50;
-                                break;
-                            case "Full control":
-                                participationLevelValue = 100;
-                                break;
-                        }
-                        // Set the color of the activity timeline based on the participation level
-                        var participationLevelValueColor = participationLevelValue * 255 / 100;
-                        participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
-                        return participationLevelValueColorString;
-                    })
-                    .style("stroke", "black")
-                    .style("stroke-width", 1)
-                    .attr("title", function(d) {
-                        // Calculate the participationLevelValue
-                        switch (d.participation) {
-                            case "No participation":
-                                participationLevelValue = 0;
-                                break;
-                            case "Indirect participation":
-                                participationLevelValue = 20;
-                                break;
-                            case "Consultative participation":
-                                participationLevelValue = 35;
-                                break;
-                            case "Shared control":
-                                participationLevelValue = 50;
-                                break;
-                            case "Full control":
-                                participationLevelValue = 100;
-                                break;
-                        }
-
-                        return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
-                    })
-                    .classed("participation-tooltip", true)
-                    .attr("data-toggle", "tooltip")
-                    .classed("activity-hover", true)
-                    // Add hover effect
-                    .on("mouseover", function() {
-                        d3.select(this)
-                            .attr("filter", "url(#glow)");
-                    })
-                    .on("mouseout", function() {
-                        d3.select(this)
-                            .attr("filter", null);
-                    });
-
-                // Add the participation level percentage text
-                thisProcessGroup
-                    .append("text")
-                    .text(function(d) {
-                        // Calculate the participationLevelValue
-                        switch (d.participation) {
-                            case "No participation":
-                                participationLevelValue = 0;
-                                break;
-                            case "Indirect participation":
-                                participationLevelValue = 20;
-                                break;
-                            case "Consultative participation":
-                                participationLevelValue = 35;
-                                break;
-                            case "Shared control":
-                                participationLevelValue = 50;
-                                break;
-                            case "Full control":
-                                participationLevelValue = 100;
-                                break;
-                        }
-
-                        return participationLevelValue + "%";
-                    })
-                    .attr("x", function(d) {
-                        return d.y + 10;
-                    })
-                    .attr("y", function(d) {
-                        return d.start + 10;
-                    })
-                    .attr("class", "participation-level");
-
-                // Add lines to the time axis
-                // Line at the start of an activity
-                thisProcessGroup
-                    .append("line")
-                    .attr("x1", -thisX)
-                    .attr("y1", function(d) {
-                        return d.start;
-                    })
-                    .attr("x2", function(d) {
-                        return d.y;
-                    })
-                    .attr("y2", function(d) {
-                        return d.start;
-                    })
-                    .attr("stroke", "#a7b5d4")
-                    .style("stroke-dasharray", ("3,5"))
-                    .attr("stroke-width", 1)
-                    .attr("fill", "none");
-                // Line at the end of an activity
-                thisProcessGroup
-                    .append("line")
-                    .attr("x1", -thisX)
-                    .attr("y1", function(d) {
-                        return d.end;
-                    })
-                    .attr("x2", function(d) {
-                        return d.y;
-                    })
-                    .attr("y2", function(d) {
-                        return d.end;
-                    })
-                    .attr("stroke", "#bb25ba")
-                    .style("stroke-dasharray", ("3,5"))
-                    .attr("stroke-width", 1)
-                    .attr("fill", "none");
-                // Activity Icon Box
-                var activityIconBoxes = thisProcessGroup.append("g")
-                    .append("g")
-                    .attr("class", "activity-icon-boxes"+i);
-                // Select groups in this group
-                var thisProcessGroupActivityIconBoxes = d3.selectAll("g.activity-icon-boxes"+i);
-                // Add main Activiy Icon Rect
-                thisProcessGroupActivityIconBoxes
-                    .append("rect")
-                    .attr("x", function(d) {
-                        return d.y + 20;
-                    })
-                    .attr("y", function(d) {
-                        return d.start;
-                    })
-                    .attr("width", activityIconContainerWidth)
-                    .attr("height", activityIconContainerHeight)
-                    .style("stroke-width", "1px")
-                    .style("fill", "#fff")
-                    .style("stroke", "#8f8f8f")
-                    .classed("activity-hover", true)
-                    // Add hover effect
-                    .on("mouseover", function() {
-                        d3.select(this)
-                            .attr("filter", "url(#glow)");
-                    })
-                    .on("mouseout", function() {
-                        d3.select(this)
-                            .attr("filter", null);
-                    });
-                // Activity Icon
-                thisProcessGroupActivityIconBoxes
-                    .append("path")
-                    .attr("d", activityIconPath)
-                    .style("fill", "#ba4d4d")
-                    .attr("transform", function(d) {
-                        return "translate(" + (d.y + 20 + 5) + "," + (d.start + 5) + ")";
-                    });
-                // Activity
-
-                // Center of activity elements
-                var activityIconSize = {
-                    width: 55,
-                    height: 50
-                };
-                var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
-                // Move it to x and y, and a 5 vertical padding from top
-                //activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
-                //Find centers of activity elements
-                var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
-
-                elements.forEach(function(element, j) {
-                    thisProcessGroupActivityIconBoxes
-                        .append("circle")
-                        .attr("cx", function(d) {
-                            var x = d.y;
-                            var y = 0;
-                            switch (element) {
-                                case "subject":
-                                    x = 16 + (x + activityIconContainerWidth / 2) - 10;
-                                break;
-                                case "object":
-                                    x = 15 + (x + activityIconContainerWidth / 2) + 20;
-                                break;
-                                case "outcome":
-                                    x = 16 + x + activityIconContainerWidth / 2;
-                                break;
-                                case "tools":
-                                    x = 15 + (x + activityIconContainerWidth / 2) + 10;
-                                    break;
-                                case "rules":
-                                    x = 16 + (x + activityIconContainerWidth / 2) - 19;
-                                    break;
-                                case "roles":
-                                    x = 16 + (x + activityIconContainerWidth / 2) + 10;
-                                    break;
-                                case "community":
-                                    x = 16 + (x + activityIconContainerWidth / 2) - 10;
-                                    break;
-                            }
-                            d["activityCenterX"] = x + radius / 2;
-                            return x + radius / 2;
-                        })
-                        .attr("cy", function(d) {
-                            var x = 0;
-                            var y = d.start;
-                            switch (element) {
-                                case "subject":
-                                    y = (y + 5 + activityIconSize.height / 2) - 18;
-                                    break;
-                                break;
-                                case "object":
-                                    y = y + 3 + activityIconSize.height / 2;
-                                    break;
-                                break;
-                                case "outcome":
-                                    y = y + 3 + activityIconSize.height / 2;
-                                    break;
-                                break;
-                                case "tools":
-                                    y = (y + 5 + activityIconSize.height / 2) - 18;
-                                    break;
-                                case "rules":
-                                    y = y + 3 + activityIconSize.height / 2;
-                                    break;
-                                case "roles":
-                                    y = (y + 5 + activityIconSize.height / 2) + 15;
-                                    break;
-                                case "community":
-                                    y = (y + 5 + activityIconSize.height / 2) + 15;
-                                    break;
-                            }
-                            d["activityCenterY"] = y;
-                            return y;
-                        })
-                        .attr("fill", "rgba(0, 0, 0, 0)")
-                        .attr("r", "6.5")
-                        .attr("title", function(d) {
-                            return d[element].title;
-                        })
-                        .classed("activity-tooltip", true)
-                        .attr("data-toggle", "tooltip");
-                });
-                // Add the activity button
-                var activityEditButtons = thisProcessGroupActivityIconBoxes.append("g")
-                    .append("g")
-                    .attr("class", "activityButtons"+i);
-                // Select groups in this group
-                var thisProcessGroupActivityEditButtons = d3.selectAll("g.activityButtons"+i);
-                // Add first circle
-                thisProcessGroupActivityEditButtons
-                    .append("circle")
-                    .attr("cx", function(d) {
-                        return d.y;
-                    })
-                    .attr("cy", function(d) {
-                        return d.start;
-                    })
-                    .attr("r", radius);
-                // Add the rect between the circles
-                thisProcessGroupActivityEditButtons
-                    .append("rect")
-                    .attr("x", function(d) {
-                        return d.y;
-                    })
-                    .attr("y", function(d) {
-                        return d.start - radius;
-                    })
-                    .attr("width", function(d) {
-                        var buttonWidth = 0;
-                        switch (d.number.toString().length) {
-                            case 0:
-                                buttonWidth = 0;
-                                break;
-                            case 1:
-                                buttonWidth = 20;
-                                break;
-                            case 2:
-                                buttonWidth = 22;
-                                break;
-                            case 3:
-                                buttonWidth = 23;
-                                break;
-                        }
-                        return buttonWidth;
-                    })
-                    .attr("height", function(d) {
-                        return radius * 2;
-                    });
-                // Add second circle
-                thisProcessGroupActivityEditButtons
-                    .append("circle")
-                    .attr("cx", function(d) {
-                        var buttonWidth = 0;
-                        switch (d.number.toString().length) {
-                            case 0:
-                                buttonWidth = 0;
-                                break;
-                            case 1:
-                                buttonWidth = 20;
-                                break;
-                            case 2:
-                                buttonWidth = 22;
-                                break;
-                            case 3:
-                                buttonWidth = 23;
-                                break;
-                        }
-                        return d.y + buttonWidth;
-                    })
-                    .attr("cy", function(d) {
-                        return d.start;
-                    })
-                    .attr("r", radius);
-                // Add the activity number
-                thisProcessGroupActivityEditButtons
-                    .append("text")
-                    .attr("x", function(d) {
-                        return d.y + radius / 2 - (d.number.toString().length * 0.5);
-                    })
-                    .attr("y", function(d) {
-                        return d.start;
-                    })
-                    .attr("text-anchor", "middle")
-                    .attr("dominant-baseline", "central")
-                    .style("font-size", radius.toString() + "px")
-                    .text(function(d) {
-                        return "#" + d.number;
-                    });
-                // Add the edit icon
-                thisProcessGroupActivityEditButtons
-                    .append("text")
-                    .attr("x", function(d) {
-                        return d.y + (radius * 1.5) + (d.number.toString().length * 3);
-                    })
-                    .attr("y", function(d) {
-                        return d.start;
-                    })
-                    .attr("text-anchor", "middle")
-                    .attr("dominant-baseline", "central")
-                    .style("font-family", "FontAwesome")
-                    .style("font-size", radius.toString() + "px")
-                    .text("\uf044");
-                // Overall attributes of the buttons
-                thisProcessGroupActivityEditButtons
-                    .attr("transform", function(d) {
-                        var buttonWidth = 0;
-                        switch (d.number.toString().length) {
-                            case 0:
-                                buttonWidth = 0;
-                                break;
-                            case 1:
-                                buttonWidth = 20;
-                                break;
-                            case 2:
-                                buttonWidth = 22;
-                                break;
-                            case 3:
-                                buttonWidth = 23;
-                                break;
-                        }
-                        var fullButtonWidth = buttonWidth + radius * 2;
-                        return "translate(" + (20+(activityIconContainerWidth-fullButtonWidth)) + "," + (activityIconContainerHeight - radius * 1.5) + ")";
-                    })
-                    .attr("data-toggle", "modal")
-                    .classed("activity-button", true)
-                    .attr("title", "Edit this activity")
-                    .attr("data-activity-mode", "edit")
-                    .attr("data-activity-id", function(d) {
-                        return d.id;
-                    })
-                    .attr("data-process-id", function(d) {
-                        return d.processId;
-                    })
-                    .classed("button-tooltip", true)
-                    .attr("data-toggle", "tooltip")
-                    .classed("svg-button", true)
-                    .on("mouseover", function() {
-                        d3.select(this)
-                            .attr("filter", "url(#glow)");
-                    })
-                    .on("mouseout", function() {
-                        d3.select(this)
-                            .attr("filter", null);
-                    });
-
-                // Process Section info
-                var thisXEndOfSection = thisX + 100 + (i * 120);
-                // Add section label
-                var sectionLabel = timelineSVGGroup.append("text")
-                    .text(type)
-                    .attr("class", "svg-label")
-                    .attr("x", 0)
-                    .attr("y", -80 - labelHeight);
-
-                // Add Add Activity button
-                var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
-                addActivityButton.attr("data-toggle", "modal")
-                    .classed("activity-button", true)
-                    .attr("title", "Add an activity here")
-                    .attr("data-activity-mode", "add")
-                    .attr("data-activity-id", "none")
-                    .attr("data-process-id", thisUpdatedProject.processes[j].id)
-                    .classed("button-tooltip", true)
-                    .attr("data-toggle", "tooltip");
-
-                // Add separator lines from the project data
-                var text = "Line of interaction";
-                // Add the line
-                timelineSVGGroup.append("line")
-                    .attr("x1", 0)
-                    .attr("y1", text.length * 5)
-                    .attr("x2", 0)
-                    .attr("y2", d3Container.clientHeight)
-                    .attr("class", "svg-lines-line");
-                // Add the text
-                timelineSVGGroup.append("text")
-                    .text(text)
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("class", "svg-lines-text");
-
+        var jsonData = thisUpdatedProject.processes[0].activities;
+        for (activity in jsonData) {
+            jsonData[activity].start = jsonData[activity].time.start;
+            jsonData[activity].end = jsonData[activity].time.end;
+        }
+        console.log(jsonData);
+        types.forEach(function(type, i) {
+            // Get the data of a process and calculate the layout
+            var onlyThisType = jsonData.filter(function(d) {
+                return d.processTitle === type
             });
+            var theseBands = timelineLayout(onlyThisType);
+            // Debug
+            console.log("I", i);
+            console.log("O", onlyThisType);
+            console.log("RRRR", jsonData);
+            console.log("T", type);
+            console.log("B", theseBands);
+            // Variables
+            var thisX = 25 + (i * 120);
+            var activityIconContainerWidth = 60;
+            var activityIconContainerHeight = 85;
+            var radius = 10;
+            // Add main group for this process
+            var timelineSVGGroup = sectionsSVG.append("g")
+                .attr("id", "timelineSVGGroup")
+                .attr("transform", "translate(" + (thisX) + ",100)")
+                .selectAll("g")
+                .data(theseBands)
+                .enter()
+                .append("g")
+                .attr("class", "GGG" + i);
+            // Select groups in this group
+            var thisProcessGroup = d3.selectAll("g.GGG" + i);
+            // Add main activity rect
+            thisProcessGroup
+                .append("rect")
+                .attr("y", function(d) {
+                    return d.start;
+                })
+                .attr("x", function(d) {
+                    return d.y;
+                })
+                .attr("width", function(d) {
+                    return 20;
+                })
+                .attr("height", function(d) {
+                    return d.end - d.start;
+                })
+                .style("fill", function(d) {
+                    // Calculate the participationLevelValue
+                    switch (d.participation) {
+                        case "No participation":
+                            participationLevelValue = 0;
+                            break;
+                        case "Indirect participation":
+                            participationLevelValue = 20;
+                            break;
+                        case "Consultative participation":
+                            participationLevelValue = 35;
+                            break;
+                        case "Shared control":
+                            participationLevelValue = 50;
+                            break;
+                        case "Full control":
+                            participationLevelValue = 100;
+                            break;
+                    }
+                    // Set the color of the activity timeline based on the participation level
+                    var participationLevelValueColor = participationLevelValue * 255 / 100;
+                    participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
+                    return participationLevelValueColorString;
+                })
+                .style("stroke", "black")
+                .style("stroke-width", 1)
+                .attr("title", function(d) {
+                    // Calculate the participationLevelValue
+                    switch (d.participation) {
+                        case "No participation":
+                            participationLevelValue = 0;
+                            break;
+                        case "Indirect participation":
+                            participationLevelValue = 20;
+                            break;
+                        case "Consultative participation":
+                            participationLevelValue = 35;
+                            break;
+                        case "Shared control":
+                            participationLevelValue = 50;
+                            break;
+                        case "Full control":
+                            participationLevelValue = 100;
+                            break;
+                    }
+                    return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
+                })
+                .classed("participation-tooltip", true)
+                .attr("data-toggle", "tooltip")
+                .classed("activity-hover", true)
+                // Add hover effect
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                });
+
+            // Add the participation level percentage text
+            thisProcessGroup
+                .append("text")
+                .text(function(d) {
+                    // Calculate the participationLevelValue
+                    switch (d.participation) {
+                        case "No participation":
+                            participationLevelValue = 0;
+                            break;
+                        case "Indirect participation":
+                            participationLevelValue = 20;
+                            break;
+                        case "Consultative participation":
+                            participationLevelValue = 35;
+                            break;
+                        case "Shared control":
+                            participationLevelValue = 50;
+                            break;
+                        case "Full control":
+                            participationLevelValue = 100;
+                            break;
+                    }
+
+                    return participationLevelValue + "%";
+                })
+                .attr("x", function(d) {
+                    return d.y + 10;
+                })
+                .attr("y", function(d) {
+                    return d.start + 10;
+                })
+                .attr("class", "participation-level");
+
+            // Add lines to the time axis
+            // Line at the start of an activity
+            thisProcessGroup
+                .append("line")
+                .attr("x1", -thisX)
+                .attr("y1", function(d) {
+                    return d.start;
+                })
+                .attr("x2", function(d) {
+                    return d.y;
+                })
+                .attr("y2", function(d) {
+                    return d.start;
+                })
+                .attr("stroke", "#a7b5d4")
+                .style("stroke-dasharray", ("3,5"))
+                .attr("stroke-width", 1)
+                .attr("fill", "none");
+            // Line at the end of an activity
+            thisProcessGroup
+                .append("line")
+                .attr("x1", -thisX)
+                .attr("y1", function(d) {
+                    return d.end;
+                })
+                .attr("x2", function(d) {
+                    return d.y;
+                })
+                .attr("y2", function(d) {
+                    return d.end;
+                })
+                .attr("stroke", "#bb25ba")
+                .style("stroke-dasharray", ("3,5"))
+                .attr("stroke-width", 1)
+                .attr("fill", "none");
+            // Activity Icon Box
+            var activityIconBoxes = thisProcessGroup.append("g")
+                .append("g")
+                .attr("class", "activity-icon-boxes" + i);
+            // Select groups in this group
+            var thisProcessGroupActivityIconBoxes = d3.selectAll("g.activity-icon-boxes" + i);
+            // Add main Activiy Icon Rect
+            thisProcessGroupActivityIconBoxes
+                .append("rect")
+                .attr("x", function(d) {
+                    return d.y + 20;
+                })
+                .attr("y", function(d) {
+                    return d.start;
+                })
+                .attr("width", activityIconContainerWidth)
+                .attr("height", activityIconContainerHeight)
+                .style("stroke-width", "1px")
+                .style("fill", "#fff")
+                .style("stroke", "#8f8f8f")
+                .classed("activity-hover", true)
+                // Add hover effect
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                });
+            // Activity Icon
+            thisProcessGroupActivityIconBoxes
+                .append("path")
+                .attr("d", activityIconPath)
+                .style("fill", "#ba4d4d")
+                .attr("transform", function(d) {
+                    return "translate(" + (d.y + 20 + 5) + "," + (d.start + 5) + ")";
+                });
+            // Activity
+
+            // Center of activity elements
+            var activityIconSize = {
+                width: 55,
+                height: 50
+            };
+            var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
+            // Move it to x and y, and a 5 vertical padding from top
+            //activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
+            //Find centers of activity elements
+            var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
+
+            elements.forEach(function(element, j) {
+                thisProcessGroupActivityIconBoxes
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        var x = d.y;
+                        var y = 0;
+                        switch (element) {
+                            case "subject":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                break;
+                            case "object":
+                                x = 15 + (x + activityIconContainerWidth / 2) + 20;
+                                break;
+                            case "outcome":
+                                x = 16 + x + activityIconContainerWidth / 2;
+                                break;
+                            case "tools":
+                                x = 15 + (x + activityIconContainerWidth / 2) + 10;
+                                break;
+                            case "rules":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 19;
+                                break;
+                            case "roles":
+                                x = 16 + (x + activityIconContainerWidth / 2) + 10;
+                                break;
+                            case "community":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                break;
+                        }
+                        d["activityCenterX"] = x + radius / 2;
+                        return x + radius / 2;
+                    })
+                    .attr("cy", function(d) {
+                        var x = 0;
+                        var y = d.start;
+                        switch (element) {
+                            case "subject":
+                                y = (y + 5 + activityIconSize.height / 2) - 18;
+                                break;
+                                break;
+                            case "object":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                                break;
+                            case "outcome":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                                break;
+                            case "tools":
+                                y = (y + 5 + activityIconSize.height / 2) - 18;
+                                break;
+                            case "rules":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                            case "roles":
+                                y = (y + 5 + activityIconSize.height / 2) + 15;
+                                break;
+                            case "community":
+                                y = (y + 5 + activityIconSize.height / 2) + 15;
+                                break;
+                        }
+                        d["activityCenterY"] = y;
+                        return y;
+                    })
+                    .attr("fill", "rgba(0, 0, 0, 0)")
+                    .attr("r", "6.5")
+                    .attr("title", function(d) {
+                        return d[element].title;
+                    })
+                    .classed("activity-tooltip", true)
+                    .attr("data-toggle", "tooltip");
+            });
+            // Add the activity button
+            var activityEditButtons = thisProcessGroupActivityIconBoxes.append("g")
+                .append("g")
+                .attr("class", "activityButtons" + i);
+            // Select groups in this group
+            var thisProcessGroupActivityEditButtons = d3.selectAll("g.activityButtons" + i);
+            // Add first circle
+            thisProcessGroupActivityEditButtons
+                .append("circle")
+                .attr("cx", function(d) {
+                    return d.y;
+                })
+                .attr("cy", function(d) {
+                    return d.start;
+                })
+                .attr("r", radius);
+            // Add the rect between the circles
+            thisProcessGroupActivityEditButtons
+                .append("rect")
+                .attr("x", function(d) {
+                    return d.y;
+                })
+                .attr("y", function(d) {
+                    return d.start - radius;
+                })
+                .attr("width", function(d) {
+                    var buttonWidth = 0;
+                    switch (d.number.toString().length) {
+                        case 0:
+                            buttonWidth = 0;
+                            break;
+                        case 1:
+                            buttonWidth = 20;
+                            break;
+                        case 2:
+                            buttonWidth = 22;
+                            break;
+                        case 3:
+                            buttonWidth = 23;
+                            break;
+                    }
+                    return buttonWidth;
+                })
+                .attr("height", function(d) {
+                    return radius * 2;
+                });
+            // Add second circle
+            thisProcessGroupActivityEditButtons
+                .append("circle")
+                .attr("cx", function(d) {
+                    var buttonWidth = 0;
+                    switch (d.number.toString().length) {
+                        case 0:
+                            buttonWidth = 0;
+                            break;
+                        case 1:
+                            buttonWidth = 20;
+                            break;
+                        case 2:
+                            buttonWidth = 22;
+                            break;
+                        case 3:
+                            buttonWidth = 23;
+                            break;
+                    }
+                    return d.y + buttonWidth;
+                })
+                .attr("cy", function(d) {
+                    return d.start;
+                })
+                .attr("r", radius);
+            // Add the activity number
+            thisProcessGroupActivityEditButtons
+                .append("text")
+                .attr("x", function(d) {
+                    return d.y + radius / 2 - (d.number.toString().length * 0.5);
+                })
+                .attr("y", function(d) {
+                    return d.start;
+                })
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .style("font-size", radius.toString() + "px")
+                .text(function(d) {
+                    return "#" + d.number;
+                });
+            // Add the edit icon
+            thisProcessGroupActivityEditButtons
+                .append("text")
+                .attr("x", function(d) {
+                    return d.y + (radius * 1.5) + (d.number.toString().length * 3);
+                })
+                .attr("y", function(d) {
+                    return d.start;
+                })
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .style("font-family", "FontAwesome")
+                .style("font-size", radius.toString() + "px")
+                .text("\uf044");
+            // Overall attributes of the buttons
+            thisProcessGroupActivityEditButtons
+                .attr("transform", function(d) {
+                    var buttonWidth = 0;
+                    switch (d.number.toString().length) {
+                        case 0:
+                            buttonWidth = 0;
+                            break;
+                        case 1:
+                            buttonWidth = 20;
+                            break;
+                        case 2:
+                            buttonWidth = 22;
+                            break;
+                        case 3:
+                            buttonWidth = 23;
+                            break;
+                    }
+                    var fullButtonWidth = buttonWidth + radius * 2;
+                    return "translate(" + (20 + (activityIconContainerWidth - fullButtonWidth)) + "," + (activityIconContainerHeight - radius * 1.5) + ")";
+                })
+                .attr("data-toggle", "modal")
+                .classed("activity-button", true)
+                .attr("title", "Edit this activity")
+                .attr("data-activity-mode", "edit")
+                .attr("data-activity-id", function(d) {
+                    return d.id;
+                })
+                .attr("data-process-id", function(d) {
+                    return d.processId;
+                })
+                .classed("button-tooltip", true)
+                .attr("data-toggle", "tooltip")
+                .classed("svg-button", true)
+                .on("mouseover", function() {
+                    d3.select(this)
+                        .attr("filter", "url(#glow)");
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .attr("filter", null);
+                });
+
+            // Process Section info
+            var thisXEndOfSection = thisX + 100 + (i * 120);
+            // Add section label
+            var sectionLabel = timelineSVGGroup.append("text")
+                .text(type)
+                .attr("class", "svg-label")
+                .attr("x", 0)
+                .attr("y", -80 - labelHeight);
+
+            // Add Add Activity button
+            var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+            addActivityButton.attr("data-toggle", "modal")
+                .classed("activity-button", true)
+                .attr("title", "Add an activity here")
+                .attr("data-activity-mode", "add")
+                .attr("data-activity-id", "none")
+                .attr("data-process-id", function(d) {
+                    return d.processId;
+                })
+                .classed("button-tooltip", true)
+                .attr("data-toggle", "tooltip");
+
+            // Add separator lines from the project data
+            var text = "Line of interaction";
+            // Add the line
+            timelineSVGGroup.append("line")
+                .attr("x1", 0)
+                .attr("y1", text.length * 5)
+                .attr("x2", 0)
+                .attr("y2", d3Container.clientHeight)
+                .attr("class", "svg-lines-line");
+            // Add the text
+            timelineSVGGroup.append("text")
+                .text(text)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("class", "svg-lines-text");
+
+        });
 
         // Draw the flows
         // var flowsGroup = sectionsSVG.append("g");
