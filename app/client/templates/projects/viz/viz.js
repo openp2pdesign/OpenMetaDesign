@@ -10,6 +10,9 @@ import { moment } from 'meteor/momentjs:moment';
 import d3 from 'd3';
 import 'd3-fetch';
 import timeline from './d3.timeline.js';
+// Icon
+import activityIconPath from './activityIconPath.js';
+activityIconPath = activityIconPath.activityIconPath;
 // Diff
 let diff = require('deep-diff');
 // Networkx
@@ -21,7 +24,6 @@ import { ActivityElements } from '../../../../lib/collections/activity_elements
 import { Flows } from '../../../../lib/collections/flows.js';
 import { Contradictions } from '../../../../lib/collections/contradictions.js';
 import { Settings } from '../../../../lib/collections/settings.js';
-
 /*****************************************************************************/
 /* ProjectsViz: Event Handlers */
 /*****************************************************************************/
@@ -561,8 +563,8 @@ Template.ProjectsViz.onRendered(function() {
             .attr("fill", "none");
         // Line at end of activity
         var points = [
-            [0, y+height],
-            [x, y+height]
+            [0, y + height],
+            [x, y + height]
         ];
         var pathData = lineGenerator(points);
         var lineGraph = activity.append("path")
@@ -700,7 +702,7 @@ Template.ProjectsViz.onRendered(function() {
             .attr("data-activity-id", activityData.id)
             .attr("data-process-id", processData.id)
             .classed("button-tooltip", true)
-            .attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
+            .attr("transform", "translate(" + (radius + (activityIconContainerWidth - fullButtonWidth) / 2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
             .attr("data-toggle", "tooltip");
 
         // Move the whole activityIconContainer after the participation level
@@ -822,7 +824,7 @@ Template.ProjectsViz.onRendered(function() {
                 // Get the activity data
                 activityData = thisUpdatedProject.processes[process]["activities"][activity];
                 // Transform it into a MomentJS range
-                var range  = moment().range(activityData.time.start, activityData.time.end);
+                var range = moment().range(activityData.time.start, activityData.time.end);
                 // Add it to the array
                 activityRangesThisProcess.push(range);
             }
@@ -848,7 +850,9 @@ Template.ProjectsViz.onRendered(function() {
                 thisUpdatedProject.processes[process].overlaps = arrayFromClique;
                 thisUpdatedProject.processes[process].overlapsMax = Math.max(...(arrayFromClique.map(el => el.length)));
             } else {
-                thisUpdatedProject.processes[process].overlaps = [[0]];
+                thisUpdatedProject.processes[process].overlaps = [
+                    [0]
+                ];
                 thisUpdatedProject.processes[process].overlapsMax = 0;
             }
         }
@@ -883,11 +887,12 @@ Template.ProjectsViz.onRendered(function() {
             .tickSize(20, 40);
         timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
         // Add a d3.layout.timeline
+        var bandHeight = 100;
         var timelineLayout = timeline()
-            .size([d3Container.clientHeight - labelHeight, 200])
+            .size([d3Container.clientHeight - labelHeight, 300])
             .extent([startDate, endDate])
-            .padding(3)
-            .maxBandHeight(20);
+            .padding(10)
+            .maxBandHeight(bandHeight);
 
         // Time label
         var timeLabel = addSectionLabel("Time", timeG);
@@ -967,15 +972,15 @@ Template.ProjectsViz.onRendered(function() {
             // TODO keep track of each activity position, then check overlap... and add accordingly
             var activitiesInClusters = [];
             for (cluster in thisUpdatedProject.processes[process].overlaps) {
-                    var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
-                    activityX = 0;
-                    if (thisUpdatedProject.processes[process]["activities"].length > 0) {
+                var clusterActivities = thisUpdatedProject.processes[process].overlaps[cluster];
+                activityX = 0;
+                if (thisUpdatedProject.processes[process]["activities"].length > 0) {
                     for (clusterCursor in clusterActivities) {
-                            thisUpdatedProject.processes[process]["activities"][clusterCursor]["activityX"] = activityX;
-                            activityX = activityX + 80;
-                            activitiesInClusters.push(thisUpdatedProject.processes[process]["activities"][clusterCursor]["id"]);
-                        }
+                        thisUpdatedProject.processes[process]["activities"][clusterCursor]["activityX"] = activityX;
+                        activityX = activityX + 80;
+                        activitiesInClusters.push(thisUpdatedProject.processes[process]["activities"][clusterCursor]["id"]);
                     }
+                }
             }
             // Timeline Layout
 
@@ -996,214 +1001,252 @@ Template.ProjectsViz.onRendered(function() {
             }
 
             var colorScale = d3.scaleOrdinal()
-                .domain(["Customer processes","Front-Office processes","Back-Office processes","Support processes"])
+                .domain(["Customer processes", "Front-Office processes", "Back-Office processes", "Support processes"])
                 .range(["#96abb1", "#313746", "#b0909d", "#687a97", "#292014"]);
 
-           types.forEach(function(type, i) {
+            types.forEach(function(type, i) {
 
-               var onlyThisType = jsonData.filter(function(d) {
-                   return d.processTitle === type
-               });
-               console.log("O",onlyThisType);
-               console.log("RRRR", jsonData);
-               var theseBands = timelineLayout(onlyThisType);
-
-
-               console.log("T",type);
-               console.log("B",theseBands);
-
-               var timelineSVGGroup = sectionsSVG.append("g").attr("id", "timelineSVGGroup");
-
-               var thisX = 25 + (i * 120);
+                var onlyThisType = jsonData.filter(function(d) {
+                    return d.processTitle === type
+                });
+                console.log("O", onlyThisType);
+                console.log("RRRR", jsonData);
+                var theseBands = timelineLayout(onlyThisType);
 
 
+                console.log("T", type);
+                console.log("B", theseBands);
 
+                var timelineSVGGroup = sectionsSVG.append("g").attr("id", "timelineSVGGroup");
 
-               timelineSVGGroup
-                   .attr("transform", "translate(" + (thisX) + ",100)")
-                   .selectAll("rect")
-                   .data(theseBands)
-                   .enter()
-                   .append("rect")
-                   .attr("y", function(d) {
-                       return d.start;
-                   })
-                   .attr("x", function(d) {
-                       return d.y;
-                   })
-                   .attr("width", function(d) {
-                       return d.dy;
-                   })
-                   .attr("height", function(d) {
-                       return d.end - d.start;
-                   })
-                   .style("fill", function(d) {
-                       // Calculate the participationLevelValue
-                       switch (d.participation) {
-                           case "No participation":
-                               participationLevelValue = 0;
-                               break;
-                           case "Indirect participation":
-                               participationLevelValue = 20;
-                               break;
-                           case "Consultative participation":
-                               participationLevelValue = 35;
-                               break;
-                           case "Shared control":
-                               participationLevelValue = 50;
-                               break;
-                           case "Full control":
-                               participationLevelValue = 100;
-                               break;
-                       }
-                       // Set the color of the activity timeline based on the participation level
-                       var participationLevelValueColor = participationLevelValue * 255 / 100;
-                       participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
-
-                       return participationLevelValueColorString;
-                   })
-                   .style("stroke", "black")
-                   .style("stroke-width", 1)
-                   .attr("title", function(d) {
-                       // Calculate the participationLevelValue
-                       switch (d.participation) {
-                           case "No participation":
-                               participationLevelValue = 0;
-                               break;
-                           case "Indirect participation":
-                               participationLevelValue = 20;
-                               break;
-                           case "Consultative participation":
-                               participationLevelValue = 35;
-                               break;
-                           case "Shared control":
-                               participationLevelValue = 50;
-                               break;
-                           case "Full control":
-                               participationLevelValue = 100;
-                               break;
-                       }
-
-                    return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
-                   })
-                   .classed("participation-tooltip", true)
-                   .attr("data-toggle", "tooltip");
-
-                   // Add the participation level percentage text
-                   timelineSVGGroup
+                var thisX = 25 + (i * 120);
+                timelineSVGGroup.attr("transform", "translate(" + (thisX) + ",100)");
+                timelineSVGGroup
                     .append("g")
-                       .selectAll("text")
-                       .data(theseBands)
-                       .enter()
-                       .append("text")
-                       .text(function(d) {
-                           // Calculate the participationLevelValue
-                           switch (d.participation) {
-                               case "No participation":
-                                   participationLevelValue = 0;
-                                   break;
-                               case "Indirect participation":
-                                   participationLevelValue = 20;
-                                   break;
-                               case "Consultative participation":
-                                   participationLevelValue = 35;
-                                   break;
-                               case "Shared control":
-                                   participationLevelValue = 50;
-                                   break;
-                               case "Full control":
-                                   participationLevelValue = 100;
-                                   break;
-                           }
+                    .selectAll("rect")
+                    .data(theseBands)
+                    .enter()
+                    .append("rect")
+                    .attr("y", function(d) {
+                        return d.start;
+                    })
+                    .attr("x", function(d) {
+                        return d.y;
+                    })
+                    .attr("width", function(d) {
+                        return 20;
+                    })
+                    .attr("height", function(d) {
+                        return d.end - d.start;
+                    })
+                    .style("fill", function(d) {
+                        // Calculate the participationLevelValue
+                        switch (d.participation) {
+                            case "No participation":
+                                participationLevelValue = 0;
+                                break;
+                            case "Indirect participation":
+                                participationLevelValue = 20;
+                                break;
+                            case "Consultative participation":
+                                participationLevelValue = 35;
+                                break;
+                            case "Shared control":
+                                participationLevelValue = 50;
+                                break;
+                            case "Full control":
+                                participationLevelValue = 100;
+                                break;
+                        }
+                        // Set the color of the activity timeline based on the participation level
+                        var participationLevelValueColor = participationLevelValue * 255 / 100;
+                        participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
+
+                        return participationLevelValueColorString;
+                    })
+                    .style("stroke", "black")
+                    .style("stroke-width", 1)
+                    .attr("title", function(d) {
+                        // Calculate the participationLevelValue
+                        switch (d.participation) {
+                            case "No participation":
+                                participationLevelValue = 0;
+                                break;
+                            case "Indirect participation":
+                                participationLevelValue = 20;
+                                break;
+                            case "Consultative participation":
+                                participationLevelValue = 35;
+                                break;
+                            case "Shared control":
+                                participationLevelValue = 50;
+                                break;
+                            case "Full control":
+                                participationLevelValue = 100;
+                                break;
+                        }
+
+                        return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
+                    })
+                    .classed("participation-tooltip", true)
+                    .attr("data-toggle", "tooltip");
+
+                // Add the participation level percentage text
+                timelineSVGGroup
+                    .append("g")
+                    .selectAll("text")
+                    .data(theseBands)
+                    .enter()
+                    .append("text")
+                    .text(function(d) {
+                        // Calculate the participationLevelValue
+                        switch (d.participation) {
+                            case "No participation":
+                                participationLevelValue = 0;
+                                break;
+                            case "Indirect participation":
+                                participationLevelValue = 20;
+                                break;
+                            case "Consultative participation":
+                                participationLevelValue = 35;
+                                break;
+                            case "Shared control":
+                                participationLevelValue = 50;
+                                break;
+                            case "Full control":
+                                participationLevelValue = 100;
+                                break;
+                        }
 
                         return participationLevelValue + "%";
-                       })
-                       .attr("x", function(d) {
-                           return d.y + 10;
-                       })
-                       .attr("y", function(d) {
-                           return d.start + 10;
-                       })
-                       .attr("class", "participation-level");
+                    })
+                    .attr("x", function(d) {
+                        return d.y + 10;
+                    })
+                    .attr("y", function(d) {
+                        return d.start + 10;
+                    })
+                    .attr("class", "participation-level");
 
-               // Add lines to the time axis
-               timelineSVGGroup
-                .append("g")
-                   .selectAll("line")
-                   .data(theseBands)
-                   .enter()
-                   .append("line")
-                   .attr("x1", -thisX)
-                   .attr("y1", function(d) {
-                       return d.start
-                   })
-                   .attr("x2", function(d) {
-                       return d.y
-                   })
-                   .attr("y2", function(d) {
-                       return d.start
-                   })
-                   .attr("stroke", "#a7b5d4")
-                   .style("stroke-dasharray", ("3,5"))
-                   .attr("stroke-width", 1)
-                   .attr("fill", "none");
-
-                   timelineSVGGroup
+                // Add lines to the time axis
+                // Line at the start of an activity
+                timelineSVGGroup
                     .append("g")
-                       .selectAll("line")
-                       .data(theseBands)
-                       .enter()
-                       .append("line")
-                       .attr("x1", -thisX)
-                       .attr("y1", function(d) {
-                           return d.end
-                       })
-                       .attr("x2", function(d) {
-                            return d.y
-                       })
-                       .attr("y2", function(d) {
-                           return d.end
-                       })
-                       .attr("stroke", "#bb25ba")
-                       .style("stroke-dasharray", ("3,5"))
-                       .attr("stroke-width", 1)
-                       .attr("fill", "none");
+                    .selectAll("line")
+                    .data(theseBands)
+                    .enter()
+                    .append("line")
+                    .attr("x1", -thisX)
+                    .attr("y1", function(d) {
+                        return d.start;
+                    })
+                    .attr("x2", function(d) {
+                        return d.y;
+                    })
+                    .attr("y2", function(d) {
+                        return d.start;
+                    })
+                    .attr("stroke", "#a7b5d4")
+                    .style("stroke-dasharray", ("3,5"))
+                    .attr("stroke-width", 1)
+                    .attr("fill", "none");
+                // Line at the end of an activity
+                timelineSVGGroup
+                    .append("g")
+                    .selectAll("line")
+                    .data(theseBands)
+                    .enter()
+                    .append("line")
+                    .attr("x1", -thisX)
+                    .attr("y1", function(d) {
+                        return d.end;
+                    })
+                    .attr("x2", function(d) {
+                        return d.y;
+                    })
+                    .attr("y2", function(d) {
+                        return d.end;
+                    })
+                    .attr("stroke", "#bb25ba")
+                    .style("stroke-dasharray", ("3,5"))
+                    .attr("stroke-width", 1)
+                    .attr("fill", "none");
 
-              // Add section label
-              var sectionLabel = timelineSVGGroup.append("text")
-                   .text(type)
-                   .attr("class", "svg-label")
-                   .attr("x", thisX)
-                   .attr("y", -30-labelHeight);
+                    var activityIconContainerWidth = 60;
+                    var activityIconContainerHeight = 85;
 
-            // Add Add Activity button
-            var addActivityButton = addButton(thisX+sectionLabel.node().getBBox().width + 15, -30-labelHeight-5, 10, timelineSVGGroup, '\uf067');
-            addActivityButton.attr("data-toggle", "modal")
-               .classed("activity-button", true)
-               .attr("title", "Add an activity here")
-               .attr("data-activity-mode", "add")
-               .attr("data-activity-id", "none")
-               .attr("data-process-id", thisUpdatedProject.processes[j].id)
-               .classed("button-tooltip", true)
-               .attr("data-toggle", "tooltip");
+                // Activity Icon Box
+                timelineSVGGroup
+                    .append("g")
+                    .selectAll("rect")
+                    .data(theseBands)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) {
+                        return d.y+20;
+                    })
+                    .attr("y", function(d) {
+                        return d.start;
+                    })
+                    .attr("width", activityIconContainerWidth)
+                    .attr("height", activityIconContainerHeight)
+                    .style("stroke-width", "1px")
+                    .style("fill", "#fff")
+                    .style("stroke", "#8f8f8f");
 
-            // Add separator lines from the project data
-            var text = "Line of interaction";
-            // Add the line
-            timelineSVGGroup.append("line")
-               .attr("x1", thisX+50)
-               .attr("y1", text.length * 5)
-               .attr("x2", thisX+50)
-               .attr("y2", d3Container.clientHeight)
-               .attr("class", "svg-lines-line");
-            // Add the text
-            timelineSVGGroup.append("text")
-               .text(text)
-               .attr("x", thisX+50)
-               .attr("y", 0)
-               .attr("class", "svg-lines-text");
+                timelineSVGGroup
+                    .selectAll("path")
+                    .data(theseBands)
+                    .enter()
+                    .append("path")
+                    .attr("d", activityIconPath)
+                    .style("fill", "#ba4d4d")
+                    .attr("transform", function(d) {
+                        return "translate(" + (d.y+20) + ","+d.start+")";
+                    });
 
-           });
+                    // var loadedSVG = parent.append("g");
+                    // d3.xml(Meteor.absoluteUrl("../as_full_nolabel_small.svg")).then(function(xml) {
+                    //     loadedSVG.node().appendChild(xml.documentElement);
+                    // });
+
+                // Process Section info
+
+                // Add section label
+                var sectionLabel = timelineSVGGroup.append("text")
+                    .text(type)
+                    .attr("class", "svg-label")
+                    .attr("x", thisX)
+                    .attr("y", -30 - labelHeight);
+
+                // Add Add Activity button
+                var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -30 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+                addActivityButton.attr("data-toggle", "modal")
+                    .classed("activity-button", true)
+                    .attr("title", "Add an activity here")
+                    .attr("data-activity-mode", "add")
+                    .attr("data-activity-id", "none")
+                    .attr("data-process-id", thisUpdatedProject.processes[j].id)
+                    .classed("button-tooltip", true)
+                    .attr("data-toggle", "tooltip");
+
+                // Add separator lines from the project data
+                var text = "Line of interaction";
+                // Add the line
+                timelineSVGGroup.append("line")
+                    .attr("x1", thisX + 50)
+                    .attr("y1", text.length * 5)
+                    .attr("x2", thisX + 50)
+                    .attr("y2", d3Container.clientHeight)
+                    .attr("class", "svg-lines-line");
+                // Add the text
+                timelineSVGGroup.append("text")
+                    .text(text)
+                    .attr("x", thisX + 50)
+                    .attr("y", 0)
+                    .attr("class", "svg-lines-text");
+
+            });
 
             // Look in each activity
             // for (activity in thisUpdatedProject.processes[process]["activities"]) {
