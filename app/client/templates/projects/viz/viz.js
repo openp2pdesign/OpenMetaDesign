@@ -966,11 +966,12 @@ Template.ProjectsViz.onRendered(function() {
             timelineSVGGroup.attr("transform", "translate("+(i * 120)+",0)");
 
             // Add section label
-            var sectionLabel = timelineSVGGroup.append("text")
-                .text(type)
-                .attr("class", "svg-label")
-                .attr("x", 0)
-                .attr("y", -80 - labelHeight);
+            // TODO put it out of timelineSVGGroup
+            // var sectionLabel = timelineSVGGroup.append("text")
+            //     .text(type)
+            //     .attr("class", "svg-label")
+            //     .attr("x", 0)
+            //     .attr("y", -80 - labelHeight);
 
             // Add Add Activity button
             // var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
