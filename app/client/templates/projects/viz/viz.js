@@ -469,9 +469,6 @@ Template.ProjectsViz.onRendered(function() {
             '_id': thisProject._id
         });
 
-        // Activities to be drawn
-        var vizActivities = [];
-
         // LAYOUT - SVG
         // Both general layout and all activities are rendered programmatically here
         // Layout: Find the activity with the earlieast start
@@ -974,8 +971,11 @@ Template.ProjectsViz.onRendered(function() {
                         .attr("filter", null);
                 });
 
+
             // Process Section info
             var thisXEndOfSection = thisX + 100 + (i * 120);
+            timelineSVGGroup.attr("transform", "translate("+(i * 120)+",0)");
+
             // Add section label
             var sectionLabel = timelineSVGGroup.append("text")
                 .text(type)
@@ -999,18 +999,18 @@ Template.ProjectsViz.onRendered(function() {
             // Add separator lines from the project data
             var text = "Line of interaction";
             // Add the line
-            timelineSVGGroup.append("line")
-                .attr("x1", 0)
-                .attr("y1", text.length * 5)
-                .attr("x2", 0)
-                .attr("y2", d3Container.clientHeight)
-                .attr("class", "svg-lines-line");
+            // timelineSVGGroup.append("line")
+            //     .attr("x1", 0)
+            //     .attr("y1", text.length * 5)
+            //     .attr("x2", 0)
+            //     .attr("y2", d3Container.clientHeight)
+            //     .attr("class", "svg-lines-line");
             // Add the text
-            timelineSVGGroup.append("text")
-                .text(text)
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("class", "svg-lines-text");
+            // timelineSVGGroup.append("text")
+            //     .text(text)
+            //     .attr("x", 0)
+            //     .attr("y", 0)
+            //     .attr("class", "svg-lines-text");
 
         });
 
