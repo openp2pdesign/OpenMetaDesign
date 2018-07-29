@@ -965,11 +965,6 @@ Template.ProjectsViz.onRendered(function() {
         }
 
         // Draw the activities
-        // Look in each process
-        for (process in thisUpdatedProject.processes) {
-            // Loop each cluster of activities
-            // To plot the cluster well
-            // Timeline Layout
 
             //console.log(JSON.stringify(thisUpdatedProject.processes));
 
@@ -996,6 +991,7 @@ Template.ProjectsViz.onRendered(function() {
                 var onlyThisType = jsonData.filter(function(d) {
                     return d.processTitle === type
                 });
+                console.log("I", i);
                 console.log("O", onlyThisType);
                 console.log("RRRR", jsonData);
                 var theseBands = timelineLayout(onlyThisType);
@@ -1003,16 +999,24 @@ Template.ProjectsViz.onRendered(function() {
 
                 console.log("T", type);
                 console.log("B", theseBands);
-
-                var timelineSVGGroup = sectionsSVG.append("g").attr("id", "timelineSVGGroup");
-
+                // Variables
                 var thisX = 25 + (i * 120);
-                timelineSVGGroup.attr("transform", "translate(" + (thisX) + ",100)");
-                timelineSVGGroup
-                    .append("g")
-                    .selectAll("rect")
+                var activityIconContainerWidth = 60;
+                var activityIconContainerHeight = 85;
+                var radius = 10;
+                // Add main group for this process
+                var timelineSVGGroup = sectionsSVG.append("g")
+                    .attr("id", "timelineSVGGroup")
+                    .attr("transform", "translate(" + (thisX) + ",100)")
+                    .selectAll("g")
                     .data(theseBands)
                     .enter()
+                    .append("g")
+                    .attr("class", "GGG"+i);
+                // Select groups in this group
+                var thisProcessGroup = d3.selectAll("g.GGG"+i);
+                // Add main activity rect
+                thisProcessGroup
                     .append("rect")
                     .attr("y", function(d) {
                         return d.start;
@@ -1048,7 +1052,6 @@ Template.ProjectsViz.onRendered(function() {
                         // Set the color of the activity timeline based on the participation level
                         var participationLevelValueColor = participationLevelValue * 255 / 100;
                         participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
-
                         return participationLevelValueColorString;
                     })
                     .style("stroke", "black")
@@ -1089,11 +1092,7 @@ Template.ProjectsViz.onRendered(function() {
                     });
 
                 // Add the participation level percentage text
-                timelineSVGGroup
-                    .append("g")
-                    .selectAll("text")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroup
                     .append("text")
                     .text(function(d) {
                         // Calculate the participationLevelValue
@@ -1127,11 +1126,7 @@ Template.ProjectsViz.onRendered(function() {
 
                 // Add lines to the time axis
                 // Line at the start of an activity
-                timelineSVGGroup
-                    .append("g")
-                    .selectAll("line")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroup
                     .append("line")
                     .attr("x1", -thisX)
                     .attr("y1", function(d) {
@@ -1148,11 +1143,7 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("stroke-width", 1)
                     .attr("fill", "none");
                 // Line at the end of an activity
-                timelineSVGGroup
-                    .append("g")
-                    .selectAll("line")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroup
                     .append("line")
                     .attr("x1", -thisX)
                     .attr("y1", function(d) {
@@ -1168,16 +1159,14 @@ Template.ProjectsViz.onRendered(function() {
                     .style("stroke-dasharray", ("3,5"))
                     .attr("stroke-width", 1)
                     .attr("fill", "none");
-
-                var activityIconContainerWidth = 60;
-                var activityIconContainerHeight = 85;
-
                 // Activity Icon Box
-                timelineSVGGroup
+                var activityIconBoxes = thisProcessGroup.append("g")
                     .append("g")
-                    .selectAll("rect")
-                    .data(theseBands)
-                    .enter()
+                    .attr("class", "activity-icon-boxes"+i);
+                // Select groups in this group
+                var thisProcessGroupActivityIconBoxes = d3.selectAll("g.activity-icon-boxes"+i);
+                // Add main Activiy Icon Rect
+                thisProcessGroupActivityIconBoxes
                     .append("rect")
                     .attr("x", function(d) {
                         return d.y + 20;
@@ -1201,10 +1190,7 @@ Template.ProjectsViz.onRendered(function() {
                             .attr("filter", null);
                     });
                 // Activity Icon
-                timelineSVGGroup
-                    .selectAll("path")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityIconBoxes
                     .append("path")
                     .attr("d", activityIconPath)
                     .style("fill", "#ba4d4d")
@@ -1275,19 +1261,13 @@ Template.ProjectsViz.onRendered(function() {
                 //
                 // }
                 // Add the activity button
-                // TODO position of the button
-                var activityEditButtons = timelineSVGGroup
+                var activityEditButtons = thisProcessGroupActivityIconBoxes.append("g")
                     .append("g")
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
-                    .append("g");
-                var radius = 10;
+                    .attr("class", "activityButtons"+i);
+                // Select groups in this group
+                var thisProcessGroupActivityEditButtons = d3.selectAll("g.activityButtons"+i);
                 // Add first circle
-                activityEditButtons
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityEditButtons
                     .append("circle")
                     .attr("cx", function(d) {
                         return d.y;
@@ -1297,10 +1277,7 @@ Template.ProjectsViz.onRendered(function() {
                     })
                     .attr("r", radius);
                 // Add the rect between the circles
-                activityEditButtons
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityEditButtons
                     .append("rect")
                     .attr("x", function(d) {
                         return d.y;
@@ -1330,10 +1307,7 @@ Template.ProjectsViz.onRendered(function() {
                         return radius * 2;
                     });
                 // Add second circle
-                activityEditButtons
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityEditButtons
                     .append("circle")
                     .attr("cx", function(d) {
                         var buttonWidth = 0;
@@ -1358,13 +1332,10 @@ Template.ProjectsViz.onRendered(function() {
                     })
                     .attr("r", radius);
                 // Add the activity number
-                activityEditButtons
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityEditButtons
                     .append("text")
                     .attr("x", function(d) {
-                        return d.y + radius / 2 - (d.number.toString().length * 1);
+                        return d.y + radius / 2 - (d.number.toString().length * 0.5);
                     })
                     .attr("y", function(d) {
                         return d.start;
@@ -1376,13 +1347,10 @@ Template.ProjectsViz.onRendered(function() {
                         return "#" + d.number;
                     });
                 // Add the edit icon
-                activityEditButtons
-                    .selectAll("g")
-                    .data(theseBands)
-                    .enter()
+                thisProcessGroupActivityEditButtons
                     .append("text")
                     .attr("x", function(d) {
-                        return d.y + radius / 2 + (d.number.toString().length * 12);
+                        return d.y + (radius * 1.5) + (d.number.toString().length * 3);
                     })
                     .attr("y", function(d) {
                         return d.start;
@@ -1393,7 +1361,26 @@ Template.ProjectsViz.onRendered(function() {
                     .style("font-size", radius.toString() + "px")
                     .text("\uf044");
                 // Overall attributes of the buttons
-                activityEditButtons
+                thisProcessGroupActivityEditButtons
+                    .attr("transform", function(d) {
+                        var buttonWidth = 0;
+                        switch (d.number.toString().length) {
+                            case 0:
+                                buttonWidth = 0;
+                                break;
+                            case 1:
+                                buttonWidth = 20;
+                                break;
+                            case 2:
+                                buttonWidth = 22;
+                                break;
+                            case 3:
+                                buttonWidth = 23;
+                                break;
+                        }
+                        var fullButtonWidth = buttonWidth + radius * 2;
+                        return "translate(" + (20+(activityIconContainerWidth-fullButtonWidth)) + "," + (activityIconContainerHeight - radius * 1.5) + ")";
+                    })
                     .attr("data-toggle", "modal")
                     .classed("activity-button", true)
                     .attr("title", "Edit this activity")
@@ -1453,7 +1440,7 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("class", "svg-lines-text");
 
             });
-        }
+
         // Draw the flows
         // var flowsGroup = sectionsSVG.append("g");
         // for (flow in thisUpdatedProject.flows) {
