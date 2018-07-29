@@ -1184,66 +1184,86 @@ Template.ProjectsViz.onRendered(function() {
                 // Activity
 
                 // Center of activity elements
-                // var activityIconSize = {
-                //     width: 55,
-                //     height: 50
-                // };
-                // var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
-                // // Move it to x and y, and a 5 vertical padding from top
-                // activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
-                // //Find centers of activity elements
-                // timelineSVGGroup.activityElementsCenters = {
-                //     subject: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) - 10,
-                //         y: (y + 5 + activityIconSize.height / 2) - 18,
-                //         title: "Subject"
-                //     },
-                //     object: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) + 20,
-                //         y: y + 5 + activityIconSize.height / 2,
-                //         title: "Object"
-                //     },
-                //     outcome: {
-                //         x: 15 + x + activityIconContainerWidth / 2,
-                //         y: y + 5 + activityIconSize.height / 2,
-                //         title: "Outcome"
-                //     },
-                //     tools: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) + 10,
-                //         y: (y + 5 + activityIconSize.height / 2) - 18,
-                //         title: "Tools"
-                //     },
-                //     rules: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) - 20,
-                //         y: y + 5 + activityIconSize.height / 2,
-                //         title: "Rules"
-                //     },
-                //     roles: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) - 10,
-                //         y: (y + 5 + activityIconSize.height / 2) + 18,
-                //         title: "Roles"
-                //     },
-                //     community: {
-                //         x: 15 + (x + activityIconContainerWidth / 2) + 10,
-                //         y: (y + 5 + activityIconSize.height / 2) + 18,
-                //         title: "Community"
-                //     },
-                // }
-                // // Add activity ID data
-                // timelineSVGGroup.id = activityData.id;
-                // var activityTooltips = timelineSVGGroup.append("g");
-                // // Add transparent circles for tooltip
-                // for (i in timelineSVGGroup.activityElementsCenters) {
-                //     activityTooltips.append("circle")
-                //         .attr("cx", timelineSVGGroup.activityElementsCenters[i].x)
-                //         .attr("cy", timelineSVGGroup.activityElementsCenters[i].y)
-                //         .attr("fill", "rgba(0, 0, 0, 0)")
-                //         .attr("r", "7")
-                //         .attr("title", timelineSVGGroup.activityElementsCenters[i].title)
-                //         .classed("activity-tooltip", true)
-                //         .attr("data-toggle", "tooltip");
-                //
-                // }
+                var activityIconSize = {
+                    width: 55,
+                    height: 50
+                };
+                var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
+                // Move it to x and y, and a 5 vertical padding from top
+                //activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
+                //Find centers of activity elements
+                var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
+
+                elements.forEach(function(element, j) {
+                    thisProcessGroupActivityIconBoxes
+                        .append("circle")
+                        .attr("cx", function(d) {
+                            var x = d.y;
+                            var y = 0;
+                            switch (element) {
+                                case "subject":
+                                    x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                break;
+                                case "object":
+                                    x = 15 + (x + activityIconContainerWidth / 2) + 20;
+                                break;
+                                case "outcome":
+                                    x = 16 + x + activityIconContainerWidth / 2;
+                                break;
+                                case "tools":
+                                    x = 15 + (x + activityIconContainerWidth / 2) + 10;
+                                    break;
+                                case "rules":
+                                    x = 16 + (x + activityIconContainerWidth / 2) - 19;
+                                    break;
+                                case "roles":
+                                    x = 16 + (x + activityIconContainerWidth / 2) + 10;
+                                    break;
+                                case "community":
+                                    x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                    break;
+                            }
+                            return x + radius / 2;
+                        })
+                        .attr("cy", function(d) {
+                            var x = 0;
+                            var y = d.start;
+                            switch (element) {
+                                case "subject":
+                                    y = (y + 5 + activityIconSize.height / 2) - 18;
+                                    break;
+                                break;
+                                case "object":
+                                    y = y + 3 + activityIconSize.height / 2;
+                                    break;
+                                break;
+                                case "outcome":
+                                    y = y + 3 + activityIconSize.height / 2;
+                                    break;
+                                break;
+                                case "tools":
+                                    y = (y + 5 + activityIconSize.height / 2) - 18;
+                                    break;
+                                case "rules":
+                                    y = y + 3 + activityIconSize.height / 2;
+                                    break;
+                                case "roles":
+                                    y = (y + 5 + activityIconSize.height / 2) + 15;
+                                    break;
+                                case "community":
+                                    y = (y + 5 + activityIconSize.height / 2) + 15;
+                                    break;
+                            }
+                            return y;
+                        })
+                        .attr("fill", "rgba(0, 0, 0, 0)")
+                        .attr("r", "6.5")
+                        .attr("title", function(d) {
+                            return d[element].title;
+                        })
+                        .classed("activity-tooltip", true)
+                        .attr("data-toggle", "tooltip");
+                });
                 // Add the activity button
                 var activityEditButtons = thisProcessGroupActivityIconBoxes.append("g")
                     .append("g")
