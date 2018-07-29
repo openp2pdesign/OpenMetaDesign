@@ -907,18 +907,7 @@ Template.ProjectsViz.onRendered(function() {
             sectionsGroups.push(sectionsSVG.append("g").attr("id", thisUpdatedProject.processes[j].title));
             lineGroups.push(sectionsSVG.append("g"));
             // Add section label
-            sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionsGroups[j]));
-
-            // Add Add Activity button
-            var addActivityButton = addButton(sectionLabels[j].node().getBBox().width + 15, -labelHeight - 5, 10, sectionLabels[j], '\uf067');
-            addActivityButton.attr("data-toggle", "modal")
-                .classed("activity-button", true)
-                .attr("title", "Add an activity here")
-                .attr("data-activity-mode", "add")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", thisUpdatedProject.processes[j].id)
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
+            //sectionLabels.push(addSectionLabel(thisUpdatedProject.processes[j].title, sectionsGroups[j]));
 
             // Add separator lines from the project data
             for (separator in thisUpdatedProject.separators) {
@@ -968,13 +957,13 @@ Template.ProjectsViz.onRendered(function() {
 
             //console.log(JSON.stringify(thisUpdatedProject.processes));
 
-            // types = ["Customer processes",
-            //     "Front-Office processes",
-            //     "Back-Office processes",
-            //     "Support processes"
-            // ];
+            var types = ["Customer processes",
+                "Front-Office processes",
+                "Back-Office processes",
+                "Support processes"
+            ];
 
-            var types = ["Customer processes"];
+            types = ["Customer processes"];
 
             var jsonData = thisUpdatedProject.processes[0].activities;
             for (activity in jsonData) {
@@ -982,21 +971,16 @@ Template.ProjectsViz.onRendered(function() {
                 jsonData[activity].end = jsonData[activity].time.end;
             }
 
-            var colorScale = d3.scaleOrdinal()
-                .domain(["Customer processes", "Front-Office processes", "Back-Office processes", "Support processes"])
-                .range(["#96abb1", "#313746", "#b0909d", "#687a97", "#292014"]);
-
             types.forEach(function(type, i) {
-
+                // Get the data of a process and calculate the layout
                 var onlyThisType = jsonData.filter(function(d) {
                     return d.processTitle === type
                 });
+                var theseBands = timelineLayout(onlyThisType);
+                // Debug
                 console.log("I", i);
                 console.log("O", onlyThisType);
                 console.log("RRRR", jsonData);
-                var theseBands = timelineLayout(onlyThisType);
-
-
                 console.log("T", type);
                 console.log("B", theseBands);
                 // Variables
@@ -1404,16 +1388,16 @@ Template.ProjectsViz.onRendered(function() {
                     });
 
                 // Process Section info
-
+                var thisXEndOfSection = thisX + 100 + (i * 120);
                 // Add section label
                 var sectionLabel = timelineSVGGroup.append("text")
                     .text(type)
                     .attr("class", "svg-label")
-                    .attr("x", thisX)
-                    .attr("y", -30 - labelHeight);
+                    .attr("x", 0)
+                    .attr("y", -80 - labelHeight);
 
                 // Add Add Activity button
-                var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -30 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+                var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
                 addActivityButton.attr("data-toggle", "modal")
                     .classed("activity-button", true)
                     .attr("title", "Add an activity here")
@@ -1427,15 +1411,15 @@ Template.ProjectsViz.onRendered(function() {
                 var text = "Line of interaction";
                 // Add the line
                 timelineSVGGroup.append("line")
-                    .attr("x1", thisX + 50)
+                    .attr("x1", 0)
                     .attr("y1", text.length * 5)
-                    .attr("x2", thisX + 50)
+                    .attr("x2", 0)
                     .attr("y2", d3Container.clientHeight)
                     .attr("class", "svg-lines-line");
                 // Add the text
                 timelineSVGGroup.append("text")
                     .text(text)
-                    .attr("x", thisX + 50)
+                    .attr("x", 0)
                     .attr("y", 0)
                     .attr("class", "svg-lines-text");
 
