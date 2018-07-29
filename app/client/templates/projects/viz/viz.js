@@ -1276,8 +1276,6 @@ Template.ProjectsViz.onRendered(function() {
                 // }
                 // Add the activity button
                 // TODO position of the button
-                // TODO hover effects
-                // TODO font family for activity number
                 var activityEditButtons = timelineSVGGroup
                     .append("g")
                     .selectAll("g")
@@ -1297,8 +1295,7 @@ Template.ProjectsViz.onRendered(function() {
                     .attr("cy", function(d) {
                         return d.start;
                     })
-                    .attr("r", radius)
-                    .classed("svg-button", true);
+                    .attr("r", radius);
                 // Add the rect between the circles
                 activityEditButtons
                     .selectAll("g")
@@ -1374,11 +1371,29 @@ Template.ProjectsViz.onRendered(function() {
                     })
                     .attr("text-anchor", "middle")
                     .attr("dominant-baseline", "central")
-                    .style("font-family", "FontAwesome")
                     .style("font-size", radius.toString() + "px")
                     .text(function(d) {
-                        return "#" + d.number + " " + "\uf044";
+                        return "#" + d.number;
+                    });
+                // Add the edit icon
+                activityEditButtons
+                    .selectAll("g")
+                    .data(theseBands)
+                    .enter()
+                    .append("text")
+                    .attr("x", function(d) {
+                        return d.y + radius / 2 + (d.number.toString().length * 12);
                     })
+                    .attr("y", function(d) {
+                        return d.start;
+                    })
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "central")
+                    .style("font-family", "FontAwesome")
+                    .style("font-size", radius.toString() + "px")
+                    .text("\uf044");
+                // Overall attributes of the buttons
+                activityEditButtons
                     .attr("data-toggle", "modal")
                     .classed("activity-button", true)
                     .attr("title", "Edit this activity")
@@ -1390,10 +1405,7 @@ Template.ProjectsViz.onRendered(function() {
                         return d.processId;
                     })
                     .classed("button-tooltip", true)
-                    //.attr("transform", "translate(" + (radius + (activityIconContainerWidth-fullButtonWidth)/2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
-                    .attr("data-toggle", "tooltip");
-
-                activityEditButtons
+                    .attr("data-toggle", "tooltip")
                     .classed("svg-button", true)
                     .on("mouseover", function() {
                         d3.select(this)
