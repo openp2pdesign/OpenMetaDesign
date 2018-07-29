@@ -3,17 +3,22 @@
 
 import d3 from 'd3';
 
+
+// Customized for time.start and time.end
+
 export default function timeline() {
     var timelines = [];
     var dateAccessor = function(d) {
         return new Date(d);
     };
     var processedTimelines = [];
+    // Customized data format
     var startAccessor = function(d) {
-        return d.start;
+        return d.time.start;
     };
+    // Customized data format
     var endAccessor = function(d) {
-        return d.end;
+        return d.time.end;
     };
     var size = [500, 100];
     var timelineExtent = [-Infinity, Infinity];

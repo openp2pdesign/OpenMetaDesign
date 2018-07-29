@@ -418,59 +418,6 @@ Template.ProjectsViz.onRendered(function() {
         return button;
     }
 
-    // Create a button for an activity
-    var addActivityButton = function(x, y, radius, parent, buttonWidth, number, iconCode) {
-
-        var button = parent.append("g");
-
-        // Add the first circle
-        button.append("circle")
-            .attr("cx", x)
-            .attr("cy", y)
-            .attr("r", radius);
-        // Add the rect between the circles
-        button.append("rect")
-            .attr("x", x)
-            .attr("y", y - radius)
-            .attr("width", buttonWidth)
-            .attr("height", radius * 2);
-        // Add the last circle
-        button.append("circle")
-            .attr("cx", x + buttonWidth)
-            .attr("cy", y)
-            .attr("r", radius);
-        // Add the activity number
-        button.append('text')
-            .attr("x", x + radius / 2 - (number.toString().length * 1))
-            .attr("y", y)
-            .attr("text-anchor", "middle")
-            .attr("dominant-baseline", "central")
-            .style("font-size", radius.toString() + "px")
-            .text("#" + number);
-        // Add the icon
-        button.append('text')
-            .attr("x", x + buttonWidth)
-            .attr("y", y)
-            .attr("text-anchor", "middle")
-            .attr("dominant-baseline", "central")
-            .style("font-family", "FontAwesome")
-            .style("font-size", radius.toString() + "px")
-            .text(iconCode);
-
-        // Add hover effect and class
-        button.attr("class", "svg-button")
-            .on("mouseover", function() {
-                d3.select(this)
-                    .attr("filter", "url(#glow)");
-            })
-            .on("mouseout", function() {
-                d3.select(this)
-                    .attr("filter", null);
-            });
-
-        return button;
-    }
-
     // Create a section label
     var addSectionLabel = function(text, parent) {
 
@@ -485,280 +432,6 @@ Template.ProjectsViz.onRendered(function() {
 
         return sectionLabel;
     }
-
-    // Create a line between sections
-    var addSectionLine = function(text, parent) {
-
-        var sectionLine = parent.append("g");
-
-        // Add the line
-        sectionLine.append("line")
-            .attr("x1", 0)
-            .attr("y1", 0)
-            .attr("x1", 0)
-            .attr("y1", d3Container.clientHeight)
-            .attr("class", "svg-lines-line");
-        // Add the background behind the text
-        sectionLine.append("rect")
-            .attr("x", -10)
-            .attr("y", 0)
-            .attr("width", 20)
-            .attr("height", text.length * 5)
-            .attr("class", "svg-lines-rect");
-        // Add the text
-        sectionLine.append("text")
-            .text(text)
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("class", "svg-lines-text");
-
-        return sectionLine;
-    }
-
-    // Create an activity
-    var addActivity = function(x, y, height, parent, activityData, processData) {
-        // Variables for customizing the viz
-        var activityTimelineMargin = 4;
-        var activityTimelineWidth = 15;
-        var radius = 10;
-        var buttonWidth = 0;
-        switch (activityData.number.toString().length) {
-            case 0:
-                buttonWidth = 0;
-                break;
-            case 1:
-                buttonWidth = 20;
-                break;
-            case 2:
-                buttonWidth = 22;
-                break;
-            case 3:
-                buttonWidth = 23;
-                break;
-        }
-        var fullButtonWidth = buttonWidth + radius * 2;
-        var activityIconContainerWidth = 60;
-        var activityIconContainerHeight = 85;
-
-        // Add the main group
-        var activity = parent.append("g");
-
-        // Add the activity id
-        activity.attr("data-activity-id", activityData.id);
-
-        // Add lines to the time axis
-        // Line generator
-        var lineGenerator = d3.line();
-        // Line at start of activity
-        var points = [
-            [0, y],
-            [x, y]
-        ];
-        var pathData = lineGenerator(points);
-        var lineGraph = activity.append("path")
-            .attr("d", pathData)
-            .attr("stroke", "#a7b5d4")
-            .style("stroke-dasharray", ("3,5"))
-            .attr("stroke-width", 1)
-            .attr("fill", "none");
-        // Line at end of activity
-        var points = [
-            [0, y + height],
-            [x, y + height]
-        ];
-        var pathData = lineGenerator(points);
-        var lineGraph = activity.append("path")
-            .attr("d", pathData)
-            .attr("stroke", "#a7b5d4")
-            .style("stroke-dasharray", ("3,5"))
-            .attr("stroke-width", 1)
-            .attr("fill", "none");
-
-        // Add the activity timeline
-        var activityTimeline = activity.append("g").attr("class", "svg-activity-participation");
-        var activityTimelineRect = activityTimeline.append("rect")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("width", activityTimelineWidth)
-            .attr("height", height);
-
-        // Add participation level information to the activity timeline
-        var participationLevelX = x + activityTimelineWidth / 2;
-        var participationLevelY = y + activityTimelineWidth / 2;
-        var participationLevelValue = 0;
-        // Calculate the participationLevelValue
-        switch (activityData.participation) {
-            case "No participation":
-                participationLevelValue = 0;
-                break;
-            case "Indirect participation":
-                participationLevelValue = 20;
-                break;
-            case "Consultative participation":
-                participationLevelValue = 35;
-                break;
-            case "Shared control":
-                participationLevelValue = 50;
-                break;
-            case "Full control":
-                participationLevelValue = 100;
-                break;
-        }
-        // Set the color of the activity timeline based on the participation level
-        var participationLevelValueColor = participationLevelValue * 255 / 100;
-        participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
-        activityTimelineRect
-            .attr("fill", participationLevelValueColorString)
-            .style("stroke-width", "2px")
-            .style("stroke", "#000");
-        activityTimelineRect
-            .attr("title", "Participation level: " + activityData.participation + " (" + participationLevelValue + "%)")
-            .classed("participation-tooltip", true)
-            .attr("data-toggle", "tooltip");
-        // Add the participation level percentage text
-        var participationLevel = activityTimeline.append("text")
-            .text(participationLevelValue + "%")
-            .attr("x", participationLevelX)
-            .attr("y", participationLevelY)
-            .attr("class", "participation-level");
-        // Add the activity icon and button container
-        var activityIconContainer = activity.append("g").attr("class", "svg-activity");
-        // Add activity rectangle
-        activityIconContainer.append("rect")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("width", activityIconContainerWidth)
-            .attr("height", activityIconContainerHeight)
-            .style("stroke-width", "2px")
-            .style("stroke", "#8f8f8f");
-        // Add the activity icon
-        var activityIcon = loadSVG("../as_full_nolabel_small.svg", activityIconContainer);
-        var activityIconSize = {
-            width: 55,
-            height: 50
-        };
-        var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
-        // Move it to x and y, and a 5 vertical padding from top
-        activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
-        //Find centers of activity elements
-        activity.activityElementsCenters = {
-            subject: {
-                x: 15 + (x + activityIconContainerWidth / 2) - 10,
-                y: (y + 5 + activityIconSize.height / 2) - 18,
-                title: "Subject"
-            },
-            object: {
-                x: 15 + (x + activityIconContainerWidth / 2) + 20,
-                y: y + 5 + activityIconSize.height / 2,
-                title: "Object"
-            },
-            outcome: {
-                x: 15 + x + activityIconContainerWidth / 2,
-                y: y + 5 + activityIconSize.height / 2,
-                title: "Outcome"
-            },
-            tools: {
-                x: 15 + (x + activityIconContainerWidth / 2) + 10,
-                y: (y + 5 + activityIconSize.height / 2) - 18,
-                title: "Tools"
-            },
-            rules: {
-                x: 15 + (x + activityIconContainerWidth / 2) - 20,
-                y: y + 5 + activityIconSize.height / 2,
-                title: "Rules"
-            },
-            roles: {
-                x: 15 + (x + activityIconContainerWidth / 2) - 10,
-                y: (y + 5 + activityIconSize.height / 2) + 18,
-                title: "Roles"
-            },
-            community: {
-                x: 15 + (x + activityIconContainerWidth / 2) + 10,
-                y: (y + 5 + activityIconSize.height / 2) + 18,
-                title: "Community"
-            },
-        }
-        // Add activity ID data
-        activity.id = activityData.id;
-        var activityTooltips = activity.append("g");
-        // Add transparent circles for tooltip
-        for (i in activity.activityElementsCenters) {
-            activityTooltips.append("circle")
-                .attr("cx", activity.activityElementsCenters[i].x)
-                .attr("cy", activity.activityElementsCenters[i].y)
-                .attr("fill", "rgba(0, 0, 0, 0)")
-                .attr("r", "7")
-                .attr("title", activity.activityElementsCenters[i].title)
-                .classed("activity-tooltip", true)
-                .attr("data-toggle", "tooltip");
-
-        }
-        // Add the activity button
-        var activityButton = addActivityButton(x, y, radius, activityIconContainer, buttonWidth, activityData.number, '\uf044');
-        activityButton.attr("data-toggle", "modal")
-            .classed("activity-button", true)
-            .attr("title", "Edit this activity")
-            .attr("data-activity-mode", "edit")
-            .attr("data-activity-id", activityData.id)
-            .attr("data-process-id", processData.id)
-            .classed("button-tooltip", true)
-            .attr("transform", "translate(" + (radius + (activityIconContainerWidth - fullButtonWidth) / 2) + "," + (activityIconContainerHeight - radius * 1.5) + ")")
-            .attr("data-toggle", "tooltip");
-
-        // Move the whole activityIconContainer after the participation level
-        activityIconContainer.attr("transform", "translate(" + activityTimelineWidth + ",0)")
-        // Add a margin for the whole activity from the separator lines
-        activity.attr("transform", "translate(" + activityTimelineMargin + ",0)");
-
-        // Add class
-        activity.attr("class", "activity-hover")
-            // Add hover effect
-            .on("mouseover", function() {
-                d3.select(this)
-                    .attr("filter", "url(#glow)");
-            })
-            .on("mouseout", function() {
-                d3.select(this)
-                    .attr("filter", null);
-            })
-            // Hide / show the activity icon on click
-            .on("click", function() {
-                // if (activityIconContainer.style("display") === "inline") {
-                //     activityIconContainer.style("display", "none");
-                //     //Update centers of activity elements
-                //     activity.activityElementsCenters = {
-                //         subject: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         object: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         outcome: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         tools: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         rules: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         roles: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //         community: {x: x+activityTimelineWidth/2, y: y+activityTimelineWidth/2},
-                //     }
-                //     // Hide tooltips
-                //     activityTooltips.style("display", "none");
-                // }
-                // else {
-                //     activityIconContainer.style("display", "inline");
-                //     //Update centers of activity elements
-                //     activity.activityElementsCenters = {
-                //         subject: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)-18},
-                //         object: {x: 15+(x+activityIconContainerWidth/2)+20, y: y+5+activityIconSize.height/2},
-                //         outcome: {x: 15+x+activityIconContainerWidth/2, y: y+5+activityIconSize.height/2},
-                //         tools: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)-18},
-                //         rules: {x: 15+(x+activityIconContainerWidth/2)-20, y: y+5+activityIconSize.height/2},
-                //         roles: {x: 15+(x+activityIconContainerWidth/2)-10, y: (y+5+activityIconSize.height/2)+18},
-                //         community: {x: 15+(x+activityIconContainerWidth/2)+10, y: (y+5+activityIconSize.height/2)+18},
-                //     }
-                //     // Show tooltips
-                //     activityTooltips.style("display", "inline");
-                // }
-            });
-
-        // Return the whole activity
-        return activity;
-    }
-
 
     // LAYOUT - HTML
 
@@ -865,24 +538,15 @@ Template.ProjectsViz.onRendered(function() {
             "Support processes"
         ];
 
-        types = ["Customer processes"];
-
-        var jsonData = thisUpdatedProject.processes[0].activities;
-        for (activity in jsonData) {
-            jsonData[activity].start = jsonData[activity].time.start;
-            jsonData[activity].end = jsonData[activity].time.end;
-        }
-        console.log(jsonData);
         types.forEach(function(type, i) {
             // Get the data of a process and calculate the layout
-            var onlyThisType = jsonData.filter(function(d) {
-                return d.processTitle === type
+            var onlyThisType = thisUpdatedProject.processes.filter(function(d) {
+                return d.title === type
             });
-            var theseBands = timelineLayout(onlyThisType);
+            var theseBands = timelineLayout(onlyThisType[0].activities);
             // Debug
             console.log("I", i);
             console.log("O", onlyThisType);
-            console.log("RRRR", jsonData);
             console.log("T", type);
             console.log("B", theseBands);
             // Variables
@@ -1320,17 +984,17 @@ Template.ProjectsViz.onRendered(function() {
                 .attr("y", -80 - labelHeight);
 
             // Add Add Activity button
-            var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
-            addActivityButton.attr("data-toggle", "modal")
-                .classed("activity-button", true)
-                .attr("title", "Add an activity here")
-                .attr("data-activity-mode", "add")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", function(d) {
-                    return d.processId;
-                })
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
+            // var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+            // addActivityButton.attr("data-toggle", "modal")
+            //     .classed("activity-button", true)
+            //     .attr("title", "Add an activity here")
+            //     .attr("data-activity-mode", "add")
+            //     .attr("data-activity-id", "none")
+            //     .attr("data-process-id", function(d) {
+            //         return d.processId;
+            //     })
+            //     .classed("button-tooltip", true)
+            //     .attr("data-toggle", "tooltip");
 
             // Add separator lines from the project data
             var text = "Line of interaction";
