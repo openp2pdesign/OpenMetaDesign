@@ -176,24 +176,7 @@
                             {{> VizJson}}
                         </div>
                         <div class="tab-pane fade in" id="view-versions">
-                            <h2>{{_ "versions"}}</h2>
-                            {{#each versions}}
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <span class="badge"><i class="fa fa-history"></i>
-                                        <strong>{{number}}</strong></span>
-                                         <em>{{id}}</em>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <i class="fa fa-user"></i>  {{updatedAtBy}} - <i class="fa fa-clock-o"></i> {{updatedAtRelative}} - {{updatedAt}}
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <pre>
-                                            <code class="json">{{diff}}</code>
-                                        </pre>
-                                    </div>
-                                </div>
-                            {{/each}}
+                            {{> VizVersions}}
                         </div>
                     </div>
                 </div>

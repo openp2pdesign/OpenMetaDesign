@@ -182,30 +182,6 @@ Template.ProjectsViz.helpers({
         }
         return activitiesWithoutLocation;
     },
-    jsoncode: function() {
-        var data = Projects.findOne({
-            '_id': thisProject._id
-        });
-        return JSON.stringify(data, null, '\t');
-    },
-    versions: function() {
-        var prettifiedData = [];
-        for (version in thisProject.versions) {
-            if (typeof thisProject.versions[version].diff !== 'undefined') {
-                var thisData = {
-                    "id": thisProject.versions[version].id,
-                    "number": thisProject.versions[version].number,
-                    "updatedAtBy": thisProject.versions[version].updatedAtBy,
-                    "updatedAt": thisProject.versions[version].updatedAt,
-                    "updatedAtRelative": moment(thisProject.versions[version].updatedAt).calendar(),
-                    "diff": JSON.stringify(JSON.parse(thisProject.versions[version].diff), null, '\t'),
-                };
-                prettifiedData.push(thisData);
-            }
-        }
-
-        return prettifiedData;
-    },
     users: function() {
         return this.users;
     },
