@@ -12,6 +12,50 @@ import { Settings } from '../../../../lib/collections/settings.js';
 /* VizLocations: Event Handlers */
 /*****************************************************************************/
 Template.VizLocations.events({
+    'click .activity-button': function(event) {
+        event.preventDefault();
+        // Check the data embedded in the button
+        item = event.currentTarget.outerHTML;
+        dataActivityMode = $(item).attr("data-activity-mode");
+        dataProcessId = $(item).attr("data-process-id");
+        dataActivityId = $(item).attr("data-activity-id");
+        if (dataActivityMode == "edit") {
+            // Edit button
+            Modal.show('Activity', function() {
+                return {
+                    "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "edit"
+                }
+            });
+        } else if (dataActivityMode == "add") {
+            // Add button
+            Modal.show('Activity', function() {
+                return {
+                    "project": thisProject._id,
+                    "process": dataProcessId,
+                    "activity": dataActivityId,
+                    "mode": "add"
+                }
+            });
+        }
+    },
+    'click .activities-without-location': function(event) {
+        event.preventDefault();
+        var thisActivityId = event.target.getAttribute('data-id');
+        var thisActivityData = Activities.findOne({
+            '_id': thisActivityId
+        });
+        Modal.show('Activity', function(event) {
+            return {
+                "project": thisProject._id,
+                "process": thisActivityData.processId,
+                "activity": thisActivityData.activityData.id,
+                "mode": "edit"
+            }
+        });
+    },
 });
 
 /*****************************************************************************/
