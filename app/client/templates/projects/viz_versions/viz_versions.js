@@ -1,3 +1,6 @@
+// Import Highlight.js
+import 'highlight.js/styles/github.css';
+import hljs from 'highlight.js';
 // Import collections
 import { Projects } from '../../../../lib/collections/projects.js';
 /*****************************************************************************/
@@ -36,6 +39,10 @@ Template.VizVersions.onCreated(function () {
 });
 
 Template.VizVersions.onRendered(function () {
+    // Highlight.js
+    $("code").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
 });
 
 Template.VizVersions.onDestroyed(function () {

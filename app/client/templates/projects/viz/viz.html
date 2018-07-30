@@ -146,31 +146,7 @@
                             {{> Contradictions}}
                         </div>
                         <div class="tab-pane fade in" id="view-locations">
-                            <h2>{{_ "locations"}}</h2>
-                            <div id="activities-without-location">
-                                <h3>{{_ "activities_without_location"}}</h3>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul id="activities-without-location-list">
-                                            {{#each activity in activitiesWithoutLocation}}
-                                            <li>
-                                                <a href="#">
-                                                    <img src="../map/activityIconNoLocation.svg"  data-id={{activity.id}} class="activities-without-location" data-toggle="tooltip" title="Edit activity #{{activity.number}}" />
-                                                </a>
-                                            </li>
-                                            {{/each}}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3>{{_ "activities_with_location"}}</h3>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div id="locationsMap"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{> VizLocations}}
                         </div>
                         <div class="tab-pane fade in" id="view-jsoncode">
                             {{> VizJson}}
