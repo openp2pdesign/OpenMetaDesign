@@ -338,21 +338,23 @@ Template.VizVisualization.onRendered(function () {
             "Support processes"
         ];
 
+        // Variables for the visualization
+        var thisX = 0;
+        var activityIconContainerWidth = 60;
+        var activityIconContainerHeight = 85;
+        var radius = 10;
+
         types.forEach(function(type, i) {
+            thisX = thisX + 50;
             // Get the data of a process and calculate the layout
             var onlyThisType = thisUpdatedProject.processes.filter(function(d) {
                 return d.title === type
             });
             var theseBands = timelineLayout(onlyThisType[0].activities);
-            // Variables for the visualization
-            var thisX = 25 + (i * 120);
-            var activityIconContainerWidth = 60;
-            var activityIconContainerHeight = 85;
-            var radius = 10;
             // Add main group for this process
             var timelineSVGGroup = sectionsSVG.append("g")
                 .attr("id", "timelineSVGGroup")
-                .attr("transform", "translate(" + (thisX) + ","+labelHeight+")")
+                .attr("transform", "translate("+thisX+","+labelHeight+")")
                 .selectAll("g")
                 .data(theseBands)
                 .enter()
@@ -472,7 +474,7 @@ Template.VizVisualization.onRendered(function () {
             // Line at the start of an activity
             thisProcessGroup
                 .append("line")
-                .attr("x1", -thisX-(i * 120))
+                .attr("x1", -thisX)
                 .attr("y1", function(d) {
                     return d.start;
                 })
@@ -489,7 +491,7 @@ Template.VizVisualization.onRendered(function () {
             // Line at the end of an activity
             thisProcessGroup
                 .append("line")
-                .attr("x1", -thisX-(i * 120))
+                .attr("x1", -thisX)
                 .attr("y1", function(d) {
                     return d.end;
                 })
@@ -823,7 +825,12 @@ Template.VizVisualization.onRendered(function () {
             })
             .attr("cy", 0)
             .attr("r", radius);
-            console.log("this:",thisX, "max:",_.max(lastBandX));
+            var maxX = _.max(lastBandX);
+            if (maxX > (thisX + i * 100)) {
+                thisX = _.max(lastBandX);
+            } else {
+                thisX = thisX + i * 100;
+            }
 
 
         });
