@@ -320,11 +320,11 @@ Template.VizVisualization.onRendered(function () {
             .tickSize(20, 40);
         timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
         // Add a d3.layout.timeline
-        var bandHeight = 75;
+        var bandHeight = 80;
         var timelineLayout = timeline()
             .size([d3Container.clientWidth, d3Container.clientHeight - labelHeight])
             .extent([startDate, endDate])
-            .padding(5)
+            .padding(0)
             .maxBandHeight(bandHeight);
 
         // Time label
