@@ -769,7 +769,6 @@ Template.VizVisualization.onRendered(function () {
                         .attr("filter", null);
                 });
 
-
             // Process Section info
             var thisXEndOfSection = thisX + (i * 120);
             thisProcessGroup.attr("transform", "translate("+(i * 120)+",0)");
@@ -812,6 +811,19 @@ Template.VizVisualization.onRendered(function () {
                     .attr("y", 0)
                     .attr("class", "svg-lines-text");
             }
+
+            // Check size of this section, for the x of the next one
+            var lastBandX = [];
+            thisProcessGroup
+            .append("circle")
+            .attr("cx", function(d) {
+                console.log(type,i,d.y,bandHeight,d.y+bandHeight);
+                lastBandX.push(d.y+bandHeight);
+                return d.y+bandHeight;
+            })
+            .attr("cy", 0)
+            .attr("r", radius);
+            console.log("this:",thisX, "max:",_.max(lastBandX));
 
 
         });
