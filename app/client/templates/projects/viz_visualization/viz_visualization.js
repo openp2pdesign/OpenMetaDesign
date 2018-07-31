@@ -316,13 +316,13 @@ Template.VizVisualization.onRendered(function () {
         // Time axis
         let yAxis = d3.axisLeft().scale(yScale)
             .tickFormat(d3.timeFormat("%b %d %Y %I:%M"))
-            .ticks(10)
+            .ticks(20)
             .tickSize(20, 40);
         timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
         // Add a d3.layout.timeline
         var bandHeight = 75;
         var timelineLayout = timeline()
-            .size([d3Container.clientHeight - labelHeight, d3Container.clientWidth])
+            .size([d3Container.clientWidth, d3Container.clientHeight - labelHeight])
             .extent([startDate, endDate])
             .padding(5)
             .maxBandHeight(bandHeight);
@@ -352,7 +352,7 @@ Template.VizVisualization.onRendered(function () {
             // Add main group for this process
             var timelineSVGGroup = sectionsSVG.append("g")
                 .attr("id", "timelineSVGGroup")
-                .attr("transform", "translate(" + (thisX) + ",100)")
+                .attr("transform", "translate(" + (thisX) + ","+labelHeight+")")
                 .selectAll("g")
                 .data(theseBands)
                 .enter()
@@ -780,10 +780,10 @@ Template.VizVisualization.onRendered(function () {
                 .text(type)
                 .attr("class", "svg-label")
                 .attr("x", 0)
-                .attr("y", -80 - labelHeight);
+                .attr("y", -labelHeight);
 
             // Add Add Activity button
-            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, thisProcessGroup, '\uf067');
+            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -labelHeight - 5, 10, thisProcessGroup, '\uf067');
             addActivityButton.attr("data-toggle", "modal")
                 .classed("activity-button", true)
                 .attr("title", "Add an activity here")
