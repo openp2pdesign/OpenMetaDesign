@@ -320,11 +320,11 @@ Template.VizVisualization.onRendered(function () {
             .tickSize(20, 40);
         timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
         // Add a d3.layout.timeline
-        var bandHeight = 60;
+        var bandHeight = 75;
         var timelineLayout = timeline()
             .size([d3Container.clientHeight - labelHeight, d3Container.clientWidth])
             .extent([startDate, endDate])
-            .padding(10)
+            .padding(5)
             .maxBandHeight(bandHeight);
 
         // Time label
@@ -796,20 +796,23 @@ Template.VizVisualization.onRendered(function () {
                 .attr("data-toggle", "tooltip");
 
             // Add separator lines from the project data
-            var text = "Line of interaction";
-            // Add the line
-            timelineSVGGroup.append("line")
-                .attr("x1", 0)
-                .attr("y1", text.length * 5)
-                .attr("x2", 0)
-                .attr("y2", d3Container.clientHeight)
-                .attr("class", "svg-lines-line");
-            // Add the text
-            timelineSVGGroup.append("text")
-                .text(text)
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("class", "svg-lines-text");
+            if (i > 0 && i < thisUpdatedProject.processes.length) {
+                var separatorText = thisUpdatedProject.separators[i-1].text;
+                // Add the line
+                timelineSVGGroup.append("line")
+                    .attr("x1", 0)
+                    .attr("y1", separatorText.length * 5)
+                    .attr("x2", 0)
+                    .attr("y2", d3Container.clientHeight)
+                    .attr("class", "svg-lines-line");
+                // Add the text
+                timelineSVGGroup.append("text")
+                    .text(separatorText)
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("class", "svg-lines-text");
+            }
+
 
         });
 
