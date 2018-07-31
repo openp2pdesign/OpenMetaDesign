@@ -472,7 +472,7 @@ Template.VizVisualization.onRendered(function () {
             // Line at the start of an activity
             thisProcessGroup
                 .append("line")
-                .attr("x1", -thisX)
+                .attr("x1", -thisX-(i * 120))
                 .attr("y1", function(d) {
                     return d.start;
                 })
@@ -489,7 +489,7 @@ Template.VizVisualization.onRendered(function () {
             // Line at the end of an activity
             thisProcessGroup
                 .append("line")
-                .attr("x1", -thisX)
+                .attr("x1", -thisX-(i * 120))
                 .attr("y1", function(d) {
                     return d.end;
                 })
@@ -772,18 +772,18 @@ Template.VizVisualization.onRendered(function () {
 
             // Process Section info
             var thisXEndOfSection = thisX + (i * 120);
-            timelineSVGGroup.attr("transform", "translate("+(i * 120)+",0)");
+            thisProcessGroup.attr("transform", "translate("+(i * 120)+",0)");
 
             // Add section label
             // TODO put it out of timelineSVGGroup
-            var sectionLabel = timelineSVGGroup.append("text")
+            var sectionLabel = thisProcessGroup.append("text")
                 .text(type)
                 .attr("class", "svg-label")
                 .attr("x", 0)
                 .attr("y", -80 - labelHeight);
 
             // Add Add Activity button
-            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, thisProcessGroup, '\uf067');
             addActivityButton.attr("data-toggle", "modal")
                 .classed("activity-button", true)
                 .attr("title", "Add an activity here")
@@ -799,14 +799,14 @@ Template.VizVisualization.onRendered(function () {
             if (i > 0 && i < thisUpdatedProject.processes.length) {
                 var separatorText = thisUpdatedProject.separators[i-1].text;
                 // Add the line
-                timelineSVGGroup.append("line")
+                thisProcessGroup.append("line")
                     .attr("x1", 0)
                     .attr("y1", separatorText.length * 5)
                     .attr("x2", 0)
                     .attr("y2", d3Container.clientHeight)
                     .attr("class", "svg-lines-line");
                 // Add the text
-                timelineSVGGroup.append("text")
+                thisProcessGroup.append("text")
                     .text(separatorText)
                     .attr("x", 0)
                     .attr("y", 0)
