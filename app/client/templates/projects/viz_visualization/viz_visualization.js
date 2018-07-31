@@ -320,9 +320,9 @@ Template.VizVisualization.onRendered(function () {
             .tickSize(20, 40);
         timeG.call(yAxis).attr("transform", "translate(0," + labelHeight + ")");
         // Add a d3.layout.timeline
-        var bandHeight = 100;
+        var bandHeight = 60;
         var timelineLayout = timeline()
-            .size([d3Container.clientHeight - labelHeight, 300])
+            .size([d3Container.clientHeight - labelHeight, d3Container.clientWidth])
             .extent([startDate, endDate])
             .padding(10)
             .maxBandHeight(bandHeight);
@@ -771,45 +771,45 @@ Template.VizVisualization.onRendered(function () {
 
 
             // Process Section info
-            var thisXEndOfSection = thisX + 100 + (i * 120);
+            var thisXEndOfSection = thisX + (i * 120);
             timelineSVGGroup.attr("transform", "translate("+(i * 120)+",0)");
 
             // Add section label
             // TODO put it out of timelineSVGGroup
-            // var sectionLabel = timelineSVGGroup.append("text")
-            //     .text(type)
-            //     .attr("class", "svg-label")
-            //     .attr("x", 0)
-            //     .attr("y", -80 - labelHeight);
+            var sectionLabel = timelineSVGGroup.append("text")
+                .text(type)
+                .attr("class", "svg-label")
+                .attr("x", 0)
+                .attr("y", -80 - labelHeight);
 
             // Add Add Activity button
-            // var addActivityButton = addButton(thisX + sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
-            // addActivityButton.attr("data-toggle", "modal")
-            //     .classed("activity-button", true)
-            //     .attr("title", "Add an activity here")
-            //     .attr("data-activity-mode", "add")
-            //     .attr("data-activity-id", "none")
-            //     .attr("data-process-id", function(d) {
-            //         return d.processId;
-            //     })
-            //     .classed("button-tooltip", true)
-            //     .attr("data-toggle", "tooltip");
+            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -80 - labelHeight - 5, 10, timelineSVGGroup, '\uf067');
+            addActivityButton.attr("data-toggle", "modal")
+                .classed("activity-button", true)
+                .attr("title", "Add an activity here")
+                .attr("data-activity-mode", "add")
+                .attr("data-activity-id", "none")
+                .attr("data-process-id", function(d) {
+                    return d.processId;
+                })
+                .classed("button-tooltip", true)
+                .attr("data-toggle", "tooltip");
 
             // Add separator lines from the project data
             var text = "Line of interaction";
             // Add the line
-            // timelineSVGGroup.append("line")
-            //     .attr("x1", 0)
-            //     .attr("y1", text.length * 5)
-            //     .attr("x2", 0)
-            //     .attr("y2", d3Container.clientHeight)
-            //     .attr("class", "svg-lines-line");
+            timelineSVGGroup.append("line")
+                .attr("x1", 0)
+                .attr("y1", text.length * 5)
+                .attr("x2", 0)
+                .attr("y2", d3Container.clientHeight)
+                .attr("class", "svg-lines-line");
             // Add the text
-            // timelineSVGGroup.append("text")
-            //     .text(text)
-            //     .attr("x", 0)
-            //     .attr("y", 0)
-            //     .attr("class", "svg-lines-text");
+            timelineSVGGroup.append("text")
+                .text(text)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("class", "svg-lines-text");
 
         });
 
