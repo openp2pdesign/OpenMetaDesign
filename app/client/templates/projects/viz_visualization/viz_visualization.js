@@ -125,7 +125,7 @@ Template.VizVisualization.helpers({
 /*****************************************************************************/
 /* VizVisualization: Lifecycle Hooks */
 /*****************************************************************************/
-Template.VizVisualization.onCreated(function () {
+Template.VizVisualization.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
@@ -133,7 +133,7 @@ Template.VizVisualization.onCreated(function () {
     Meteor.subscribe('activityelements');
 });
 
-Template.VizVisualization.onRendered(function () {
+Template.VizVisualization.onRendered(function() {
     // Set up visualization
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
@@ -339,13 +339,14 @@ Template.VizVisualization.onRendered(function () {
         ];
 
         // Variables for the visualization
+        var xPadding = 25;
         var thisX = 0;
         var activityIconContainerWidth = 60;
         var activityIconContainerHeight = 85;
         var radius = 10;
 
         types.forEach(function(type, i) {
-            thisX = thisX + 50;
+            thisX = thisX + xPadding;
             // Get the data of a process and calculate the layout
             var onlyThisType = thisUpdatedProject.processes.filter(function(d) {
                 return d.title === type
@@ -354,14 +355,14 @@ Template.VizVisualization.onRendered(function () {
             // Add main group for this process
             var timelineSVGGroup = sectionsSVG.append("g")
                 .attr("id", "timelineSVGGroup")
-                .attr("transform", "translate("+thisX+","+labelHeight+")")
+                .attr("transform", "translate(" + thisX + "," + labelHeight + ")")
                 .selectAll("g")
                 .data(theseBands)
                 .enter()
                 .append("g")
-                .attr("class", "GGG" + i);
+                .attr("class", "ProcessVizGroup" + i);
             // Select groups in this group
-            var thisProcessGroup = d3.selectAll("g.GGG" + i);
+            var thisProcessGroup = d3.selectAll("g.ProcessVizGroup" + i);
             // Add main activity rect
             thisProcessGroup
                 .append("rect")
@@ -551,8 +552,6 @@ Template.VizVisualization.onRendered(function () {
                 height: 50
             };
             var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
-            // Move it to x and y, and a 5 vertical padding from top
-            //activityIcon.attr("transform", "translate(" + (x + centerHorizontalPadding) + "," + (y + 5) + ")");
             //Find centers of activity elements
             var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
 
@@ -771,12 +770,7 @@ Template.VizVisualization.onRendered(function () {
                         .attr("filter", null);
                 });
 
-            // Process Section info
-            var thisXEndOfSection = thisX + (i * 120);
-            thisProcessGroup.attr("transform", "translate("+(i * 120)+",0)");
-
             // Add section label
-            // TODO put it out of timelineSVGGroup
             var sectionLabel = thisProcessGroup.append("text")
                 .text(type)
                 .attr("class", "svg-label")
@@ -798,40 +792,42 @@ Template.VizVisualization.onRendered(function () {
 
             // Add separator lines from the project data
             if (i > 0 && i < thisUpdatedProject.processes.length) {
-                var separatorText = thisUpdatedProject.separators[i-1].text;
+                var separatorText = thisUpdatedProject.separators[i - 1].text;
                 // Add the line
                 thisProcessGroup.append("line")
-                    .attr("x1", 0)
+                    .attr("x1", -xPadding)
                     .attr("y1", separatorText.length * 5)
-                    .attr("x2", 0)
+                    .attr("x2", -xPadding)
                     .attr("y2", d3Container.clientHeight)
                     .attr("class", "svg-lines-line");
                 // Add the text
                 thisProcessGroup.append("text")
                     .text(separatorText)
-                    .attr("x", 0)
-                    .attr("y", 0)
+                    .attr("x", -xPadding)
+                    .attr("y", -xPadding)
                     .attr("class", "svg-lines-text");
             }
 
             // Check size of this section, for the x of the next one
             var lastBandX = [];
             thisProcessGroup
-            .append("circle")
-            .attr("cx", function(d) {
-                console.log(type,i,d.y,bandHeight,d.y+bandHeight);
-                lastBandX.push(d.y+bandHeight);
-                return d.y+bandHeight;
-            })
-            .attr("cy", 0)
-            .attr("r", radius);
+                .append("circle")
+                .attr("cx", function(d) {
+                    // Get the position of each activity
+                    lastBandX.push(d.y + bandHeight);
+                    return d.y + bandHeight;
+                })
+                .attr("cy", 0)
+                .attr("r", 0);
+            // Get the farthest activity in this process
             var maxX = _.max(lastBandX);
-            if (maxX > (thisX + i * 100)) {
+            if (maxX > 240) {
                 thisX = _.max(lastBandX);
             } else {
-                thisX = thisX + i * 100;
+                thisX = thisX + 240;
             }
-
+            // Add some padding before the next process
+            thisX = thisX + xPadding * 2;
 
         });
 
@@ -1107,7 +1103,7 @@ Template.VizVisualization.onRendered(function () {
             sectionsSVG.attr("transform", d3.event.transform);
         }
         // If the chart is larger than the initially visualized area, show a notification
-        if ( sectionsSVG.node().getBBox().width > d3Container.clientWidth) {
+        if (sectionsSVG.node().getBBox().width > d3Container.clientWidth) {
             $("#zoom-and-pan").show();
         } else {
             $("#zoom-and-pan").hide();
@@ -1150,5 +1146,4 @@ Template.VizVisualization.onRendered(function () {
     });
 });
 
-Template.VizVisualization.onDestroyed(function () {
-});
+Template.VizVisualization.onDestroyed(function() {});
