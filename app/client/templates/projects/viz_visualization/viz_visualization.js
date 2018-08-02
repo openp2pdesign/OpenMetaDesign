@@ -345,6 +345,8 @@ Template.VizVisualization.onRendered(function() {
         var activityIconContainerHeight = 85;
         var radius = 10;
 
+        var vizActivities = [];
+
         types.forEach(function(type, i) {
             thisX = thisX + xPadding;
             // Get the data of a process and calculate the layout
@@ -352,6 +354,7 @@ Template.VizVisualization.onRendered(function() {
                 return d.title === type
             });
             var theseBands = timelineLayout(onlyThisType[0].activities);
+            vizActivities.push(theseBands);
             // Add main group for this process
             var timelineSVGGroup = sectionsSVG.append("g")
                 .attr("id", "timelineSVGGroup")
@@ -584,7 +587,10 @@ Template.VizVisualization.onRendered(function() {
                                 x = 16 + (x + activityIconContainerWidth / 2) - 10;
                                 break;
                         }
-                        d["activityCenterX"] = x + radius / 2;
+                        d[element]["centerX"] = x + radius / 2;
+                        if (element === "outcome") {
+                            d["activityCenterX"] = x + radius / 2;
+                        }
                         return x + radius / 2;
                     })
                     .attr("cy", function(d) {
@@ -616,7 +622,10 @@ Template.VizVisualization.onRendered(function() {
                                 y = (y + 5 + activityIconSize.height / 2) + 15;
                                 break;
                         }
-                        d["activityCenterY"] = y;
+                        d[element]["centerY"] = y;
+                        if (element === "outcome") {
+                            d["activityCenterY"] =y;
+                        }
                         return y;
                     })
                     .attr("fill", "rgba(0, 0, 0, 0)")
@@ -829,106 +838,117 @@ Template.VizVisualization.onRendered(function() {
             // Add some padding before the next process
             thisX = thisX + xPadding * 2;
 
+            // A 'manual' callback for the end of the forEach
+            if (i === types.length - 1) {
+                console.log(vizActivities);
+                // Draw the flows
+                var flowsGroup = sectionsSVG.append("g");
+                for (flow in thisUpdatedProject.flows) {
+                    // Get the ids of the nodes in the flow
+                    firstNode = thisUpdatedProject.flows[flow].firstNode;
+                    secondNode = thisUpdatedProject.flows[flow].secondNode;
+                    // Get the activity center of the node in the flow
+                    var firstNodeCenter = {};
+                    var secondNodeCenter = {};
+                    for (processActivities in vizActivities) {
+                        var searchResult = _.findWhere(vizActivities[processActivities], {id: firstNode});
+                        if (typeof searchResult !== "undefined") {
+                            firstNodeCenter.x = searchResult.outcome.centerX+xPadding-4;
+                            firstNodeCenter.y = searchResult.outcome.centerY+labelHeight;
+                        }
+                        searchResult = _.findWhere(vizActivities[processActivities], {id: secondNode});
+                        if (typeof searchResult !== "undefined") {
+                            secondNodeCenter.x = searchResult.outcome.centerX+xPadding-4;
+                            secondNodeCenter.y = searchResult.outcome.centerY+labelHeight;
+                        }
+                    }
+                    console.log(firstNodeCenter, secondNodeCenter);
+                    //flowsGroup
+                    var flowColor = "#73f17b";
+                    var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
+                    thisFlow.append("circle")
+                        .attr("cx", firstNodeCenter.x + 4)
+                        .attr("cy", firstNodeCenter.y)
+                        .attr("fill", flowColor)
+                        .attr("r", 3);
+                    thisFlow.append("circle")
+                        .attr("cx", secondNodeCenter.x + 4)
+                        .attr("cy", secondNodeCenter.y)
+                        .attr("fill", flowColor)
+                        .attr("r", 3);
+                    // Line
+                    var line = d3.line()
+                        .x(function(d) {
+                            return d.x;
+                        })
+                        .y(function(d) {
+                            return d.y;
+                        })
+                        .curve(d3.curveBasis);
+                    // TODO: calculate the points...
+                    var points = [{
+                            x: firstNodeCenter.x + 4,
+                            y: firstNodeCenter.y
+                        },
+                        {
+                            x: secondNodeCenter.x + 4,
+                            y: firstNodeCenter.y
+                        },
+                        {
+                            x: secondNodeCenter.x + 4,
+                            y: secondNodeCenter.y
+                        },
+                    ];
+                    // Add the path as the flow viz
+                    var pathData = line(points);
+                    var flowViz = thisFlow.selectAll('path')
+                        .data(points)
+                        .enter()
+                        .append('path')
+                        .attr('d', pathData)
+                        .attr("stroke", flowColor)
+                        .attr("stroke-width", 2)
+                        .attr("fill", "none");
+                    // Add an icon in the middle of the path
+                    var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
+                    var flowVizMidPoint = thisFlow.append("circle")
+                        .attr("fill", flowColor)
+                        .attr("r", 8)
+                        .attr("cx", pathMidPoint.x)
+                        .attr("cy", pathMidPoint.y);
+                    // Add tooltip
+                    flowVizMidPoint.classed("flow-tooltip", true)
+                        .attr("title", thisUpdatedProject.flows[flow].title)
+                        .attr("data-toggle", "tooltip");
+                    // Add the icon
+                    thisFlow.append('text')
+                        .attr("fill", "#fff")
+                        .attr("x", pathMidPoint.x)
+                        .attr("y", pathMidPoint.y)
+                        .attr("text-anchor", "middle")
+                        .attr("dominant-baseline", "central")
+                        .style("font-family", "FontAwesome")
+                        .style("font-size", "8px")
+                        .text("\uf074");
+                    // Add class for the hover effect and for launching the edit modal
+                    thisFlow.attr("class", "activity-hover edit-flow")
+                        // Add hover effect
+                        .on("mouseover", function() {
+                            d3.select(this)
+                                .attr("filter", "url(#glow)");
+                        })
+                        .on("mouseout", function() {
+                            d3.select(this)
+                                .attr("filter", null);
+                        });
+
+                }
+            };
         });
 
-        // Draw the flows
-        // var flowsGroup = sectionsSVG.append("g");
-        // for (flow in thisUpdatedProject.flows) {
-        //     // Get the ids of the nodes in the flow
-        //     firstNode = thisUpdatedProject.flows[flow].firstNode;
-        //     secondNode = thisUpdatedProject.flows[flow].secondNode;
-        //     // Get the activity center of the node in the flow
-        //     var firstNodeCenter;
-        //     var secondNodeCenter;
-        //     for (activity in vizActivities) {
-        //         if (vizActivities[activity].id === firstNode) {
-        //             firstNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
-        //         }
-        //         if (vizActivities[activity].id === secondNode) {
-        //             secondNodeCenter = vizActivities[activity].activityElementsCenters.outcome;
-        //         }
-        //     }
-        //     //flowsGroup
-        //     var flowColor = "#73f17b";
-        //     var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
-        //     thisFlow.append("circle")
-        //         .attr("cx", firstNodeCenter.x + 4)
-        //         .attr("cy", firstNodeCenter.y)
-        //         .attr("fill", flowColor)
-        //         .attr("r", 3);
-        //     thisFlow.append("circle")
-        //         .attr("cx", secondNodeCenter.x + 4)
-        //         .attr("cy", secondNodeCenter.y)
-        //         .attr("fill", flowColor)
-        //         .attr("r", 3);
-        //     // Line
-        //     var line = d3.line()
-        //         .x(function(d) {
-        //             return d.x;
-        //         })
-        //         .y(function(d) {
-        //             return d.y;
-        //         })
-        //         .curve(d3.curveBasis);
-        //     // TODO: calculate the points...
-        //     var points = [{
-        //             x: firstNodeCenter.x + 4,
-        //             y: firstNodeCenter.y
-        //         },
-        //         {
-        //             x: secondNodeCenter.x + 4,
-        //             y: firstNodeCenter.y
-        //         },
-        //         {
-        //             x: secondNodeCenter.x + 4,
-        //             y: secondNodeCenter.y
-        //         },
-        //     ];
-        //     // Add the path as the flow viz
-        //     var pathData = line(points);
-        //     var flowViz = thisFlow.selectAll('path')
-        //         .data(points)
-        //         .enter()
-        //         .append('path')
-        //         .attr('d', pathData)
-        //         .attr("stroke", flowColor)
-        //         .attr("stroke-width", 2)
-        //         .attr("fill", "none");
-        //     // Add an icon in the middle of the path
-        //     var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
-        //     var flowVizMidPoint = thisFlow.append("circle")
-        //         .attr("fill", flowColor)
-        //         .attr("r", 8)
-        //         .attr("cx", pathMidPoint.x)
-        //         .attr("cy", pathMidPoint.y);
-        //     // Add tooltip
-        //     flowVizMidPoint.classed("flow-tooltip", true)
-        //         .attr("title", thisUpdatedProject.flows[flow].title)
-        //         .attr("data-toggle", "tooltip");
-        //     // Add the icon
-        //     thisFlow.append('text')
-        //         .attr("fill", "#fff")
-        //         .attr("x", pathMidPoint.x)
-        //         .attr("y", pathMidPoint.y)
-        //         .attr("text-anchor", "middle")
-        //         .attr("dominant-baseline", "central")
-        //         .style("font-family", "FontAwesome")
-        //         .style("font-size", "8px")
-        //         .text("\uf074");
-        //     // Add class for the hover effect and for launching the edit modal
-        //     thisFlow.attr("class", "activity-hover edit-flow")
-        //         // Add hover effect
-        //         .on("mouseover", function() {
-        //             d3.select(this)
-        //                 .attr("filter", "url(#glow)");
-        //         })
-        //         .on("mouseout", function() {
-        //             d3.select(this)
-        //                 .attr("filter", null);
-        //         });
-        //
-        // }
-        //
+
+
+
         // // Draw the contradictions
         // var contradictionsGroup = sectionsSVG.append("g");
         // for (contradiction in thisUpdatedProject.contradictions) {
