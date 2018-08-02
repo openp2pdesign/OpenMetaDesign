@@ -1106,6 +1106,12 @@ Template.VizVisualization.onRendered(function () {
         function zoomed() {
             sectionsSVG.attr("transform", d3.event.transform);
         }
+        // If the chart is larger than the initially visualized area, show a notification
+        if ( sectionsSVG.node().getBBox().width > d3Container.clientWidth) {
+            $("#zoom-and-pan").show();
+        } else {
+            $("#zoom-and-pan").hide();
+        }
         var zoom = d3.zoom()
             .scaleExtent([1, 13])
             .translateExtent([
