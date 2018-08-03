@@ -346,6 +346,7 @@ Template.VizVisualization.onRendered(function() {
         var radius = 10;
 
         var vizActivities = [];
+        var processesThisX = [];
 
         types.forEach(function(type, i) {
             thisX = thisX + xPadding;
@@ -549,93 +550,6 @@ Template.VizVisualization.onRendered(function() {
                 });
             // Activity
 
-            // Center of activity elements
-            var activityIconSize = {
-                width: 55,
-                height: 50
-            };
-            var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
-            //Find centers of activity elements
-            var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
-
-            elements.forEach(function(element, j) {
-                thisProcessGroupActivityIconBoxes
-                    .append("circle")
-                    .attr("cx", function(d) {
-                        var x = d.y;
-                        var y = 0;
-                        switch (element) {
-                            case "subject":
-                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
-                                break;
-                            case "object":
-                                x = 15 + (x + activityIconContainerWidth / 2) + 20;
-                                break;
-                            case "outcome":
-                                x = 16 + x + activityIconContainerWidth / 2;
-                                break;
-                            case "tools":
-                                x = 15 + (x + activityIconContainerWidth / 2) + 10;
-                                break;
-                            case "rules":
-                                x = 16 + (x + activityIconContainerWidth / 2) - 19;
-                                break;
-                            case "roles":
-                                x = 16 + (x + activityIconContainerWidth / 2) + 10;
-                                break;
-                            case "community":
-                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
-                                break;
-                        }
-                        d[element]["centerX"] = x + radius / 2;
-                        if (element === "outcome") {
-                            d["activityCenterX"] = x + radius / 2;
-                        }
-                        return x + radius / 2;
-                    })
-                    .attr("cy", function(d) {
-                        var x = 0;
-                        var y = d.start;
-                        switch (element) {
-                            case "subject":
-                                y = (y + 5 + activityIconSize.height / 2) - 18;
-                                break;
-                                break;
-                            case "object":
-                                y = y + 3 + activityIconSize.height / 2;
-                                break;
-                                break;
-                            case "outcome":
-                                y = y + 3 + activityIconSize.height / 2;
-                                break;
-                                break;
-                            case "tools":
-                                y = (y + 5 + activityIconSize.height / 2) - 18;
-                                break;
-                            case "rules":
-                                y = y + 3 + activityIconSize.height / 2;
-                                break;
-                            case "roles":
-                                y = (y + 5 + activityIconSize.height / 2) + 15;
-                                break;
-                            case "community":
-                                y = (y + 5 + activityIconSize.height / 2) + 15;
-                                break;
-                        }
-                        d[element]["centerY"] = y;
-                        if (element === "outcome") {
-                            d["activityCenterY"] =y;
-                        }
-                        return y;
-                    })
-                    .attr("fill", "rgba(0, 0, 0, 0)")
-                    .attr("r", "6.5")
-                    .attr("title", function(d) {
-                        return d[element].title;
-                    })
-                    .classed("activity-tooltip", true)
-                    .attr("data-toggle", "tooltip");
-            });
             // Add the activity button
             var activityEditButtons = thisProcessGroupActivityIconBoxes.append("g")
                 .append("g")
@@ -817,6 +731,9 @@ Template.VizVisualization.onRendered(function() {
                     .attr("class", "svg-lines-text");
             }
 
+            // Save the obtained thisX for later use
+            processesThisX.push({"process": type, "thisX": thisX});
+
             // Check size of this section, for the x of the next one
             var lastBandX = [];
             thisProcessGroup
@@ -838,6 +755,94 @@ Template.VizVisualization.onRendered(function() {
             // Add some padding before the next process
             thisX = thisX + xPadding * 2;
 
+            // Center of activity elements
+            var activityIconSize = {
+                width: 55,
+                height: 50
+            };
+            var centerHorizontalPadding = (activityIconContainerWidth - activityIconSize.width) / 2;
+            //Find centers of activity elements
+            var elements = ["subject", "object", "outcome", "tools", "rules", "roles", "community"];
+
+            elements.forEach(function(element, j) {
+                thisProcessGroupActivityIconBoxes
+                    .append("circle")
+                    .attr("cx", function(d) {
+                        var x = d.y;
+                        var y = 0;
+                        switch (element) {
+                            case "subject":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                break;
+                            case "object":
+                                x = 15 + (x + activityIconContainerWidth / 2) + 20;
+                                break;
+                            case "outcome":
+                                x = 16 + x + activityIconContainerWidth / 2;
+                                break;
+                            case "tools":
+                                x = 15 + (x + activityIconContainerWidth / 2) + 10;
+                                break;
+                            case "rules":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 19;
+                                break;
+                            case "roles":
+                                x = 16 + (x + activityIconContainerWidth / 2) + 10;
+                                break;
+                            case "community":
+                                x = 16 + (x + activityIconContainerWidth / 2) - 10;
+                                break;
+                        }
+                        d[element]["centerX"] = x + radius / 2;
+                        if (element === "outcome") {
+                            d["activityCenterX"] = x + radius / 2;
+                        }
+                        return x + radius / 2;
+                    })
+                    .attr("cy", function(d) {
+                        var x = 0;
+                        var y = d.start;
+                        switch (element) {
+                            case "subject":
+                                y = (y + 5 + activityIconSize.height / 2) - 18;
+                                break;
+                                break;
+                            case "object":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                                break;
+                            case "outcome":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                                break;
+                            case "tools":
+                                y = (y + 5 + activityIconSize.height / 2) - 18;
+                                break;
+                            case "rules":
+                                y = y + 3 + activityIconSize.height / 2;
+                                break;
+                            case "roles":
+                                y = (y + 5 + activityIconSize.height / 2) + 15;
+                                break;
+                            case "community":
+                                y = (y + 5 + activityIconSize.height / 2) + 15;
+                                break;
+                        }
+                        d[element]["centerY"] = y;
+                        if (element === "outcome") {
+                            d["activityCenterY"] =y;
+                        }
+                        return y;
+                    })
+                    .attr("fill", "rgba(0, 0, 0, 0)")
+                    .attr("r", "6.5")
+                    .attr("title", function(d) {
+                        return d[element].title;
+                    })
+                    .classed("activity-tooltip", true)
+                    .attr("data-toggle", "tooltip");
+            });
+
             // A 'manual' callback for the end of the forEach
             if (i === types.length - 1) {
                 console.log(vizActivities);
@@ -853,16 +858,17 @@ Template.VizVisualization.onRendered(function() {
                     for (processActivities in vizActivities) {
                         var searchResult = _.findWhere(vizActivities[processActivities], {id: firstNode});
                         if (typeof searchResult !== "undefined") {
-                            firstNodeCenter.x = searchResult.outcome.centerX+xPadding-4;
+                            firstNodeCenter.x = searchResult.outcome.centerX-4+_.findWhere(processesThisX, {process: searchResult.processTitle}).thisX;
                             firstNodeCenter.y = searchResult.outcome.centerY+labelHeight;
                         }
-                        searchResult = _.findWhere(vizActivities[processActivities], {id: secondNode});
+                    }
+                    for (processActivities in vizActivities) {
+                        var searchResult = _.findWhere(vizActivities[processActivities], {id: secondNode});
                         if (typeof searchResult !== "undefined") {
-                            secondNodeCenter.x = searchResult.outcome.centerX+xPadding-4;
+                            secondNodeCenter.x = searchResult.outcome.centerX-4+_.findWhere(processesThisX, {process: searchResult.processTitle}).thisX;
                             secondNodeCenter.y = searchResult.outcome.centerY+labelHeight;
                         }
                     }
-                    console.log(firstNodeCenter, secondNodeCenter);
                     //flowsGroup
                     var flowColor = "#73f17b";
                     var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
