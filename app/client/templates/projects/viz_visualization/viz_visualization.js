@@ -155,6 +155,9 @@ Template.VizVisualization.onRendered(function() {
         width = d3Container.clientWidth;
         height = d3Container.clientHeight;
         console.log(width, height);
+        if (width >0 && height > 0) {
+
+        }
     });
 
     // Add the visualization SVG to the container

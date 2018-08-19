@@ -128,6 +128,12 @@ Template.ProjectsViz.events({
             }
         });
     },
+    'click #view-project-link': function(event, template) {
+        event.preventDefault();
+        var view = Blaze.getView(document.getElementById("view-project"));
+        Blaze.remove(view);
+		Blaze.render(Template.VizVisualization, document.getElementById('view-project'));
+    }
 });
 
 /*****************************************************************************/
