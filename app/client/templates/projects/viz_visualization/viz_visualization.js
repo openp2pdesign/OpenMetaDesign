@@ -1126,6 +1126,11 @@ Template.VizVisualization.onRendered(function() {
                 trigger: "hover",
                 placement: 'top'
             });
+            this.$('svg .contradiction-tooltip').tooltip({
+                container: 'body',
+                trigger: "hover",
+                placement: 'top'
+            });
 
         });
     });
