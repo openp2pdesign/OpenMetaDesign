@@ -128,16 +128,6 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click ul.nav-tabs li a': function(event, template) {
-        event.preventDefault();
-        if (event.currentTarget.hash === "#view-project") {
-            var view = Blaze.getView(document.getElementById("d3-container"));
-            if (view.name === "Template.VizVisualization") {
-                //Blaze.remove(view);
-                Blaze.renderWithData(Template.VizVisualization, this, document.getElementById("d3-container"));
-            }
-        }
-    },
 });
 
 /*****************************************************************************/
