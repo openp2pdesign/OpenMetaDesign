@@ -947,7 +947,7 @@ Template.VizVisualization.onRendered(function() {
                         .style("font-size", "8px")
                         .text("\uf074");
                     // Add class for the hover effect and for launching the edit modal
-                    thisFlow.attr("class", "activity-hover edit-flow")
+                    thisFlow.classed("activity-hover edit-flow", true)
                         // Add hover effect
                         .on("mouseover", function() {
                             d3.select(this)
@@ -961,285 +961,125 @@ Template.VizVisualization.onRendered(function() {
                 }
 
                 // Draw the contradictions
-                var flowsGroup = sectionsSVG.append("g");
-                for (flow in thisUpdatedProject.flows) {
-                    // Get the ids of the nodes in the flow
-                    firstNode = thisUpdatedProject.flows[flow].firstNode;
-                    secondNode = thisUpdatedProject.flows[flow].secondNode;
-                    // Get the activity center of the node in the flow
+                var contradictionsGroup = sectionsSVG.append("g");
+                for (contradiction in thisUpdatedProject.contradictions) {
+                    // Get the ids of the nodes in the contradiction
+                    firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
+                    secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
+                    // Get the activity elements center of the node in the contradiction
                     var firstNodeCenter = {};
                     var secondNodeCenter = {};
-                    for (processActivities in vizActivities) {
-                        var searchResult = _.findWhere(vizActivities[processActivities], {
-                            id: firstNode
-                        });
-                        if (typeof searchResult !== "undefined") {
-                            firstNodeCenter.x = searchResult.outcome.centerX - 4 + _.findWhere(processesThisX, {
-                                process: searchResult.processTitle
-                            }).thisX;
-                            firstNodeCenter.y = searchResult.outcome.centerY + labelHeight;
+                    var firstNodeData = ActivityElements.findOne({
+                        '_id': firstNode
+                    });
+                    var secondNodeData = ActivityElements.findOne({
+                        '_id': secondNode
+                    });
+                    if (typeof firstNodeData !== "undefined" && typeof secondNodeData !== "undefined") {
+                        for (processActivities in vizActivities) {
+                            var searchResult = _.findWhere(vizActivities[processActivities], {
+                                'id': firstNodeData.activityId
+                            });
+                            if (typeof searchResult !== "undefined") {
+                                firstNodeCenter.x = searchResult[firstNodeData.activityElementData.title].centerX - 4 + _.findWhere(processesThisX, {
+                                    process: searchResult.processTitle
+                                }).thisX;
+                                firstNodeCenter.y = searchResult[firstNodeData.activityElementData.title].centerY + labelHeight;
+                            }
                         }
-                    }
-                    for (processActivities in vizActivities) {
-                        var searchResult = _.findWhere(vizActivities[processActivities], {
-                            id: secondNode
-                        });
-                        if (typeof searchResult !== "undefined") {
-                            secondNodeCenter.x = searchResult.outcome.centerX - 4 + _.findWhere(processesThisX, {
-                                process: searchResult.processTitle
-                            }).thisX;
-                            secondNodeCenter.y = searchResult.outcome.centerY + labelHeight;
+                        for (processActivities in vizActivities) {
+                            var searchResult = _.findWhere(vizActivities[processActivities], {
+                                'id': secondNodeData.activityId
+                            });
+                            if (typeof searchResult !== "undefined") {
+                                secondNodeCenter.x = searchResult[secondNodeData.activityElementData.title].centerX - 4 + _.findWhere(processesThisX, {
+                                    process: searchResult.processTitle
+                                }).thisX;
+                                secondNodeCenter.y = searchResult[secondNodeData.activityElementData.title].centerY + labelHeight;
+                            }
                         }
+                        //contradictionsGroup
+                        var contradictionColor = "#63dfff";
+                        var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
+                        thisContradiction.append("circle")
+                            .attr("cx", firstNodeCenter.x + 4)
+                            .attr("cy", firstNodeCenter.y)
+                            .attr("fill", contradictionColor)
+                            .attr("r", 3);
+                        thisContradiction.append("circle")
+                            .attr("cx", secondNodeCenter.x + 4)
+                            .attr("cy", secondNodeCenter.y)
+                            .attr("fill", contradictionColor)
+                            .attr("r", 3);
+                        // Line
+                        var line = d3.line()
+                            .x(function(d) {
+                                return d.x;
+                            })
+                            .y(function(d) {
+                                return d.y;
+                            })
+                            .curve(d3.curveBasis);
+                        // TODO: calculate the points...
+                        var points = [{
+                                x: firstNodeCenter.x + 4,
+                                y: firstNodeCenter.y
+                            },
+                            {
+                                x: secondNodeCenter.x + 4,
+                                y: firstNodeCenter.y
+                            },
+                            {
+                                x: secondNodeCenter.x + 4,
+                                y: secondNodeCenter.y
+                            },
+                        ];
+                        // Add the path as the contradiction viz
+                        var pathData = line(points);
+                        var contradictionViz = thisContradiction.selectAll('path')
+                            .data(points)
+                            .enter()
+                            .append('path')
+                            .attr('d', pathData)
+                            .attr("stroke", contradictionColor)
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none");
+                        // Add an icon in the middle of the path
+                        var pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength() * 0.5);
+                        var contradictionVizMidPoint = thisContradiction.append("circle")
+                            .attr("fill", contradictionColor)
+                            .attr("r", 8)
+                            .attr("cx", pathMidPoint.x)
+                            .attr("cy", pathMidPoint.y);
+                        // Add tooltip
+                        contradictionVizMidPoint.classed("contradiction-tooltip", true)
+                            .attr("title", thisUpdatedProject.contradictions[contradiction].title)
+                            .attr("data-toggle", "tooltip");
+                        // Add the icon
+                        thisContradiction.append('text')
+                            .attr("fill", "#fff")
+                            .attr("x", pathMidPoint.x)
+                            .attr("y", pathMidPoint.y)
+                            .attr("text-anchor", "middle")
+                            .attr("dominant-baseline", "central")
+                            .style("font-family", "FontAwesome")
+                            .style("font-size", "8px")
+                            .text("\uf071");
+                        // Add class for the hover effect and for launching the edit modal
+                        thisContradiction.classed("activity-hover edit-contradiction", true)
+                            // Add hover effect
+                            .on("mouseover", function() {
+                                d3.select(this)
+                                    .attr("filter", "url(#glow)");
+                            })
+                            .on("mouseout", function() {
+                                d3.select(this)
+                                    .attr("filter", null);
+                            });
+
                     }
-                    //flowsGroup
-                    var flowColor = "#73f17b";
-                    var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
-                    thisFlow.append("circle")
-                        .attr("cx", firstNodeCenter.x + 4)
-                        .attr("cy", firstNodeCenter.y)
-                        .attr("fill", flowColor)
-                        .attr("r", 3);
-                    thisFlow.append("circle")
-                        .attr("cx", secondNodeCenter.x + 4)
-                        .attr("cy", secondNodeCenter.y)
-                        .attr("fill", flowColor)
-                        .attr("r", 3);
-                    // Line
-                    var line = d3.line()
-                        .x(function(d) {
-                            return d.x;
-                        })
-                        .y(function(d) {
-                            return d.y;
-                        })
-                        .curve(d3.curveBasis);
-                    // TODO: calculate the points...
-                    var points = [{
-                            x: firstNodeCenter.x + 4,
-                            y: firstNodeCenter.y
-                        },
-                        {
-                            x: secondNodeCenter.x + 4,
-                            y: firstNodeCenter.y
-                        },
-                        {
-                            x: secondNodeCenter.x + 4,
-                            y: secondNodeCenter.y
-                        },
-                    ];
-                    // Add the path as the flow viz
-                    var pathData = line(points);
-                    var flowViz = thisFlow.selectAll('path')
-                        .data(points)
-                        .enter()
-                        .append('path')
-                        .attr('d', pathData)
-                        .attr("stroke", flowColor)
-                        .attr("stroke-width", 2)
-                        .attr("fill", "none");
-                    // Add an icon in the middle of the path
-                    var pathMidPoint = flowViz.node().getPointAtLength(flowViz.node().getTotalLength() * 0.5);
-                    var flowVizMidPoint = thisFlow.append("circle")
-                        .attr("fill", flowColor)
-                        .attr("r", 8)
-                        .attr("cx", pathMidPoint.x)
-                        .attr("cy", pathMidPoint.y);
-                    // Add tooltip
-                    flowVizMidPoint.classed("flow-tooltip", true)
-                        .attr("title", thisUpdatedProject.flows[flow].title)
-                        .attr("data-toggle", "tooltip");
-                    // Add the icon
-                    thisFlow.append('text')
-                        .attr("fill", "#fff")
-                        .attr("x", pathMidPoint.x)
-                        .attr("y", pathMidPoint.y)
-                        .attr("text-anchor", "middle")
-                        .attr("dominant-baseline", "central")
-                        .style("font-family", "FontAwesome")
-                        .style("font-size", "8px")
-                        .text("\uf074");
-                    // Add class for the hover effect and for launching the edit modal
-                    thisFlow.attr("class", "activity-hover edit-flow")
-                        // Add hover effect
-                        .on("mouseover", function() {
-                            d3.select(this)
-                                .attr("filter", "url(#glow)");
-                        })
-                        .on("mouseout", function() {
-                            d3.select(this)
-                                .attr("filter", null);
-                        });
                 };
             }
-
-
-            // // Draw the contradictions
-            // var contradictionsGroup = sectionsSVG.append("g");
-            // for (contradiction in thisUpdatedProject.contradictions) {
-            //     // Get the ids of the nodes in the flow
-            //     firstNode = thisUpdatedProject.contradictions[contradiction].firstNode;
-            //     secondNode = thisUpdatedProject.contradictions[contradiction].secondNode;
-            //     // Get the first activity element
-            //     var firstActivityElement = ActivityElements.findOne({
-            //         '_id': firstNode
-            //     });
-            //     // Get the second activity element
-            //     var secondActivityElement = ActivityElements.findOne({
-            //         '_id': secondNode
-            //     });
-            //     // Get the activity center of the node in the flow
-            //     var firstNodeCenter;
-            //     var secondNodeCenter;
-            //     // Access the data when ready
-            //     if ((typeof firstActivityElement != "undefined") && (typeof secondActivityElement != "undefined")) {
-            //         for (activity in vizActivities) {
-            //             if (vizActivities[activity].id === firstActivityElement.activityId) {
-            //                 firstNodeCenter = vizActivities[activity].activityElementsCenters[firstActivityElement.activityElementData.title];
-            //             }
-            //             if (vizActivities[activity].id === secondActivityElement.activityId) {
-            //                 secondNodeCenter = vizActivities[activity].activityElementsCenters[secondActivityElement.activityElementData.title];
-            //             }
-            //         }
-            //     }
-            //     //contradictionsGroup
-            //     var contradictionColor = "#63dfff";
-            //     var thisContradiction = contradictionsGroup.append("g").attr("id", thisUpdatedProject.contradictions[contradiction].id);
-            //     thisContradiction.append("circle")
-            //         .attr("cx", firstNodeCenter.x + 4)
-            //         .attr("cy", firstNodeCenter.y)
-            //         .attr("fill", contradictionColor)
-            //         .attr("r", 3);
-            //     thisContradiction.append("circle")
-            //         .attr("cx", secondNodeCenter.x + 4)
-            //         .attr("cy", secondNodeCenter.y)
-            //         .attr("fill", contradictionColor)
-            //         .attr("r", 3);
-            //     // Line
-            //     var line = d3.line()
-            //         .x(function(d) {
-            //             return d.x;
-            //         })
-            //         .y(function(d) {
-            //             return d.y;
-            //         })
-            //         .curve(d3.curveBasis);
-            //     // Calculate the points...
-            //     var points = [];
-            //     // Define curve according to the contradiction levels
-            //     if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
-            //         // Primary contradictions as self-loop
-            //         points = [{
-            //                 x: firstNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x,
-            //                 y: firstNodeCenter.y - 20
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 8,
-            //                 y: firstNodeCenter.y - 20
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: secondNodeCenter.y
-            //             },
-            //         ];
-            //     } else if (thisUpdatedProject.contradictions[contradiction].level === "secondary") {
-            //         points = [{
-            //                 x: firstNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 8,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: secondNodeCenter.y
-            //             },
-            //         ];
-            //     } else if (thisUpdatedProject.contradictions[contradiction].level === "tertiary") {
-            //         points = [{
-            //                 x: firstNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: secondNodeCenter.y
-            //             },
-            //         ];
-            //     } else if (thisUpdatedProject.contradictions[contradiction].level === "quaternary") {
-            //         points = [{
-            //                 x: firstNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: firstNodeCenter.y
-            //             },
-            //             {
-            //                 x: secondNodeCenter.x + 4,
-            //                 y: secondNodeCenter.y
-            //             },
-            //         ];
-            //     }
-            //     // Add the path as the flow viz
-            //     var pathData = line(points);
-            //     var contradictionViz = thisContradiction.selectAll('path')
-            //         .data(points)
-            //         .enter()
-            //         .append('path')
-            //         .attr('d', pathData)
-            //         .attr("stroke", contradictionColor)
-            //         .attr("stroke-width", 2)
-            //         .attr("fill", "none");
-            //     // Add an icon in the middle of the path
-            //     var pathMidPoint = {};
-            //     if (thisUpdatedProject.contradictions[contradiction].level === "primary") {
-            //         pathMidPoint = {
-            //             x: secondNodeCenter.x + 4,
-            //             y: firstNodeCenter.y - 20
-            //         };
-            //     } else {
-            //         pathMidPoint = contradictionViz.node().getPointAtLength(contradictionViz.node().getTotalLength() * 0.5);
-            //     }
-            //     var contradictionVizMidPoint = thisContradiction.append("circle")
-            //         .attr("fill", contradictionColor)
-            //         .attr("r", 8)
-            //         .attr("cx", pathMidPoint.x)
-            //         .attr("cy", pathMidPoint.y);
-            //     // Add tooltip
-            //     contradictionVizMidPoint.classed("flow-tooltip", true)
-            //         .attr("title", thisUpdatedProject.contradictions[contradiction].title)
-            //         .attr("data-toggle", "tooltip");
-            //     // Add the icon
-            //     thisContradiction.append('text')
-            //         .attr("fill", "#fff")
-            //         .attr("x", pathMidPoint.x)
-            //         .attr("y", pathMidPoint.y)
-            //         .attr("text-anchor", "middle")
-            //         .attr("dominant-baseline", "central")
-            //         .style("font-family", "FontAwesome")
-            //         .style("font-size", "8px")
-            //         .text("\uf071");
-            //     // Add class for the hover effect and for launching the edit modal
-            //     thisContradiction.attr("class", "activity-hover edit-contradiction")
-            //         // Add hover effect
-            //         .on("mouseover", function() {
-            //             d3.select(this)
-            //                 .attr("filter", "url(#glow)");
-            //         })
-            //         .on("mouseout", function() {
-            //             d3.select(this)
-            //                 .attr("filter", null);
-            //         });
-            //
-            // }
 
             // FINAL STEPS
             // Implement zoom and pan
