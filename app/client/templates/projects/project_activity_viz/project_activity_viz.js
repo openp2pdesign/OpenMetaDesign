@@ -1,3 +1,4 @@
+// Load Britecharts
 import LineChart from 'britecharts/dist/umd/line.min.js';
 import colors from 'britecharts/dist/umd/colors.min.js';
 import tooltip from 'britecharts/dist/umd/tooltip.min.js';
@@ -30,15 +31,7 @@ Template.ProjectActivityViz.onCreated(function() {
 });
 
 Template.ProjectActivityViz.onRendered(function() {
-
-
-    // Viz
-    Tracker.autorun(function() {
-        // REACTIVE VIZ
-        // Reactive var for the autorun
-        var thisData = ProjectStats.findOne({
-            'projectId': thisProjectID
-        });
+    var drawStats = function(thisData) {
         // Clear the previous chart
         $("#js-chart-container").empty();
         // Initialize the chart
@@ -97,6 +90,22 @@ Template.ProjectActivityViz.onRendered(function() {
             // Link the chart to the data
             container.datum(thisData).call(lineChart);
         }
+    }
+
+    // Viz
+    Tracker.autorun(function() {
+        // REACTIVE VIZ
+        // Reactive var for the autorun
+        var thisData = ProjectStats.findOne({
+            'projectId': thisProjectID
+        });
+        // Draw it once
+        drawStats(thisData);
+        // Redraw it at resize, for responsiveneness
+        window.addEventListener("resize", function(d) {
+            drawStats(thisData);
+        });
+
     });
 
 });
