@@ -128,12 +128,16 @@ Template.ProjectsViz.events({
             }
         });
     },
-    'click #view-project-link': function(event, template) {
+    'click ul.nav-tabs li a': function(event, template) {
         event.preventDefault();
-        var view = Blaze.getView(document.getElementById("view-project"));
-        Blaze.remove(view);
-		Blaze.render(Template.VizVisualization, document.getElementById('view-project'));
-    }
+        if (event.currentTarget.hash === "#view-project") {
+            var view = Blaze.getView(document.getElementById("d3-container"));
+            if (view.name === "Template.VizVisualization") {
+                //Blaze.remove(view);
+                Blaze.renderWithData(Template.VizVisualization, this, document.getElementById("d3-container"));
+            }
+        }
+    },
 });
 
 /*****************************************************************************/
