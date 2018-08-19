@@ -1,5 +1,22 @@
 <template name="AppHelp">
   <div class="app-help">
-    <h1>Find me in app/client/templates/app_help/app_help</h1>
+      <div class="row">
+          <div class="col-md-8">
+              Intro and generic help
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-8">
+              {{> ActivityHelp}}
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-6">
+              {{> ContradictionHelp}}
+          </div>
+          <div class="col-md-6">
+              {{> FlowHelp}}
+          </div>
+      </div>
   </div>
 </template>

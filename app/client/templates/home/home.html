@@ -1,6 +1,5 @@
 <template name="Home">
   <div class="home">
-    <h1>...</h1>
     <!-- TODO Explain activities, contradictions, flows here -->
     <div class="row">
         <div class="col-md-8">
@@ -9,20 +8,7 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            {{> AppHelp}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            {{> ActivityHelp}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            {{> ContradictionHelp}}
-        </div>
-        <div class="col-md-6">
-            {{> FlowHelp}}
+            <a class="btn btn-default" href="/help" role="button">{{_ "get_more_information"}}</a>
         </div>
     </div>
   </div>

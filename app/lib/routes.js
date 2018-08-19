@@ -49,9 +49,15 @@ Router.route('tos', {
     where: 'client'
 });
 
-// TOS
+// Privacy
 Router.route('privacy', {
     name: 'PrivacyPage',
+    where: 'client'
+});
+
+// Help
+Router.route('help', {
+    name: 'AppHelp',
     where: 'client'
 });
 

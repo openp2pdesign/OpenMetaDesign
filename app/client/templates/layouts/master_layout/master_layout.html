@@ -48,11 +48,18 @@
                                 {{/linkTo}}
                             </li>
                         {{/if}}
+                        <!-- Translation -->
                         <!--
                         <li>
                             {{> I18nDropdown}}
                         </li>
                         -->
+                        <li>
+                            {{#linkTo route="AppHelp"}}
+                                <i class="fa fa-question-circle"></i>
+                                {{_ "help"}}
+                            {{/linkTo}}
+                        </li>
                         <li id="signout">
                             <a href="#">
                                 <i class="fa fa-sign-out"></i>
@@ -74,21 +81,4 @@
     <div class="main container">
         {{> yield}}
     </div>
-    <!-- <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    {{_ "credits"}}
-                </div>
-                <div class="col-sm-4">
-                    {{_ "social"}}
-                </div>
-                <div class="col-sm-4">
-                    <a href="https://github.com/openp2pdesign/OpenMetaDesign">
-                        <i class="fa fa-github"></i> {{_ "source"}}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
 </template>
