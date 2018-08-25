@@ -118,3 +118,7 @@ textarea {
 span.logoOMD {
     font-size: 120%;
 }
+
+.fa-stack i {
+    color: #fff;
+}

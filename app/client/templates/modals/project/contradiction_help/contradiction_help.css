@@ -3,3 +3,7 @@
 /*****************************************************************************/
 .contradiction-help {
 }
+
+.contradiction-help .icon-background {
+    color: #63dfff !important;
+}

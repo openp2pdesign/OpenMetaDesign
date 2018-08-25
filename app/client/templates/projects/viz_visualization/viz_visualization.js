@@ -544,7 +544,7 @@ Template.VizVisualization.onRendered(function() {
             thisProcessGroupActivityIconBoxes
                 .append("path")
                 .attr("d", activityIconPath)
-                .style("fill", "#ba4d4d")
+                .style("fill", "#868686")
                 .attr("transform", function(d) {
                     return "translate(" + (d.y + 20 + 5) + "," + (d.start + 5) + ")";
                 });
