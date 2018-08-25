@@ -3,3 +3,23 @@
 /*****************************************************************************/
 .home {
 }
+
+.home h1 {
+    font-size: 400%;
+    margin-top: 100px;
+}
+
+.home button {
+    font-size: 150%;
+    margin-bottom: 100px;
+}
+
+.slogan {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 300;
+    color: #7c7c7c;
+    background: #fff;
+    font-size: 120%;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
