@@ -29,7 +29,7 @@ useraccounts:iron-routing
 aldeed:tabular
 meteorhacks:unblock
 reywood:publish-composite
-dynamic-import@0.4.0
+dynamic-import@0.4.2
 alanning:roles
 aldeed:template-extension
 npm-bcrypt@0.9.3
