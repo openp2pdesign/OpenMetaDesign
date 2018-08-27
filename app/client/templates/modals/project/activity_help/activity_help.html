@@ -1,113 +1,132 @@
 <template name="ActivityHelp">
   <div class="activity-help">
       <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-22">
               <h2>{{_ "activity_help"}}</h2>
           </div>
       </div>
       <div class="row">
-          <div class="col-md-7">
+          <div class="col-md-5">
               <img class="svg" src="../as_full_label.svg">
           </div>
-          <div class="col-md-5">
-              <p>
-                  {{_ "activity_help"}}
-              </p>
-          </div>
-      </div>
-      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_activity_label.svg">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
               <p>
                   <strong>{{_ "activity"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_description"}}
+                  What sort of activity am I interested in?
               </p>
           </div>
+      </div>
+      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_subject_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.subject.title}}:</strong>
+                  <strong>{{_ "subject"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_subject"}}
+                  the individual or groups of individuals involved in the activity
+                  Who is involved in carrying out this activity?
               </p>
           </div>
-      </div>
-      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_object_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.object.title}}:</strong>
+                  <strong>{{_ "object"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_object"}}
+                  goal or motive of the activity
+“object” is the reason why individuals and groups of individuals choose to participate in an activity (Kaptelinin 2005), and it is what holds together the elements in an activity (Hyysalo 2005).
               </p>
           </div>
+      </div>
+      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_outcome_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.outcome.title}}:</strong>
+                  <strong>{{_ "outcome"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_outcome"}}
+                  How can you tell when you have successfully completed each goal?
+outcome: is the end result of the activity
+Why is this activity taking place?
+What is the desired outcome from this activity?
               </p>
           </div>
-      </div>
-      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_tools_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.tools.title}}:</strong>
+                  <strong>{{_ "tools"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_tools"}}
-              </p>
-          </div>
-          <div class="col-md-2">
-              <img class="svg" src="../as_community_label.svg">
-          </div>
-          <div class="col-md-4">
-              <p>
-                  <strong>{{activity.community.title}}:</strong>
-              </p>
-              <p>
-                  {{_ "activity_help_community"}}
+                  By what means are the subjects carrying out this activity?
+
+                  What tools do you use and what for?
+What other tools do you or could you use in this activity?
+Do you have access to these tools?
+How could the tool be integrated with your other tools?
+Which tools do you use when, and how do you organise them?
+
+What tools do the subject use to achieve their objective and how?
+
               </p>
           </div>
       </div>
       <div class="row">
           <div class="col-md-2">
+              <img class="svg" src="../as_community_label.svg">
+          </div>
+          <div class="col-md-4">
+              <p>
+                  <strong>{{_ "community"}}</strong>
+              </p>
+              <p>
+                  the social group that the subject belongs to while engaged in the activity
+the social group with which the subject identifies while participating in the activity
+What is the environment in which the activity is carried out?
+              </p>
+          </div>
+          <div class="col-md-2">
               <img class="svg" src="../as_roles_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.roles.title}}:</strong>
+                  <strong>{{_ "roles"}}</strong>
               </p>
               <p>
-                  {{_ "activity_help_roles"}}
+                  The <em>roles</em> refers to how the tasks are shared among the community: What are the different roles of the people involved in this activity? How do you divide this activity between people, and at which points do you have to wait for them to complete their work?
+
+                  Who is responsible for what when carrying out this activity and how are the roles organized
+
+                  How does the division of labor influence the way the subjects satisfy their objective?
               </p>
           </div>
+      </div>
+      <div class="row">
           <div class="col-md-2">
               <img class="svg" src="../as_rules_label.svg">
           </div>
           <div class="col-md-4">
               <p>
-                  <strong>{{activity.rules.title}}:</strong>
+                  <strong>{{_ "rules"}}</strong>
               </p>
               <p>
-                   {{_ "activity_help_rules"}}
+                  Are there any cultural norms, rules, and regulating governing the performance of the activity?
+                  What are the explicit or implicit rules, norms and procedures influencing how you work?
+any formal or informal regulations that in varying degree can affect how the activity takes place
+
+ What rules affect the way the subjects achieve their objective and how?
               </p>
           </div>
       </div>
