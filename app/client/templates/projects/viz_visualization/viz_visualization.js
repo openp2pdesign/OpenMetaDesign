@@ -325,7 +325,6 @@ Template.VizVisualization.onRendered(function() {
     }
 
     Tracker.autorun(function() {
-
         // REACTIVE VIZ
         // Reactive var for the autorun
         var thisUpdatedProject = Projects.findOne({
@@ -338,6 +337,7 @@ Template.VizVisualization.onRendered(function() {
         activitiesStarts = [];
         // Layout: Find the activity with the latest end
         activitiesEnds = [];
+        console.log(thisUpdatedProject);
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
