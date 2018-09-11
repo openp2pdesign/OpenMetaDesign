@@ -193,3 +193,8 @@ span.html-edit-button {
 @keyframes blinker {
   50% { opacity: 0; }
 }
+
+/* Hide dummy empty activities */
+.activityNumber0 {
+    visibility: hidden;
+}

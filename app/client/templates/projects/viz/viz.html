@@ -66,11 +66,6 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        {{> VizLocations}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <h2>{{_ "data"}}</h2>
                     <!-- Tabs -->
                     <ul class="nav nav-tabs">
@@ -79,6 +74,14 @@
                                 <span class="fa-stack fa-1x">
                                     <i class="fa fa-circle fa-stack-2x icon-background"></i>
                                     <i class="icomoon-activity-negative fa-stack-1x" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#view-locations" data-toggle="tab" title="View locations of the activities">
+                                <span class="fa-stack fa-1x">
+                                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                    <i class="fa fa-globe fa-stack-1x" aria-hidden="true"></i>
                                 </span>
                             </a>
                         </li>
@@ -126,6 +129,9 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="view-activities">
                             {{> Activities}}
+                        </div>
+                        <div class="tab-pane fade in" id="view-locations">
+                            {{> VizLocations}}
                         </div>
                         <div class="tab-pane fade in" id="view-discussions">
                             {{> Discussions}}

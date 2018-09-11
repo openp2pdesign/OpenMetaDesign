@@ -82,10 +82,11 @@ Template.VizVisualization.events({
         var thisFlow = Flows.findOne({
             '_id': event.currentTarget.id
         });
+        console.log(event);
         // Launch modal
         Modal.show('Flow', function() {
             return {
-                "projectId": this.projectId,
+                "projectId": this._id,
                 "flowId": event.currentTarget.id,
                 "mode": "edit"
             }
@@ -331,7 +332,6 @@ Template.VizVisualization.onRendered(function() {
         var timeLabel = addSectionLabel("Time", timeG);
 
         // Draw the activities
-
         var types = ["Customer processes",
             "Front-Office processes",
             "Back-Office processes",
@@ -354,6 +354,29 @@ Template.VizVisualization.onRendered(function() {
             var onlyThisType = thisUpdatedProject.processes.filter(function(d) {
                 return d.title === type
             });
+            // When there are no activities, add an hidden empty activity for the visualization of the section
+            if (onlyThisType[0].activities.length == 0) {
+                // Load a default empty activity
+                thisActivity = {
+                    "number": 0,
+                    "title": "A new activity",
+                    "description": "Write here a description of the activity.",
+                    "subject": "Who is doing the activity?",
+                    "object": "What is the object of the activity?",
+                    "outcome": "What is the outcome of the activity?",
+                    "tools": "Which are the tools, knowledge and systems used in the activity?",
+                    "rules": "Which are the rules followed in the activity?",
+                    "roles": "How is the work in the activity organized into roles?",
+                    "community": "Which is the greater community where the activity takes place?",
+                    "time": {
+                        "start": new Date(),
+                        "end": new Date()
+                    },
+                    "participation": "Full control"
+                }
+                onlyThisType[0].activities.push(thisActivity);
+            }
+            // Transform the data for the layout
             var theseBands = timelineLayout(onlyThisType[0].activities);
             vizActivities.push(theseBands);
             // Add main group for this process
@@ -429,9 +452,11 @@ Template.VizVisualization.onRendered(function() {
                     }
                     return "Participation level: " + d.participation + " (" + participationLevelValue + "%)"
                 })
-                .classed("participation-tooltip", true)
+                // Add classes, including the class for hiding dummy empty activities
+                .attr("class", function(d) {
+                    return "participation-tooltip activity-hover activityNumber"+d.number.toString();
+                })
                 .attr("data-toggle", "tooltip")
-                .classed("activity-hover", true)
                 // Add hover effect
                 .on("mouseover", function() {
                     d3.select(this)
@@ -473,7 +498,10 @@ Template.VizVisualization.onRendered(function() {
                 .attr("y", function(d) {
                     return d.start + 10;
                 })
-                .attr("class", "participation-level");
+                // Add classes, including the class for hiding dummy empty activities
+                .attr("class", function(d) {
+                    return "participation-level activityNumber"+d.number.toString();
+                });
 
             // Add lines to the time axis
             // Line at the start of an activity
@@ -492,7 +520,11 @@ Template.VizVisualization.onRendered(function() {
                 .attr("stroke", "#a7b5d4")
                 .style("stroke-dasharray", ("3,5"))
                 .attr("stroke-width", 1)
-                .attr("fill", "none");
+                .attr("fill", "none")
+                // Add classes, including the class for hiding dummy empty activities
+                .attr("class", function(d) {
+                    return "activityNumber"+d.number.toString();
+                });
             // Line at the end of an activity
             thisProcessGroup
                 .append("line")
@@ -509,11 +541,18 @@ Template.VizVisualization.onRendered(function() {
                 .attr("stroke", "#bb25ba")
                 .style("stroke-dasharray", ("3,5"))
                 .attr("stroke-width", 1)
-                .attr("fill", "none");
+                .attr("fill", "none")
+                // Add classes, including the class for hiding dummy empty activities
+                .attr("class", function(d) {
+                    return "activityNumber"+d.number.toString();
+                });
             // Activity Icon Box
             var activityIconBoxes = thisProcessGroup.append("g")
                 .append("g")
-                .attr("class", "activity-icon-boxes" + i);
+                // Add classes, including the class for hiding dummy empty activities
+                .attr("class", function(d) {
+                    return "activity-icon-boxes" + i + " activityNumber"+d.number.toString();
+                });
             // Select groups in this group
             var thisProcessGroupActivityIconBoxes = d3.selectAll("g.activity-icon-boxes" + i);
             // Add main Activiy Icon Rect
@@ -848,6 +887,7 @@ Template.VizVisualization.onRendered(function() {
 
             // A 'manual' callback for the end of the forEach
             if (i === types.length - 1) {
+                // Hide empty dummy activities
                 // Draw the flows
                 var flowsGroup = sectionsSVG.append("g");
                 for (flow in thisUpdatedProject.flows) {
@@ -882,6 +922,7 @@ Template.VizVisualization.onRendered(function() {
                     //flowsGroup
                     var flowColor = "#73f17b";
                     var thisFlow = flowsGroup.append("g").attr("id", thisUpdatedProject.flows[flow].id);
+                    // ...
                     thisFlow.append("circle")
                         .attr("cx", firstNodeCenter.x + 4)
                         .attr("cy", firstNodeCenter.y)
