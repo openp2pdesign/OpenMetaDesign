@@ -56,7 +56,14 @@ Template.Activity.onCreated(function() {
     self.subscription = Meteor.subscribe('projects');
     // Load variables
     thisProjectID = this.data.project;
-    thisProcessID = this.data.process;
+    if (this.data.process === "none") {
+        thisProcessID = _.find(thisProject.processes, function(item) {
+            return item.title == "Customer processes";
+        });
+        thisProcessID = thisProcessID.id;
+    } else {
+        thisProcessID = this.data.process;
+    }
     thisActivityID = this.data.activity;
     Session.set('thisProject', thisProjectID);
     Session.set('thisActivity', thisActivityID);

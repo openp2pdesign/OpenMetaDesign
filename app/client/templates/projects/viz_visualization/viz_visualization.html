@@ -1,9 +1,27 @@
 <template name="VizVisualization">
-  <div class="viz-visualization">
-      <h2>{{_ "processes"}}</h2>
-      <p class="blinking" id="zoom-and-pan">
-          <i class="fa fa-search-plus"></i> <i class="fa fa-arrows-alt"></i> <i class="fa fa-arrow-right"></i>
-      </p>
-      <div id="d3-container"></div>
-  </div>
+    <div class="viz-visualization">
+        <h2>{{_ "processes"}}</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-primary" id="create-activity-button">
+                    <i class="fa fa-plus"></i>
+                    {{_ "activity_add_button"}}
+                </button>
+                <button class="btn btn-primary" id="create-flow-button">
+                    <i class="fa fa-plus"></i>
+                    {{_ "flow_add_button"}}
+                </button>
+                <button class="btn btn-primary" id="create-contradiction-button">
+                    <i class="fa fa-plus"></i>
+                    {{_ "contradiction_add_button"}}
+                </button>
+            </div>
+        </div>
+        <p class="blinking" id="zoom-and-pan">
+            <i class="fa fa-search-plus"></i>
+            <i class="fa fa-arrows-alt"></i>
+            <i class="fa fa-arrow-right"></i>
+        </p>
+        <div id="d3-container"></div>
+    </div>
 </template>

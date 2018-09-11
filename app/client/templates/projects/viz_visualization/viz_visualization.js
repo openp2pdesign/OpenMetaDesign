@@ -82,7 +82,6 @@ Template.VizVisualization.events({
         var thisFlow = Flows.findOne({
             '_id': event.currentTarget.id
         });
-        console.log(event);
         // Launch modal
         Modal.show('Flow', function() {
             return {
@@ -107,6 +106,43 @@ Template.VizVisualization.events({
             }
         });
     },
+    // Add activities button
+    'click #create-activity-button': function(event, template) {
+        event.preventDefault();
+        // Launch the modal
+        Modal.show('Activity', function() {
+            return {
+                "project": thisProjectID,
+                "process": "none",
+                "activity": 'new activity',
+                "mode": "add"
+            }
+        });
+    },
+    // Show the div that enable the creation of flows
+    'click #create-flow-button': function(event, template) {
+        event.preventDefault();
+        // Launch the modal
+        Modal.show('Flow', function() {
+            return {
+                "projectId": thisProjectID,
+                "flowId": 'new flow',
+                "mode": "add"
+            }
+        });
+    },
+    // Show the div that enable the creation of contradictions
+    'click #create-contradiction-button': function(event, template) {
+        event.preventDefault();
+        // Launch the modal
+        Modal.show('Contradiction', function() {
+            return {
+                "projectId": thisProjectID,
+                "contradictionId": 'new contradiction',
+                "mode": "add"
+            }
+        });
+    },
 });
 
 /*****************************************************************************/
@@ -115,11 +151,17 @@ Template.VizVisualization.events({
 Template.VizVisualization.helpers({
     data: function() {
         return Projects.findOne({
-            '_id': thisProject._id
+            '_id': thisProjectID
         });
     },
     users: function() {
         return this.users;
+    },
+    processes: function() {
+        var thisLoadedProject = Projects.findOne({
+            '_id': thisProjectID
+        });
+        return thisLoadedProject.processes;
     },
 });
 
@@ -129,12 +171,23 @@ Template.VizVisualization.helpers({
 Template.VizVisualization.onCreated(function() {
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
+    Meteor.subscribe('flows');
+    Meteor.subscribe('activities');
+    Meteor.subscribe('contradictions');
     thisProject = this.data;
+    // Get project ID
+    thisProjectID = this.data._id;
     // Access activity elements for contradictions viz
     Meteor.subscribe('activityelements');
 });
 
 Template.VizVisualization.onRendered(function() {
+    // Enable select2
+    $('.select2-dropdown').select2({
+        dropdownAutoWidth: true,
+        width: '100%'
+    });
+
     // Set up visualization
     // The container for the viz
     var d3Container = document.getElementById("d3-container");
@@ -738,19 +791,6 @@ Template.VizVisualization.onRendered(function() {
                 .attr("class", "svg-label")
                 .attr("x", 0)
                 .attr("y", -labelHeight);
-
-            // Add Add Activity button
-            var addActivityButton = addButton(sectionLabel.node().getBBox().width + 15, -labelHeight - 5, 10, thisProcessGroup, '\uf067');
-            addActivityButton.attr("data-toggle", "modal")
-                .classed("activity-button", true)
-                .attr("title", "Add an activity here")
-                .attr("data-activity-mode", "add")
-                .attr("data-activity-id", "none")
-                .attr("data-process-id", function(d) {
-                    return d.processId;
-                })
-                .classed("button-tooltip", true)
-                .attr("data-toggle", "tooltip");
 
             // Add separator lines from the project data
             if (i > 0 && i < thisUpdatedProject.processes.length) {

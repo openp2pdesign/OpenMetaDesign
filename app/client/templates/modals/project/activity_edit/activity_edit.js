@@ -19,12 +19,10 @@ Template.ActivityEdit.events({
         event.preventDefault();
         // Load data from the form
         var thisProcessTitle = $('#new-process-title').val();
-        var thisProcessId = "";
-        for (process in this.project.processes) {
-            if (this.project.processes[process].title === thisProcessTitle) {
-                thisProcessId = this.project.processes[process].id;
-            }
-        }
+        var thisProcessId = _.find(thisProject.processes, function(item) {
+            return item.title == thisProcessTitle;
+        });
+        thisProcessId = thisProcessId.id;
         var thisActivityId = $('#activity-id').data('id');
         var thisActivityNumber = $('#activity-number').data('id');
         var newTitle = $('#new-title').val();
@@ -99,7 +97,7 @@ Template.ActivityEdit.events({
         // Add a new activity
         if (this.mode == "add") {
             // Validate and save new data
-            Meteor.call('addActivity', this.project._id, this.process.id, activityData, function(error, result) {
+            Meteor.call('addActivity', this.project._id, thisProcessId, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',
@@ -146,7 +144,7 @@ Template.ActivityEdit.events({
         // Edit an existing activity
         else if (this.mode == "edit") {
             // Validate and save new data
-            Meteor.call('editActivity', this.project._id, this.process.id, thisActivityId, activityData, function(error, result) {
+            Meteor.call('editActivity', this.project._id, thisProcessId, thisActivityId, activityData, function(error, result) {
                 if (error) {
                     var errorNotice = new PNotify({
                         type: 'error',

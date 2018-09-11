@@ -4,14 +4,12 @@
 Template.Activities.events({
     'click #create-activity-button': function(event, template) {
         event.preventDefault();
-        // Get project and process IDs
-        var thisProcessID = $('#new-process option:selected').data('process-id');
         var thisProjectID = this._id;
         // Launch the modal
         Modal.show('Activity', function() {
             return {
                 "project": thisProjectID,
-                "process": thisProcessID,
+                "process": "none",
                 "activity": 'new activity',
                 "mode": "add"
             }

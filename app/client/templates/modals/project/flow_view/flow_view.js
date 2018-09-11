@@ -23,8 +23,6 @@ Template.FlowView.helpers({
         var thisData = Flows.findOne({
             '_id': this.flowId
         });
-        console.log(this);
-        console.log(thisData);
         // If there is data... then return it
         if (thisData) {
             // Add the data for the nodes
