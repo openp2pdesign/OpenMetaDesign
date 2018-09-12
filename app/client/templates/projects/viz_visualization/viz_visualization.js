@@ -173,6 +173,7 @@ Template.VizVisualization.onCreated(function() {
     self.subscription = Meteor.subscribe('projects');
     Meteor.subscribe('flows');
     Meteor.subscribe('activities');
+    Meteor.subscribe('activityelements');
     Meteor.subscribe('contradictions');
     thisProject = this.data;
     // Get project ID
@@ -337,7 +338,6 @@ Template.VizVisualization.onRendered(function() {
         activitiesStarts = [];
         // Layout: Find the activity with the latest end
         activitiesEnds = [];
-        console.log(thisUpdatedProject);
         // Look in each process
         for (process in thisUpdatedProject.processes) {
             // Look in each activity
@@ -507,7 +507,7 @@ Template.VizVisualization.onRendered(function() {
                 })
                 // Add classes, including the class for hiding dummy empty activities
                 .attr("class", function(d) {
-                    return "participation-tooltip activity-hover activityNumber"+d.number.toString();
+                    return "participation-tooltip activity-hover activityNumber" + d.number.toString();
                 })
                 .attr("data-toggle", "tooltip")
                 // Add hover effect
@@ -553,7 +553,7 @@ Template.VizVisualization.onRendered(function() {
                 })
                 // Add classes, including the class for hiding dummy empty activities
                 .attr("class", function(d) {
-                    return "participation-level activityNumber"+d.number.toString();
+                    return "participation-level activityNumber" + d.number.toString();
                 });
 
             // Add lines to the time axis
@@ -576,7 +576,7 @@ Template.VizVisualization.onRendered(function() {
                 .attr("fill", "none")
                 // Add classes, including the class for hiding dummy empty activities
                 .attr("class", function(d) {
-                    return "activityNumber"+d.number.toString();
+                    return "activityNumber" + d.number.toString();
                 });
             // Line at the end of an activity
             thisProcessGroup
@@ -597,14 +597,14 @@ Template.VizVisualization.onRendered(function() {
                 .attr("fill", "none")
                 // Add classes, including the class for hiding dummy empty activities
                 .attr("class", function(d) {
-                    return "activityNumber"+d.number.toString();
+                    return "activityNumber" + d.number.toString();
                 });
             // Activity Icon Box
             var activityIconBoxes = thisProcessGroup.append("g")
                 .append("g")
                 // Add classes, including the class for hiding dummy empty activities
                 .attr("class", function(d) {
-                    return "activity-icon-boxes" + i + " activityNumber"+d.number.toString();
+                    return "activity-icon-boxes" + i + " activityNumber" + d.number.toString();
                 });
             // Select groups in this group
             var thisProcessGroupActivityIconBoxes = d3.selectAll("g.activity-icon-boxes" + i);
@@ -939,7 +939,7 @@ Template.VizVisualization.onRendered(function() {
                     var secondNodeCenter = {};
                     for (processActivities in vizActivities) {
                         var searchResult = _.findWhere(vizActivities[processActivities], {
-                            id: firstNode
+                            'id': firstNode
                         });
                         if (typeof searchResult !== "undefined") {
                             firstNodeCenter.x = searchResult.outcome.centerX - 4 + _.findWhere(processesThisX, {
@@ -950,7 +950,7 @@ Template.VizVisualization.onRendered(function() {
                     }
                     for (processActivities in vizActivities) {
                         var searchResult = _.findWhere(vizActivities[processActivities], {
-                            id: secondNode
+                            'id': secondNode
                         });
                         if (typeof searchResult !== "undefined") {
                             secondNodeCenter.x = searchResult.outcome.centerX - 4 + _.findWhere(processesThisX, {
@@ -1063,7 +1063,7 @@ Template.VizVisualization.onRendered(function() {
                             });
                             if (typeof searchResult !== "undefined") {
                                 firstNodeCenter.x = searchResult[firstNodeData.activityElementData.title].centerX - 4 + _.findWhere(processesThisX, {
-                                    process: searchResult.processTitle
+                                    'process': searchResult.processTitle
                                 }).thisX;
                                 firstNodeCenter.y = searchResult[firstNodeData.activityElementData.title].centerY + labelHeight;
                             }
@@ -1074,7 +1074,7 @@ Template.VizVisualization.onRendered(function() {
                             });
                             if (typeof searchResult !== "undefined") {
                                 secondNodeCenter.x = searchResult[secondNodeData.activityElementData.title].centerX - 4 + _.findWhere(processesThisX, {
-                                    process: searchResult.processTitle
+                                    'process': searchResult.processTitle
                                 }).thisX;
                                 secondNodeCenter.y = searchResult[secondNodeData.activityElementData.title].centerY + labelHeight;
                             }
