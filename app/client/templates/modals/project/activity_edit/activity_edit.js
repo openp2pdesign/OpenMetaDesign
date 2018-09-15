@@ -143,50 +143,100 @@ Template.ActivityEdit.events({
         }
         // Edit an existing activity
         else if (this.mode == "edit") {
-            // Validate and save new data
-            Meteor.call('editActivity', this.project._id, thisProcessId, thisActivityId, activityData, function(error, result) {
-                if (error) {
-                    var errorNotice = new PNotify({
-                        type: 'error',
-                        title: 'Error',
-                        text: 'There was an error in editing the activity',
-                        icon: 'icomoon-activity',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-                    errorNotice.get().click(function() {
-                        errorNotice.remove();
-                    });
-                } else {
-                    var successNotice = new PNotify({
-                        type: 'success',
-                        title: 'Success',
-                        text: 'Activity successfully edited.',
-                        icon: 'icomoon-activity',
-                        addclass: 'pnotify stack-topright',
-                        animate: {
-                            animate: true,
-                            in_class: 'slideInDown',
-                            out_class: 'slideOutUp'
-                        },
-                        buttons: {
-                            closer: true,
-                            sticker: false
-                        }
-                    });
-                    successNotice.get().click(function() {
-                        successNotice.remove();
-                    });
-                }
-            });
+            // If the process has changed..
+            if (thisProcessId !== this.process.id) {
+                // Validate and save new data
+                Meteor.call('editActivityNewProcess', this.project._id, this.process.id, thisProcessId, thisActivityId, activityData, function(error, result) {
+                    if (error) {
+                        var errorNotice = new PNotify({
+                            type: 'error',
+                            title: 'Error',
+                            text: 'There was an error in editing the activity',
+                            icon: 'icomoon-activity',
+                            addclass: 'pnotify stack-topright',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            buttons: {
+                                closer: true,
+                                sticker: false
+                            }
+                        });
+                        errorNotice.get().click(function() {
+                            errorNotice.remove();
+                        });
+                    } else {
+                        var successNotice = new PNotify({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Activity successfully edited.',
+                            icon: 'icomoon-activity',
+                            addclass: 'pnotify stack-topright',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            buttons: {
+                                closer: true,
+                                sticker: false
+                            }
+                        });
+                        successNotice.get().click(function() {
+                            successNotice.remove();
+                        });
+                    }
+                });
+
+            } else {
+                // Validate and save new data
+                Meteor.call('editActivity', this.project._id, thisProcessId, thisActivityId, activityData, function(error, result) {
+                    if (error) {
+                        var errorNotice = new PNotify({
+                            type: 'error',
+                            title: 'Error',
+                            text: 'There was an error in editing the activity',
+                            icon: 'icomoon-activity',
+                            addclass: 'pnotify stack-topright',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            buttons: {
+                                closer: true,
+                                sticker: false
+                            }
+                        });
+                        errorNotice.get().click(function() {
+                            errorNotice.remove();
+                        });
+                    } else {
+                        var successNotice = new PNotify({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Activity successfully edited.',
+                            icon: 'icomoon-activity',
+                            addclass: 'pnotify stack-topright',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            buttons: {
+                                closer: true,
+                                sticker: false
+                            }
+                        });
+                        successNotice.get().click(function() {
+                            successNotice.remove();
+                        });
+                    }
+                });
+            }
+
         }
 
     }

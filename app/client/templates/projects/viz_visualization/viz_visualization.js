@@ -79,14 +79,12 @@ Template.VizVisualization.events({
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
         event.preventDefault();
-        var thisFlow = Flows.findOne({
-            '_id': event.currentTarget.id
-        });
+        var thisFlow = Flows.findOne({ 'projectId': template.data._id });
         // Launch modal
         Modal.show('Flow', function() {
             return {
-                "projectId": this._id,
-                "flowId": event.currentTarget.id,
+                "projectId": template.data._id,
+                "flowId": thisFlow._id,
                 "mode": "edit"
             }
         });
@@ -94,14 +92,12 @@ Template.VizVisualization.events({
     // Show the div that enable the edit of contradictions
     'click .edit-contradiction': function(event, template) {
         event.preventDefault();
-        var thisContradiction = Contradictions.findOne({
-            '_id': event.currentTarget.id
-        });
+        var thisContradiction = Contradictions.findOne({ 'projectId': template.data._id });
         // Launch modal
         Modal.show('Contradiction', function() {
             return {
-                "projectId": this.projectId,
-                "contradictionId": event.currentTarget.id,
+                "projectId": template.data._id,
+                "contradictionId": thisContradiction._id,
                 "mode": "edit"
             }
         });
