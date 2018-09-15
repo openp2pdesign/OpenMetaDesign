@@ -586,7 +586,7 @@ Meteor.methods({
         });
         // Add data to activity elements collection
         for (element in activityData) {
-            if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+            if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" || element == "community") {
                 ActivityElements.insert({
                     "activityId": activityId,
                     "processId": processId,
@@ -759,7 +759,144 @@ Meteor.methods({
                 });
                 // Update activity elements collection
                 for (element in activityData) {
-                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" ||  element == "community") {
+                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" || element == "community") {
+                        ActivityElements.update({
+                            "activityId": activityId,
+                            "activityElementId": activityData[element].id,
+                        }, {
+                            $set: {
+                                'activityElementData': activityData[element]
+                            }
+                        });
+                    }
+                }
+                // Update the stats
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date(),
+                });
+                resampleStats(projectId);
+                // Return success
+                return "success";
+            }
+        });
+    },
+    'editActivityNewProcess': function(projectId, oldProcessId, newProcessId, activityId, activityData) {
+        // Load the Project
+        var thisProject = Projects.findOne({
+            '_id': projectId
+        });
+        var thisProjectNewProcess = _.clone(thisProject);
+        oldVersion = thisProject;
+        // Add the activity ID to the activity data
+        activityData.id = activityId;
+        // Update the whole document with an updated process
+        // Update old process: remove activity
+        var thisOldProcess = "";
+        var thisOldProcess = _.find(thisProjectNewProcess.processes, function(obj) {
+            return obj.id === oldProcessId;
+        });
+        var thisNewActivities = thisOldProcess.activities.filter(function(obj) {
+            return obj.id !== activityId;
+        });
+        // Apply changes by updating the whole Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': oldProcessId
+        }, {
+            $set: {
+                'processes.$.activities': thisNewActivities
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while deleting", activityId, "to process", oldProcessId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "deleted from process", oldProcessId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Delete activities and activity elements
+                Activities.remove({
+                    '_id': activityId
+                });
+                ActivityElements.remove({
+                    "activityId": activityId
+                });
+                // Return success
+                return "success";
+            }
+        });
+
+        // Update new process: add activity
+        Projects.update({
+            '_id': projectId,
+            'processes.id': newProcessId
+        }, {
+            $push: {
+                'processes.$.activities': activityData
+            }
+        }, function(error) {
+            if (error) {
+                console.log(error);
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while adding", activityId, "to process", newProcessId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "added in process", newProcessId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Update activities collection
+                Activities.update({
+                    '_id': activityId
+                }, {
+                    $set: {
+                        'activityData': activityData
+                    }
+                });
+                // Update activity elements collection
+                for (element in activityData) {
+                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" || element == "community") {
                         ActivityElements.update({
                             "activityId": activityId,
                             "activityElementId": activityData[element].id,
@@ -1177,7 +1314,7 @@ Meteor.methods({
         });
         oldVersion = thisProject;
         // Add the level
-        contradictionData.level = contradictionLevel (contradictionData.firstNode, contradictionData.secondNode);
+        contradictionData.level = contradictionLevel(contradictionData.firstNode, contradictionData.secondNode);
         // Add a contradiction, and add its _id to the project
         var newContradictionId = Contradictions.insert({
             "projectId": projectId,
@@ -1244,7 +1381,7 @@ Meteor.methods({
         });
         oldVersion = thisProject;
         // Add the level
-        contradictionData.level = contradictionLevel (contradictionData.firstNode, contradictionData.secondNode);
+        contradictionData.level = contradictionLevel(contradictionData.firstNode, contradictionData.secondNode);
         // Apply changes by updating the Project
         Projects.update({
             '_id': projectId,
@@ -1546,7 +1683,9 @@ Meteor.methods({
         for (user in users) {
             usersObjects.push({
                 "username": users[user],
-                "userId": Meteor.users.findOne({"username": users[user]})._id
+                "userId": Meteor.users.findOne({
+                    "username": users[user]
+                })._id
             });
         }
         // Apply changes by updating the document
