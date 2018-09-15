@@ -1103,6 +1103,24 @@ Meteor.methods({
                     "date": new Date(),
                 });
                 resampleStats(projectId);
+                // Remove associated flows
+                for (flow in thisProject.flows) {
+                    if (thisProject.flows[flow].firstNode == activityId) {
+                        Meteor.call('deleteFlow', thisProject.flows[flow]._id, projectId);
+                    }
+                    if (thisProject.flows[flow].secondNode == activityId) {
+                        Meteor.call('deleteFlow', thisProject.flows[flow]._id, projectId);
+                    }
+                }
+                // Remove associated contradictions
+                for (contradiction in thisProject.contradictions) {
+                    if (thisProject.contradictions[contradiction].firstNode == activityId) {
+                        Meteor.call('deleteContradiction', thisProject.contradictions[contradiction]._id, projectId);
+                    }
+                    if (thisProject.contradictions[contradiction].secondNode == activityId) {
+                        Meteor.call('deleteContradiction', thisProject.contradictions[contradiction]._id, projectId);
+                    }
+                }
                 // Return success
                 return "success";
             }
