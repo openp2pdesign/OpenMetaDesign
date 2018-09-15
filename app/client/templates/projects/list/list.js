@@ -37,8 +37,9 @@ Template.ProjectsList.events({
                 });
             } else {
                 Router.go('projectsViz', {
-                    _id: result
+                    '_id': result
                 });
+                
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
