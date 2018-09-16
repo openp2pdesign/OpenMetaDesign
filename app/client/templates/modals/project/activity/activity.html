@@ -20,48 +20,55 @@
                             <!-- Tabs -->
                             <ul class="nav nav-tabs">
                                 {{#if isEditMode}}
-                                <li class="active">
-                                    <a href="#activity-view-tab" data-toggle="tab" title="View this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="icomoon-activity-negative fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                {{/if}}
-                                <li>
-                                    <a href="#activity-edit-tab" data-toggle="tab" title="Edit this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                {{#if isEditMode}}
-                                <li>
-                                    <a href="#activity-where-tab" data-toggle="tab" title="Location of this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="fa fa-globe fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li id="discuss-tab-li">
-                                    <a href="#activity-discuss-tab" data-toggle="tab" title="Discuss this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#activity-delete-tab" data-toggle="tab" title="Delete this activity">
-                                        <span class="fa-stack fa-1x">
-                                            <i class="fa fa-circle fa-stack-2x icon-background"></i>
-                                            <i class="fa fa-trash fa-stack-1x" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </li>
+                                    <li class="active">
+                                        <a href="#activity-view-tab" data-toggle="tab" title="View this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="icomoon-activity-negative fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#activity-edit-tab" data-toggle="tab" title="Edit this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#activity-where-tab" data-toggle="tab" title="Location of this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-globe fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li id="discuss-tab-li">
+                                        <a href="#activity-discuss-tab" data-toggle="tab" title="Discuss this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-comments fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#activity-delete-tab" data-toggle="tab" title="Delete this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-trash fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                {{else}}
+                                    <li class="active">
+                                        <a href="#activity-edit-tab" data-toggle="tab" title="Edit this activity">
+                                            <span class="fa-stack fa-1x">
+                                                <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                                                <i class="fa fa-pencil-square-o fa-stack-1x" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </li>
                                 {{/if}}
                                 <li>
                                     <a href="#activity-help-tab" data-toggle="tab" title="Help">
@@ -74,21 +81,27 @@
                             </ul>
                             <!-- Tabs contents -->
                             <div class="tab-content">
-                                <div class="tab-pane fade in active" id="activity-view-tab">
-                                    {{> ActivityView}}
-                                </div>
-                                <div class="tab-pane fade in" id="activity-edit-tab">
-                                    {{> ActivityEdit}}
-                                </div>
-                                <div class="tab-pane fade in" id="activity-where-tab">
-                                    {{> ActivityLocation}}
-                                </div>
-                                <div class="tab-pane fade in" id="activity-discuss-tab">
-                                    {{> ActivityDiscuss}}
-                                </div>
-                                <div class="tab-pane fade in" id="activity-delete-tab">
-                                    {{> ActivityDelete}}
-                                </div>
+                                {{#if isEditMode}}
+                                    <div class="tab-pane fade in active" id="activity-view-tab">
+                                        {{> ActivityView}}
+                                    </div>
+                                    <div class="tab-pane fade in" id="activity-edit-tab">
+                                        {{> ActivityEdit}}
+                                    </div>
+                                    <div class="tab-pane fade in" id="activity-where-tab">
+                                        {{> ActivityLocation}}
+                                    </div>
+                                    <div class="tab-pane fade in" id="activity-discuss-tab">
+                                        {{> ActivityDiscuss}}
+                                    </div>
+                                    <div class="tab-pane fade in" id="activity-delete-tab">
+                                        {{> ActivityDelete}}
+                                    </div>
+                                {{else}}
+                                    <div class="tab-pane fade in active" id="activity-edit-tab">
+                                        {{> ActivityEdit}}
+                                    </div>
+                                {{/if}}
                                 <div class="tab-pane fade in" id="activity-help-tab">
                                     {{> ActivityHelp}}
                                 </div>
