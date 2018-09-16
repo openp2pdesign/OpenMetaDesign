@@ -122,3 +122,12 @@ span.logoOMD {
 .fa-stack i {
     color: #fff;
 }
+
+.orange-button {
+    color: #f57f2a;
+}
+
+.btn-default {
+    border: 1px solid #f57f2a;
+    background-color: #e4dad2;
+}
