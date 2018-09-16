@@ -3,3 +3,18 @@
 /*****************************************************************************/
 .login {
 }
+
+.login button {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border-top-color: rgb(46, 109, 164);
+    border-right-color: rgb(46, 109, 164);
+    border-bottom-color: rgb(46, 109, 164);
+    border-left-color: rgb(46, 109, 164);
+    color: #ffffff;
+}
+
+.login button:hover {
+    color: #ffffff;
+    background-color: #286090;
+}
