@@ -361,10 +361,10 @@ Template.ActivityEdit.onRendered(function() {
     });
     // Select2 for process
     $("#new-process-title").select2({
-        data: ["Customer processes",
-            "Front-Office processes",
-            "Back-Office processes",
-            "Support processes"
+        data: ["Customer activities",
+            "Front-Office activities",
+            "Back-Office activities",
+            "Support activities"
         ],
         allowClear: false,
         dropdownAutoWidth : true

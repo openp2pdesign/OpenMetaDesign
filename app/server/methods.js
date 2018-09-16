@@ -393,29 +393,29 @@ Meteor.methods({
             "community": "Describe the community that will be affected by this project or for which this project is developed for.",
             "designers": "Describe the designers participate in this project.",
             "processes": [{
-                "title": "Customer processes",
+                "title": "Customer activities",
                 "activities": []
             }, {
-                "title": "Front-Office processes",
+                "title": "Front-Office activities",
                 "activities": []
             }, {
-                "title": "Back-Office processes",
+                "title": "Back-Office activities",
                 "activities": []
             }, {
-                "title": "Support processes",
+                "title": "Support activities",
                 "activities": []
             }],
             "separators": [{
-                "first": "Customer processes",
-                "second": "Front-Office processes",
+                "first": "Customer activities",
+                "second": "Front-Office activities",
                 "text": "Line of interaction"
             }, {
-                "first": "Front-Office processes",
-                "second": "Back-Office processes",
+                "first": "Front-Office activities",
+                "second": "Back-Office activities",
                 "text": "Line of external visibility"
             }, {
-                "first": "Back-Office processes",
-                "second": "Support processes",
+                "first": "Back-Office activities",
+                "second": "Support activities",
                 "text": "Line of ..."
             }],
             "flows": [],

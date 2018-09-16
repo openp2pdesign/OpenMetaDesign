@@ -381,10 +381,10 @@ Template.VizVisualization.onRendered(function() {
         var timeLabel = addSectionLabel("Time", timeG);
 
         // Draw the activities
-        var types = ["Customer processes",
-            "Front-Office processes",
-            "Back-Office processes",
-            "Support processes"
+        var types = ["Customer activities",
+            "Front-Office activities",
+            "Back-Office activities",
+            "Support activities"
         ];
 
         // Variables for the visualization

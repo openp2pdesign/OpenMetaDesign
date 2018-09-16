@@ -58,7 +58,7 @@ Template.Activity.onCreated(function() {
     thisProjectID = this.data.project;
     if (this.data.process === "none") {
         thisProcessID = _.find(thisProject.processes, function(item) {
-            return item.title == "Customer processes";
+            return item.title == "Customer activities";
         });
         thisProcessID = thisProcessID.id;
     } else {
