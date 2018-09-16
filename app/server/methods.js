@@ -791,10 +791,47 @@ Meteor.methods({
         oldVersion = thisProject;
         // Add the activity ID to the activity data
         activityData.id = activityId;
-        // Update old process: remove activity
-        Meteor.call('deleteActivity', projectId, oldProcessId, activityId);
         // Update new process: add activity
         Meteor.call('addActivity', projectId, newProcessId, activityData);
+        // Update old process: remove activity without removing flows and contradictions
+        Meteor.call('deleteActivityButNotFlowsContradictions', projectId, oldProcessId, activityId);
+        // Update flows
+        var flowsInvolved = [];
+        for (flow in thisProject.flows) {
+            if (thisProject.flows[flow].firstNode === activityId || thisProject.flows[flow].secondNode === activityId) {
+                flowsInvolved.push(thisProject.flows[flow].id);
+            }
+        }
+        flowsInvolved = _.uniq(flowsInvolved);
+        for (flow in flowsInvolved) {
+            var thisFlow = Flows.findOne({
+                '_id': flowsInvolved[flow]
+            });
+            Meteor.call('updateFlow', projectId, thisFlow._id, thisFlow.flowData);
+        }
+        // var contradictionsInvolved = [];
+        // for (contradiction in thisProject.contradictions) {
+        //     contradictionsInvolved.push(thisProject.contradictions[contradiction].id);
+        // }
+        // contradictionsInvolved = _.uniq(contradictionsInvolved);
+        // for (contradiction in contradictionsInvolved) {
+        //     var thisContradiction = Contradictions.findOne({
+        //         '_id': contradictionsInvolved[contradiction]
+        //     });
+        //     Meteor.call('deleteContradiction', thisContradiction._id, projectId);
+        // }
+        // for (flow in flowsInvolved) {
+        //     var thisFlow = Flows.findOne({
+        //         '_id': flowsInvolved[flow]
+        //     });
+        //     Meteor.call('addFlow', projectId, thisFlow.flowData);
+        // }
+        // for (contradiction in contradictionsInvolved) {
+        //     var thisContradiction = Contradictions.findOne({
+        //         '_id': contradictionsInvolved[contradiction]
+        //     });
+        //     Meteor.call('addContradiction', projectId, thisContradiction.contradictionData);
+        // }
     },
     'editActivityLocation': function(projectId, processId, activityId, activityLocationData) {
         // Load the Project
@@ -998,6 +1035,81 @@ Meteor.methods({
                         Meteor.call('deleteContradiction', thisProject.contradictions[contradiction]._id, projectId);
                     }
                 }
+                // Return success
+                return "success";
+            }
+        });
+    },
+    'deleteActivityButNotFlowsContradictions': function(projectId, processId, activityId) {
+        // Load the Project
+        var thisProject = Projects.findOne({
+            '_id': projectId
+        });
+        oldVersion = thisProject;
+        // Update the whole document with an updated process
+        var thisProcess = "";
+        thisProcess = _.find(thisProject.processes, function(obj) {
+            return obj.id === processId;
+        });
+        var thisNewActivities = thisProcess.activities.filter(function(obj) {
+            return obj.id !== activityId;
+        });
+        // Apply changes by updating the whole Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': processId
+        }, {
+            $set: {
+                'processes.$.activities': thisNewActivities
+            }
+        }, function(error) {
+            if (error) {
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while deleting", activityId, "to process", processId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "deleted from process", processId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Delete activities and activity elements
+                Activities.remove({
+                    '_id': activityId
+                });
+                ActivityElements.remove({
+                    "activityId": activityId
+                });
+                // Update the stats
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date(),
+                });
+                resampleStats(projectId);
                 // Return success
                 return "success";
             }
