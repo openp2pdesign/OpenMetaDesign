@@ -119,6 +119,9 @@ Template.ActivityEdit.events({
                         errorNotice.remove();
                     });
                 } else {
+                    // Close the modal, since there is no activity any longer
+                    Modal.hide('Flow');
+                    // Notification
                     var successNotice = new PNotify({
                         type: 'success',
                         title: 'Success',
@@ -168,6 +171,9 @@ Template.ActivityEdit.events({
                             errorNotice.remove();
                         });
                     } else {
+                        // Close the modal, since there is no activity any longer
+                        Modal.hide('Flow');
+                        // Notification
                         var successNotice = new PNotify({
                             type: 'success',
                             title: 'Success',
@@ -214,6 +220,9 @@ Template.ActivityEdit.events({
                             errorNotice.remove();
                         });
                     } else {
+                        // Close the modal, since there is no activity any longer
+                        Modal.hide('Flow');
+                        // Notification
                         var successNotice = new PNotify({
                             type: 'success',
                             title: 'Success',

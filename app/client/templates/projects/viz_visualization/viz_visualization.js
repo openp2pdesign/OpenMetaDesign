@@ -923,7 +923,6 @@ Template.VizVisualization.onRendered(function() {
 
             // A 'manual' callback for the end of the forEach
             if (i === types.length - 1) {
-                // Hide empty dummy activities
                 // Draw the flows
                 var flowsGroup = sectionsSVG.append("g");
                 for (flow in thisUpdatedProject.flows) {

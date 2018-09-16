@@ -791,47 +791,118 @@ Meteor.methods({
         oldVersion = thisProject;
         // Add the activity ID to the activity data
         activityData.id = activityId;
-        // Update new process: add activity
-        Meteor.call('addActivity', projectId, newProcessId, activityData);
-        // Update old process: remove activity without removing flows and contradictions
-        Meteor.call('deleteActivityButNotFlowsContradictions', projectId, oldProcessId, activityId);
-        // Update flows
-        var flowsInvolved = [];
-        for (flow in thisProject.flows) {
-            if (thisProject.flows[flow].firstNode === activityId || thisProject.flows[flow].secondNode === activityId) {
-                flowsInvolved.push(thisProject.flows[flow].id);
+        // Update the whole document with an updated process
+        var thisProcess = "";
+        var thisOldProcess = _.find(thisProjectNewProcess.processes, function(obj) {
+            return obj.id === oldProcessId;
+        });
+        var thisNewProcess = _.find(thisProjectNewProcess.processes, function(obj) {
+            return obj.id === newProcessId;
+        });
+        var thisActivity = _.find(thisProcess.activities, function(obj) {
+            return obj.id === activityId;
+        });
+        thisNewProcess.activities.push(activityData);
+        var thisOldProcessNewActivities = thisOldProcess["activities"].filter(function( obj ) {
+            return obj.id !== activityId;
+        });
+        thisOldProcess.activities = thisOldProcessNewActivities;
+        // Update old process in the Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': oldProcessId
+        }, {
+            $set: {
+                'processes.$.activities': thisOldProcess.activities
             }
-        }
-        flowsInvolved = _.uniq(flowsInvolved);
-        for (flow in flowsInvolved) {
-            var thisFlow = Flows.findOne({
-                '_id': flowsInvolved[flow]
-            });
-            Meteor.call('updateFlow', projectId, thisFlow._id, thisFlow.flowData);
-        }
-        // var contradictionsInvolved = [];
-        // for (contradiction in thisProject.contradictions) {
-        //     contradictionsInvolved.push(thisProject.contradictions[contradiction].id);
-        // }
-        // contradictionsInvolved = _.uniq(contradictionsInvolved);
-        // for (contradiction in contradictionsInvolved) {
-        //     var thisContradiction = Contradictions.findOne({
-        //         '_id': contradictionsInvolved[contradiction]
-        //     });
-        //     Meteor.call('deleteContradiction', thisContradiction._id, projectId);
-        // }
-        // for (flow in flowsInvolved) {
-        //     var thisFlow = Flows.findOne({
-        //         '_id': flowsInvolved[flow]
-        //     });
-        //     Meteor.call('addFlow', projectId, thisFlow.flowData);
-        // }
-        // for (contradiction in contradictionsInvolved) {
-        //     var thisContradiction = Contradictions.findOne({
-        //         '_id': contradictionsInvolved[contradiction]
-        //     });
-        //     Meteor.call('addContradiction', projectId, thisContradiction.contradictionData);
-        // }
+        }, function(error) {
+            if (error) {
+                console.log(error);
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while moving", activityId, "from process", newProcessId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "moved from process", newProcessId, "of project", projectId, "successfully.");
+            }
+        });
+        // Update new process in the Project
+        Projects.update({
+            '_id': projectId,
+            'processes.id': newProcessId
+        }, {
+            $set: {
+                'processes.$.activities': thisNewProcess.activities
+            }
+        }, function(error) {
+            if (error) {
+                console.log(error);
+                throw new Meteor.Error("method_error", error.reason);
+                console.log("Error", error.reason, "while moving", activityId, "to process", newProcessId, "of project", projectId, ".");
+                console.log(error);
+                return "error";
+            } else {
+                console.log("Activity", activityId, "moved to process", newProcessId, "of project", projectId, "successfully.");
+                // Save the version of the changes in the Project
+                var newVersion = Projects.findOne({
+                    '_id': projectId
+                });
+                var differences = diff(oldVersion, newVersion);
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $push: {
+                        "versions": {
+                            "number": thisProject.versionsCount + 1,
+                            "diff": JSON.stringify(differences)
+                        }
+                    }
+                });
+                // Add the user to the list of users of the project
+                Projects.update({
+                    '_id': projectId
+                }, {
+                    $addToSet: {
+                        "users": {
+                            "id": Meteor.user()._id,
+                            "username": Meteor.user().username
+                        }
+                    }
+                });
+                // Update activities collection
+                Activities.update({
+                    '_id': activityId
+                }, {
+                    $set: {
+                        "processId": newProcessId,
+                        'activityData': activityData
+                    }
+                });
+                // Update activity elements collection
+                for (element in activityData) {
+                    if (element == "subject" || element == "object" || element == "outcome" || element == "tools" || element == "rules" || element == "roles" || element == "community") {
+                        ActivityElements.update({
+                            "activityId": activityId,
+                            "processId": newProcessId,
+                            "activityElementId": activityData[element].id,
+                        }, {
+                            $set: {
+                                'activityElementData': activityData[element]
+                            }
+                        });
+                    }
+                }
+                // Update the stats
+                EditStats.insert({
+                    'projectId': projectId,
+                    "value": 1,
+                    "date": new Date(),
+                });
+                resampleStats(projectId);
+                // Return success
+                return "success";
+            }
+        });
     },
     'editActivityLocation': function(projectId, processId, activityId, activityLocationData) {
         // Load the Project
