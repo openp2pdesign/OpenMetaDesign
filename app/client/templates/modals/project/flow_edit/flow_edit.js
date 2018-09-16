@@ -167,6 +167,7 @@ Template.FlowEdit.helpers({
         } else if (thisMode === "add") {
             thisFlow.flowData = {
                 "title": "Title of the flow...",
+                "type": "information or digital resources",
                 "description": "Description of the flow...",
                 "resource": "The resource flowing...",
                 "weight": 0,
