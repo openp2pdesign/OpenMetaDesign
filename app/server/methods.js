@@ -416,7 +416,7 @@ Meteor.methods({
             }, {
                 "first": "Back-Office activities",
                 "second": "Support activities",
-                "text": "Line of ..."
+                "text": "Line of internal interaction"
             }],
             "flows": [],
             "contradictions": [],
