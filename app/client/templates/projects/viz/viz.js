@@ -117,6 +117,8 @@ Template.ProjectsViz.helpers({
 /* ProjectsViz: Lifecycle Hooks */
 /*****************************************************************************/
 Template.ProjectsViz.onCreated(function() {
+    // Access settings
+    Meteor.subscribe('settings');
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;

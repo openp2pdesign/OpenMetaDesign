@@ -80,12 +80,59 @@ Template.VizLocations.helpers({
         }
         return activitiesWithoutLocation;
     },
+    noActivities: function() {
+        var activitiesToMap = Activities.find({
+            'projectId': thisProject._id
+        }).fetch();
+        if (activitiesToMap.length == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    activitiesWithLocation: function() {
+        var activitiesWithLocation = [];
+        var activitiesToMap = Activities.find({
+            'projectId': thisProject._id
+        }).fetch();
+        for (activity in activitiesToMap) {
+            // If the activity hasn't a location
+            if (typeof activitiesToMap[activity].activityData.location == "undefined") {
+                activitiesWithLocation.push(activitiesToMap[activity].activityData);
+            }
+        }
+        if (activitiesWithLocation.length == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    noActivitiesWithoutLocation: function() {
+        var activitiesWithoutLocation = [];
+        var activitiesToMap = Activities.find({
+            'projectId': thisProject._id
+        }).fetch();
+        for (activity in activitiesToMap) {
+            // If the activity hasn't a location
+            if (typeof activitiesToMap[activity].activityData.location !== "undefined") {
+                activitiesWithoutLocation.push(activitiesToMap[activity].activityData);
+            }
+        }
+        if (activitiesWithoutLocation.length == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
 });
 
 /*****************************************************************************/
 /* VizLocations: Lifecycle Hooks */
 /*****************************************************************************/
 Template.VizLocations.onCreated(function () {
+    // Access settings
+    Meteor.subscribe('settings');
     // Access this specific project
     self.subscription = Meteor.subscribe('projects');
     thisProject = this.data;
