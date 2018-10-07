@@ -9,9 +9,12 @@ import { ProjectStats } from '../lib/collections/projectstats.js';
 import { InvitedUsersToProjects } from '../lib/collections/invited_users_to_projects.js';
 
 
-// Publish users
+// Publish projects
 Meteor.publish('projects', function(userId) {
     return Projects.find();
+});
+Meteor.publish('myprojects', function() {
+    return Projects.find({'createdByID': this.userId });
 });
 
 // Publish users

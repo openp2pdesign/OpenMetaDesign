@@ -39,7 +39,7 @@ Template.ProjectsList.events({
                 Router.go('projectsViz', {
                     '_id': result
                 });
-                
+
                 var successNotice = new PNotify({
                     type: 'success',
                     title: 'Success',
@@ -74,13 +74,7 @@ Template.ProjectsList.helpers({
         return Projects.find();
     },
     myProjectsSelector: function() {
-        return {
-            'users': {
-                '$elemMatch': {
-                    'id': Meteor.userId()
-                }
-            }
-        };
+        return { 'createdByID': Meteor.userId() };
     },
     myInvitationsToProjectsSelector: function() {
         if (Meteor.subscribe("invitedUsersToProjects").ready()) {
