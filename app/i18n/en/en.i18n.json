@@ -87,6 +87,8 @@
     "flow_type": "Type of the Flow",
     "flow_weight": "Weight of the Flow",
     "flows_h2": "Flows",
+    "get_api_key": "Get the API key",
+    "get_more_information": "Read more...",
     "help": "Help",
     "home": "Home",
     "information_flow": "information or digital resources",
