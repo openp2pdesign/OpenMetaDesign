@@ -978,19 +978,37 @@ Template.VizVisualization.onRendered(function() {
                         })
                         .curve(d3.curveBasis);
                     // TODO: calculate the points...
-                    var points = [{
-                            x: firstNodeCenter.x + 4,
-                            y: firstNodeCenter.y
-                        },
-                        {
-                            x: secondNodeCenter.x + 4,
-                            y: firstNodeCenter.y
-                        },
-                        {
-                            x: secondNodeCenter.x + 4,
-                            y: secondNodeCenter.y
-                        },
-                    ];
+                    // Random offest number for avoiding overlapping curves
+                    var randomOffset = 90 + Math.floor(Math.random() * 90);
+                    if (secondNodeCenter.x > firstNodeCenter.x) {
+                        var points = [{
+                                x: firstNodeCenter.x + 4,
+                                y: firstNodeCenter.y
+                            },
+                            {
+                                x: secondNodeCenter.x - firstNodeCenter.x + 4,
+                                y: firstNodeCenter.y + 4 + randomOffset
+                            },
+                            {
+                                x: secondNodeCenter.x + 4,
+                                y: secondNodeCenter.y
+                            },
+                        ];
+                    } else {
+                        var points = [{
+                                x: firstNodeCenter.x + 4,
+                                y: firstNodeCenter.y
+                            },
+                            {
+                                x: firstNodeCenter.x - secondNodeCenter.x + 4,
+                                y: firstNodeCenter.y + 4 + randomOffset
+                            },
+                            {
+                                x: secondNodeCenter.x + 4,
+                                y: secondNodeCenter.y
+                            },
+                        ];
+                    }
                     // Add the path as the flow viz
                     var pathData = line(points);
                     var flowViz = thisFlow.selectAll('path')
@@ -1097,19 +1115,37 @@ Template.VizVisualization.onRendered(function() {
                             })
                             .curve(d3.curveBasis);
                         // TODO: calculate the points...
-                        var points = [{
-                                x: firstNodeCenter.x + 4,
-                                y: firstNodeCenter.y
-                            },
-                            {
-                                x: secondNodeCenter.x + 4,
-                                y: firstNodeCenter.y
-                            },
-                            {
-                                x: secondNodeCenter.x + 4,
-                                y: secondNodeCenter.y
-                            },
-                        ];
+                        // Random offest number for avoiding overlapping curves
+                        var randomOffset = 90 + Math.floor(Math.random() * 90);
+                        if (secondNodeCenter.x > firstNodeCenter.x) {
+                            var points = [{
+                                    x: firstNodeCenter.x + 4,
+                                    y: firstNodeCenter.y
+                                },
+                                {
+                                    x: secondNodeCenter.x - firstNodeCenter.x + 4,
+                                    y: firstNodeCenter.y + 4 + randomOffset
+                                },
+                                {
+                                    x: secondNodeCenter.x + 4,
+                                    y: secondNodeCenter.y
+                                },
+                            ];
+                        } else {
+                            var points = [{
+                                    x: firstNodeCenter.x + 4,
+                                    y: firstNodeCenter.y
+                                },
+                                {
+                                    x: firstNodeCenter.x - secondNodeCenter.x + 4,
+                                    y: firstNodeCenter.y + 4 + randomOffset
+                                },
+                                {
+                                    x: secondNodeCenter.x + 4,
+                                    y: secondNodeCenter.y
+                                },
+                            ];
+                        }
                         // Add the path as the contradiction viz
                         var pathData = line(points);
                         var contradictionViz = thisContradiction.selectAll('path')
