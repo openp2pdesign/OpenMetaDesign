@@ -1121,7 +1121,7 @@ Template.VizVisualization.onRendered(function() {
                         // TODO: calculate the points...
                         // Random offest number for avoiding overlapping curves
                         var randomOffset = 90 + Math.floor(Math.random() * 90);
-                        if (thisUpdatedProject.contradictions[contradiction].level == "secondary") {
+                        if (thisUpdatedProject.contradictions[contradiction].level == "primary" || thisUpdatedProject.contradictions[contradiction].level == "secondary") {
                             var points = [{
                                     x: firstNodeCenter.x + 4,
                                     y: firstNodeCenter.y
