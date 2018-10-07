@@ -11,3 +11,12 @@
 .icon-background {
     color: #f57f2a !important;
 }
+
+.edit-html label {
+     text-transform: capitalize;
+}
+
+.formp {
+    margin-top: 20px;
+    margin-left: 10px;
+}

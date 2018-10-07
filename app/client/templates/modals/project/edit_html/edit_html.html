@@ -7,7 +7,9 @@
                         <button type="button" class="close" data-dismiss="modal">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </button>
-                        <h2 class="modal-title">{{_ "edit_html"}}</h2>
+                        {{#with data}}
+                        <h2 class="modal-title">{{_ "edit_html"}}: {{id}}</h2>
+                        {{/with}}
                     </div>
                     <div class="modal-body row-fluid">
                         <ul class="nav nav-tabs">
@@ -34,14 +36,16 @@
                                 {{#with data}}
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <form class="form-horizontal" role="form">
-                                            <div class="form-group">
-                                                <label class="col-lg-3 control-label">{{_ "new_html_field"}}: {{id}}</label>
-                                                <div class="col-lg-8">
-                                                    <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
+                                        <p class="formp">
+                                            <form class="form-horizontal" role="form">
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">{{id}}</label>
+                                                    <div class="col-sm-10">
+                                                        <input class="form-control" type="text" value={{field}} id="new-field" data-field={{id}}>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </p>
                                     </div>
                                 </div>
                                 {{/with}}
