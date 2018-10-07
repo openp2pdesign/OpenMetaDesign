@@ -16,4 +16,4 @@ WORKDIR $INSTALL_PATH
 
 RUN meteor npm install
 # RUN meteor npm install --save bcrypt
-CMD meteor --allow-superuser --port 80
+CMD meteor --allow-superuser --production --port 80
