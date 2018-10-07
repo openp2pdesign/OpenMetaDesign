@@ -9,14 +9,14 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="90mm"
+   width="86mm"
    height="11mm"
-   viewBox="0 0 90 11"
+   viewBox="0 0 86 11"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="OMD_logo_large.svg"
-   inkscape:export-filename="/Users/massimo/Documents/Github/OpenMetaDesign/app/public/logo/OMD_logo_large.png"
+   inkscape:export-filename="OMD_logo_large.png"
    inkscape:export-xdpi="200.02"
    inkscape:export-ydpi="200.02">
   <defs
@@ -28,8 +28,8 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.2241179"
-     inkscape:cx="151.88942"
+     inkscape:zoom="3.112059"
+     inkscape:cx="115.73972"
      inkscape:cy="12.204158"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -65,6 +65,6 @@
          sodipodi:role="line"
          id="tspan941"
          x="-0.23283333"
-         y="294.20724">÷÷÷Open Meta Design</tspan></text>
+         y="294.20724">÷÷÷OpenMetaDesign</tspan></text>
   </g>
 </svg>
