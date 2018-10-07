@@ -79,7 +79,9 @@ Template.VizVisualization.events({
     // Show the div that enable the edit of flows
     'click .edit-flow': function(event, template) {
         event.preventDefault();
-        var thisFlow = Flows.findOne({ 'projectId': template.data._id });
+        var thisFlow = Flows.findOne({
+            'projectId': template.data._id
+        });
         // Launch modal
         Modal.show('Flow', function() {
             return {
@@ -92,7 +94,9 @@ Template.VizVisualization.events({
     // Show the div that enable the edit of contradictions
     'click .edit-contradiction': function(event, template) {
         event.preventDefault();
-        var thisContradiction = Contradictions.findOne({ 'projectId': template.data._id });
+        var thisContradiction = Contradictions.findOne({
+            'projectId': template.data._id
+        });
         // Launch modal
         Modal.show('Contradiction', function() {
             return {
@@ -1117,14 +1121,14 @@ Template.VizVisualization.onRendered(function() {
                         // TODO: calculate the points...
                         // Random offest number for avoiding overlapping curves
                         var randomOffset = 90 + Math.floor(Math.random() * 90);
-                        if (secondNodeCenter.x > firstNodeCenter.x) {
+                        if (thisUpdatedProject.contradictions[contradiction].level == "secondary") {
                             var points = [{
                                     x: firstNodeCenter.x + 4,
                                     y: firstNodeCenter.y
                                 },
                                 {
-                                    x: secondNodeCenter.x - firstNodeCenter.x + 4,
-                                    y: firstNodeCenter.y + 4 + randomOffset
+                                    x: secondNodeCenter.x + 4,
+                                    y: firstNodeCenter.y
                                 },
                                 {
                                     x: secondNodeCenter.x + 4,
@@ -1132,19 +1136,35 @@ Template.VizVisualization.onRendered(function() {
                                 },
                             ];
                         } else {
-                            var points = [{
-                                    x: firstNodeCenter.x + 4,
-                                    y: firstNodeCenter.y
-                                },
-                                {
-                                    x: firstNodeCenter.x - secondNodeCenter.x + 4,
-                                    y: firstNodeCenter.y + 4 + randomOffset
-                                },
-                                {
-                                    x: secondNodeCenter.x + 4,
-                                    y: secondNodeCenter.y
-                                },
-                            ];
+                            if (secondNodeCenter.x > firstNodeCenter.x) {
+                                var points = [{
+                                        x: firstNodeCenter.x + 4,
+                                        y: firstNodeCenter.y
+                                    },
+                                    {
+                                        x: firstNodeCenter.x + 4,
+                                        y: firstNodeCenter.y + 4 + randomOffset
+                                    },
+                                    {
+                                        x: secondNodeCenter.x + 4,
+                                        y: secondNodeCenter.y
+                                    },
+                                ];
+                            } else {
+                                var points = [{
+                                        x: firstNodeCenter.x + 4,
+                                        y: firstNodeCenter.y
+                                    },
+                                    {
+                                        x: firstNodeCenter.x + 4,
+                                        y: firstNodeCenter.y + 4 + randomOffset
+                                    },
+                                    {
+                                        x: secondNodeCenter.x + 4,
+                                        y: secondNodeCenter.y
+                                    },
+                                ];
+                            }
                         }
                         // Add the path as the contradiction viz
                         var pathData = line(points);
