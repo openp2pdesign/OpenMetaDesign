@@ -478,7 +478,7 @@ Template.VizVisualization.onRendered(function() {
                             break;
                     }
                     // Set the color of the activity timeline based on the participation level
-                    var participationLevelValueColor = participationLevelValue * 255 / 100;
+                    var participationLevelValueColor = (100 - participationLevelValue) * 255 / 100;
                     participationLevelValueColorString = "rgb(" + participationLevelValueColor + "," + participationLevelValueColor + "," + participationLevelValueColor + ")";
                     return participationLevelValueColorString;
                 })
