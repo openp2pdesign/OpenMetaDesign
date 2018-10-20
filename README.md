@@ -2,9 +2,7 @@
 
 A platform for the collaborative design and discussion of collaborative design processes.
 
-## Instructions
-
-The project is structured with the help of [iron-cli](https://github.com/iron-meteor/iron-cli), but you do not need it to run the project, it's just for development.
+## Installation
 
 Clone the repo:
 
@@ -35,8 +33,19 @@ Open a browser to [http://localhost:3000/](http://localhost:3000/)
 
 
 ## Docker Compose
-The compose file is only for production at the moment, for local development only Meteor is needed.
 
+The platform can be also lauched with docker-compose with
+
+```
+docker-compose build
+docker-compose up -d
+```
+
+The compose file is targeted for production, for local development just Meteor is enough.
+
+## Development
+
+The project is structured with the help of [iron-cli](https://github.com/iron-meteor/iron-cli), but you do not need it to run the project, it's just for development.
 
 ## Research
 
