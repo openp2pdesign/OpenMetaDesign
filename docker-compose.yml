@@ -25,6 +25,13 @@ services:
   mongo:
     container_name: "openmetadesign-mongo-meteor"
     image: mongo:latest
+    hostname: mongodb
+    restart: always
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=MONGOUSERNAME"
+      - "MONGO_INITDB_ROOT_PASSWORD=MONGOPASSWORD"
+      - "MONGO_INITDB_DATABASE=MONGODB"
+
     volumes:
       - mongo:/data
     ports:
