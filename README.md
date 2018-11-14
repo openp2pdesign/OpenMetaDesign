@@ -34,7 +34,8 @@ Open a browser to [http://localhost:3000/](http://localhost:3000/)
 
 ## Docker Compose
 
-The platform can be also lauched with docker-compose with
+The platform can be also lauched with docker-compose.
+Edit/configure the ```docker-compose.yml``` file and launch it with:
 
 ```
 docker-compose build
