@@ -17,20 +17,21 @@ services:
     links:
       - mongo
     environment:
-      - MONGO_URL=mongodb://mongo:27017/meteor
+      - MONGO_URL=mongodb://MONGOUSERNAME:MONGOPASSWORD@mongo:27017/meteor
 
   # MONGO
 
   # Mongo DB
   mongo:
     container_name: "openmetadesign-mongo-meteor"
-    image: mongo:latest
-    hostname: mongodb
+    build:
+      context: ./mongo/
+      dockerfile: Dockerfile
     restart: always
     environment:
-      - "MONGO_INITDB_ROOT_USERNAME=MONGOUSERNAME"
-      - "MONGO_INITDB_ROOT_PASSWORD=MONGOPASSWORD"
-      - "MONGO_INITDB_DATABASE=MONGODB"
+      - "MONGO_INITDB_ROOT_USERNAME=MONGOADMINUSERNAME"
+      - "MONGO_INITDB_ROOT_PASSWORD=MONGOADMINPASSWORD"
+      - "MONGO_INITDB_DATABASE=admin"
 
     volumes:
       - mongo:/data
