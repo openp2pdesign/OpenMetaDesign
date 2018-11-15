@@ -34,13 +34,25 @@ Open a browser to [http://localhost:3000/](http://localhost:3000/)
 
 ## Docker Compose
 
-The platform can be also lauched with docker-compose.
-Edit/configure the ```docker-compose.yml``` file and launch it with:
+The platform can be also launched with docker-compose.
+Configure MongoDB by editing the ```docker-compose.yml``` and ```mongo/mongo-init.js``` files where
+
+- *MONGOADMINUSERNAME* is the admin username for MongoDB
+- *MONGOADMINPASSWORD* is the admin password for MongoDB
+
+and where
+
+- *MONGOUSERNAME* is the admin username for connecting Meteor with MongoDB
+- *MONGOPASSWORD* is the admin password for connecting Meteor with MongoDB
+
+Then launch it with:
 
 ```
 docker-compose build
 docker-compose up -d
 ```
+
+OMD will be then live at your server IP address (port 80).
 
 The compose file is targeted for production, for local development just Meteor is enough.
 
