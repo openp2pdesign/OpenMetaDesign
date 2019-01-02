@@ -1,5 +1,7 @@
 ![app/public/logo/OMD_logo_large.svg](app/public/logo/OMD_logo_large.png)
 
+[![DOI](https://zenodo.org/badge/91899447.svg)](https://zenodo.org/badge/latestdoi/91899447)
+
 A platform for the collaborative design and discussion of collaborative design processes.
 
 ## Installation
