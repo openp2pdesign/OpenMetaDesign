@@ -70,6 +70,9 @@ Menichinelli, M., & Valsecchi, F. (2016). The meta-design of systems: how design
 
 Menichinelli, M. (2018). Service design and activity theory for the meta-design of collaborative design processes. In *ServDes2018. Service Design Proof of Concept, Proceedings of the ServDes.2018 Conference, 18-20 June, Milano, Italy* (pp. 994–1008). Linköping, Sweden: Linköping University Electronic Press, Linköpings universitet. Retrieved from [http://www.ep.liu.se/ecp/article.asp?issue=150&article=083&volume=#](http://www.ep.liu.se/ecp/article.asp?issue=150&article=083&volume=#)
 
+Menichinelli, M. (2019). A Research through Design Framework from the Evaluation of a Meta-Design Platform for Open and Collaborative Design and Making Processes. *Proceedings of the Design Society: International Conference on Engineering Design, 1*(1), 21–30. [https://doi.org/10.1017/dsi.2019.5](https://doi.org/10.1017/dsi.2019.5)
+
+
 
 ## License
 [AGPL](https://github.com/openp2pdesign/OpenMetaDesign/blob/master/LICENSE)
